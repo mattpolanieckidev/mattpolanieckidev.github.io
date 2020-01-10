@@ -2,56 +2,12 @@
 <html>
 <head>
 	<title></title>
-	<style>
-		body{
-			top:0;
-			margin:0;
-			font-family:arial;
-			color:white;
-		}
-		.hebcal-container {
-		 font-family: "Gill Sans MT","Gill Sans",GillSans,Arial,Helvetica,sans-serif;
-		 font-size: small;
-
-		}
-		h1{
-			font-size:52px;
-			 margin-left: 1.5%;
-			 margin-right: 1.5%;
-			 text-align:center;
-		}
-		.hebcal-container h3, #heading {
-		 font-size:46px;
-		 margin-left: 1.5%;
-		 margin-right: 1.5%;
-		 text-align: center;
-		}
-		ul.hebcal-results { list-style-type:none }
-		ul.hebcal-results li, #candleLighting, #parsha, #havdala {
-		  margin-bottom: 11px;
-		  font-size: 21px;
-		  font-weight: 200;
-		  line-height: normal;
-		  text-align: center;
-		}
-		.hebcal-results .candles { color: white; font-size: 22px; margin: 1.5%}
-		.hebcal-results .havdalah { color: white; font-size: 22px;margin: 1.5%; }
-		.hebcal-results .parashat { color: white; font-size: 22px; margin: 1.5%;  }
-		.hebcal-results .holiday { display: auto; }
-
-		a{
-			text-decoration: none;
-			color:white;
-		}
-
-		.copyright{
-			display: none;
-		}
-	</style>
+<link rel="stylesheet" type="text/css" href="shabbos.css">
 </head>
 <body onload="changeColor()">
-	<h1> Shabbos times for: </h1>
-	<h2 id = "heading"></h2>
+	<div class="header" id ="heading">
+	
+	</div>
 	<p id = "candleLighting"> </p>
 	<p id = "parsha"> </p>
 	<p id = "havdala"> </p>
@@ -61,8 +17,8 @@ var xmlhttp = new XMLHttpRequest();
 xmlhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
     var shabbos = JSON.parse(this.responseText);
-    document.getElementById("heading").innerHTML = shabbos.location.title;
-    document.getElementById("parsha").innerHTML = "This week's Torah portion is "+shabbos.items[1].title;
+    document.getElementById("heading").innerHTML = "<h3>Shabbos times for: " +shabbos.location.title +"</h3>";
+    document.getElementById("parsha").innerHTML = "This week's Torah portion is: "+shabbos.items[1].title;
     
     var d = new Date(shabbos.items[0].date);
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -70,7 +26,8 @@ xmlhttp.onreadystatechange = function() {
     document.getElementById("candleLighting").innerHTML = shabbos.items[0].title + " on " + formattedDate;
 
     var e = new Date(shabbos.items[2].date);
-    var formattedDate = e.getDate() + "-" + (d.getMonth() + 1) + "-" + e.getFullYear();
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var formattedDate = days[e.getDay()]+ " " + e.getDate() + "-" + (e.getMonth() + 1) + "-" + e.getFullYear();
     document.getElementById("havdala").innerHTML = shabbos.items[2].title + " on " + formattedDate;
   }
 };

@@ -6,25 +6,33 @@
 		body{
 			top:0;
 			margin:0;
+			font-family:arial;
+			color:white;
 		}
 		.hebcal-container {
 		 font-family: "Gill Sans MT","Gill Sans",GillSans,Arial,Helvetica,sans-serif;
 		 font-size: small;
 
 		}
-		.hebcal-container h3 {
-		 font-family: arial;
+		h1{
+			font-size:52px;
+			 margin-left: 1.5%;
+			 margin-right: 1.5%;
+			 text-align:center;
+		}
+		.hebcal-container h3, #heading {
 		 font-size:46px;
-		 color:white;
 		 margin-left: 1.5%;
 		 margin-right: 1.5%;
+		 text-align: center;
 		}
 		ul.hebcal-results { list-style-type:none }
-		ul.hebcal-results li {
+		ul.hebcal-results li, #candleLighting, #parsha, #havdala {
 		  margin-bottom: 11px;
 		  font-size: 21px;
 		  font-weight: 200;
 		  line-height: normal;
+		  text-align: center;
 		}
 		.hebcal-results .candles { color: white; font-size: 22px; margin: 1.5%}
 		.hebcal-results .havdalah { color: white; font-size: 22px;margin: 1.5%; }
@@ -42,31 +50,47 @@
 	</style>
 </head>
 <body onload="changeColor()">
+	<h1> Shabbos times for: </h1>
+	<h2 id = "heading"></h2>
+	<p id = "candleLighting"> </p>
+	<p id = "parsha"> </p>
+	<p id = "havdala"> </p>
 
-	<h1 id = "demo"></h1>
-	<script type="text/javascript" charset="utf-8"
-	src="https://www.hebcal.com/shabbat/?geo=geoname&amp;geonameid=5111974&amp;a=on&amp;m=50&amp;cfg=j&amp;tgt=_top">
-	</script>
-	<script>
-	function changeColor(){
-	var body = document.querySelector("body");
-	body.style.backgroundColor = '#'+Math.floor(Math.random()*16777215).toString(16);
-	}
-	</script>
 
+<script type="text/javascript" charset="utf-8"
+src="https://www.hebcal.com/shabbat/?geo=geoname&amp;geonameid=5111974&amp;a=on&amp;m=50&amp;cfg=j&amp;tgt=_top">
+</script>
 
 <script>
 var xmlhttp = new XMLHttpRequest();
 xmlhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
     var shabbos = JSON.parse(this.responseText);
-    document.getElementById("demo").innerHTML = shabbos.items[1].leyning[2]
+    document.getElementById("heading").innerHTML = shabbos.location.title;
+    document.getElementById("parsha").innerHTML = "This week's Torah portion is "+shabbos.items[1].title;
+    
+    var d = new Date(shabbos.items[0].date);
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var formattedDate = days[d.getDay()]+ " " + d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+    document.getElementById("candleLighting").innerHTML = shabbos.items[0].title + " on " + formattedDate;
+
+    var e = new Date(shabbos.items[2].date);
+    var formattedDate = e.getDate() + "-" + (d.getMonth() + 1) + "-" + e.getFullYear();
+    document.getElementById("havdala").innerHTML = shabbos.items[2].title + " on " + formattedDate;
   }
 };
-xmlhttp.open("GET", "https://www.hebcal.com/shabbat/?cfg=json&geonameid=3448439&m=50", true);
+xmlhttp.open("GET", "https://www.hebcal.com/shabbat/?cfg=json&geonameid=5111974&m=50", true);
 xmlhttp.send();
+
+
 </script>
 
+<script>
+function changeColor(){
+var body = document.querySelector("body");
+body.style.backgroundColor = '#'+Math.floor(Math.random()*16777215).toString(16);
+}
+</script>
 
 </body>
 </html>

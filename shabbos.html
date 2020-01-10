@@ -42,6 +42,8 @@
 	</style>
 </head>
 <body onload="changeColor()">
+
+	<h1 id = "demo"></h1>
 	<script type="text/javascript" charset="utf-8"
 	src="https://www.hebcal.com/shabbat/?geo=geoname&amp;geonameid=5111974&amp;a=on&amp;m=50&amp;cfg=j&amp;tgt=_top">
 	</script>
@@ -51,5 +53,20 @@
 	body.style.backgroundColor = '#'+Math.floor(Math.random()*16777215).toString(16);
 	}
 	</script>
+
+
+<script>
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    var shabbos = JSON.parse(this.responseText);
+    document.getElementById("demo").innerHTML = shabbos.items[1].leyning[2]
+  }
+};
+xmlhttp.open("GET", "https://www.hebcal.com/shabbat/?cfg=json&geonameid=3448439&m=50", true);
+xmlhttp.send();
+</script>
+
+
 </body>
 </html>

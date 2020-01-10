@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+		body{
+			top:0;
+			margin:0;
+		}
+.hebcal-container {
+ font-family: "Gill Sans MT","Gill Sans",GillSans,Arial,Helvetica,sans-serif;
+ font-size: small;
+
+}
+.hebcal-container h3 {
+ font-family: arial;
+ font-size:46px;
+ color:white;
+ margin-left: 1.5%;
+ margin-right: 1.5%;
+}
+ul.hebcal-results { list-style-type:none }
+ul.hebcal-results li {
+  margin-bottom: 11px;
+  font-size: 21px;
+  font-weight: 200;
+  line-height: normal;
+}
+.hebcal-results .candles { color: white; font-size: 22px; margin: 1.5%}
+.hebcal-results .havdalah { color: white; font-size: 22px;margin: 1.5%; }
+.hebcal-results .parashat { color: white; font-size: 22px; margin: 1.5%;  }
+.hebcal-results .holiday { display: auto; }
+
+a{
+	text-decoration: none;
+	color:white;
+}
+
+.copyright{
+	display: none;
+}
+</style>
+
+</head>
+<body onload="changeColor()">
+
+<script type="text/javascript" charset="utf-8"
+src="https://www.hebcal.com/shabbat/?geo=geoname&amp;geonameid=5111974&amp;a=on&amp;m=50&amp;cfg=j&amp;tgt=_top">
+</script>
+<script>
+function changeColor(){
+var body = document.querySelector("body");
+body.style.backgroundColor = '#'+Math.floor(Math.random()*16777215).toString(16);
+}
+</script>
+</body>
+</html>

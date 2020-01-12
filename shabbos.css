@@ -4,31 +4,51 @@ body{
 	font-family:arial;
 	color:white;
 }
-h1{
-	font-size:52px;
-	 margin-left: 1.5%;
-	 margin-right: 1.5%;
-	 text-align:center;
-}
 
-.header div{
+#page {
 	display: grid;
-	grid-template-columns: 1fr;
-
-	font-size:20px;
-
+	width: 100%;
+	height: 500px;
+	grid-template-areas: "header header"
+	                   "candles  parsha"
+	                   "candles  havdala";
+	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-columns: 2fr 2fr;
+	margin-top:200px;
 }
 
-.header h3{
+#page > header {
+	grid-area: header;
+	text-align: center;
+	border: 1px solid white;
 	font-size:32px;
-	margin:1.5%;
 	text-align:center;
 }
 
- #candleLighting, #parsha, #havdala {
-  margin-bottom: 11px;
-  font-size: 21px;
-  font-weight: 200;
-  line-height: normal;
-  text-align: center;
+#page > candles {
+	grid-area: candles;
+	border: 1px solid white;
+}
+
+#page > parsha {
+	grid-area: parsha;
+	border: 1px solid white;
+}
+
+#page > main {
+	grid-area: main;
+	border: 1px solid white;
+}
+
+#page > havdala {
+	grid-area: havdala;
+	border: 1px solid white;
+}
+
+
+#candleLighting, #parsha, #havdala {
+	font-size: 21px;
+	font-weight: 200;
+	line-height: normal;
+	text-align: center;
 }

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+<link rel="stylesheet" type="text/css" href="daf.css">
+</head>
+<body>
+<p id="date"></p>
+<p id="pages"></p>
+<p id="heText"></p>
+<p id="enText"></p>
+<script>
+
+var calendarURL
+
+fetch('https://www.sefaria.org/api/calendars/')
+
+.then(
+  function(response) {
+    response.json().then(function(data) {
+      data = calendarURL;
+      document.getElementById('date').innerHTML = data.date;
+      var url = data.calendar_items[3].url;
+      document.getElementById('pages').innerHTML = data.calendar_items[3].url;
+
+    }
+    );
+  }
+)
+
+
+
+fetch('https://www.sefaria.org/api/texts/Berakhot.10a?lang=bi')
+.then(
+  function(response) {
+    response.json().then(function(data) {
+      document.getElementById('heText').innerHTML = data.he;
+      document.getElementById('enText').innerHTML = data.text;
+    });
+  }
+)
+
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+  #enText, #heText{
+    margin: 0 25%;
+    font-size:18px;
+  }
+
+  #enText{
+    margin-top: 40px;
+  }
+  #date, #pages{
+    text-align: center;
+  }

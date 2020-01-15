@@ -14,7 +14,7 @@ body{
 	                   "candles  havdala";
 	grid-template-rows: 1fr 1fr 1fr;
 	grid-template-columns: 2fr 2fr;
-	margin-top:200px;
+	margin: 5% 0;
 }
 
 #page > header {
@@ -47,7 +47,7 @@ body{
 
 
 #candleLighting, #parsha, #havdala {
-	font-size: 21px;
+	font-size: 36px;
 	font-weight: 200;
 	line-height: normal;
 	text-align: center;

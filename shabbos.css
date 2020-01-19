@@ -1,54 +1,61 @@
 body{
 	top:0;
-	margin:0;
+	margin:4px 1.5%;
 	font-family:arial;
 	color:white;
 }
-
 #page {
 	display: grid;
-	width: 100%;
-	height: 500px;
 	grid-template-areas: "header header"
-	                   "candles  parsha"
-	                   "candles  havdala";
-	grid-template-rows: 1fr 1fr 1fr;
-	grid-template-columns: 2fr 2fr;
-	margin: 5% 0;
+						 "candles parsha"
+						 "candles havdala";
+	width: 100%;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 300px 300px 300px;
 }
-
-#page > header {
+.header{
 	grid-area: header;
 	text-align: center;
-	border: 1px solid white;
-	font-size:32px;
-	text-align:center;
+	font-size:65px;
+	padding:0;
 }
 
-#page > candles {
+.parsha{
+grid-area: parsha;
+}
+.candles{
 	grid-area: candles;
-	border: 1px solid white;
 }
-
-#page > parsha {
-	grid-area: parsha;
-	border: 1px solid white;
-}
-
-#page > main {
-	grid-area: main;
-	border: 1px solid white;
-}
-
-#page > havdala {
+.havdala{
 	grid-area: havdala;
-	border: 1px solid white;
 }
-
 
 #candleLighting, #parsha, #havdala {
-	font-size: 36px;
+	font-size: 60px;
 	font-weight: 200;
 	line-height: normal;
 	text-align: center;
+}
+
+@media only screen and (orientation : portrait) 
+{
+	body{
+		margin:0;
+	}
+  #page{display: grid;
+	grid-template-areas: "header "
+						 "candles"
+						 "parsha"
+						 "havdala";
+ 	grid-template-rows: auto;
+ 	grid-template-columns: 1fr;
+}
+.header{
+	font-size: 55px;
+	}
+#candleLighting, #parsha, #havdala {
+	font-size: 40px;
+	padding:10px;
+	margin:0;
+}
 }

@@ -45,6 +45,12 @@ h3{
 	font-weight: bold;
 }
 
+hr{
+	background-color: white;
+	height: 6px;
+	margin-top: 20px;
+	border:none;
+}
 
 @media only screen and (orientation : portrait) 
 {
@@ -64,12 +70,11 @@ h3{
 	}
 	.parsha, #candleLighting, #parsha, #havdala {
 		font-size: 40px;
-		padding:10px;
+		padding:10px 0 10px;
 		margin:5px;
 	}
 
 	.parsha p{
 		margin: auto 0 0;
-		padding-bottom: 0;
 	}
 }

@@ -19,7 +19,7 @@ fetch('https://www.sefaria.org/api/calendars/')
    document.getElementById('date').innerHTML = myJson.date;
    document.getElementById('pages').innerText = myJson.calendar_items[2].url;
    date = myJson.calendar_items[2].url;
-   fetch('http://www.sefaria.org/api/texts/' + date)
+   fetch('https://www.sefaria.org/api/texts/' + date)
   .then(function(response) {
     return response.json()
   })

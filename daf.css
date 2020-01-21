@@ -1,6 +1,7 @@
   #enText, #heText{
-    margin: 0 25%;
+    margin: 0 20%;
     font-size:18px;
+
   }
 
   #enText{
@@ -8,4 +9,12 @@
   }
   #date, #pages{
     text-align: center;
+     font-family: arial;
+  }
+
+  @media screen and (max-width: 600px){
+     #enText, #heText{
+    margin: 40px 1.5%;
+  }
+
   }

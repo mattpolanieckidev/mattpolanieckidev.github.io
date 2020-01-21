@@ -5,40 +5,30 @@
 <link rel="stylesheet" type="text/css" href="daf.css">
 </head>
 <body>
-<p id="date"></p>
-<p id="pages"></p>
-<p id="heText"></p>
-<p id="enText"></p>
+  <p id="date"></p>
+  <p id="pages"></p>
+  <p id="heText"></p>
+  <p id="enText"></p>
 <script>
-
-var calendarURL
-
+var date;
 fetch('https://www.sefaria.org/api/calendars/')
+  .then(function(response) {
+    return response.json()
+  })
+  .then(function(myJson) {
+   document.getElementById('date').innerHTML = myJson.date;
+   document.getElementById('pages').innerText = myJson.calendar_items[2].url;
+   date = myJson.calendar_items[2].url;
+   fetch('http://www.sefaria.org/api/texts/' + date)
+  .then(function(response) {
+    return response.json()
+  })
+ .then(function(textPull){
+  document.getElementById("enText").innerHTML = textPull.text;
+  document.getElementById("heText").innerHTML = textPull.he;
+ })
+  })
 
-.then(
-  function(response) {
-    response.json().then(function(data) {
-      data = calendarURL;
-      document.getElementById('date').innerHTML = data.date;
-      var url = data.calendar_items[3].url;
-      document.getElementById('pages').innerHTML = data.calendar_items[3].url;
-
-    }
-    );
-  }
-)
-
-
-
-fetch('https://www.sefaria.org/api/texts/Berakhot.10a?lang=bi')
-.then(
-  function(response) {
-    response.json().then(function(data) {
-      document.getElementById('heText').innerHTML = data.he;
-      document.getElementById('enText').innerHTML = data.text;
-    });
-  }
-)
 
 </script>
 </body>

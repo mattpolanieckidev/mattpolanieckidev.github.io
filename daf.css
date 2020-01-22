@@ -17,8 +17,8 @@
      font-family: arial;
   }
 
-  @media screen and (max-width: 600px){
-     #enText, #heText{
+  @media screen and (orientation:portrait){
+     #enText, #heText, #nextText, #nextHeText{
     margin: 40px 1.5%;
   }
 

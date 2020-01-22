@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title></title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="daf.css">
 </head>
 <body>
@@ -15,46 +16,14 @@
     <div>
     </div>
     <div>
-  <button id="next" onclick="nextPage()"> Next </button>
+  <button id="next" onclick="nextPage()" class="btn btn-primary"> Next </button>
     </div>
     <div>
     </div>
   </div>
-<script>
-var date;
-var next;
-fetch('https://www.sefaria.org/api/calendars/')
-  .then(function(response) {
-    return response.json()
-  })
-  .then(function(myJson) {
-   document.getElementById('date').innerHTML = myJson.date;
-   document.getElementById('pages').innerText = myJson.calendar_items[2].url;
-   date = myJson.calendar_items[2].url;
-   fetch('https://www.sefaria.org/api/texts/' + date)
-  .then(function(response) {
-    return response.json()
-  })
- .then(function(textPull){
-  document.getElementById("enText").innerHTML = textPull.text;
-  document.getElementById("heText").innerHTML = textPull.he;
-  document.getElementById("next").innerHTML = textPull.next;
-  next = textPull.next;
- })
-  })
-
-function nextPage(){
-  fetch('https://www.sefaria.org/api/texts/' + next)
-  .then(function(response){
-    return response.json()
-  })
-  .then(function(nextPull){
-    document.getElementById('nextHeText').innerHTML = nextPull.he;
-    document.getElementById('nextText').innerHTML=nextPull.text;
-  })
-}
-
-
-</script>
+<script type="text/javascript" src="daf.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>

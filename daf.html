@@ -9,8 +9,20 @@
   <p id="pages"></p>
   <p id="heText"></p>
   <p id="enText"></p>
+  <p id="nextHeText"> </p>
+  <p id="nextText"></p>
+  <div class="button">
+    <div>
+    </div>
+    <div>
+  <button id="next" onclick="nextPage()"> Next </button>
+    </div>
+    <div>
+    </div>
+  </div>
 <script>
 var date;
+var next;
 fetch('https://www.sefaria.org/api/calendars/')
   .then(function(response) {
     return response.json()
@@ -26,8 +38,21 @@ fetch('https://www.sefaria.org/api/calendars/')
  .then(function(textPull){
   document.getElementById("enText").innerHTML = textPull.text;
   document.getElementById("heText").innerHTML = textPull.he;
+  document.getElementById("next").innerHTML = textPull.next;
+  next = textPull.next;
  })
   })
+
+function nextPage(){
+  fetch('https://www.sefaria.org/api/texts/' + next)
+  .then(function(response){
+    return response.json()
+  })
+  .then(function(nextPull){
+    document.getElementById('nextHeText').innerHTML = nextPull.he;
+    document.getElementById('nextText').innerHTML=nextPull.text;
+  })
+}
 
 
 </script>

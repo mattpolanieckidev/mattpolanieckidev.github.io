@@ -1,10 +1,15 @@
-  #enText, #heText{
+  #enText, #heText, #nextText, #nextHeText{
     margin: 0 20%;
     font-size:18px;
 
   }
 
-  #enText{
+ .button{
+  display: grid;
+  grid-template-columns: 4fr 1fr 4fr;
+ }
+
+  #enText, #nextHeText, #nextText{
     margin-top: 40px;
   }
   #date, #pages{

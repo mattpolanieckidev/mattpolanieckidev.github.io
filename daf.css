@@ -9,8 +9,9 @@
 }
 
 .button{
-  display: grid;
-  grid-template-columns: 4fr 1fr 4fr;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
   margin-bottom: 8%;
 }
 
@@ -20,23 +21,20 @@
   font-size:18px;
 }
 
-
-.header div{
-  display: inline;
-}
-
 .header p{
   color:white;
-  display: inline;
   text-align: center;
+  display: inline;
 }
 
 .header{
   background: #2980b9;
   position: fixed;
   width: 100%;
-  display: grid;
-  grid-template-columns: 5fr 1fr 5fr;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
 }
 
 @media screen and (orientation:portrait){

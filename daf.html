@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="daf.css">
+  <link rel="stylesheet" type="text/css" href="daf.css">
 </head>
 <body>
   <div class="header">
       <p id="date"></p>
       <p id="pages"></p>
   </div>
+  <div class="content">
+    <p id="heText"></p>
+    <p id="enText"></p>
+    <p id="nextHeText"> </p>
+    <p id="nextText"></p>
   </div>
-  <p id="heText"></p>
-  <p id="enText"></p>
-  <p id="nextHeText"> </p>
-  <p id="nextText"></p>
   <div class="button">
-
-  <button id="next" onclick="nextPage()" class="btn btn-primary"> Next </button>
+    <button id="next" onclick="nextPage()" class="btn btn-primary"> Next </button>
   </div>
 <script type="text/javascript" src="daf.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

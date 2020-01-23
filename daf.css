@@ -37,7 +37,7 @@ body{
 }
 
 @media screen and (orientation:portrait){
- #enText, #heText, #nextText, #nextHeText{
-  margin: 40px 1.5%;
-}
+  #enText, #heText, #nextText, #nextHeText{
+    margin:0 1.5%;
+  }
 }

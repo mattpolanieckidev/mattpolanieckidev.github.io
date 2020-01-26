@@ -5,9 +5,9 @@ body{
 }
 
 #enText, #heText, #nextText, #nextHeText{
-  margin: 0 20%;
+  margin: 0 15%;
   padding-top: 65px;
-
+  font-size: 24px;
 }
 .content p{
   margin-top:15%;
@@ -19,7 +19,7 @@ body{
   margin-bottom: 4%;
 }
 
-.header a, .header p {
+.header a, .header p, #prevpages {
   color: white;
   padding-top:15px;
 }
@@ -37,5 +37,10 @@ body{
 @media screen and (orientation:portrait){
   #enText, #heText, #nextText, #nextHeText{
     margin:0 1.5%;
+    font-size: 18px;
+  }
+  #prevpages{
+    display: none;
+  }
   }
 }

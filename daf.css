@@ -19,6 +19,14 @@ body{
   margin-bottom: 4%;
 }
 
+.prevbutton{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  position:fixed;
+  padding-top:120px;
+}
+
 .header a, .header p, #prevpages {
   color: white;
   padding-top:15px;
@@ -34,6 +42,10 @@ body{
 
 }
 
+#nextnextText, #nextnextHeText{
+  display: none;
+}
+
 @media screen and (orientation:portrait){
   #enText, #heText, #nextText, #nextHeText{
     margin:0 1.5%;
@@ -43,4 +55,3 @@ body{
     display: none;
   }
   }
-}

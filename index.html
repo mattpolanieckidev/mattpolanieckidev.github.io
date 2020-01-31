@@ -7,18 +7,35 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-    <div class="jumbotron">
-      <h1 class="display-4">Matt Polaniecki's JS Projects</h1>
-  </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="#">Matt's JS Tools</a>
 
-  <div class="container">
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="shabbos.html">Shabbos Times</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="daf.html" tabindex="-1" aria-disabled="true">Daily Daf</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
     <div class="row">
         <div class="col-sm">
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <h5 class="card-title">Shabbos Times</h5>
+                    
+                    <p class="card-text">Tool to generate weekly Shabbos times for Cedarhurst NY</p>
                     <a href="shabbos.html" class="card-link">Shabbos Times</a>
                 </div>
             </div>
@@ -26,9 +43,9 @@
         <div class="col-sm">
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <h5 class="card-title">Daily Daf</h5>
+                    
+                    <p class="card-text">View today's Daf Yomi with Hebrew and English translation</p>
                     <a href="daf.html" class="card-link">Daily Daf</a>
                 </div>
             </div>
@@ -36,11 +53,10 @@
         <div class="col-sm">
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                    <h5 class="card-title">Daf Calendar</h5>
+                    
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+                    <a href="daf.html" class="card-link">Daily Daf</a>
                 </div>
             </div>
         </div>

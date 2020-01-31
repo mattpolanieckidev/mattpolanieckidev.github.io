@@ -32,6 +32,20 @@ fetch('https://www.sefaria.org/api/calendars/')
  })
   })
 
+function prevPage(){
+  fetch('https://www.sefaria.org/api/texts/' + prev)
+  .then(function(response){
+    return response.json()
+  })
+  .then(function(prevPull){
+    document.getElementById('heText').innerHTML = prevPull.he;
+    document.getElementById('enText').innerHTML = prevPull.text;
+    document.getElementById("next").innerHTML = prevPull.next;
+    document.getElementById('pages').innerText = prevPull.title;
+    next = prevPull.next;
+  })
+}
+
 function nextPage(){
   fetch('https://www.sefaria.org/api/texts/' + next)
   .then(function(response){

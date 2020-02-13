@@ -51,6 +51,7 @@ function nextPage() {
         count++;
       }
       document.getElementById("next").innerHTML = nextPull.next;
+      prev = nextPull.prev;
       next = nextPull.next;
     })
 }
@@ -74,5 +75,6 @@ function prevPage() {
       }
       document.getElementById("prev").innerHTML = prevPull.prev;
       prev = prevPull.prev;
+      next = prevPull.next;
     })
 }

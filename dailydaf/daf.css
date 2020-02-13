@@ -4,13 +4,11 @@ body{
   font-size:18px;
 }
 
-#prevText{
-  display:none;
-}
-#enText, #prevText{
+#enText{
   margin: 0 15%;
   padding: 65px 20px 0;
   font-size: 24px;
+
 }
 
 .button{
@@ -43,7 +41,7 @@ body{
 }
 
 @media screen and (orientation:portrait){
-  #enText, #prevText{
+  #enText{
     margin:0 1.5%;
     font-size: 18px;
   }

@@ -51,9 +51,7 @@ function nextPage() {
         count++;
       }
       document.getElementById("next").innerHTML = nextPull.next;
-      document.getElementById("prev").innerHTML = nextPull.prev;
       next = nextPull.next;
-      prev = nextPull.prev;
     })
 }
 
@@ -68,16 +66,13 @@ function prevPage() {
       hePasuk = prevPull.he;
       count = 0;
       for (var pasuk of enPasuk) {
-        var ul = document.getElementById("prevText");
+        var ul = document.getElementById("enText");
         var li = document.createElement("li");
-        document.getElementById('prevText').style.display = 'block'
         li.innerHTML = hePasuk[count] + "<br> <br> <span>" + pasuk + "</span> <br> <br>";
-        ul.appendChild(li);
+        ul.prepend(li);
         count++;
       }
-      document.getElementById("next").innerHTML = prevPull.next;
       document.getElementById("prev").innerHTML = prevPull.prev;
-      next = prevPull.next;
       prev = prevPull.prev;
     })
 }

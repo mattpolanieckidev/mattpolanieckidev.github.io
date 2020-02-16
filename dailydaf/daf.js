@@ -23,7 +23,7 @@ fetch('https://www.sefaria.org/api/calendars/')
         for (var pasuk of enPasuk) {
           var ul = document.getElementById("enText");
           var li = document.createElement("li");
-          li.innerHTML = hePasuk[count] + "<br> <br> <span>" + pasuk + "</span> <br> <br>";
+          li.innerHTML = hePasuk[count] + "<br> <br> <p class=\"english\">" + pasuk + "</p> <br> <br>";
           ul.appendChild(li);
           count++;
         }
@@ -46,7 +46,7 @@ function nextPage() {
       for (var pasuk of enPasuk) {
         var ul = document.getElementById("enText");
         var li = document.createElement("li");
-        li.innerHTML = hePasuk[count] + "<br> <br> <span>" + pasuk + "</span> <br> <br>";
+        li.innerHTML = hePasuk[count] + "<br> <br> <p class=\"english\">" + pasuk + "</p> <br> <br>";
         ul.appendChild(li);
         count++;
       }
@@ -69,7 +69,7 @@ function prevPage() {
       for (var pasuk of enPasuk) {
         var ul = document.getElementById("enText");
         var li = document.createElement("li");
-        li.innerHTML = hePasuk[count] + "<br> <br> <span>" + pasuk + "</span> <br> <br>";
+        li.innerHTML = hePasuk[count] + "<br> <br> <p class=\"english\">" + pasuk + "</p> <br> <br>";
         ul.prepend(li);
         count++;
       }

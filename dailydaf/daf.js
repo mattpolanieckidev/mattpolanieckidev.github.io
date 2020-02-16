@@ -10,8 +10,8 @@ fetch('https://www.sefaria.org/api/calendars/')
   })
   .then(function (myJson) {
     document.getElementById('date').innerHTML = myJson.date;
-    document.getElementById('pages').innerText = myJson.calendar_items[3].url;
-    date = myJson.calendar_items[3].url;
+    document.getElementById('pages').innerText = myJson.calendar_items[2].url;
+    date = myJson.calendar_items[2].url;
     fetch('https://www.sefaria.org/api/texts/' + date)
       .then(function (response) {
         return response.json()

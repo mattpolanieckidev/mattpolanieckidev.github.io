@@ -56,6 +56,7 @@ function nextPage() {
     })
 }
 
+  var current = document.getElementById("enText").childNodes;
 //get previous page
 function prevPage() {
   fetch('https://www.sefaria.org/api/texts/' + prev)
@@ -65,16 +66,19 @@ function prevPage() {
     .then(function (prevPull) {
       enPasuk = prevPull.text;
       hePasuk = prevPull.he;
+      current = document.getElementById("enText").childNodes;
       count = 0;
       for (var pasuk of enPasuk) {
         var ul = document.getElementById("enText");
         var li = document.createElement("li");
         li.innerHTML = hePasuk[count] + "<br> <br> <p class=\"english\">" + pasuk + "</p> <br> <br>";
-        ul.prepend(li);
+        ul.replaceChild(li, current[count]);
         count++;
       }
-      document.getElementById("prev").innerHTML = prevPull.prev;
       prev = prevPull.prev;
       next = prevPull.next;
+      document.getElementById("prev").innerHTML = prevPull.prev;
+      document.getElementById("next").innerHTML = prevPull.next;
+      
     })
 }

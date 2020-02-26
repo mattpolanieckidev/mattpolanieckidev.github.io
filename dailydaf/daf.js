@@ -75,9 +75,7 @@ function prevPage() {
         count++;
       }
       prev = prevPull.prev;
-      next = prevPull.next;
       document.getElementById("prev").innerHTML = prevPull.prev;
-      document.getElementById("next").innerHTML = prevPull.next;
       var current = document.getElementById("enText").childNodes;
     })
 }

@@ -22,13 +22,13 @@ body{
 						"candles parsha"
 						"candles havdala";
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 240px 300px 300px;
+	grid-template-rows: 210px 240px 200px;
 }
 .header{
 	grid-area: header;
 	text-align: center;
 	font-size:65px;
-	padding:0;
+	margin-top: 20px;
 }
 
 h3{

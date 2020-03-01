@@ -53,6 +53,7 @@ body{
 
 .aleph:hover{
   opacity: .5;
+  cursor: pointer ;
 }
 
 a:not([href]):not([tabindex]) {

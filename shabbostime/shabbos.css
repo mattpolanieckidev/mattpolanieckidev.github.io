@@ -74,11 +74,11 @@ hr{
 							"candles"
 							"parsha"
 							"havdala";
-		grid-template-rows: 220px auto auto;
+		grid-template-rows: 190px auto auto;
 		grid-template-columns: 1fr;
 	}
 	.header{
-		font-size: 55px;
+		font-size: 48px;
 	}
 	.parsha, #candleLighting, #parsha, #havdala {
 		font-size: 40px;

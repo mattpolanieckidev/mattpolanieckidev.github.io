@@ -47,6 +47,14 @@ body{
   
 }
 
+.hidden{
+  display: none;
+}
+
+.aleph:hover{
+  opacity: .5;
+}
+
 a:not([href]):not([tabindex]) {
     color: white;
 }

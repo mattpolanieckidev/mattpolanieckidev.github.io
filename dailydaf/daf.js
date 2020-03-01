@@ -23,7 +23,7 @@ fetch('https://www.sefaria.org/api/calendars/')
         for (var pasuk of enPasuk) {
           var ul = document.getElementById("enText");
           var li = document.createElement("li");
-          li.innerHTML = hePasuk[count] + "<br> <br> <p class=\"english\">" + pasuk + "</p> <br> <br>";
+          li.innerHTML = hePasuk[count] + "<br>" + "<br> <p class=\"english\">" + pasuk + "<br> <br> </p>";
           ul.appendChild(li);
           count++;
         }
@@ -46,7 +46,7 @@ function nextPage() {
       for (var pasuk of enPasuk) {
         var ul = document.getElementById("enText");
         var li = document.createElement("li");
-        li.innerHTML = hePasuk[count] + "<br> <br> <p class=\"english\">" + pasuk + "</p> <br> <br>";
+        li.innerHTML = hePasuk[count] +"<br>" + "<br> <p class=\"english\">" + pasuk + "<br> <br> </p>";
         ul.appendChild(li);
         count++;
       }
@@ -70,7 +70,7 @@ function prevPage() {
       for (var pasuk of enPasuk) {
         var ul = document.getElementById("enText");
         var li = document.createElement("li");
-        li.innerHTML = hePasuk[count] + "<br> <br> <p class=\"english\">" + pasuk + "</p> <br> <br>";
+        li.innerHTML = hePasuk[count] + "<br>" + "<br> <p class=\"english\">" + pasuk + "<br> <br> </p>";
         ul.insertBefore(li, current[count]);
         count++;
       }
@@ -78,4 +78,11 @@ function prevPage() {
       document.getElementById("prev").innerHTML = prevPull.prev;
       var current = document.getElementById("enText").childNodes;
     })
+}
+
+function hide(){
+  var x = document.getElementsByClassName("english");
+  for (i = 0; i < x.length; i++) {
+    x.item(i).classList.toggle("hidden");
+  }
 }

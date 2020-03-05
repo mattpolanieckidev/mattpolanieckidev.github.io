@@ -55,6 +55,13 @@ body{
   opacity: .5;
   cursor: pointer ;
 }
+li{
+  direction: rtl;
+}
+
+.english{
+  direction: ltr;
+}
 
 a:not([href]):not([tabindex]) {
     color: white;

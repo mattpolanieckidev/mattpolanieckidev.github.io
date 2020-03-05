@@ -60,6 +60,14 @@ a:not([href]):not([tabindex]) {
     color: white;
 }
 
+li{
+  direction: rtl;
+}
+
+.english{
+  direction: ltr;
+}
+
 @media screen and (orientation:portrait){
   #enText{
     margin:0 1.5%;

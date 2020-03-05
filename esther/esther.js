@@ -20,7 +20,6 @@ fetch('https://www.sefaria.org/api/texts/esther')
         count++;
       }
       document.getElementById("next").innerHTML = textPull.next;
-      document.getElementById("prev").innerHTML = textPull.prev;
       next = textPull.next;
       prev = textPull.prev;
     })
@@ -48,7 +47,7 @@ function nextPage() {
 
 var current = document.getElementById("enText").childNodes;
 //get previous page
-function prevPage() {
+/*function prevPage() {
   fetch('https://www.sefaria.org/api/texts/' + prev)
     .then(function (response) {
       return response.json()
@@ -70,6 +69,7 @@ function prevPage() {
       var current = document.getElementById("enText").childNodes;
     })
 }
+*/
 
 function hide(){
   var x = document.getElementsByClassName("english");

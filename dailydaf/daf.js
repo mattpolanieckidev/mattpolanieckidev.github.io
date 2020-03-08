@@ -90,10 +90,9 @@ function hide(){
 let date1 = new Date("1/5/2020")
 let date2 = new Date("6/7/2027");
 let today = new Date();
-var difference_in_time = date1.getTime() - today.getTime();
+var difference_in_time = today.getTime() -  date1.getTime();
 var Difference_In_Days = difference_in_time / (1000 * 3600 * 24); 
-var daysPast = 2710 - Difference_In_Days;
-var progressNum = (daysPast / 2710);
-var progress = document.getElementById("progress")
+var progressNum = ((Difference_In_Days *100) / 2710).toFixed(2);
+var progress = document.getElementById("progress");
 progress.style.width = progressNum +"%";
 progress.innerHTML = progressNum +"%";

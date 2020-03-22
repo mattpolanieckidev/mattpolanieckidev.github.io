@@ -64,7 +64,7 @@ li{
   direction: rtl;
 }
 
-.english, .progress{
+.english, .progress, .pageTitle{
   direction: ltr;
 }
 

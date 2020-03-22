@@ -2,7 +2,11 @@ var date;
 var next;
 var prev;
 var enPasuk;
-
+var amudCount;
+var section;
+var currentAmud;
+var masechtaProgress;
+var pageTitle = document.getElementById("pageTitle");
 //get today's date and page number
 fetch('https://www.sefaria.org/api/calendars/')
   .then(function (response) {
@@ -17,16 +21,21 @@ fetch('https://www.sefaria.org/api/calendars/')
         return response.json()
       }) //get today's text
       .then(function (textPull) {
+        amudCount = (textPull.length / 2) + 1;
+        section = textPull.sections.toString();
+        currentAmud = Number(section.slice(0, -1));
+        masechtaProgress = "Daily Daf (" + currentAmud + " of " + amudCount + ")";
         enPasuk = textPull.text;
         hePasuk = textPull.he;
         count = 0;
         for (var pasuk of enPasuk) {
           var ul = document.getElementById("enText");
           var li = document.createElement("li");
-          li.innerHTML = hePasuk[count] + "<br>" + "<br> <p class=\"english\">" + pasuk + "<br> <br> </p>";
+          li.innerHTML = hePasuk[count] + "<br> <br> <p class=\"english\">" + pasuk + "<br> <br> </p>";
           ul.appendChild(li);
           count++;
         }
+        pageTitle.innerText = masechtaProgress;
         document.getElementById("next").innerHTML = textPull.next;
         document.getElementById("prev").innerHTML = textPull.prev;
         next = textPull.next;
@@ -46,7 +55,7 @@ function nextPage() {
       for (var pasuk of enPasuk) {
         var ul = document.getElementById("enText");
         var li = document.createElement("li");
-        li.innerHTML = hePasuk[count] +"<br>" + "<br> <p class=\"english\">" + pasuk + "<br> <br> </p>";
+        li.innerHTML = hePasuk[count] +"<br> <br> <p class=\"english\">" + pasuk + "<br> <br> </p>";
         ul.appendChild(li);
         count++;
       }
@@ -70,7 +79,7 @@ function prevPage() {
       for (var pasuk of enPasuk) {
         var ul = document.getElementById("enText");
         var li = document.createElement("li");
-        li.innerHTML = hePasuk[count] + "<br>" + "<br> <p class=\"english\">" + pasuk + "<br> <br> </p>";
+        li.innerHTML = hePasuk[count] + "<br <br> <p class=\"english\">" + pasuk + "<br> <br> </p>";
         ul.insertBefore(li, current[count]);
         count++;
       }
@@ -87,6 +96,7 @@ function hide(){
   }
 }
 
+//progress bar for full daf cycle
 let date1 = new Date("1/5/2020")
 let date2 = new Date("6/7/2027");
 let today = new Date();
@@ -96,3 +106,7 @@ var progressNum = ((Difference_In_Days *100) / 2710).toFixed(2);
 var progress = document.getElementById("progress");
 progress.style.width = progressNum +"%";
 progress.innerHTML = progressNum +"%";
+
+//masechta progress;
+
+

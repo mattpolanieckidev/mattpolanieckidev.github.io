@@ -2,11 +2,13 @@ var date;
 var next;
 var prev;
 var enPasuk;
+var current = document.getElementById("enText").childNodes;
 var amudCount;
 var section;
 var currentAmud;
 var masechtaProgress;
 var pageTitle = document.getElementById("pageTitle");
+
 //get today's date and page number
 fetch('https://www.sefaria.org/api/calendars/')
   .then(function (response) {
@@ -42,6 +44,7 @@ fetch('https://www.sefaria.org/api/calendars/')
         prev = textPull.prev;
       })
   })
+  
 //get next page
 function nextPage() {
   fetch('https://www.sefaria.org/api/texts/' + next)
@@ -64,7 +67,6 @@ function nextPage() {
     })
 }
 
-var current = document.getElementById("enText").childNodes;
 //get previous page
 function prevPage() {
   fetch('https://www.sefaria.org/api/texts/' + prev)
@@ -85,7 +87,7 @@ function prevPage() {
       }
       prev = prevPull.prev;
       document.getElementById("prev").innerHTML = prevPull.prev;
-      var current = document.getElementById("enText").childNodes;
+      current = document.getElementById("enText").childNodes;
     })
 }
 
@@ -107,8 +109,9 @@ var progress = document.getElementById("progress");
 progress.style.width = progressNum +"%";
 progress.innerHTML = progressNum +"%";
 
+//find a daf
 function getPage() {
-  var  masechtaName = document.getElementById("masechta").value;
+  var masechtaName = document.getElementById("masechta").value;
   var dafNum = document.getElementById("pageSelect").value;
    fetch('https://www.sefaria.org/api/texts/' + masechtaName + "." + dafNum)
    .then(function (response) {

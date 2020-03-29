@@ -68,6 +68,10 @@ li{
   direction: ltr;
 }
 
+.finder{
+  margin-top:75px;
+}
+
 @media screen and (orientation:portrait){
   #enText{
     margin:0 1.5%;

@@ -37,12 +37,27 @@
             </li>
         </div>
     </nav>
-<div class="content">
-    <div class="prevbutton">
-        <button id="prev" class="btn btn-primary" onclick="prevPage()">
-            Previous
-        </button>
+    <div class="finder">
+        <div class="form-row">
+          <div>
+            <button id="prev" class="btn btn-primary" onclick="prevPage()">
+              Previous
+          </button>
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" id="masechta" placeholder="Masechta Select">  
+          </div>
+          <div class="col">
+            <input type="number" class="form-control" id="pageSelect" placeholder="Page Select">
+          </div>
+          <div>
+            <button class="btn btn-primary" onclick="getPage()"> Submit</button>
+          </div>
+        </div>
+    
     </div>
+<div class="content">
+
     <ul id="enText"></ul>
 </div>
 <div class="button">

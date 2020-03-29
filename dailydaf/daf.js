@@ -107,6 +107,28 @@ var progress = document.getElementById("progress");
 progress.style.width = progressNum +"%";
 progress.innerHTML = progressNum +"%";
 
-//masechta progress;
-
-
+function getPage() {
+  var  masechtaName = document.getElementById("masechta").value;
+  var dafNum = document.getElementById("pageSelect").value;
+   fetch('https://www.sefaria.org/api/texts/' + masechtaName + "." + dafNum)
+   .then(function (response) {
+       return response.json()
+   }) //get text
+   .then(function (foundtextPull) {
+       enPasuk = foundtextPull.text;
+       hePasuk = foundtextPull.he;
+       count = 0;
+       document.getElementById('enText').textContent = "";
+       for (var pasuk of enPasuk) {
+           var ul = document.getElementById("enText");
+           var li = document.createElement("li");
+           li.innerHTML = hePasuk[count] + "<br> <br> <p class=\"english\">" + pasuk + "<br> <br> </p>";
+           ul.appendChild(li);
+           count++;
+       }
+       document.getElementById("prev").innerHTML = foundtextPull.prev;
+       document.getElementById("next").innerHTML = foundtextPull.next;
+       next = foundtextPull.next;
+       prev = foundtextPull.prev;
+   })
+ }

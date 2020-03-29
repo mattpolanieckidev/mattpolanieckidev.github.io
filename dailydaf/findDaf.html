@@ -72,7 +72,7 @@ var next;
     function getPage() {
     var masechtaName = document.getElementById("masechta").value;
     var dafNum = document.getElementById("pageSelect").value;
-    fetch('http://www.sefaria.org/api/texts/' + masechtaName + "." + dafNum)
+    fetch('https://www.sefaria.org/api/texts/' + masechtaName + "." + dafNum)
     .then(function (response) {
         return response.json()
     }) //get today's text

@@ -6,11 +6,10 @@ body{
 
 #enText{
   margin: 0 15%;
-  padding: 65px 20px 0;
+  padding: 45px 20px 0;
   font-size: 24px;
   text-align:right;
 }
-
 
 .english{
   margin-bottom:0;
@@ -22,29 +21,14 @@ body{
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  margin-bottom: 4%;
+  margin: 4% 0;
 }
 
 .prevbutton{
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  padding-top:120px;
-}
-
-.header a, .header p{
-  color: white;
-  padding-top:15px;
-}
-
-.header{
-  background: #2980b9;
-  position: fixed;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  
+ 
 }
 
 .hidden{
@@ -62,6 +46,10 @@ a:not([href]):not([tabindex]) {
 
 li{
   direction: rtl;
+}
+
+p.english, li.enText{
+  margin-top:35px;
 }
 
 .english, .progress, .pageTitle{

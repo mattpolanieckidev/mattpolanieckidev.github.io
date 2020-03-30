@@ -48,7 +48,7 @@ li{
   direction: rtl;
 }
 
-p.english, li.enText{
+p.english, #enText li{
   margin-top:35px;
 }
 

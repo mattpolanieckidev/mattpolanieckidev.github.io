@@ -24,13 +24,6 @@ body{
   margin: 4% 0;
 }
 
-.prevbutton{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
- 
-}
-
 .hidden{
   display: none;
 }
@@ -49,7 +42,7 @@ li{
 }
 
 p.english, #enText li{
-  margin-top:35px;
+  margin-top:25px;
 }
 
 .english, .progress, .pageTitle{
@@ -59,6 +52,46 @@ p.english, #enText li{
 .finder{
   margin:75px 20px 0;
 }
+
+.finder .btn{
+  outline: none;
+  border:none;
+  cursor: pointer;
+  width:100%;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Lato', sans-serif;
+  color:#fff;
+  text-align: center;
+
+  box-shadow: 3px 3px 8px #b1b1b1,
+              -3px -3px 8px #ffffff;
+ transition: 0.5s;
+ }
+
+.finder .btn:hover {
+  background:#2fdbb6;
+}
+.finder .btn:active {
+  background:#1da88a;
+}
+.col input{
+  border-radius: 25px;
+  margin-bottom: 30px;
+  border-radius: 25px;
+  outline:none;
+  background: none;
+  font-size: 18px;
+  text-align: center;
+  padding:20px 10px 20px 5px;
+}
+
+#prev svg {
+    height: 22px;
+    margin:0 5px 3px 2px;
+    fill:white;
+  }
 
 @media screen and (orientation:portrait){
   #enText{

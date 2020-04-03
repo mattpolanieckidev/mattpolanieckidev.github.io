@@ -7,6 +7,7 @@ var amudCount;
 var section;
 var currentAmud;
 var masechtaProgress;
+var masechtaSearch = document.getElementById('masechta');
 var pageTitle = document.getElementById("pageTitle");
 
 //get today's date and page number
@@ -27,6 +28,7 @@ fetch('https://www.sefaria.org/api/calendars/')
         section = textPull.sections.toString();
         currentAmud = Number(section.slice(0, -1));
         masechtaProgress = "Daily Daf (" + currentAmud + " of " + amudCount + ")";
+        masechtaSearch.value = textPull.book;
         enPasuk = textPull.text;
         hePasuk = textPull.he;
         count = 0;
@@ -110,6 +112,8 @@ var progressNum = ((Difference_In_Days *100) / 2710).toFixed(2);
 var progress = document.getElementById("progress");
 progress.style.width = progressNum +"%";
 progress.innerHTML = progressNum +"%";
+
+
 
 //find a daf
 function getPage() {

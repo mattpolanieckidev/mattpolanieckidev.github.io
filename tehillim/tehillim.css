@@ -98,6 +98,7 @@ p.english, .nextContent li, #nextPageText li{
   .nextPageText, .nextContent{
     margin:0 1.5%;
     font-size: 18px;
+    padding-left:0;
   }
   #date{
     display:none;

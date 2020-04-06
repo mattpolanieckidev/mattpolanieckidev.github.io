@@ -37,6 +37,7 @@ fetch('https://www.sefaria.org/api/texts/Psalms.1')
     count++;
   }
   document.getElementById("next").innerHTML = textPull.next;
+  document.getElementById("prev").innerHTML = textPull.prev;
   next = textPull.next; 
   prev = textPull.prev;
 })

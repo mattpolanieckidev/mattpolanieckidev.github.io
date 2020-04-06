@@ -2,7 +2,7 @@ var date;
 var next;
 var prev;
 var enPasuk;
-var current = document.getElementById("enText").childNodes;
+var current = document.getElementById("content");
 var amudCount;
 var section;
 var currentAmud;
@@ -10,12 +10,14 @@ var masechtaProgress;
 var masechtaSearch = document.getElementById('masechta');
 var pageTitle = document.getElementById("pageTitle");
 var ul = document.getElementById("enText");
+var heading;
 
 fetch('https://www.sefaria.org/api/texts/Psalms.1')
 .then(function (response) {
   return response.json()
 }) //get today's text
 .then(function (textPull) {
+  heading = "<h3>"+ textPull.ref + "</h3>";
   enPasuk = textPull.text;
   hePasuk = textPull.he;
   count = 0;
@@ -42,11 +44,20 @@ function nextPage() {
       enPasuk = nextPull.text;
       hePasuk = nextPull.he;
       count = 0;
-      var ul = document.getElementById("enText");
+      var newDiv = document.createElement("div");
+      content.appendChild(newDiv);
+      newDiv.id = "nextContent";
+      var newHeading = document.createElement("h3");
+      newHeading.innerHTML = nextPull.ref;
+      newHeading.className = "pageHeading";
+      newDiv.appendChild(newHeading);
+      var newUl = document.createElement("ul");
+      newUl.id = "nextPageText";
+      newDiv.appendChild(newUl);
       for (var pasuk of enPasuk) {
         var li = document.createElement("li");
         li.innerHTML = hePasuk[count] +"<p class=\"english\">" + pasuk + "</p>";
-        ul.appendChild(li);
+        newUl.appendChild(li);
         count++;
       }
       document.getElementById("next").innerHTML = nextPull.next;

@@ -11,6 +11,14 @@ body{
   text-align:right;
 }
 
+#nextContent{
+  margin: 0 15%;
+  padding: 25px 20px 0;
+  font-size: 24px;
+  text-align:right;
+}
+
+
 .english{
   margin-bottom:0;
   text-align: left;
@@ -41,7 +49,7 @@ li{
   direction: rtl;
 }
 
-p.english, #enText li{
+p.english, #enText li, #nextPageText li{
   margin-top:35px;
 }
 

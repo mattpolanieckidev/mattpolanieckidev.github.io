@@ -93,12 +93,14 @@ p.english, .nextContent li, .nextPageContent li{
     fill:white;
   }
 
-@media screen and (orientation:portrait){
-  #enText{
-    margin:0 1.5%;
-    font-size: 18px;
-  }
-  #date{
-    display:none;
-  }
-  }
+  @media screen and (orientation:portrait){
+    .nextPageText, .nextContent{
+      margin:0 1.5%;
+      font-size: 18px;
+      padding-left:0;
+    }
+    #date{
+      display:none;
+    }
+    }
+  

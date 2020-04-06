@@ -42,17 +42,13 @@ function nextPage() {
       enPasuk = nextPull.text;
       hePasuk = nextPull.he;
       count = 0;
-      enPasuk.unshift("<h3> Heyo </h3>")
       var ul = document.getElementById("enText");
-      var heading = document.createElement("h3");
-      ul.insertBefore(heading, ul.childNodes[0]);
       for (var pasuk of enPasuk) {
         var li = document.createElement("li");
         li.innerHTML = hePasuk[count] +"<p class=\"english\">" + pasuk + "</p>";
         ul.appendChild(li);
         count++;
       }
-     
       document.getElementById("next").innerHTML = nextPull.next;
       next = nextPull.next;
     })

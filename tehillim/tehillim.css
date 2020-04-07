@@ -4,7 +4,7 @@ body{
   font-size:18px;
 }
 
-.nextContent{
+.textContent{
   margin: 0 15%;
   padding: 45px 20px 0;
   font-size: 24px;
@@ -42,7 +42,7 @@ li{
   direction: rtl;
 }
 
-p.english, .nextContent li, #nextPageText li{
+p.english, .textContent li, #pageText li{
   margin-top:35px;
 }
 
@@ -95,7 +95,7 @@ p.english, .nextContent li, #nextPageText li{
   }
 
 @media screen and (orientation:portrait){
-  .nextPageText, .nextContent{
+  .pageText, .textContent{
     margin:0 1.5%;
     font-size: 18px;
     padding-left:0;

@@ -9,7 +9,15 @@ var currentAmud;
 var masechtaProgress;
 var masechtaSearch = document.getElementById('masechta');
 var pageTitle = document.getElementById("pageTitle");
+var div;
+var heading;
 
+function createDiv(){
+   div = document.createElement("div");
+  div.classList.add("textContent");
+  content.appendChild(div);
+   heading = document.createElement("h3");
+}
 fetch('https://www.sefaria.org/api/texts/Psalms.1')
 .then(function (response) {
   return response.json()
@@ -18,10 +26,7 @@ fetch('https://www.sefaria.org/api/texts/Psalms.1')
   enPasuk = pull.text;
   hePasuk = pull.he;
   count = 0;
-  var div = document.createElement("div");
-  div.classList.add("textContent");
-  content.appendChild(div);
-  var heading = document.createElement("h3");
+  createDiv();
   heading.innerHTML = pull.ref;
   heading.className = "pageHeading";
   div.appendChild(heading);
@@ -50,10 +55,7 @@ function nextPage() {
       enPasuk = pull.text;
       hePasuk = pull.he;
       count = 0;
-      var div = document.createElement("div");
-      content.appendChild(div);
-      div.classList.add("textContent");
-      var heading = document.createElement("h3");
+      createDiv();
       heading.innerHTML = pull.ref;
       heading.className = "pageHeading";
       div.appendChild(heading);
@@ -81,10 +83,7 @@ function prevPage() {
       enPasuk = pull.text;
       hePasuk = pull.he;
       count = 0;
-      var div = document.createElement("div");
-      content.appendChild(div);
-      div.classList.add("textContent");
-      var heading = document.createElement("h3");
+      createDiv();
       heading.innerHTML = pull.ref;
       heading.className = "pageHeading";
       div.appendChild(heading);
@@ -139,10 +138,7 @@ function getPage() {
     enPasuk = pull.text;
     hePasuk = pull.he;
     count = 0;
-    var div = document.createElement("div");
-    content.appendChild(div);
-    div.classList.add("textContent");
-    var heading = document.createElement("h3");
+    createDiv();
     heading.innerHTML = pull.ref;
     heading.className = "pageHeading";
     div.appendChild(heading);

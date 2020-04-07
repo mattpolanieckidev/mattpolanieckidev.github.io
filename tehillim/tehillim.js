@@ -91,7 +91,7 @@ function prevPage() {
       newHeading.className = "pageHeading";
       newDiv.appendChild(newHeading);
       var newUl = document.createElement("ul");
-      newUl.id = "nextPageText";
+      newUl.classList.add("nextPageText");
       newDiv.appendChild(newUl);
       for (var pasuk of enPasuk) {
         var li = document.createElement("li");
@@ -149,7 +149,7 @@ function getPage() {
     newHeading.className = "pageHeading";
     newDiv.appendChild(newHeading);
     var newUl = document.createElement("ul");
-    newUl.id = "nextPageText";
+    newUl.classList.add("nextPageText");
     newDiv.appendChild(newUl);
     for (var pasuk of enPasuk) {
       var li = document.createElement("li");

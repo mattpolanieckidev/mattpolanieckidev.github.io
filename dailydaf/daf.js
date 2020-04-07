@@ -155,12 +155,12 @@ function getPage() {
        enPasuk = foundtextPull.text;
        hePasuk = foundtextPull.he;
        count = 0;
-       document.getElementById('enText').textContent = "";
+       var newUl = document.createElement("ul");
+       document.getElementById('content').textContent = "";
        for (var pasuk of enPasuk) {
-           var ul = document.getElementById("enText");
            var li = document.createElement("li");
            li.innerHTML = hePasuk[count] + "<p class=\"english\">" + pasuk + "</p>";
-           ul.appendChild(li);
+           newUl.appendChild(li);
            count++;
        }
        document.getElementById("prev").innerHTML = foundtextPull.prev;

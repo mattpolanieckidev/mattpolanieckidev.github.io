@@ -11,12 +11,18 @@ var masechtaSearch = document.getElementById('masechta');
 var pageTitle = document.getElementById("pageTitle");
 var div;
 var heading;
+var ul;
 
 function createDiv(){
-   div = document.createElement("div");
+  div = document.createElement("div");
   div.classList.add("textContent");
   content.appendChild(div);
-   heading = document.createElement("h3");
+  heading = document.createElement("h3");
+  heading.className = "pageHeading";
+  div.appendChild(heading);
+  ul = document.createElement("ul");
+  ul.classList.add("pageText");
+  div.appendChild(ul);
 }
 fetch('https://www.sefaria.org/api/texts/Psalms.1')
 .then(function (response) {
@@ -28,11 +34,6 @@ fetch('https://www.sefaria.org/api/texts/Psalms.1')
   count = 0;
   createDiv();
   heading.innerHTML = pull.ref;
-  heading.className = "pageHeading";
-  div.appendChild(heading);
-  var ul = document.createElement("ul");
-  ul.classList.add("pageText");
-  div.appendChild(ul);
   for (var pasuk of enPasuk) {
     var li = document.createElement("li");
     li.innerHTML = hePasuk[count] + "<p class=\"english\">" + pasuk + "</p>";
@@ -57,11 +58,6 @@ function nextPage() {
       count = 0;
       createDiv();
       heading.innerHTML = pull.ref;
-      heading.className = "pageHeading";
-      div.appendChild(heading);
-      var ul = document.createElement("ul");
-      ul.classList.add("pageText");
-      div.appendChild(ul);
       for (var pasuk of enPasuk) {
         var li = document.createElement("li");
         li.innerHTML = hePasuk[count] +"<p class=\"english\">" + pasuk + "</p>";
@@ -85,11 +81,6 @@ function prevPage() {
       count = 0;
       createDiv();
       heading.innerHTML = pull.ref;
-      heading.className = "pageHeading";
-      div.appendChild(heading);
-      var ul = document.createElement("ul");
-      ul.classList.add("pageText");
-      div.appendChild(ul);
       for (var pasuk of enPasuk) {
         var li = document.createElement("li");
         li.innerHTML = hePasuk[count] +"<p class=\"english\">" + pasuk + "</p>";
@@ -140,11 +131,6 @@ function getPage() {
     count = 0;
     createDiv();
     heading.innerHTML = pull.ref;
-    heading.className = "pageHeading";
-    div.appendChild(heading);
-    var ul = document.createElement("ul");
-    ul.classList.add("pageText");
-    div.appendChild(ul);
     for (var pasuk of enPasuk) {
       var li = document.createElement("li");
       li.innerHTML = hePasuk[count] +"<p class=\"english\">" + pasuk + "</p>";

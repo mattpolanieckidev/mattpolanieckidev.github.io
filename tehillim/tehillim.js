@@ -12,7 +12,10 @@ var pageTitle = document.getElementById("pageTitle");
 var div;
 var heading;
 var ul;
+var pasuk;
+var hidden = 0;
 
+//create and append Div, Heading, and Unordered List
 function createDiv(){
   div = document.createElement("div");
   div.classList.add("textContent");
@@ -24,6 +27,17 @@ function createDiv(){
   ul.classList.add("pageText");
   div.appendChild(ul);
 }
+
+//Loop through available pasukim and append to unordered list
+function writePasuk(){
+  for (var pasuk of enPasuk) {
+    var li = document.createElement("li");
+    li.innerHTML = hePasuk[count] + "<p class=\"english hidden\">" + pasuk + "</p>";
+    ul.appendChild(li);
+    count++;
+  }
+}
+
 fetch('https://www.sefaria.org/api/texts/Psalms.1')
 .then(function (response) {
   return response.json()
@@ -34,12 +48,7 @@ fetch('https://www.sefaria.org/api/texts/Psalms.1')
   count = 0;
   createDiv();
   heading.innerHTML = pull.ref;
-  for (var pasuk of enPasuk) {
-    var li = document.createElement("li");
-    li.innerHTML = hePasuk[count] + "<p class=\"english\">" + pasuk + "</p>";
-    ul.appendChild(li);
-    count++;
-  }
+  writePasuk();
   document.getElementById("next").innerHTML = pull.next;
   document.getElementById("prev").innerHTML = pull.prev;
   next = pull.next; 
@@ -58,12 +67,7 @@ function nextPage() {
       count = 0;
       createDiv();
       heading.innerHTML = pull.ref;
-      for (var pasuk of enPasuk) {
-        var li = document.createElement("li");
-        li.innerHTML = hePasuk[count] +"<p class=\"english\">" + pasuk + "</p>";
-        ul.appendChild(li);
-        count++;
-      }
+      writePasuk();
       document.getElementById("next").innerHTML = pull.next;
       next = pull.next;
     })
@@ -81,12 +85,7 @@ function prevPage() {
       count = 0;
       createDiv();
       heading.innerHTML = pull.ref;
-      for (var pasuk of enPasuk) {
-        var li = document.createElement("li");
-        li.innerHTML = hePasuk[count] +"<p class=\"english\">" + pasuk + "</p>";
-        ul.appendChild(li);
-        count++;
-      }
+      writePasuk();
       prev = pull.prev;
       next = pull.next;
       document.getElementById("next").innerHTML = pull.next;
@@ -96,12 +95,12 @@ function prevPage() {
     })
 }
 
-
 function hide(){
   var x = document.getElementsByClassName("english");
   for (i = 0; i < x.length; i++) {
     x.item(i).classList.toggle("hidden");
   }
+  hidden++;
 }
 
 //progress bar for full daf cycle
@@ -131,12 +130,7 @@ function getPage() {
     count = 0;
     createDiv();
     heading.innerHTML = pull.ref;
-    for (var pasuk of enPasuk) {
-      var li = document.createElement("li");
-      li.innerHTML = hePasuk[count] +"<p class=\"english\">" + pasuk + "</p>";
-      ul.appendChild(li);
-      count++;
-    }
+    writePasuk();
     document.getElementById("next").innerHTML = pull.next;
     next = pull.next;
     prev = pull.prev;

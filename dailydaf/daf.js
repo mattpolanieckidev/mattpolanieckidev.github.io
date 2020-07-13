@@ -45,8 +45,8 @@ fetch('https://www.sefaria.org/api/calendars/')
   })
   .then(function (myJson) {
     document.getElementById('date').innerHTML = myJson.date;
-    document.getElementById('pages').innerText = myJson.calendar_items[2].url;
-    date = myJson.calendar_items[2].url;
+    document.getElementById('pages').innerText = myJson.calendar_items[3].url;
+    date = myJson.calendar_items[3].url;
     fetch('https://www.sefaria.org/api/texts/' + date)
       .then(function (response) {
         return response.json()
@@ -84,22 +84,9 @@ function nextPage() {
       enPasuk = pull.text;
       hePasuk = pull.he;
       count = 0;
-      var div = document.createElement("div");
-      content.appendChild(div);
-      div.classList.add("textContent");
-      var newHeading = document.createElement("h3");
-      newHeading.innerHTML = pull.ref;
-      newHeading.className = "pageHeading";
-      div.appendChild(newHeading);
-      var ul = document.createElement("ul");
-      ul.classList.add("pageText");
-      div.appendChild(ul);
-      for (var pasuk of enPasuk) {
-        var li = document.createElement("li");
-        li.innerHTML = hePasuk[count] +"<p class=\"english\">" + pasuk + "</p>";
-        ul.appendChild(li);
-        count++;
-      }
+      createDiv();
+      heading.innerHTML = pull.ref;
+      writePasuk();
       document.getElementById("next").innerHTML = pull.next;
       next = pull.next;
     })
@@ -115,22 +102,9 @@ function prevPage() {
       enPasuk = pull.text;
       hePasuk = pull.he;
       count = 0;
-      var div = document.createElement("div");
-      content.appendChild(div);
-      div.classList.add("textContent");
-      var newHeading = document.createElement("h3");
-      newHeading.innerHTML = pull.ref;
-      newHeading.className = "pageHeading";
-      div.appendChild(newHeading);
-      var ul = document.createElement("ul");
-      ul.id = "pageText";
-      div.appendChild(ul);
-      for (var pasuk of enPasuk) {
-        var li = document.createElement("li");
-        li.innerHTML = hePasuk[count] +"<p class=\"english\">" + pasuk + "</p>";
-        ul.appendChild(li);
-        count++;
-      }
+      createDiv();
+      heading.innerHTML = pull.ref;
+      writePasuk();
       prev = pull.prev;
       next = pull.next;
       document.getElementById("next").innerHTML = pull.next;
@@ -173,25 +147,12 @@ function getPage() {
     enPasuk = pull.text;
     hePasuk = pull.he;
     count = 0;
-    var div = document.createElement("div");
-    content.appendChild(div);
-    div.classList.add("textContent");
-    var newHeading = document.createElement("h3");
-    newHeading.innerHTML = pull.ref;
-    newHeading.className = "pageHeading";
-    div.appendChild(newHeading);
-    var ul = document.createElement("ul");
-    ul.classList.add("pageText");
-    div.appendChild(ul);
-       for (var pasuk of enPasuk) {
-           var li = document.createElement("li");
-           li.innerHTML = hePasuk[count] + "<p class=\"english\">" + pasuk + "</p>";
-           ul.appendChild(li);
-           count++;
-       }
-       document.getElementById("prev").innerHTML = pull.prev;
-       document.getElementById("next").innerHTML = pull.next;
-       next = pull.next;
-       prev = pull.prev;
+    createDiv();
+    heading.innerHTML = pull.ref;
+    writePasuk();
+    document.getElementById("prev").innerHTML = pull.prev;
+    document.getElementById("next").innerHTML = pull.next;
+    next = pull.next;
+    prev = pull.prev;
    })
  }

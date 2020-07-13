@@ -15,9 +15,10 @@ var ul;
 var pasuk;
 var newHeading;
 var versionNum;
-var versopmDate
+var versionDate;
+
 //get githubversion
-fetch('http://api.github.com/repos/mattpolanieckidev/mattpolanieckidev.github.io/commits')
+fetch('https://api.github.com/repos/mattpolanieckidev/mattpolanieckidev.github.io/commits')
   .then(function (response) {
     return response.json()
   })

@@ -1,30 +1,19 @@
+
+
 self.addEventListener('install', function(event) {
-    var CACHE_NAME = 'my-site-cache-v1';
-    var urlsToCache = [
-      '/',
-      'daf.css',
-      'daf.js'
-    ];
-    
-    self.addEventListener('install', function(event) {
-      // Perform install steps
-      event.waitUntil(
-        caches.open(CACHE_NAME)
-          .then(function(cache) {
-            console.log('Opened cache');
-            return cache.addAll(urlsToCache);
-          })
-      );
-    });
+    event.waitUntil(
+      caches.open(cacheName).then(function(cache) {
+        return cache.addAll(
+          [
+            '/daf.js',
+            '/daf.css',
+            '/index.html'
+          ]
+        );
+      })
+    );
   });
 
-  let deferredPrompt;
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  // Prevent the mini-infobar from appearing on mobile
-  e.preventDefault();
-  // Stash the event so it can be triggered later.
-  deferredPrompt = e;
-  // Update UI notify the user they can install the PWA
-  showInstallPromotion();
-});
+  self.addEventListener('fetch', function(event) {
+    event.respondWith(caches.match(event.request));
+  });

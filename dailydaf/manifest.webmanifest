@@ -1,8 +1,9 @@
 {
   "name": "Daily Daf",
-  "theme_color": "#2196f3",
+  "theme_color": "#2196F3",
   "background_color": "#2196f3",
   "display": "fullscreen",
+  "orientation": "portrait",
   "Scope": "/",
   "start_url": "/",
   "icons": [

@@ -5,8 +5,8 @@
   "background_color": "#2196f3",
   "display": "fullscreen",
   "orientation": "portrait",
-  "Scope": "/dailydaf",
-  "start_url": "/dailydaf",
+  "scope": "https://mattpolanieckidev.github.io/dailydaf/",
+  "start_url": "https://mattpolanieckidev.github.io/dailydaf/",
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",

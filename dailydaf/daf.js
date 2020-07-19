@@ -9,6 +9,7 @@ var currentAmud;
 var masechtaProgress;
 var masechtaSearch = document.getElementById('masechta');
 var pageTitle = document.getElementById("pageTitle");
+var textdiv = document.getElementById("content");
 var div;
 var heading;
 var ul;
@@ -35,7 +36,7 @@ if ('serviceWorker' in navigator) {
 function createDiv(){
   div = document.createElement("div");
   div.classList.add("textContent");
-  content.appendChild(div);
+  textdiv.appendChild(div);
   heading = document.createElement("h3");
   heading.className = "pageHeading";
   div.appendChild(heading);

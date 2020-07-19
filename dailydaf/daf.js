@@ -108,7 +108,7 @@ function nextPage() {
       writePasuk();
       document.getElementById("next").innerHTML = pull.next;
       next = pull.next;
-      heading.scrollIntoView();
+      heading.scrollIntoView({behavior:"smooth", block:"center"});
     })
 }
 //get previous page

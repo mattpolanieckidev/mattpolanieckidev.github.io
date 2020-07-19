@@ -30,16 +30,6 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-//get githubversion
-fetch('https://api.github.com/repos/mattpolanieckidev/mattpolanieckidev.github.io/commits')
-  .then(function (response) {
-    return response.json()
-  })
-  .then(function (myJson) {
-    versionNum = myJson[0].html_url;
-    versionDate = myJson[0].commit.author.date;
-    document.getElementById("version").innerHTML = "<a href="+versionNum+" target=\"_blank\">" + versionDate + "</a>";
-  })
 
 //create and append Div, Heading, and Unordered List
 function createDiv(){

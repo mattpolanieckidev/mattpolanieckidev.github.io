@@ -108,8 +108,16 @@ function nextPage() {
       writePasuk();
       document.getElementById("next").innerHTML = pull.next;
       next = pull.next;
-      heading.scrollIntoView({behavior:"smooth", block:"center"});
+      
     })
+}
+
+window.onscroll = function() {myFunction()};
+
+function myFunction() {
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    nextPage();
+  }
 }
 //get previous page
 function prevPage() {

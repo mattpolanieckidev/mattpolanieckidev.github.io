@@ -104,15 +104,14 @@ function nextPage() {
       createDiv();
       heading.innerHTML = pull.ref;
       writePasuk();
+      heading.scrollIntoView({behavior:"auto", block:"center"});
       document.getElementById("next").innerHTML = pull.next;
       next = pull.next;
-<<<<<<< HEAD
-      heading.scrollIntoView({behavior:"smooth", block:"center"});
-=======
->>>>>>> parent of 2f3f030... scroll to fixed
     })
 }
 
+/*
+// Scroll and load 
 window.onscroll = function() {myFunction()};
 
 function myFunction() {
@@ -120,6 +119,7 @@ function myFunction() {
     nextPage();
   }
 }
+*/
 //get previous page
 function prevPage() {
   fetch('https://www.sefaria.org/api/texts/' + prev)

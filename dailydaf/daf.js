@@ -45,7 +45,7 @@ function createDiv(){
   div.appendChild(ul);
 }
 
-//Loop through available pasukim and append to unordered list
+//Loop through available pasukim and append to unordered list. Check to see if the translation should be shown or not. 
 function writePasuk(){
   for (var pasuk of enPasuk) {
     var li = document.createElement("li");

@@ -49,9 +49,16 @@ function createDiv(){
 function writePasuk(){
   for (var pasuk of enPasuk) {
     var li = document.createElement("li");
-    li.innerHTML = hePasuk[count] + "<p class=\"english\">" + pasuk + "</p>";
+    if (localStorage.getItem("hidden") === "hidden"){
+    li.innerHTML = hePasuk[count] + "<p class=\"english hidden\">" + pasuk + "</p>";
     ul.appendChild(li);
     count++;
+    }
+    else {
+      li.innerHTML = hePasuk[count] + "<p class=\"english\">" + pasuk + "</p>";
+      ul.appendChild(li);
+      count++;
+    }
   }
 }
 
@@ -148,6 +155,12 @@ function hide(){
   for (i = 0; i < x.length; i++) {
     x.item(i).classList.toggle("hidden");
   }
+  if (localStorage.getItem("hidden") === "show"){
+  localStorage.setItem("hidden", "hidden");}
+    else{
+      localStorage.setItem("hidden", "show");
+    }
+
 }
 
 //progress bar for full daf cycle

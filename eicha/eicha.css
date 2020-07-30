@@ -4,13 +4,12 @@ body{
   font-size:18px;
 }
 
-#enText{
+.textContent{
   margin: 0 15%;
-  padding: 65px 20px 0;
+  padding: 45px 20px 0;
   font-size: 24px;
   text-align:right;
 }
-
 
 .english{
   margin-bottom:0;
@@ -22,29 +21,7 @@ body{
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  margin-bottom: 4%;
-}
-
-.prevbutton{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  padding-top:120px;
-}
-
-.header a, .header p{
-  color: white;
-  padding-top:15px;
-}
-
-.header{
-  background: #2980b9;
-  position: fixed;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  
+  margin: 4% 0;
 }
 
 .hidden{
@@ -55,24 +32,81 @@ body{
   opacity: .5;
   cursor: pointer ;
 }
-li{
-  direction: rtl;
-}
-
-.english{
-  direction: ltr;
-}
 
 a:not([href]):not([tabindex]) {
     color: white;
 }
 
-@media screen and (orientation:portrait){
-  #enText{
-    margin:0 1.5%;
-    font-size: 18px;
+li{
+  direction: rtl;
+}
+
+p.english, .textContent li, .nextPageContent li{
+  margin-top:35px;
+}
+
+.english, .progress, .pageTitle{
+  direction: ltr;
+}
+
+.finder{
+  margin:75px 20px 0;
+}
+
+.finder .btn{
+  outline: none;
+  border:none;
+  cursor: pointer;
+  width:100%;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Lato', sans-serif;
+  color:#fff;
+  text-align: center;
+
+  box-shadow: 3px 3px 8px #b1b1b1,
+              -3px -3px 8px #ffffff;
+ transition: 0.5s;
+ }
+
+.finder .btn:hover {
+  background:#2fdbb6;
+}
+.finder .btn:active {
+  background:#1da88a;
+}
+.col input{
+  border-radius: 25px;
+  margin-bottom: 30px;
+  border-radius: 25px;
+  outline:none;
+  background: none;
+  font-size: 18px;
+  text-align: center;
+  padding:20px 10px 20px 5px;
+}
+label{
+  display: none;
+}
+#prev svg {
+    height: 22px;
+    margin:0 5px 3px 2px;
+    fill:white;
   }
-  #date{
-    display:none;
-  }
-  }
+
+h3{
+  margin-top:10px;
+}
+
+  @media screen and (orientation:portrait){
+    .pageText, .textContent{
+      margin:0 1.5%;
+      font-size: 18px;
+      padding-left:0;
+    }
+    #date{
+      display:none;
+    }
+    }
+  

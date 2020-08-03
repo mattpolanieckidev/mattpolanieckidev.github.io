@@ -1,3 +1,16 @@
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js').then(function(registration) {
+      // Registration was successful
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    }, function(err) {
+      // registration failed :(
+      console.log('ServiceWorker registration failed: ', err);
+    });
+  });
+}
+
+
 function changeColor() {
   var body = document.querySelector("body");
   body.style.backgroundColor = '#' + Math.floor(Math.random() * 16777215).toString(16);

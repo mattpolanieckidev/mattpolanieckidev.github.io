@@ -1,7 +1,7 @@
 {
   "name": "Shabbos Times",
   "short_name": "Shabbos Times",
-  "theme_color": "#ff1744",
+  "theme_color": "#212121",
   "background_color": "#212121",
   "display": "fullscreen",
   "orientation": "portrait",

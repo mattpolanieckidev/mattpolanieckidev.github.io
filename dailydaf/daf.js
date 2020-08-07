@@ -117,7 +117,7 @@ function nextPage() {
     })
 }
 
-
+/*
 // Scroll and load 
 window.onscroll = function() {myFunction()};
 
@@ -126,7 +126,7 @@ function myFunction() {
     nextPage();
   }
 }
-
+*/
 //get previous page
 function prevPage() {
   fetch('https://www.sefaria.org/api/texts/' + prev)

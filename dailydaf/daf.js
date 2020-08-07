@@ -69,8 +69,8 @@ fetch('https://www.sefaria.org/api/calendars/')
   })
   .then(function (myJson) {
     document.getElementById('date').innerHTML = myJson.date;
-    document.getElementById('pages').innerText = myJson.calendar_items[2].url;
-    date = myJson.calendar_items[2].url;
+    document.getElementById('pages').innerText = myJson.calendar_items.filter(i => i.title.en == "Daf Yomi")[0].url;
+    date = myJson.calendar_items.filter(i => i.title.en == "Daf Yomi")[0].url;
     fetch('https://www.sefaria.org/api/texts/' + date)
       .then(function (response) {
         return response.json()
@@ -117,7 +117,7 @@ function nextPage() {
     })
 }
 
-/*
+
 // Scroll and load 
 window.onscroll = function() {myFunction()};
 
@@ -126,7 +126,7 @@ function myFunction() {
     nextPage();
   }
 }
-*/
+
 //get previous page
 function prevPage() {
   fetch('https://www.sefaria.org/api/texts/' + prev)

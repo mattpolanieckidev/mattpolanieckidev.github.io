@@ -79,7 +79,7 @@ fetch('https://www.sefaria.org/api/calendars/')
         amudCount = (pull.length / 2) + 1;
         section = pull.sections.toString();
         currentAmud = Number(section.slice(0, -1));
-        masechtaProgress = "Daily Daf (" + currentAmud + " of " + amudCount + ")";
+        masechtaProgress = pull.book + (" + currentAmud + " of " + amudCount + ");
         masechtaSearch.value = pull.book;
         enPasuk = pull.text;
         hePasuk = pull.he;

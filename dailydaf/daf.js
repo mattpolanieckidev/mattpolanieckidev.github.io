@@ -63,7 +63,7 @@ function writePasuk(){
 }
 
 //get today's date and page number
-fetch('https://www.sefaria.org/api/calendars/')
+fetch('https://www.sefaria.org/api/calendars/', {cache: "force-cache"})
   .then(function (response) {
     return response.json()
   })
@@ -71,7 +71,7 @@ fetch('https://www.sefaria.org/api/calendars/')
     document.getElementById('date').innerHTML = myJson.date;
     date = myJson.calendar_items.filter(i => i.title.en == "Daf Yomi")[0].url;
     document.getElementById('pages').innerText = date;
-    fetch('https://www.sefaria.org/api/texts/' + date)
+    fetch('https://www.sefaria.org/api/texts/' + date, {cache: "force-cache"})
       .then(function (response) {
         return response.json()
       }) //get today's text
@@ -100,7 +100,7 @@ fetch('https://www.sefaria.org/api/calendars/')
   
 //get next page
 function nextPage() {
-  fetch('https://www.sefaria.org/api/texts/' + next)
+  fetch('https://www.sefaria.org/api/texts/' + next, {cache: "force-cache"})
     .then(function (response) {
       return response.json()
     })

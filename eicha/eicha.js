@@ -116,4 +116,10 @@ function hide(){
   for (i = 0; i < x.length; i++) {
     x.item(i).classList.toggle("hidden");
   }
+  if (localStorage.getItem("hidden") === "show"){
+  localStorage.setItem("hidden", "hidden");}
+    else{
+      localStorage.setItem("hidden", "show");
+    }
+
 }

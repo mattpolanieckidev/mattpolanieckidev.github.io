@@ -35,13 +35,13 @@ if ('serviceWorker' in navigator) {
 }
 
 
-if (localStorage.getItem("night") === "light"){
-  document.getElementById("body").classList.add("light")
+if (localStorage.getItem("night") === "dark"){
+  document.getElementById("body").classList.add("night")
+  document.getElementById("nav").classList.add("bg-dark");
+  document.getElementById("modal").classList.add("bg-dark");
 }
 else {
-  document.getElementById("body").classList.toggle("night")
-  document.getElementById("nav").classList.toggle("bg-dark");
-  document.getElementById("modal").classList.toggle("bg-dark");
+  document.getElementById("body").classList.remove("night")
 }
 
 

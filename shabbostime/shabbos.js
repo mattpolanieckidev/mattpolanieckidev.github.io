@@ -13,7 +13,10 @@ if ('serviceWorker' in navigator) {
 
 function changeColor() {
   var body = document.querySelector("body");
-  body.style.backgroundColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+  var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+  body.style.backgroundColor = color;
+  
+  document.getElementById('colorlabel2').innerHTML = "Shabbos Times " + color;
 }
 
 fetch('https://www.hebcal.com/shabbat/?cfg=json&geonameid=5111974&m=50')

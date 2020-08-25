@@ -91,8 +91,8 @@ p.english, .textContent li, .nextPageContent li{
   text-align: center;
   padding:20px 10px 20px 5px;
 }
-label{
-  display: none;
+.col label {
+display:none;
 }
 #prev svg {
     height: 22px;

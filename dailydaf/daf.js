@@ -39,9 +39,11 @@ if (localStorage.getItem("night") === "dark"){
   document.getElementById("body").classList.add("night")
   document.getElementById("nav").classList.add("bg-dark");
   document.getElementById("modal").classList.add("bg-dark");
+  document.getElementById("switch1").checked = true;
 }
 else {
   document.getElementById("body").classList.remove("night")
+  document.getElementById("switch1").checked = false;
 }
 
 
@@ -70,11 +72,13 @@ function writePasuk(){
     li.innerHTML = hePasuk[count] + "<p class=\"english hidden\">" + pasuk + "</p>";
     ul.appendChild(li);
     count++;
+    document.getElementById("switch2").checked = false;
     }
     else {
       li.innerHTML = hePasuk[count] + "<p class=\"english\">" + pasuk + "</p>";
       ul.appendChild(li);
       count++;
+      document.getElementById("switch2").checked = true;
     }
   }
 }
@@ -84,11 +88,13 @@ function night(){
   document.getElementById("body").classList.toggle("night");
   document.getElementById("modal").classList.toggle("bg-dark");
   document.getElementById("nav").classList.toggle("bg-dark");
+  document.getElementById("switch1").checked = true;
   localStorage.setItem("night", "dark");}
   else{
     document.getElementById("body").classList.toggle("night");
     document.getElementById("modal").classList.toggle("bg-dark");
     document.getElementById("nav").classList.toggle("bg-dark");
+    document.getElementById("switch1").checked = false;
     localStorage.setItem("night", "light");
   }
 }

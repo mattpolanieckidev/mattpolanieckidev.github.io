@@ -33,11 +33,16 @@
                 </button>
               </div>
               <div class="modal-body">
-                
-                <button class="btn btn-primary" onclick="night()"> Night Mode </button>
-                <button class="btn btn-primary" onclick="hide()">Translations</button>
-                Text Size
-                <input type="range" min="1" max="100" value="50" id="fontSize">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="switch1" name="dark" onclick="night()">
+                  <label class="custom-control-label" for="switch1">Night Mode</label>
+                </div>
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="switch2" name="translation" onclick="hide()">
+                  <label class="custom-control-label" for="switch2">Translations</label>
+                </div>
+                 Text Size
+                <input type="range" min="1" max="9" value="5" step="2" id="fontSize" class="form-control-range">
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -100,10 +105,6 @@
         Next
     </button>
     
-</div>
-<div class="custom-control custom-switch">
-  <input type="checkbox" class="custom-control-input" id="customSwitch1">
-  <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
 </div>
 
 <script type="text/javascript" src="daf.js"></script>

@@ -18,6 +18,9 @@ var newHeading;
 var versionNum;
 var versionDate;
 var links;
+var slider = document.getElementById("fontSize");
+var textContent = document.getElementById("textContent")
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
@@ -32,10 +35,21 @@ if ('serviceWorker' in navigator) {
 }
 
 
+if (localStorage.getItem("night") === "light"){
+  document.getElementById("body").classList.add("light")
+}
+else {
+  document.getElementById("body").classList.toggle("night")
+  document.getElementById("nav").classList.toggle("bg-dark");
+  document.getElementById("modal").classList.toggle("bg-dark");
+}
+
+
 //create and append Div, Heading, and Unordered List
 function createDiv(){
   div = document.createElement("div");
   div.classList.add("textContent");
+  div.id="textContent";
   textdiv.appendChild(div);
   heading = document.createElement("h3");
   heading.className = "pageHeading";
@@ -43,7 +57,10 @@ function createDiv(){
   ul = document.createElement("ul");
   ul.classList.add("pageText");
   div.appendChild(ul);
+  textContent = document.getElementById("textContent")
 }
+
+
 
 //Loop through available pasukim and append to unordered list. Check to see if the translation should be shown or not. 
 function writePasuk(){
@@ -59,6 +76,20 @@ function writePasuk(){
       ul.appendChild(li);
       count++;
     }
+  }
+}
+
+function night(){
+  if (localStorage.getItem("night") === "light"){
+  document.getElementById("body").classList.toggle("night");
+  document.getElementById("modal").classList.toggle("bg-dark");
+  document.getElementById("nav").classList.toggle("bg-dark");
+  localStorage.setItem("night", "dark");}
+  else{
+    document.getElementById("body").classList.toggle("night");
+    document.getElementById("modal").classList.toggle("bg-dark");
+    document.getElementById("nav").classList.toggle("bg-dark");
+    localStorage.setItem("night", "light");
   }
 }
 

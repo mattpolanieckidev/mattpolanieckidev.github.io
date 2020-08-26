@@ -20,7 +20,7 @@ var versionDate;
 var links;
 var slider = document.getElementById("fontSize");
 var fontSize = slider.value;
-var textContent = document.getElementById("textContent")
+var textContent = document.getElementsByClassName("textContent");
 
 
 if ('serviceWorker' in navigator) {
@@ -47,24 +47,11 @@ else {
   document.getElementById("switch1").checked = false;
 }
 
-function adjustFont(x){
-  if (x === "1"){
-    textContent.style.fontSize="large";
-  }
-  else if (x === "2") {
-    textContent.style.fontSize="x-large";
-  }
-  else if (x === "3") {
-    textContent.style.fontSize="xx-large";
-  }
-
-}
 
 //create and append Div, Heading, and Unordered List
 function createDiv(){
   div = document.createElement("div");
   div.classList.add("textContent");
-  div.id="textContent";
   textdiv.appendChild(div);
   heading = document.createElement("h3");
   heading.className = "pageHeading";
@@ -72,7 +59,6 @@ function createDiv(){
   ul = document.createElement("ul");
   ul.classList.add("pageText");
   div.appendChild(ul);
-  textContent = document.getElementById("textContent")
 }
 
 
@@ -86,16 +72,19 @@ function writePasuk(){
     ul.appendChild(li);
     count++;
     document.getElementById("switch2").checked = false;
+    adjustFont(localStorage.getItem("size"));
     }
     else {
       li.innerHTML = hePasuk[count] + "<p class=\"english\">" + pasuk + "</p>";
       ul.appendChild(li);
       count++;
       document.getElementById("switch2").checked = true;
+      adjustFont(localStorage.getItem("size"));
     }
   }
 }
 
+//dark mode
 function night(){
   if (localStorage.getItem("night") === "light"){
   document.getElementById("body").classList.toggle("night");
@@ -212,7 +201,23 @@ function hide(){
     }
 
 }
-
+//adjust font size based on slider value
+function adjustFont(a){
+  for (i = 0; i < textContent.length; i++) {
+    if (a === "1"){
+      localStorage.setItem("size", "1");
+      textContent.item(i).style.fontSize="large";
+    }
+    else if (a === "2"){
+      localStorage.setItem("size", "2");
+      textContent.item(i).style.fontSize="x-large";
+    }
+    else if (a === "3"){
+      localStorage.setItem("size", "3");
+      textContent.item(i).style.fontSize="xx-large";
+    }
+    }
+  };
 //progress bar for full daf cycle
 let date1 = new Date("1/5/2020")
 let date2 = new Date("6/7/2027");

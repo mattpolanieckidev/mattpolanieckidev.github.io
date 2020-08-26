@@ -6,6 +6,7 @@
     <meta content="utf-8" http-equiv="encoding">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#5f5eaa">
+    <meta name="Description" content="Daily Daf Yomi">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="daf.css">
     <link rel="icon" type="image" href="images/icons/icon-72x72.png">
@@ -13,7 +14,6 @@
     <link rel="manifest" href="manifest.webmanifest" crossorigin="use-credentials">
 </head>
 <body id="body">
- 
     <nav class="navbar fixed-top navbar-collapse-lg navbar-dark" id="nav" style="background-color: #2980b9;">
         <a class="navbar-brand " href="index.html">Daily Daf</a>
         <a class="navbar-brand" id="pages"></a>
@@ -43,32 +43,33 @@
             </li>
         </div>
     </nav>
-    
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content" id="modal">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Options</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="custom-control custom-switch">
-                  <input type="checkbox" class="custom-control-input" id="switch1" name="dark" onclick="night()">
-                  <label class="custom-control-label" for="switch1">Night Mode</label>
-                </div>
-                <div class="custom-control custom-switch">
-                  <input type="checkbox" class="custom-control-input" id="switch2" name="translation" onclick="hide()">
-                  <label class="custom-control-label" for="switch2">Translations</label>
-                </div>
-                Text Size
-                <input type="range" min="1" max="3" value="2" step="1" id="fontSize" class="form-control-range" oninput="adjustFont(this.value)"><br>
-              </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" id="modal">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Options</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="custom-control custom-switch modalrow" >
+              <input type="checkbox" class="custom-control-input" id="switch1" name="dark" onclick="night()">
+              <label class="custom-control-label" for="switch1">Night Mode</label>
+            </div>
+            <div class="custom-control custom-switch modalrow">
+              <input type="checkbox" class="custom-control-input" id="switch2" name="translation" onclick="hide()">
+              <label class="custom-control-label" for="switch2">Translations</label>
+            </div>
+            <div>
+            Text Size
+            <input type="range" min="1" max="3" value="2" step="1" id="fontSize" class="form-control-range" oninput="adjustFont(this.value)"><br>
             </div>
           </div>
         </div>
+      </div>
+    </div>
     <div class="finder">
         <div class="form-row">
           <div>
@@ -88,7 +89,6 @@
             <button class="btn btn-primary" id="submit" onclick="getPage()"> Submit</button>
           </div>
         </div>
-    
     </div>
     <noscript>
       <!-- anchor linking to external file -->
@@ -100,9 +100,7 @@
     <button id="next" onclick="nextPage()" class="btn btn-primary">
         Next
     </button>
-    
 </div>
-
 <script type="text/javascript" src="daf.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

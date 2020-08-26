@@ -13,11 +13,7 @@ if ('serviceWorker' in navigator) {
 
 function changeColor() {
   var body = document.querySelector("body");
-  var x=Math.round(0xffffff * Math.random()).toString(16);
-  var y=(6-x.length);
-  var z='000000';
-  var z1 = z.substring(0,y);
-  var color= '#' + z1 + x;
+  var color= '#' + (Math.floor(Math.random() * 2 ** 24)).toString(16).padStart(0, 6)
   body.style.backgroundColor = color;
   document.getElementById('colorlabel2').innerHTML = "Shabbos Times " + color;
 }

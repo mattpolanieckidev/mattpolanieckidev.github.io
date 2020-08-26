@@ -22,38 +22,6 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-                <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content" id="modal">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Options</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                 <div class="custom-control custom-switch modalrow">
-                  <input type="checkbox" class="custom-control-input" id="switch1" name="dark" onclick="night()">
-                  <label class="custom-control-label" for="switch1">Night Mode</label>
-                </div>
-               
-                <div class="custom-control custom-switch modalrow">
-                  <input type="checkbox" class="custom-control-input" id="switch2" name="translation" onclick="hide()">
-                  <label class="custom-control-label" for="switch2">Translations</label>
-                </div>
-                </div>
-                 Text Size
-                <input type="range" min="1" max="9" value="5" step="2" id="fontSize" class="form-control-range"><br>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
@@ -75,6 +43,32 @@
             </li>
         </div>
     </nav>
+    
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="switch1" name="dark" onclick="night()">
+                  <label class="custom-control-label" for="switch1">Night Mode</label>
+                </div>
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="switch2" name="translation" onclick="hide()">
+                  <label class="custom-control-label" for="switch2">Translations</label>
+                </div>
+                Text Size
+                <input type="range" min="1" max="3" value="2" step="1" id="fontSize" class="form-control-range" oninput="adjustFont(this.value)"><br>
+              </div>
+            </div>
+          </div>
+        </div>
     <div class="finder">
         <div class="form-row">
           <div>
@@ -91,7 +85,7 @@
             <label for="pageSelect">Page Select</label>
           </div>
           <div>
-            <button class="btn btn-primary" onclick="getPage()"> Submit</button>
+            <button class="btn btn-primary" id="submit" onclick="getPage()"> Submit</button>
           </div>
         </div>
     

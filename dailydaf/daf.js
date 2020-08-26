@@ -19,6 +19,7 @@ var versionNum;
 var versionDate;
 var links;
 var slider = document.getElementById("fontSize");
+var fontSize = slider.value;
 var textContent = document.getElementById("textContent")
 
 
@@ -46,6 +47,18 @@ else {
   document.getElementById("switch1").checked = false;
 }
 
+function adjustFont(x){
+  if (x === "1"){
+    textContent.style.fontSize="large";
+  }
+  else if (x === "2") {
+    textContent.style.fontSize="x-large";
+  }
+  else if (x === "3") {
+    textContent.style.fontSize="xx-large";
+  }
+
+}
 
 //create and append Div, Heading, and Unordered List
 function createDiv(){

@@ -45,6 +45,7 @@ if (localStorage.getItem("night") === "dark"){
 else {
   document.getElementById("body").classList.remove("night")
   document.getElementById("switch1").checked = false;
+  localStorage.setItem("night", "light");
 }
 
 

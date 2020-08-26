@@ -20,7 +20,7 @@ var versionDate;
 var links;
 var slider = document.getElementById("fontSize");
 var fontSize = slider.value;
-var textContent = document.getElementsByClassName("textContent");
+var textContent = document.getElementsByClassName("pageText");
 
 
 if ('serviceWorker' in navigator) {
@@ -206,15 +206,15 @@ function adjustFont(a){
   for (i = 0; i < textContent.length; i++) {
     if (a === "1"){
       localStorage.setItem("size", "1");
-      textContent.item(i).style.fontSize="large";
+      textContent.item(i).style.fontSize="18px";
     }
     else if (a === "2"){
       localStorage.setItem("size", "2");
-      textContent.item(i).style.fontSize="x-large";
+      textContent.item(i).style.fontSize="24px";
     }
     else if (a === "3"){
       localStorage.setItem("size", "3");
-      textContent.item(i).style.fontSize="xx-large";
+      textContent.item(i).style.fontSize="32px";
     }
     }
   };

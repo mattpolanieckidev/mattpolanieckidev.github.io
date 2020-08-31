@@ -202,14 +202,30 @@ function hide(){
     }
 
 }
+
+//set slider value on mobile
+function myFunction(x) {
+  if (x.matches) { // If media query matches
+    adjustFont("1");
+  } else {
+    adjustFont("2");
+  }
+}
+
+var x = window.matchMedia("(orientation:portrait)")
+myFunction(x)
+x.addListener(myFunction)
+
 //adjust font size based on slider value
 function adjustFont(a){
   for (i = 0; i < textContent.length; i++) {
     if (a === "1"){
+      slider.value="1";
       localStorage.setItem("size", "1");
       textContent.item(i).style.fontSize="18px";
     }
     else if (a === "2"){
+      slider.value="2";
       localStorage.setItem("size", "2");
       textContent.item(i).style.fontSize="24px";
     }
@@ -219,6 +235,7 @@ function adjustFont(a){
     }
     }
   };
+
 //progress bar for full daf cycle
 let date1 = new Date("1/5/2020")
 let date2 = new Date("6/7/2027");
@@ -229,8 +246,6 @@ var progressNum = ((Difference_In_Days *100) / 2710).toFixed(2);
 var progress = document.getElementById("progress");
 progress.style.width = progressNum +"%";
 progress.innerHTML = progressNum +"%";
-
-
 
 //find a daf
 function getPage() {

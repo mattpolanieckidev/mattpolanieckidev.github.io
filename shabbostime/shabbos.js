@@ -31,9 +31,10 @@ fetch('https://www.hebcal.com/shabbat/?cfg=json&'+zip+'&m=50')
     function (response) {
       response.json().then(function (data) {
         //replace header text
-        city = data.location.city;
+        city = data.location.city + ", " + data.location.state;
         document.getElementById("header").innerHTML = city;
         //get parsha
+        document.getElementById('parshalabel').innerHTML =  "Torah portion: <br> <span id = \"parsha\"> </span>";
         document.getElementById('parsha').innerHTML = data.items.filter(i => i.category == "parashat")[0].title;
 
         //get candlelighting

@@ -32,8 +32,10 @@
     <div id="page">
         <div class="header">
             <h3 class="header" id="header"> Shabbos times for</h3>
+                <div>
                 <input type="number" id="zip" placeholder="Zip Code" aria-label="Zip Code" aria-describedby="basic-addon2">
                 <button class="btn btn-outline-primary" id="submit" type="button" onclick="find()"> Submit</button>
+            </div>
         </div>
         <div class="candles">
             <p id = "candleLighting"> </p>
@@ -41,7 +43,7 @@
         </candles>
     </div>
     <div class="parsha">
-        <p> Torah portion: <br><span id = "parsha"> </span> </p>
+        <p id="parshalabel"></p>
         <hr>
     </div>
   

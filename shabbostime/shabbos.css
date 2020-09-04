@@ -34,7 +34,8 @@ body{
 
 .header input{
 	font-size:25px;
-	width:120px;
+	width:auto;
+	text-align:center;
 }
 
 h3{

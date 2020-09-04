@@ -1,6 +1,6 @@
-var input = document.getElementById("zip").value;
+var input;
 document.getElementById("zip").maxLength = "5";
-var zip = 'zip=' + input;
+
 var city;
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
@@ -24,12 +24,13 @@ function changeColor() {
 
 
 function find(){
+   input = document.getElementById("zip").value;
+   var zip = 'zip=' + input;
 fetch('https://www.hebcal.com/shabbat/?cfg=json&'+zip+'&m=50')
   .then(
     function (response) {
       response.json().then(function (data) {
         //replace header text
-        input = document.getElementById("zip").value;
         city = data.location.city;
         document.getElementById("header").innerHTML = city;
         //get parsha

@@ -16,6 +16,7 @@ body{
   "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
 	color:white;
 }
+
 #page {
 	display: grid;
 	grid-template-areas: "header header"
@@ -29,6 +30,11 @@ body{
 	text-align: center;
 	font-size:65px;
 	margin-top: 20px;
+}
+
+.header input{
+	font-size:25px;
+	width:120px;
 }
 
 h3{

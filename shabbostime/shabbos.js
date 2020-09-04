@@ -1,3 +1,7 @@
+var input = document.getElementById("zip").value;
+document.getElementById("zip").maxLength = "5";
+var zip = 'zip=' + input;
+var city;
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('sw.js').then(function(registration) {
@@ -18,10 +22,16 @@ function changeColor() {
   document.getElementById('colorlabel2').innerHTML = "Shabbos Times " + color;
 }
 
-fetch('https://www.hebcal.com/shabbat/?cfg=json&geonameid=5111974&m=50')
+
+function find(){
+fetch('https://www.hebcal.com/shabbat/?cfg=json&'+zip+'&m=50')
   .then(
     function (response) {
       response.json().then(function (data) {
+        //replace header text
+        input = document.getElementById("zip").value;
+        city = data.location.city;
+        document.getElementById("header").innerHTML = city;
         //get parsha
         document.getElementById('parsha').innerHTML = data.items.filter(i => i.category == "parashat")[0].title;
 
@@ -41,3 +51,4 @@ fetch('https://www.hebcal.com/shabbat/?cfg=json&geonameid=5111974&m=50')
       );
     }
   )
+  }

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image" href="images/icons/icon-72x72.png">
     <link rel="apple-touch-icon" href="images/icons/icon-192x192.png">
-    <link rel="manifest" href="manifest.webmanifest" crossorigin="use-credentials">
+    <!--<link rel="manifest" href="manifest.webmanifest" crossorigin="use-credentials">-->
     <meta name="theme-color" content="#5f5eaa">
 </head>
 <body onload="changeColor()">
@@ -33,7 +33,9 @@
     </nav>
     <div id="page">
         <div class="header">
-            <h3 class="header"> Shabbos times for Cedarhurst, NY </h3>
+            <h3 class="header" id="header"> Shabbos times for</h3>
+            <input id="zip" placeholder="Zip Code"></input>
+            <button class="btn btn-primary" id="submit" onclick="find()"> Submit</button>
         </div>
         <div class="candles">
             <p id = "candleLighting"> </p>

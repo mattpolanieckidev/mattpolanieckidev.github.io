@@ -1,6 +1,7 @@
 var input;
+var inputField = document.getElementById("zip");
 document.getElementById("zip").maxLength = "5";
-
+var zip;
 var city;
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
@@ -23,9 +24,10 @@ function changeColor() {
 }
 
 
+
 function find(){
    input = document.getElementById("zip").value;
-   var zip = 'zip=' + input;
+   zip = 'zip=' + input;
 fetch('https://www.hebcal.com/shabbat/?cfg=json&'+zip+'&m=50')
   .then(
     function (response) {
@@ -54,3 +56,14 @@ fetch('https://www.hebcal.com/shabbat/?cfg=json&'+zip+'&m=50')
     }
   )
   }
+
+  // Execute a function when the user releases a key on the keyboard
+  inputField.addEventListener("keyup", function(event) {
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13) {
+      // Cancel the default action, if needed
+      event.preventDefault();
+      // Trigger the button element with a click
+      document.getElementById("submit").click();
+    }
+  });

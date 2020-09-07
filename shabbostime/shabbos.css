@@ -53,6 +53,25 @@ h3{
 	grid-area: havdala;
 }
 
+.finder{
+	display: flex;
+    align-content: center;
+    place-content: center;
+    margin: 20px;
+}
+
+.finder button{
+	margin-left: 20px;
+}
+
+#submit{
+	color:white;
+	border-color: white;
+}
+
+#zip{
+	font-size:16px;
+}
 .parsha, #candleLighting, #havdala, .color {
 	font-size: 60px;
 	font-weight: 200;
@@ -85,7 +104,7 @@ hr{
 		grid-template-columns: 1fr;
 	}
 	.header{
-		font-size: 48px;
+		font-size: 40px;
 	}
 	.parsha, #candleLighting, #parsha, #havdala {
 		font-size: 40px;

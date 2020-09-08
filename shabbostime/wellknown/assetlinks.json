@@ -1,0 +1,5 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target" : { "namespace": "android_app", "package_name": "io.github.shabbostime.twa",
+                   "sha256_cert_fingerprints": ["B3:6B:1D:4F:00:D1:6B:CB:BC:DC:9A:47:F7:BD:08:3E:F9:EC:99:69:C8:16:4F:A2:8F:A2:6E:56:FA:36:4E:83"] }
+    }]

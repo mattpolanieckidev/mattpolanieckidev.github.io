@@ -1,0 +1,5 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target" : { "namespace": "android_app", "package_name": "io.github.mattpolanieckidev.twa",
+                   "sha256_cert_fingerprints": ["67:41:A9:92:1A:22:BB:9A:44:AA:30:6A:FE:B8:84:CF:77:6B:02:93:0A:A0:C0:1B:AB:D6:77:DF:9B:D8:F6:B7"] }
+    }]

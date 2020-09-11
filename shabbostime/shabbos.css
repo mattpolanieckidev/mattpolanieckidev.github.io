@@ -23,13 +23,14 @@ body{
 						"candles parsha"
 						"candles havdala";
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 210px 240px 200px;
+	grid-template-rows: 210px 210px 200px;
 }
 .header{
 	grid-area: header;
 	text-align: center;
 	font-size:65px;
-	margin-top: 20px;
+	margin-top: 15px;
+	margin-bottom: 10px;
 }
 
 .header input{
@@ -57,7 +58,7 @@ h3{
 	display: flex;
     align-content: center;
     place-content: center;
-    margin: 20px;
+    margin: 15px;
 }
 
 .finder button{
@@ -100,7 +101,7 @@ hr{
 							"candles"
 							"parsha"
 							"havdala";
-		grid-template-rows: 190px auto auto;
+		grid-template-rows: 140px 150px 200px;
 		grid-template-columns: 1fr;
 	}
 	.header{

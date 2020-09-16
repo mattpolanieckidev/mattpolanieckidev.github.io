@@ -1,4 +1,4 @@
-var input;
+var input = document.getElementById("zip").value;
 var inputField = document.getElementById("zip");
 document.getElementById("zip").maxLength = "5";
 var zip;
@@ -21,6 +21,7 @@ function changeColor() {
   var color= '#' + (Math.floor(Math.random() * 2 ** 24)).toString(16).padStart(0, 6)
   body.style.backgroundColor = color;
   document.getElementById('colorlabel2').innerHTML = "Shabbos Times " + color;
+  inputField.value = localStorage.getItem("zipcode")
 }
 
 
@@ -28,6 +29,7 @@ function changeColor() {
 function find(){
    input = document.getElementById("zip").value;
    zip = 'zip=' + input;
+   localStorage.setItem('zipcode', input);
 fetch('https://www.hebcal.com/shabbat/?cfg=json&'+zip+'&m=50')
   .then(
     function (response) {

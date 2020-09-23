@@ -1,7 +1,22 @@
-body{
-  top:0;
-  margin:0;
+html {
+  position: relative;
+    min-height: 100%;
+}
+body {
+  margin:0 0 160px;
   font-size:18px;
+}
+.footer {
+  position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 150px;
+    width: 100%;
+
+}
+
+iframe{
+  width: 100%;
 }
 
 .night{
@@ -100,6 +115,7 @@ display:none;
 .modal-backdrop {
   z-index: 1020;
 }
+
 
 .modalrow{
   display: inline-block;

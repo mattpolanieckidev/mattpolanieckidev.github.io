@@ -8,8 +8,3 @@
     ]
   }
 }]
-[{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target" : { "namespace": "android_app", "package_name": "io.github.shabbostime.twa",
-                   "sha256_cert_fingerprints": ["55:04:F9:78:A8:8C:E6:03:2F:6E:9B:AE:A6:64:D9:33:0C:8F:5E:F8:80:7D:F0:F0:89:5D:34:23:9F:15:BA:91"] }
-    }]

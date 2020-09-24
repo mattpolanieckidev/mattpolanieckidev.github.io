@@ -10,7 +10,7 @@ body {
   position: fixed;
     left: 0;
     bottom: 0;
-    height: 150px;
+    height: 160px;
     width: 100%;
 
 }
@@ -129,6 +129,9 @@ display:none;
     }
     #date{
       display:none;
+    }
+    .footer{
+      height:100px;
     }
     }
   

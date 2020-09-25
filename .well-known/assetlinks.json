@@ -7,8 +7,8 @@
       "B6:59:D3:08:1D:14:50:A7:9B:F6:CC:BF:01:A7:70:BA:0A:16:A1:16:17:FD:41:4F:2F:2E:C5:F0:8D:08:13:89"
     ]
   }
-}]
-[{
+},
+{
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target": {
     "namespace": "android_app",

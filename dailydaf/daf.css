@@ -1,6 +1,6 @@
 html {
   position: relative;
-    min-height: 100%;
+  min-height: 100%;
 }
 body {
   margin:0 0 160px;
@@ -12,17 +12,13 @@ body {
     bottom: 0;
     height: 160px;
     width: 100%;
-
 }
-
+iframe{
+  width: 100%;
+}
 .aleph{
   fill:white;
   width: 40px;
-
-}
-
-iframe{
-  width: 100%;
 }
 
 .night{
@@ -109,9 +105,11 @@ p.english, .textContent li, .nextPageContent li{
   text-align: center;
   padding:20px 10px 20px 5px;
 }
+
 .col label {
 display:none;
 }
+
 #prev svg {
     height: 22px;
     margin:0 5px 3px 2px;
@@ -122,22 +120,22 @@ display:none;
   z-index: 1020;
 }
 
-
 .modalrow{
   display: inline-block;
   margin-right: 20px;
 }
-  @media screen and (orientation:portrait){
-    .pageText, .textContent{
-      margin:0 1.5%;
-      font-size: 18px;
-      padding-left:0;
-    }
-    #date{
-      display:none;
-    }
-    .footer{
-      height:100px;
-    }
-    }
+
+@media screen and (orientation:portrait){
+  .pageText, .textContent{
+    margin:0 1.5%;
+    font-size: 18px;
+    padding-left:0;
+  }
+  #date{
+    display:none;
+  }
+  .footer{
+    height:100px;
+  }
+}
   

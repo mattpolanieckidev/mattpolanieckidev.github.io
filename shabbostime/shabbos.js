@@ -22,6 +22,12 @@ function changeColor() {
   body.style.backgroundColor = color;
   document.getElementById('colorlabel2').innerHTML = "Shabbos Times " + color;
   inputField.value = localStorage.getItem("zipcode")
+  if (inputField.value === ""){
+    console.log("empty")
+  }
+  else {
+    find();
+  }
 }
 
 

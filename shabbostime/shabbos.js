@@ -3,6 +3,8 @@ var inputField = document.getElementById("zip");
 document.getElementById("zip").maxLength = "5";
 var zip;
 var city;
+var colors = ['#6F1E51','#FFC312','#F79F1F','#EE5A24','#EA2027','#C4E538','#A3CB38','#009432','#006266','#12CBC4','#1289A7','#0652DD','#1B1464','#FDA7DF','#D980FA','#9980FA','#5758BB','#ED4C67','#B53471','#833471','#6F1E51'];
+var body = document.querySelector("body");
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('sw.js').then(function(registration) {
@@ -17,10 +19,9 @@ if ('serviceWorker' in navigator) {
 
 
 function changeColor() {
-  var body = document.querySelector("body");
-  var color= '#' + (Math.floor(Math.random() * 2 ** 24)).toString(16).padStart(0, 6)
-  body.style.backgroundColor = color;
-  document.getElementById('colorlabel2').innerHTML = "Shabbos Times " + color;
+  var i = colors[Math.floor(Math.random() * colors.length)]
+  body.style.backgroundColor = i;
+  document.getElementById('colorlabel2').innerHTML = "Shabbos Times " + i;
   inputField.value = localStorage.getItem("zipcode")
   if (inputField.value === ""){
     console.log("empty")

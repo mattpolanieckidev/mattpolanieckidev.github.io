@@ -6,36 +6,101 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="esther.css">
 </head>
-<body>
-    <nav class="navbar fixed-top navbar-collapse-lg navbar-dark" style="background-color: #2980b9;">
+<body id="body">
+    <nav class="navbar fixed-top navbar-collapse-lg navbar-dark" id="nav" style="background-color: #2980b9;">
         <a class="navbar-brand " href="index.html">Megillat Esther</a>
-        <a class="aleph" onclick="hide()"> <img src="aleph.png" height="24px"> </a>
-         <a class="aleph" style="color:white" href="estheremoji.html"> :) </a>
+        <a class="navbar-brand" id="pages"></a>
+        <a data-toggle="modal" data-target="#exampleModal" href="$"><svg class="aleph" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="106.56002807617188 116.95999908447266 332.2599792480469 242.70001220703125">
+          <rect x="100%" y="100%" class="st0"></rect>
+          <path d="M222.52,298.98h-18.62c-3.72-5.45-7.17-10.49-10.37-15.12c-3.2-4.62-6.28-9.11-9.25-13.46c-2.96-4.35-5.91-8.66-8.83-12.92
+		c-2.92-4.27-6.05-8.75-9.37-13.46s-6.9-9.74-10.73-15.12c-3.83-5.38-8.48-11.94-13.93-19.68c-3.72,3.16-6.7,6.3-8.95,9.43
+		c-2.25,3.12-4.01,6.36-5.28,9.72c-1.26,3.36-2.09,6.96-2.49,10.79c-0.4,3.83-0.59,8.08-0.59,12.75v47.07h-15.77V250.6
+		c0-5.93,0.45-11.2,1.36-15.83s2.37-8.95,4.39-12.98c2.02-4.03,4.58-7.9,7.71-11.62c3.12-3.72,7.13-7.55,12.03-11.5l-27.27-38.77
+		l12.92-7.47c3.95,5.38,7.57,10.3,10.85,14.76c3.28,4.47,6.58,8.99,9.9,13.58c3.32,4.58,6.52,9.03,9.6,13.34
+		c3.08,4.31,5.97,8.36,8.66,12.15c6.24,8.85,12.77,18.14,19.56,27.86c15.33-8.46,23-21.62,23-39.48v-41.38h15.89v37.82
+		c0,6.48-0.65,12.35-1.96,17.61s-3.24,10.04-5.81,14.35c-2.57,4.31-5.83,8.2-9.78,11.68c-3.95,3.48-8.5,6.84-13.64,10.08
+		L222.52,298.98z"></path>
+	<path d="M274.95,116.96v242.7h-16.26v-242.7H274.95z"></path>
+	<path d="M340.76,247.53l-16.99,51.45h-21.84l55.57-163.57h25.49l55.83,163.57h-22.57l-17.49-51.45H340.76z M394.39,231.02
+		l-16.01-47.08c-3.66-10.67-6.07-20.38-8.5-29.85h-0.49c-2.43,9.71-5.1,19.66-8.24,29.61l-16.03,47.32H394.39z"></path>
+</svg></a>
+        <a class="navbar-brand" id="date"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="index.html">Megillat Esther<span class="sr-only">(current)</span></a>
+                <a class="nav-link" id="pageTitle" href="index.html">Megillat Ester <span class="sr-only">(current)</span></a>
+                
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="../dailydaf">Daily Daf</a>
+                <a class="nav-link" href="../shabbostime/">Shabbos Times</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="../shabbostime">Shabbos Times</a>
+                <a class="nav-link" href="../tehillim/">Tehillim</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../dailydaf/">Daily Daf</a>
+            </li>
+          
         </div>
     </nav>
-<div class="content">
-    <ul id="enText"></ul>
-</div>
-<div class="button">
-    <button id="next" onclick="nextPage()" class="btn btn-primary">
-        Next
-    </button>
-</div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" id="modal">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Options</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="custom-control custom-switch modalrow" >
+              <input type="checkbox" class="custom-control-input" id="switch1" name="dark" onclick="night()">
+              <label class="custom-control-label" for="switch1">Night Mode</label>
+            </div>
+            <div class="custom-control custom-switch modalrow">
+              <input type="checkbox" class="custom-control-input" id="switch2" name="translation" onclick="hide()">
+              <label class="custom-control-label" for="switch2">Translations</label>
+            </div>
+            <div>
+            Text Size
+            <input type="range" min="1" max="3" value="2" step="1" id="fontSize" class="form-control-range" oninput="adjustFont(this.value)"><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="finder">
+        <div class="form-row">
+          <div>
+            <button id="prev" class="btn btn-primary" onclick="prevPage()"> 
+              Previous
+          </button>
+          </div>
+          <div class="col">
+            <input type="text" id ="masechta" class="form-control" placeholder="Masechta Select"> 
+            <label for="masechta">Masechta</label>
+          </div>
+          <div class="col">
+            <input type="number" id="pageSelect" class="form-control" placeholder="Page Select">
+            <label for="pageSelect">Page Select</label>
+          </div>
+          <div>
+            <button class="btn btn-primary" id="submit" onclick="getPage()"> Submit</button>
+          </div>
+        </div>
+    </div>
+
+    <div class="content" id="content">
+    </div>
+    <div class="button">
+        <button id="next" onclick="nextPage()" class="btn btn-primary">
+            Next
+        </button>
+    </div>
 <script type="text/javascript" src="esther.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

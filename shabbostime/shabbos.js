@@ -5,6 +5,7 @@ var zip;
 var city;
 var colors = ['#6F1E51','#FFC312','#F79F1F','#EE5A24','#EA2027','#C4E538','#A3CB38','#009432','#006266','#12CBC4','#1289A7','#0652DD','#1B1464','#FDA7DF','#D980FA','#9980FA','#5758BB','#ED4C67','#B53471','#833471','#6F1E51'];
 var body = document.querySelector("body");
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('sw.js').then(function(registration) {
@@ -16,7 +17,6 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
-
 
 function changeColor() {
   var i = colors[Math.floor(Math.random() * colors.length)]
@@ -30,8 +30,6 @@ function changeColor() {
     find();
   }
 }
-
-
 
 function find(){
    input = document.getElementById("zip").value;

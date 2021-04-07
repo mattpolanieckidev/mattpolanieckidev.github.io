@@ -1,23 +1,7 @@
-var date;
-var next;
-var prev;
-var enPasuk;
-var hePasuk;
-var amudCount;
-var section;
-var currentAmud;
-var masechtaProgress;
-var masechtaSearch = document.getElementById("masechta");
+var date, next, prev, enPasuk, hePasuk, amudCount, section, currentAmud, masechtaProgress, masechtaSearch = document.getElementById("masechta");
 var pageTitle = document.getElementById("pageTitle");
 var textdiv = document.getElementById("content");
-var div;
-var heading;
-var ul;
-var pasuk;
-var newHeading;
-var versionNum;
-var versionDate;
-var links;
+var div, heading, ul, pasuk, newHeading, links;
 var slider = document.getElementById("fontSize");
 var fontSize = slider.value;
 var textContent = document.getElementsByClassName("pageText");
@@ -48,7 +32,6 @@ else {
   localStorage.setItem("night", "light");
 }
 
-
 //create and append Div, Heading, and Unordered List
 function createDiv(){
   div = document.createElement("div");
@@ -61,8 +44,6 @@ function createDiv(){
   ul.classList.add("pageText");
   div.appendChild(ul);
 }
-
-
 
 //Loop through available pasukim and append to unordered list. Check to see if the translation should be shown or not.
 function writePasuk(){

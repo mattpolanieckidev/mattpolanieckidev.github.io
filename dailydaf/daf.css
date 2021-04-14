@@ -26,13 +26,17 @@ iframe{
   background: #121212;
 }
 
+.content{
+  display: flex;
+  justify-content: center;
+}
 .textContent{
   font-size: 2em;
   text-align:right;
   width: clamp(45ch, 50%, 75ch);
-  margin: 0 25%;
   padding-top: 45px;
 }
+
 
 .english{
   margin-bottom:0;

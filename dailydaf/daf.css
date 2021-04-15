@@ -20,6 +20,7 @@ body {
 .content{
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
 }
 
@@ -28,8 +29,6 @@ body {
   text-align:right;
   width: clamp(45ch, 50%, 75ch);
   padding-top: 45px;
-  margin-left: 25%;
-
 }
 
 .english{

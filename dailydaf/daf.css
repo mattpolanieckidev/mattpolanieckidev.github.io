@@ -2,16 +2,7 @@ body {
   margin:0 0 160px;
   font-size:18px;
 }
-.footer {
-  position: fixed;
-    left: 0;
-    bottom: 0;
-    height: 160px;
-    width: 100%;
-}
-iframe{
-  width: 100%;
-}
+
 .aleph{
   fill:white;
   width: 40px;
@@ -29,14 +20,17 @@ iframe{
 .content{
   display: flex;
   justify-content: center;
+  flex-direction: column;
 }
+
 .textContent{
   font-size: 2em;
   text-align:right;
   width: clamp(45ch, 50%, 75ch);
   padding-top: 45px;
-}
+  margin-left: 25%;
 
+}
 
 .english{
   margin-bottom:0;

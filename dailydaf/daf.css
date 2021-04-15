@@ -73,6 +73,12 @@ p.english, .textContent li, .nextPageContent li{
   margin:75px 20px 0;
 }
 
+.form-row{
+  display:flex;
+  flex-direction: row;
+
+}
+
 .finder .btn{
   outline: none;
   border:none;

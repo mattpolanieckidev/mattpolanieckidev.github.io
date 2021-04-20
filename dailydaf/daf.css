@@ -1,6 +1,6 @@
 body {
   margin:0 0 160px;
-  font-size:18px;
+
 }
 
 .aleph{
@@ -131,9 +131,10 @@ display:none;
 
 @media screen and (orientation:portrait){
   .pageText, .textContent{
-    margin:0 1.5%;
+    margin:0 2.5%;
     font-size: 18px;
     padding-left:0;
+    width:fit-content;
   }
   #date{
     display:none;

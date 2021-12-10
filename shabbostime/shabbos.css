@@ -1,6 +1,6 @@
 body{
 	top:0;
-	margin:4px 1.5%;
+	margin:4px 7.5%;
 	$font-family-sans-serif:
   // Safari for OS X and iOS (San Francisco)
   -apple-system,
@@ -22,8 +22,8 @@ body{
 	grid-template-areas: "header header"
 						"candles parsha"
 						"candles havdala";
-	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 210px 240px 200px;
+	grid-template-columns:1fr 1fr;
+	justify-content: space-evenly;
 }
 .header{
 	grid-area: header;
@@ -57,7 +57,7 @@ h3{
 	display: flex;
     align-content: center;
     place-content: center;
-    margin: 20px;
+    margin: 20px 0 40px 0;
 }
 
 .finder button{
@@ -90,8 +90,13 @@ hr{
 	border:none;
 }
 
-@media only screen and (orientation : portrait) 
-{
+@media only screen 
+   and (min-width : 1200px) {
+   body{
+	margin:4px 3.5%;
+   }
+}
+@media only screen and (orientation : portrait) {
 	body{
 		margin:0;
 	}
@@ -100,7 +105,7 @@ hr{
 							"candles"
 							"parsha"
 							"havdala";
-		grid-template-rows: 190px auto auto;
+		grid-template-rows: 170px auto auto auto;
 		grid-template-columns: 1fr;
 	}
 	.header{
@@ -108,8 +113,7 @@ hr{
 	}
 	.parsha, #candleLighting, #parsha, #havdala {
 		font-size: 40px;
-		padding:10px 0 10px;
-		margin:5px;
+		margin: 0 5px;
 	}
 
 	.parsha p{

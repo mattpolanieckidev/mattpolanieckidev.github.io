@@ -224,7 +224,7 @@ var difference_in_time = today.getTime() -  date1.getTime();
 var Difference_In_Days = difference_in_time / (1000 * 3600 * 24);
 var progressNum = ((Difference_In_Days *100) / 2710).toFixed(2);
 var progress = document.getElementById("progress");
-progress.style.width = (progressNum * 2) +"%";
+progress.style.width = (progressNum) +"%";
 progress.innerHTML = "Siyum HaShas "+ progressNum +"%";
 
 //find a daf

@@ -24,6 +24,9 @@ body {
   flex-direction: column;
 }
 
+.custom-control{
+  margin-bottom: 10px;
+}
 .textContent{
   font-size: 2em;
   text-align:right;
@@ -70,12 +73,12 @@ p.english, .textContent li, .nextPageContent li{
 }
 
 .finder{
-  margin:75px 20px 0;
+  margin:75px 400px 0;
 }
 
 .form-row{
   display:flex;
-  flex-direction: row;
+  flex-direction: column;
 
 }
 
@@ -101,8 +104,7 @@ p.english, .textContent li, .nextPageContent li{
 }
 .col input{
   border-radius: 25px;
-  margin-bottom: 30px;
-  border-radius: 25px;
+  margin-bottom: 10px;
   outline:none;
   background: none;
   font-size: 18px;
@@ -141,6 +143,10 @@ display:none;
   }
   .footer{
     height:100px;
+  }
+
+  .finder{
+    margin:75px 20px 0;
   }
 }
   

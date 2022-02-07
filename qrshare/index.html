@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>QR Share</title>
 </head>
 <style>
     .main{ 
@@ -12,7 +12,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        height:50vh;
+      
         font-family: sans-serif;
     }
     
@@ -24,6 +24,9 @@
         padding:15px;
     }
     
+    img{
+        width: 20%;
+    }
     
     button{
         background-color: white;
@@ -31,14 +34,20 @@
         padding: 20px 40px;
         border-radius: 14px;
         border: 1px navy solid;
+        margin-top: 20px;
     }
     #share{
         background-color: #34568B;
         color:white;
+       
     }
     #share:hover{
         
         opacity: .9;
+    }
+
+    .hide{
+        display: none;
     }
   
 </style>
@@ -48,32 +57,38 @@
         <input id="input" placeholder="Enter Text">
         <button onclick="generate()">Generate QR</button>
         <img id="qr" src="">
-        <button id ="share" onclick="onShare()">Share</button>
+        <button id ="share" class="hide" onclick="onShare()">Share</button>
     </div>
-
-    
 </body>
+
 <script>
     var input = document.getElementById("input")
     qrIMG = document.getElementById("qr")
     var imgSRC;
+    var data;
+    var sharebtn = document.getElementById("share");
     function generate() {
-        let data = input.value;
+        data = input.value;
         if (input.value <= 0){
             console.log("nope")
             qrIMG.src = "";
+            
         }
         else {
             imgSRC = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + data;
             qrIMG.src = imgSRC;
+            sharebtn.classList.toggle("hide")
         }
     }  
 
     const shareData = {
     title: 'QRCODE',
-    text: 'Learn web development on MDN!',
-    url: '"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + data'
+    url: "https://mattpolanieckidev.github.io/qrshare/index.html"
   }
+  function onShare(){
+    navigator.share(shareData)
+}
+
 
  /*
   const capture = async () => {
@@ -95,9 +110,6 @@
 
 capture();
 
-function onShare(){
-    navigator.share(shareData)
-}
 
    async function onShare() {
     

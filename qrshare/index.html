@@ -7,16 +7,28 @@
     <title>QR Share</title>
 </head>
 <style>
+    body{
+        top:0;
+        margin:0;
+        font-family: sans-serif;
+    }
+    .header{
+        background-color: #007467 ;
+        display: flex;
+        flex-direction: row;
+        color:white;
+        justify-content: center;
+    }
     .main{ 
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
       
-        font-family: sans-serif;
+        
     }
     
-    h2, input, button{
+ input, button{
         margin:1%;
     }
 
@@ -50,10 +62,14 @@
         display: none;
     }
   
+    @media screen and (orientation:portrait){
+        img{width: 50%; margin: 20px 0;}
+    }
 </style>
 <body>
-    <div class="main">
-        <h2>QR Generator</h2>
+  
+        <div class="header"><h2>QR Generator</h2></div>
+        <div class="main">
         <input id="input" placeholder="Enter Text">
         <button onclick="generate()">Generate QR</button>
         <img id="qr" src="">

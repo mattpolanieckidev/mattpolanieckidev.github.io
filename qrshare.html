@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .main{ 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height:100vh;
+        font-family: sans-serif;
+    }
+    
+    h2, input, button{
+        margin:1%;
+    }
+
+    input{
+        padding:15px;
+    }
+    
+    
+    button{
+        background-color: white;
+        color:black;
+        padding: 1% 2%;
+        border-radius: 14px;
+        border: 1px navy solid;
+    }
+    #share{
+        background-color: #34568B;
+        color:white;
+    }
+    #share:hover{
+        
+        opacity: .9;
+    }
+  
+</style>
+<body>
+    <div class="main">
+        <h2>QR Generator</h2>
+        <input id="input" placeholder="Enter Text">
+        <button onclick="generate()">Generate QR</button>
+        <img id="qr" src="">
+        <button id ="share" onclick="onShare()">Share</button>
+    </div>
+
+    
+</body>
+<script>
+    var input = document.getElementById("input")
+    qrIMG = document.getElementById("qr")
+    var imgSRC;
+    function generate() {
+        let data = input.value;
+        if (input.value <= 0){
+            console.log("nope")
+            qrIMG.src = "";
+        }
+        else {
+            imgSRC = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + data;
+            qrIMG.src = imgSRC;
+        }
+    }  
+
+    const shareData = {
+    title: 'QRCODE',
+    text: 'Learn web development on MDN!',
+    url: '"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + data'
+  }
+
+
+  const capture = async () => {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  const video = document.createElement("video");
+
+  try {
+    const captureStream = await navigator.mediaDevices.getDisplayMedia();
+    video.srcObject = captureStream;
+    context.drawImage(video, 0, 0, window.width, window.height);
+    const frame = canvas.toDataURL("image/png");
+    captureStream.getTracks().forEach(track => track.stop());
+    window.location.href = frame;
+  } catch (err) {
+    console.error("Error: " + err);
+  }
+};
+
+capture();
+
+function onShare(){
+    navigator.share(shareData)
+}
+
+    /*async function onShare() {
+    
+  const response = await fetch('nacho.jpg');
+  const blob = await response.blob();
+  const filesArray: File[] = [new File([blob], 'meme.jpg', { type: "image/jpeg", lastModified: new Date().getTime() })];
+  const shareData = {
+    files: filesArray,
+  };
+  navigator.share(shareData as any).then(() => {
+    console.log('Shared successfully');
+  })
+}
+*/
+</script>
+</html>

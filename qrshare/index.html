@@ -24,14 +24,14 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-      
+        
         
     }
     
- input, button{
+    input, button{
         margin:1%;
     }
-
+    
     input{
         padding:15px;
     }
@@ -51,29 +51,30 @@
     #share{
         background-color: #34568B;
         color:white;
-       
+        
     }
     #share:hover{
         
         opacity: .9;
     }
-
+    
     .hide{
         display: none;
     }
-  
+    
     @media screen and (orientation:portrait){
         img{width: 50%; margin: 20px 0;}
     }
 </style>
 <body>
-  
-        <div class="header"><h2>QR Generator</h2></div>
-        <div class="main">
+    
+    <div class="header"><h2>QR Generator</h2></div>
+    <div class="main">
         <input id="input" placeholder="Enter Text">
         <button onclick="generate()">Generate QR</button>
         <img id="qr" src="">
         <button id ="share" class="hide" onclick="onShare()">Share</button>
+        <canvas id="canvas"></canvas>
     </div>
 </body>
 
@@ -97,48 +98,68 @@
         }
     }  
 
-    const shareData = {
-    title: 'QRCODE',
-    url: "https://mattpolanieckidev.github.io/qrshare/index.html"
-  }
-  function onShare(){
-    navigator.share(shareData)
-}
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const image = qr;
 
-
- /*
-  const capture = async () => {
-  const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
-  const video = document.createElement("video");
-
-  try {
-    const captureStream = await navigator.mediaDevices.getDisplayMedia();
-    video.srcObject = captureStream;
-    context.drawImage(video, 0, 0, window.width, window.height);
-    const frame = canvas.toDataURL("image/png");
-    captureStream.getTracks().forEach(track => track.stop());
-    window.location.href = frame;
-  } catch (err) {
-    console.error("Error: " + err);
-  }
+function draw() {
+  ctx.drawImage(image, 31, 31);
 };
-
-capture();
-
-
-   async function onShare() {
     
-  const response = await fetch('nacho.jpg');
-  const blob = await response.blob();
-  const filesArray: File[] = [new File([blob], 'meme.jpg', { type: "image/jpeg", lastModified: new Date().getTime() })];
+async function shareCanvas() {
+  const canvasElement = document.getElementById('canvas');
+  const dataUrl = canvasElement.toDataURL();
+  const blob = await (await fetch(dataUrl)).blob();
+  const filesArray = [
+    new File(
+      [blob],
+      'animation.png',
+      {
+        type: blob.type,
+        lastModified: new Date().getTime()
+      }
+    )
+  ];
   const shareData = {
     files: filesArray,
   };
-  navigator.share(shareData as any).then(() => {
-    console.log('Shared successfully');
-  })
+  navigator.share(shareData);
 }
-*/
+
+    
+    /*
+    const capture = async () => {
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        const video = document.createElement("video");
+        
+        try {
+            const captureStream = await navigator.mediaDevices.getDisplayMedia();
+            video.srcObject = captureStream;
+            context.drawImage(video, 0, 0, window.width, window.height);
+            const frame = canvas.toDataURL("image/png");
+            captureStream.getTracks().forEach(track => track.stop());
+            window.location.href = frame;
+        } catch (err) {
+            console.error("Error: " + err);
+        }
+    };
+    
+    capture();
+    
+    
+    async function onShare() {
+        
+        const response = await fetch('nacho.jpg');
+        const blob = await response.blob();
+        const filesArray: File[] = [new File([blob], 'meme.jpg', { type: "image/jpeg", lastModified: new Date().getTime() })];
+        const shareData = {
+            files: filesArray,
+        };
+        navigator.share(shareData as any).then(() => {
+            console.log('Shared successfully');
+        })
+    }
+    */
 </script>
 </html>

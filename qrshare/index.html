@@ -4,71 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>QR Share</title>
+    <script type="module" src="Pokemon.js"></script>
+<script type="module" src="script.js"></script>
 </head>
 <style>
-    body{
-        top:0;
-        margin:0;
-        font-family: sans-serif;
-    }
-    .header{
-        background-color: #007467 ;
-        display: flex;
-        flex-direction: row;
-        color:white;
-        justify-content: center;
-    }
-    .main{ 
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        
-        
-    }
-    
-    input, button{
-        margin:1%;
-    }
-    
-    input{
-        padding:15px;
-    }
-    
-    img{
-        width: 20%;
-    }
-    
-    button{
-        background-color: white;
-        color:black;
-        padding: 20px 40px;
-        border-radius: 14px;
-        border: 1px navy solid;
-        margin-top: 20px;
-    }
-    #share{
-        background-color: #34568B;
-        color:white;
-        
-    }
-    #share:hover{
-        
-        opacity: .9;
-    }
-    
-    .hide{
-        display: none;
-    }
-    
-    @media screen and (orientation:portrait){
-        img{width: 50%; margin: 20px 0;}
-    }
+
 </style>
 <body>
     
-    <div class="header"><h2>QR Generator</h2></div>
+    <div class="header"><h2>QR Generator</h2><a>v1.14</a></div>
     <div class="main">
         <input id="input" placeholder="Enter Text">
         <button onclick="generate()">Generate QR</button>
@@ -78,88 +24,4 @@
     </div>
 </body>
 
-<script>
-    var input = document.getElementById("input")
-    qrIMG = document.getElementById("qr")
-    var imgSRC;
-    var data;
-    var sharebtn = document.getElementById("share");
-    function generate() {
-        data = input.value;
-        if (input.value <= 0){
-            console.log("nope")
-            qrIMG.src = "";
-            
-        }
-        else {
-            imgSRC = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + data;
-            qrIMG.src = imgSRC;
-            sharebtn.classList.toggle("hide")
-        }
-    }  
-
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-const image = qr;
-
-function draw() {
-  ctx.drawImage(image, 31, 31);
-};
-    
-async function shareCanvas() {
-  const canvasElement = document.getElementById('canvas');
-  const dataUrl = canvasElement.toDataURL();
-  const blob = await (await fetch(dataUrl)).blob();
-  const filesArray = [
-    new File(
-      [blob],
-      'animation.png',
-      {
-        type: blob.type,
-        lastModified: new Date().getTime()
-      }
-    )
-  ];
-  const shareData = {
-    files: filesArray,
-  };
-  navigator.share(shareData);
-}
-
-    
-    /*
-    const capture = async () => {
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
-        const video = document.createElement("video");
-        
-        try {
-            const captureStream = await navigator.mediaDevices.getDisplayMedia();
-            video.srcObject = captureStream;
-            context.drawImage(video, 0, 0, window.width, window.height);
-            const frame = canvas.toDataURL("image/png");
-            captureStream.getTracks().forEach(track => track.stop());
-            window.location.href = frame;
-        } catch (err) {
-            console.error("Error: " + err);
-        }
-    };
-    
-    capture();
-    
-    
-    async function onShare() {
-        
-        const response = await fetch('nacho.jpg');
-        const blob = await response.blob();
-        const filesArray: File[] = [new File([blob], 'meme.jpg', { type: "image/jpeg", lastModified: new Date().getTime() })];
-        const shareData = {
-            files: filesArray,
-        };
-        navigator.share(shareData as any).then(() => {
-            console.log('Shared successfully');
-        })
-    }
-    */
-</script>
 </html>

@@ -1,0 +1,56 @@
+body{
+    top:0;
+    margin:0;
+    font-family: sans-serif;
+}
+.header{
+    background-color: #007467 ;
+    display: flex;
+    flex-direction: row;
+    color:white;
+    justify-content: center;
+}
+.main{ 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    
+}
+
+input, button{
+    margin:1%;
+}
+
+input{
+    padding:15px;
+}
+
+img{
+    width: 20%;
+}
+
+button{
+    background-color: white;
+    color:black;
+    padding: 20px 40px;
+    border-radius: 14px;
+    border: 1px navy solid;
+    margin-top: 20px;
+}
+#share{
+    background-color: #34568B;
+    color:white;
+    
+}
+#share:hover{
+    
+    opacity: .9;
+}
+
+
+
+@media screen and (orientation:portrait){
+    img{width: 50%; margin: 20px 0;}
+}

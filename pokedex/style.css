@@ -10,6 +10,7 @@ body {
   background-color: cornflowerblue;
   color: white;
   justify-content: center;
+  width: 100%;
 }
 
 /* On mouse-over, add a deeper shadow */
@@ -35,4 +36,10 @@ body {
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media screen and (orientation: portrait) {
+  .card {
+    font-size: 11px;
+  }
 }

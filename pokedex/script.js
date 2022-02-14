@@ -103,5 +103,3 @@ document.body.innerHTML = content;
 
 console.log(bulbasaur, ivysaur, venasaur, squirtle, wartortle);
 
-
-

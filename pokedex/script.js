@@ -54,50 +54,6 @@ const content = `
 </div>
 <div class="card">
 
-  <div class="container">
-    <h4><b>Name:${bulbasaur.name}</b></h4>
-    <p>Type: ${bulbasaur.type}</p>
-    <p>Catch Status:${bulbasaur.caught}</p>
-    <p>Number:${bulbasaur.number}</p>
-  </div>
-</div>
-<div class="card">
-
-  <div class="container">
-    <h4><b>Name:${bulbasaur.name}</b></h4>
-    <p>Type: ${bulbasaur.type}</p>
-    <p>Catch Status:${bulbasaur.caught}</p>
-    <p>Number:${bulbasaur.number}</p>
-  </div>
-</div>
-<div class="card">
-
-  <div class="container">
-    <h4><b>Name:${bulbasaur.name}</b></h4>
-    <p>Type: ${bulbasaur.type}</p>
-    <p>Catch Status:${bulbasaur.caught}</p>
-    <p>Number:${bulbasaur.number}</p>
-  </div>
-</div>
-<div class="card">
-
-  <div class="container">
-    <h4><b>Name:${bulbasaur.name}</b></h4>
-    <p>Type: ${bulbasaur.type}</p>
-    <p>Catch Status:${bulbasaur.caught}</p>
-    <p>Number:${bulbasaur.number}</p>
-  </div>
-</div>
-<div class="card">
-
-  <div class="container">
-    <h4><b>Name:${bulbasaur.name}</b></h4>
-    <p>Type: ${bulbasaur.type}</p>
-    <p>Catch Status:${bulbasaur.caught}</p>
-    <p>Number:${bulbasaur.number}</p>
-  </div>
-</div>
-</div>
 `
 document.body.innerHTML = content;
 

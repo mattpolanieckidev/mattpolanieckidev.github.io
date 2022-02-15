@@ -12,6 +12,9 @@ body {
   text-align: center  ;
 }
 
+.nightcolor{
+  color:white;
+}
 .night{
   color:white;
   background: #121212;
@@ -31,7 +34,7 @@ body {
   font-size: 2em;
   text-align:right;
   width: clamp(45ch, 50%, 75ch);
-  padding-top: 45px;
+  padding-top: 15px;
 }
 
 .english{
@@ -117,6 +120,12 @@ display:none;
 }
 
 #prev svg {
+    height: 22px;
+    margin:0 5px 3px 2px;
+    fill:white;
+  }
+  
+#next svg {
     height: 22px;
     margin:0 5px 3px 2px;
     fill:white;

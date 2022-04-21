@@ -1,0 +1,79 @@
+var omer =[
+	{english:'Today is One Day of the Omer',
+    hebrew:'הַיּוֹם שְׁנֵי יָמִים לָעֹמֶר'},
+	{english:'Today is Two Days of the Omer',
+	hebrew:'הַיּוֹם שְׁנֵי יָמִים לָעֹמֶר'},
+    {english:'Today is Three Days of the Omer',
+    hebrew:'הַיּוֹם שְׁלֹשָׁה יָמִים לָעֹמֶ'},
+    {english:'Today is Four Days of the Omer',
+    hebrew:'הַיּוֹם אַרְבָּעָה יָמִים לָעֹמֶר'},
+    {english:'Today is Five Days of the Omer',
+    hebrew:'הַיּוֹם חֲמִשָּׁה יָמִים לָעֹמֶר'},
+    {english:'Today is Six Days of the Omer',
+    hebrew:'הַיּוֹם שִׁשָּׁה יָמִים לָעֹמֶר'},
+    {english:'Today is Seven Days, which are One Week of the Omer',
+    hebrew:'הַיּוֹם שִׁבְעָה יָמִים, שֶׁהֵם שָׁבוּעַ אֶחָד לָעֹמֶר'},
+    {english:'Today is Eight Days, which are One Week and One Day of the Omer',
+    hebrew:'הַיּוֹם שְׁמוֹנָה יָמִים, שֶׁהֵם שָׁבוּעַ אֶחָד וְיוֹם אֶחָד לָעֹמֶר'},  
+    {english:'Today is Nine Days, which are One Week and Two Days of the Omer',
+    hebrew:'הַיּוֹם תִּשְׁעָה יָמִים, שֶׁהֵם שָׁבוּעַ אֶחָד וּשְׁנֵי יָמִים לָעֹמֶר'},
+    {english:'Today is Ten Days, which are One Week and Three Days of the Omer',
+    hebrew:'הַיּוֹם עֲשָׂרָה יָמִים, שֶׁהֵם שָׁבוּעַ אֶחָד וּשְׁלֹשָׁה יָמִים לָעֹמֶר'},
+    {english:'Today is Eleven Days, which are One Week and Four Days of the Omer'},
+    {english:'Today is Twelve Days, which are One Week and Five Days of the Omer'},
+    {english:'Today is Thirteen Days, which are One Week and Six Days of the Omer'},
+    {english:'Today is Fourteen Days, which are Two Weeks of the Omer'},
+    {english:'Today is Fifteen Days, which are Two Weeks and One Day of the Omer'},
+    {english:'Today is Sixteen Days, which are Two Weeks and Two Days of the Omer'},
+    {english:'Today is Seventeen Days, which are Two Weeks and Three Days of the Omer'},
+    {english:'Today is Eighteen Days, which are Two Weeks and Four Days of the Omer'},
+    {english:'Today is Nineteen Days, which are Two Weeks and Five Days of the Omer'},
+    {english:'Today is Twenty Days, which are Two Weeks and Six Days of the Omer'},
+    {english:'Today is Twenty-One Days, which are Three Weeks of the Omer'},
+    {english:'Today is Twenty-Two Days, which are Three Weeks and One Day of the Omer'},
+    {english:'Today is Twenty-Three Days, which are Three Weeks and Two Days of the Omer'},
+    {english:'Today is Twenty-Four Days, which are Three Weeks and Three Days of the Omer'},
+    {english:'Today is Twenty-Five Days, which are Three Weeks and Four Days of the Omer'},
+    {english:'Today is Twenty-Six Days, which are Three Weeks and Five Days of the Omer'},
+    {english:'Today is Twenty-Seven Days, which are Three Weeks and Six Days of the Omer'},
+    {english:'Today is Twenty-Eight Days, which are Four Weeks of the Omer'},
+    {english:'Today is Twenty-Nine Days, which are Four Weeks and One Day of the Omer'},
+    {english:'Today is Thirty Days, which are Four Weeks and Two Days of the Omer'},
+    {english:'Today is Thirty-One Days, which are Four Weeks and Three Days of the Omer'},
+    {english:'Today is Thirty-Two Days, which are Four Weeks and Four Days of the Omer'},
+    {english:'Today is Thirty-Three Days, which are Four Weeks and Five Days of the Omer'},
+    {english:'Today is Thirty-Four Days, which are Four Weeks and Six Days of the Omer'},
+    {english:'Today is Thirty-Five Days, which are Five Weeks of the Omer'},
+    {english:'Today is Thirty-Six Days, which are Five Weeks and One Day of the Omer'},
+    {english:'Today is Thirty-Seven Days, which are Five Weeks and Two Days of the Omer'},
+    {english:'Today is Thirty-Eight Days, which are Five Weeks and Three Days of the Omer'},
+    {english:'Today is Thirty-Nine Days, which are Five Weeks and Four Days of the Omer'},
+    {english:'Today is Forty Days, which are Five Weeks and Five Days of the Omer'},
+    {english:'Today is Forty-One Days, which are Five Weeks and Six Days of the Omer'},
+    {english:'Today is Forty-Two Days, which are Six Weeks of the Omer'},
+    {english:'Today is Forty-Three Days, which are Six Weeks and One Day of the Omer'},
+    {english:'Today is Forty-Four Days, which are Six Weeks and Two Days of the Omer'},
+    {english:'Today is Forty-Five Days, which are Six Weeks and Three Days of the Omer'},
+    {english:'Today is Forty-Six Days, which are Six Weeks and Four Days of the Omer'},
+    {english:'Today is Forty-Seven Days, which are Six Weeks and Five Days of the Omer'},
+    {english:'Today is Forty-Eight Days, which are Six Weeks and Six Days of the Omer'},
+    {english:'Today is Forty-Nine Days, which are Seven Weeks of the Omer'},
+
+	];
+	
+
+	var start = new Date(2022,3,17);
+	var d=new Date(Date.now());
+	var interval=d.getTime()-start.getTime();
+	var days=Math.round(interval/24/60/60/1000);
+	var colors = ['#6F1E51','#FFC312','#F79F1F','#EE5A24','#EA2027','#C4E538','#A3CB38','#009432','#006266','#12CBC4','#1289A7','#0652DD','#1B1464','#FDA7DF','#D980FA','#9980FA','#5758BB','#ED4C67','#B53471','#833471','#6F1E51'];
+	var body = document.getElementById("wrapper");
+    var nav = document.getElementById("colorlabel2")
+	document.getElementById('english').textContent = omer[days].english;
+	document.getElementById('hebrew').textContent = omer[days].hebrew;
+	function changeColor() {
+  var i = colors[Math.floor(Math.random() * colors.length)]
+  body.style.backgroundColor = i;
+  nav.style.backgroundColor = i;
+  document.getElementById('colorlabel2').innerHTML = "Sefirat HaOmer " + i;
+}

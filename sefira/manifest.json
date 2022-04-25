@@ -2,8 +2,9 @@
     "theme_color": "#1289A7",
     "background_color": "#1289A7",
     "display": "fullscreen",
-    "scope": "/",
-    "start_url": "/",
+    "orientation": "portrait",
+    "scope": "https://mattpolanieckidev.github.io/sefira/",
+    "start_url": "https://mattpolanieckidev.github.io/sefira/",
     "name": "Sefirat Haomer",
     "short_name": "SefiratHaomer",
     "icons": [

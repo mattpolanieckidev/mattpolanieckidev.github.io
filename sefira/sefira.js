@@ -1,5 +1,4 @@
-
-    var omer=[
+var omer=[
 {hebrew:'הַיּוֹם שְׁנֵי יָמִים לָעֹמֶר',english:'Today is One Day of the Omer'},
 {hebrew:'הַיּוֹם שְׁנֵי יָמִים לָעֹמֶר',english:'Today is Two Days of the Omer'},
 {hebrew:'הַיּוֹם שְׁלֹשָׁה יָמִים לָעֹמֶר',english:'Today is Three Days of the Omer'},
@@ -49,19 +48,19 @@
 {hebrew:'הַיּוֹם שִׁבְעָה וְאַרְבָּעִים יוֹם, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וַחֲמִשָּׁה יָמִים לָעֹמֶר',english:'Today is Forty-Seven Days, which are Six Weeks and Five Days of the Omer'},
 {hebrew:'הַיּוֹם שְׁמוֹנָה וְאַרְבָּעִים יוֹם, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וְשִׁשָּׁה יָמִים לָעֹמֶר',english:'Today is Forty-Eight Days, which are Six Weeks and Six Days of the Omer'},
 {hebrew:'הַיּוֹם תִּשְׁעָה וְאַרְבָּעִים יוֹם, שֶׁהֵם שִׁבְעָה שָׁבוּעוֹת לָעֹמֶר',english:'Today is Forty-Nine Days, which are Seven Weeks of the Omer'},
+]
 
-    ]
+var start = new Date(2022,3,16);
+var d=new Date(Date.now());
+var interval=d.getTime()-start.getTime();
+var days=Math.round(interval/24/60/60/1000);
+var colors = ['#6F1E51','#FFC312','#F79F1F','#EE5A24','#EA2027','#C4E538','#A3CB38','#009432','#006266','#12CBC4','#1289A7','#0652DD','#1B1464','#FDA7DF','#D980FA','#9980FA','#5758BB','#ED4C67','#B53471','#833471','#6F1E51'];
+var body = document.querySelector("body");
+var nav = document.getElementById("colorlabel2")
+document.getElementById('english').textContent = omer[days].english;
+document.getElementById('hebrew').textContent = omer[days].hebrew;
 
-	var start = new Date(2022,3,16);
-	var d=new Date(Date.now());
-	var interval=d.getTime()-start.getTime();
-	var days=Math.round(interval/24/60/60/1000);
-	var colors = ['#6F1E51','#FFC312','#F79F1F','#EE5A24','#EA2027','#C4E538','#A3CB38','#009432','#006266','#12CBC4','#1289A7','#0652DD','#1B1464','#FDA7DF','#D980FA','#9980FA','#5758BB','#ED4C67','#B53471','#833471','#6F1E51'];
-	var body = document.querySelector("body");
-    var nav = document.getElementById("colorlabel2")
-	document.getElementById('english').textContent = omer[days].english;
-	document.getElementById('hebrew').textContent = omer[days].hebrew;
-	function changeColor() {
+function changeColor() {
   var i = colors[Math.floor(Math.random() * colors.length)]
   body.style.backgroundColor = i;
   nav.style.backgroundColor = i;

@@ -1,3 +1,15 @@
+if ("serviceWorker" in navigator) {
+	window.addEventListener("load", function() {
+	  navigator.serviceWorker.register("sw.js").then(function(registration) {
+		// Registration was successful
+		console.log("ServiceWorker registration successful with scope: ", registration.scope);
+	  }, function(err) {
+		// registration failed :(
+		console.log("ServiceWorker registration failed: ", err);
+	  });
+	});
+  }
+  
 var omer=[
 {hebrew:'הַיּוֹם שְׁנֵי יָמִים לָעֹמֶר',english:'Today is One Day of the Omer'},
 {hebrew:'הַיּוֹם שְׁנֵי יָמִים לָעֹמֶר',english:'Today is Two Days of the Omer'},

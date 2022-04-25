@@ -4,7 +4,8 @@ self.addEventListener('install', function(event) {
     var urlsToCache = [
        '/',
       'index.html',
-      'daf.css'
+      'daf.css',
+      'daf.js'
     ];
     
     self.addEventListener('install', function(event) {

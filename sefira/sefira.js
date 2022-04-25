@@ -1,5 +1,6 @@
 
     var omer=[
+{hebrew:'הַיּוֹם שְׁנֵי יָמִים לָעֹמֶר',english:'Today is One Day of the Omer'},
 {hebrew:'הַיּוֹם שְׁנֵי יָמִים לָעֹמֶר',english:'Today is Two Days of the Omer'},
 {hebrew:'הַיּוֹם שְׁלֹשָׁה יָמִים לָעֹמֶר',english:'Today is Three Days of the Omer'},
 {hebrew:'הַיּוֹם אַרְבָּעָה יָמִים לָעֹמֶר',english:'Today is Four Days of the Omer'},
@@ -51,7 +52,7 @@
 
     ]
 
-	var start = new Date(2022,3,18);
+	var start = new Date(2022,3,16);
 	var d=new Date(Date.now());
 	var interval=d.getTime()-start.getTime();
 	var days=Math.round(interval/24/60/60/1000);

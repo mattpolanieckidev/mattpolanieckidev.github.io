@@ -5,6 +5,7 @@
   "background_color": "#2980b9",
   "display": "fullscreen",
   "orientation": "portrait",
+  "id": "/sefira/",
   "scope": "https://mattpolanieckidev.github.io/dailydaf/",
   "start_url": "https://mattpolanieckidev.github.io/dailydaf/",
   "icons": [

@@ -67,27 +67,7 @@ button{
 	<h1 id="heading">Sefirat HaOmer</h1>
 	<div><p> <br><span id="english"></span><br></p> </div>
 	<div><p> <br><span id="hebrew"></span><br></p> </div>
-	<button id="notifications">Notification</button>
 </div>
-<script>
-	const button = document.getElementById('notifications');
-	button.addEventListener('click', () => {
-  	Notification.requestPermission().then((result) => {
-    if (result === 'granted') {
-      randomNotification();
-    }
-  });
-})
-
-function randomNotification() {
-  const notifBody = `Created by Matthew`;
-  const options = {
-    body: notifBody,
-  };
-  new Notification(notifBody, options);
-  setTimeout(randomNotification, 30000);
-}
-</script>
 
 <script src="sefira.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

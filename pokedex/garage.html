@@ -160,11 +160,8 @@ margin:0 1.5%;
         }
 
         function removecar(){
-            let garagelength = garage.length;
-            console.log(garagelength)
             garage.pop();
-            const select = 
-            select.removeChild(select.lastChild);
+            parent.removeChild(parent.lastElementChild);
         }
     </script>
 </body>

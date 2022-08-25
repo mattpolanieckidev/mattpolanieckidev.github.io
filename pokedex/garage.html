@@ -33,6 +33,11 @@ li {
     
 }
 
+li::after{
+   content: ' \f1b9';
+   font-family: FontAwesome;
+}
+
 #status{
     text-align: center;
 
@@ -55,12 +60,29 @@ li {
 .controls{
 grid-column: 2;
 grid-row:2;
+margin-left: 33.33%;
 }
 
 
 .input-group, .light, .cars{
   grid-column:3;
 
+}
+
+@media (orientation: portrait){
+    #garage{
+        grid-template-columns: auto 2fr;
+    }
+    .controls{
+grid-column: 1/2;
+grid-row:1;
+margin:0 1.5%;
+}
+.input-group, .light, .cars{
+  grid-column:2/3;
+  margin:0 1.5%;
+
+}
 }
 </style>
 <body>
@@ -70,7 +92,8 @@ grid-row:2;
 
     <div id="garage">
         <div class="controls"> 
-            <button onclick="addcar()" class="btn btn-primary">Add a car</button>
+            <button onclick="addcar()" class="btn btn-primary">Car +</button>
+            <button onclick="removecar()" class="btn btn-primary">Car -</button>
           </div>
         <div class="input-group">
             <input type="text" id="search" class="form-control" placeholder="SpotID" aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -133,6 +156,15 @@ grid-row:2;
             var val = document.querySelector('input').value - 1;
             console.log(garage[val].name);
             children[val].style.backgroundColor = "yellow";
+            document.getElementById("status").innerHTML = garage[val].name;
+        }
+
+        function removecar(){
+            let garagelength = garage.length;
+            console.log(garagelength)
+            garage.pop();
+            const select = 
+            select.removeChild(select.lastChild);
         }
     </script>
 </body>

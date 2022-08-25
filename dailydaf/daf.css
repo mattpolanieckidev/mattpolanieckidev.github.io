@@ -25,6 +25,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  color:#212427;
 }
 
 .custom-control{

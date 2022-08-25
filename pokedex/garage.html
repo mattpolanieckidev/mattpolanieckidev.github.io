@@ -4,30 +4,136 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Garage App</title>
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+    
 </head>
+<style>
+header{
+    background-color: #457b9d;
+    padding: 10px 0;
+    text-align: center;
+    color:white;
+}
+
+ul {
+    text-align: center;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding:0;
+}
+
+li {
+    display: inline-block;
+    vertical-align: top;
+    font-size: x-large;
+    border: solid 1px #1D3557;
+    
+}
+
+#status{
+    text-align: center;
+
+}
+
+
+.statusfull{
+    background-color: red;
+    color:white;
+}
+
+
+#garage{
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr 1fr;
+    grid-template-rows: min-content min-content auto;
+}
+
+.controls{
+grid-column: 2;
+grid-row:2;
+}
+
+
+.input-group, .light, .cars{
+  grid-column:3;
+
+}
+</style>
 <body>
     <header>
-        <h2>How many </h2>
+        <h2 class="display-6">What cars are in the garage? </h2>
     </header>
-    <button onclick="addcar()">Add a car</button>
+
+    <div id="garage">
+        <div class="controls"> 
+            <button onclick="addcar()" class="btn btn-primary">Add a car</button>
+          </div>
+        <div class="input-group">
+            <input type="text" id="search" class="form-control" placeholder="SpotID" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="search()">Search <i class="fas fa-search"></i></button>
+        </div>
+      
+        <div class="light">
+            <p id="status"></p>
+        </div>
+
+        <div class="cars">
+          <ul id ="mylist">    
+          </ul>
+         </div>
+      </div>
+
+    <!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/0a7f654060.js" crossorigin="anonymous"></script>
+
+
     <script>
         let garage =[];
-        
+        let id = 1;
+        let cars = ["Acura", "Honda","Toyota","Mazda","Cadillac","Infinity"];
+        document.getElementById("status").innerHTML = "There's room";
+
         function addcar(){
             garage.push(car ={
-                id: 1,
-                name: "toyota"
+                id: id++,
+                name: cars[Math.floor(Math.random()*6)]
             });
-            console.log(garage)
-            if (garage.length < 10){
-                console.log("there's room")
-            }else {
-                console.log("full")
+            
+            if (garage.length < 17){
+              document.getElementById("mylist").innerHTML="";
+                document.getElementById("status").innerHTML = "There's room";
+                // Iterate over the property names:
+                for (const car of garage) {
+                               
+                 var textnode = document.createTextNode(car.name);
+                 const node = document.createElement("li");
+                  node.appendChild(textnode);
+                document.getElementById("mylist").appendChild(node);
+
+                }
+            }
+            else {
+            
+                console.log("full");
+                document.getElementById("status").innerHTML = "No room!";
+                document.getElementById("status").classList.add('statusfull')
             }
         }
-        
-        
+        const input = document.querySelector('input');
+        let parent = document.getElementById('mylist');
+        let children = parent.childNodes;
+        let li = document.getElementsByTagName('li')
+        function search(){
+            let x = document.querySelector("li");
+            var val = document.querySelector('input').value - 1;
+            console.log(garage[val].name);
+            children[val].style.backgroundColor = "yellow";
+        }
     </script>
 </body>
 </html>

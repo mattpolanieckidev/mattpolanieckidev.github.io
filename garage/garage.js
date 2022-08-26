@@ -1,8 +1,17 @@
+//define some constants
+const input = document.querySelector("input");
+let parent = document.getElementById("mylist");
+let children = parent.childNodes;
+let li = document.getElementsByTagName("li");
+
+//create the garage and cars
 let garage = [];
 let id = 1;
 let cars = ["Acura", "Honda", "Toyota", "Mazda", "Cadillac", "Infinity"];
+//define a lot status
 document.getElementById("status").innerHTML = "There's room";
 
+//add a car to the garage
 function addcar() {
   garage.push(
     (car = {
@@ -10,7 +19,7 @@ function addcar() {
       name: cars[Math.floor(Math.random() * 6)],
     })
   );
-
+//check to see if there is space
   if (garage.length < 17) {
     document.getElementById("mylist").innerHTML = "";
     document.getElementById("status").innerHTML = "There's room";
@@ -27,19 +36,23 @@ function addcar() {
     document.getElementById("status").classList.add("statusfull");
   }
 }
-const input = document.querySelector("input");
-let parent = document.getElementById("mylist");
-let children = parent.childNodes;
-let li = document.getElementsByTagName("li");
-function search() {
-  let x = document.querySelector("li");
-  var val = document.querySelector("input").value - 1;
-  console.log(garage[val].name);
-  children[val].style.backgroundColor = "yellow";
-  document.getElementById("status").innerHTML = garage[val].name;
-}
 
+//remove a car from the garage
 function removecar() {
   garage.pop();
   parent.removeChild(parent.lastElementChild);
 }
+
+//search for a car
+function search() {
+    //clear previous search
+    var y = document.getElementsByTagName('li')
+    for (var items of y) {
+        items.style.backgroundColor = "white";
+      }
+    var val = document.querySelector("input").value - 1;
+    console.log(garage[val].name);
+    children[val].style.backgroundColor = "yellow";
+    document.getElementById("status").innerHTML = garage[val].name;
+  }
+

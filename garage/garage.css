@@ -1,0 +1,77 @@
+header {
+  background-color: #457b9d;
+  padding: 10px 0;
+  text-align: center;
+  color: white;
+}
+
+ul {
+  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  padding: 0;
+}
+
+li {
+  display: inline-block;
+  vertical-align: top;
+  font-size: x-large;
+  border: solid 1px #1d3557;
+}
+
+li::after {
+  content: " \f1b9";
+  font-family: FontAwesome;
+}
+
+#status {
+  text-align: center;
+}
+
+.statusfull {
+  background-color: red;
+  color: white;
+}
+
+#garage {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 1fr;
+  grid-template-rows: min-content min-content auto;
+}
+
+.controls {
+  grid-column: 2;
+  grid-row: 2;
+
+}
+
+.input-group,
+.light,
+.cars {
+  grid-column: 3;
+}
+
+@media (orientation: portrait) {
+  #garage {
+    grid-template-columns: auto 2fr;
+    grid-template-rows: min-content minmax(300px, max-content) min-content;
+  }
+
+  .controls {
+    grid-row: 4;
+    margin: 0 1.5%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .input-group,
+  .light,
+  .cars {
+    grid-column: 1/3;
+    margin: 0 1.5%;
+  }
+  .cars {
+    grid-row: 2;
+  }
+}

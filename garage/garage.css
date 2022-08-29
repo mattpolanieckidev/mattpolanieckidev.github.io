@@ -70,6 +70,7 @@ li::after {
   .cars {
     grid-column: 1/3;
     margin: 0 1.5%;
+    width:auto;
   }
   .cars {
     grid-row: 2;

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        font-family: sans-serif;
+        text-align: center;
+    }
+    p{
+        border: 1px solid black;
+        padding:50px;
+    }
+    input{
+        grid-column: 2;
+    }
+    span{
+        grid-column: 3;
+    }
+    p{
+        grid-column: 4;
+    }
+    .grid{
+        display: grid;
+        grid-template-columns: 1fr 1fr 20px 1fr 1fr;
+        grid-template-rows:1fr .5fr;
+        align-items: center;
+        gap:50px
+    }
+    .col1{
+        grid-column: 2;
+    }
+    .col2{
+        grid-column: 4;
+    }
+    .definition{
+        background: #303134;
+        color:white;
+        padding: 2px 20px;
+    }
+   
+</style>
+<body>
+    <header>
+        <h1>Pounds to Kilograms</h1>
+    </header>
+    <div class="grid">
+        <div class="col1">
+            <p><input type="number" id="myInput" placeholder="Enter value in pounds"></p>
+            <span class="definition">Pound</span>
+        </div>
+        <span> =</span>
+        <div class="col2">
+            <p id="converted">    Converted Value in Kilograms</p>
+            <span class="definition">Kilogram</span>
+        </div>
+    </div>
+    <script>
+        
+        function convert(){
+            const val = document.querySelector('input').value;
+            var p = document.getElementById('converted');
+            p.innerHTML=val/2.205;
+        }
+        var input = document.getElementById("myInput");
+        input.addEventListener('input', convert);
+    </script>
+</body>
+</html>

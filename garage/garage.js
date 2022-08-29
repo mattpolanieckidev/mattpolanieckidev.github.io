@@ -50,9 +50,11 @@ function search() {
     for (var items of y) {
         items.style.backgroundColor = "white";
       }
+
     var val = document.querySelector("input").value - 1;
     console.log(garage[val].name);
     children[val].style.backgroundColor = "yellow";
     document.getElementById("status").innerHTML = garage[val].name;
   }
 
+  input.addEventListener('input', search);

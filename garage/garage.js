@@ -13,14 +13,15 @@ document.getElementById("status").innerHTML = "There's room";
 
 //add a car to the garage
 function addcar() {
-  garage.push(
-    (car = {
-      id: id++,
-      name: cars[Math.floor(Math.random() * 6)],
-    })
-  );
+
 //check to see if there is space
-  if (garage.length < 17) {
+  if (garage.length <= 15) {
+    garage.push(
+      (car = {
+        id: id++,
+        name: cars[Math.floor(Math.random() * 6)],
+      })
+    );
     document.getElementById("mylist").innerHTML = "";
     document.getElementById("status").innerHTML = "There's room";
     // Iterate over the property names:
@@ -33,6 +34,8 @@ function addcar() {
   } else {
     console.log("full");
     document.getElementById("status").innerHTML = "No room!";
+
+    document.getElementById("status").classList.remove("statusempty");
     document.getElementById("status").classList.add("statusfull");
   }
 }
@@ -41,6 +44,15 @@ function addcar() {
 function removecar() {
   garage.pop();
   parent.removeChild(parent.lastElementChild);
+  if (garage.length <= 16){
+    document.getElementById("status").innerHTML = "There's room";
+    document.getElementById("status").classList.add("statusempty");
+    document.getElementById("status").classList.remove("statusfull");
+  }
+  else{
+    document.getElementById("status").innerHTML = "No room!";
+    document.getElementById("status").classList.add("statusfull");
+  }
 }
 
 //search for a car

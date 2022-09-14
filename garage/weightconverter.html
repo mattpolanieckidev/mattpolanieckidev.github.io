@@ -28,19 +28,28 @@
         display: grid;
         grid-template-columns: 1fr 1fr 20px 1fr 1fr;
         grid-template-rows:1fr .5fr;
-        align-items: center;
+        align-items: bottom;
         gap:50px
     }
     .col1{
         grid-column: 2;
+        border:white 1px solid;
+        border-radius: 10px;
+        background: #303134;
+        padding:12px 20px;
     }
     .col2{
         grid-column: 4;
+        border:white 1px solid;
+        border-radius: 10px;
+        background: #303134;
+        padding:12px 20px;
+        color:white;
     }
     .definition{
         background: #303134;
         color:white;
-        padding: 2px 20px;
+        padding: 12px 20px;
     }
    
 </style>
@@ -48,10 +57,11 @@
     <header>
         <h1>Pounds to Kilograms</h1>
     </header>
+    
     <div class="grid">
         <div class="col1">
             <p><input type="number" id="myInput" placeholder="Enter value in pounds"></p>
-            <span class="definition">Pound</span>
+            <span class="definition">Pounds</span>
         </div>
         <span> =</span>
         <div class="col2">
@@ -64,7 +74,9 @@
         function convert(){
             const val = document.querySelector('input').value;
             var p = document.getElementById('converted');
-            p.innerHTML=val/2.205;
+            var value = val/2.205
+            p.innerHTML= Math.round(value * 100) / 100
+
         }
         var input = document.getElementById("myInput");
         input.addEventListener('input', convert);

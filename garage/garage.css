@@ -32,6 +32,10 @@ li::after {
   background-color: red;
   color: white;
 }
+.statusempty {
+  background-color: green;
+  color: white;
+}
 
 #garage {
   margin-top: 20px;

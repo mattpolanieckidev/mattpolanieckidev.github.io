@@ -5,7 +5,7 @@ var zip;
 var city;
 var colors = ['#6F1E51','#FFC312','#F79F1F','#EE5A24','#EA2027','#C4E538','#A3CB38','#009432','#006266','#12CBC4','#1289A7','#0652DD','#1B1464','#FDA7DF','#D980FA','#9980FA','#5758BB','#ED4C67','#B53471','#833471','#6F1E51'];
 var body = document.querySelector("body");
-var div = document.getElementById('page')
+var page = document.getElementById('page')
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
@@ -59,7 +59,10 @@ fetch('https://www.hebcal.com/shabbat/?cfg=json&'+zip+'&m=50')
         var formattedDate = days[e.getDay()] + " " + (e.getMonth() + 1) + "-" + e.getDate() + "-" + e.getFullYear();
         document.getElementById("havdala").innerHTML = formattedDate + "<br>" + data.items.filter(i => i.category == "havdalah")[0].title;
 
-        if (data.items.filter(i => i.category == "holiday")){  
+        if (data.items.filter(i => i.category == "holiday")){
+          div = document.createElement("div");
+          page.append(div)
+          div.setAttribute("id",'holiday');  
           document.getElementById('holiday').innerHTML = '<hr>' + data.items.filter(i => i.category == "holiday")[0].title;
           var holidayname=data.items.filter(i => i.category == "holiday")[0].title;
           let p = document.createElement("p")
@@ -69,7 +72,15 @@ fetch('https://www.hebcal.com/shabbat/?cfg=json&'+zip+'&m=50')
           console.log('true')
         }
         if (data.items.filter(i => i.yomtov == true)){
-          console.log("2 days")
+          div = document.createElement("div");
+          page.append(div)
+          div.setAttribute("id",'holiday2');  
+          document.getElementById('holiday2').innerHTML = '<hr>' + data.items.filter(i => i.yomtov == true)[0].title;
+          var holidayname=data.items.filter(i => i.yomtov == true)[0].title;
+          let p = document.createElement("p")
+          p.setAttribute('class', 'holidaycandle')
+          p.innerHTML=data.items.filter(i => i.memo == holidayname)[0].title
+          div.append(p)
         }
       }
       );

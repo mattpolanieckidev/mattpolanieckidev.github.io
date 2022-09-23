@@ -75,7 +75,7 @@ h3{
 #zip{
 	font-size:16px;
 }
-.parsha, #candleLighting, #havdala, .color, #holiday {
+.parsha, #candleLighting, #havdala, .color, #holiday{
 	font-size: 60px;
 	font-weight: 200;
 	line-height: normal;
@@ -86,7 +86,7 @@ h3{
 	font-weight: bold;
 }
 
-#holidaycandle{
+#holidaycandle, .holidaycandle, #holiday2{
 	text-align: center;
 }
 
@@ -120,7 +120,7 @@ hr{
 	.header{
 		font-size: 40px;
 	}
-	.parsha, #candleLighting, #parsha, #havdala, #holiday, #holidaycandle {
+	.parsha, #candleLighting, #parsha, #havdala, #holiday, #holidaycandle, .holidaycandle, #holiday2  {
 		font-size: 40px;
 		margin: 0 5px;
 	}

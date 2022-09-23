@@ -74,13 +74,24 @@ fetch('https://www.hebcal.com/shabbat/?cfg=json&'+zip+'&m=50')
         if (data.items.filter(i => i.yomtov == true)){
           div = document.createElement("div");
           page.append(div)
-          div.setAttribute("id",'holiday2');  
+          div.setAttribute("id",'holiday2');
+          div.setAttribute("class",'holidaycandle');    
           document.getElementById('holiday2').innerHTML = '<hr>' + data.items.filter(i => i.yomtov == true)[0].title;
           var holidayname=data.items.filter(i => i.yomtov == true)[0].title;
           let p = document.createElement("p")
           p.setAttribute('class', 'holidaycandle')
           p.innerHTML=data.items.filter(i => i.memo == holidayname)[0].title
           div.append(p)
+          div = document.createElement("div");
+          page.append(div)
+          div.setAttribute("id",'holiday3');  
+          div.setAttribute("class",'holidaycandle');  
+          document.getElementById('holiday3').innerHTML = '<hr>' + data.items.filter(i => i.yomtov == true)[1].title;
+          var holidayname2 = data.items.filter(i => i.yomtov == true)[1].title;
+          let p2 = document.createElement("p");
+          p2.setAttribute('class', 'holidaycandle')
+          p2.innerHTML=data.items.filter(i => i.memo == holidayname2)[0].title
+          div.append(p2)
         }
       }
       );

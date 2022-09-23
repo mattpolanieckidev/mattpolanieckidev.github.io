@@ -58,6 +58,17 @@ fetch('https://www.hebcal.com/shabbat/?cfg=json&'+zip+'&m=50')
         var formattedDate = days[e.getDay()] + " " + (e.getMonth() + 1) + "-" + e.getDate() + "-" + e.getFullYear();
         document.getElementById("havdala").innerHTML = formattedDate + "<br>" + data.items.filter(i => i.category == "havdalah")[0].title;
 
+        if (data.items.filter(i => i.category == "holiday")){  
+          document.getElementById('holiday').innerHTML = '<hr>' + data.items.filter(i => i.category == "holiday")[0].title;
+          var holidayname=data.items.filter(i => i.category == "holiday")[0].title;
+          let p = document.createElement("p")
+          p.innerHTML=data.items.filter(i => i.memo == holidayname)[0].title
+          document.body.append(p)
+          console.log('true')
+        }
+        if (data.items.filter(i => i.yomtov == true)){
+          console.log("2 days")
+        }
       }
       );
     }

@@ -5,6 +5,7 @@ var zip;
 var city;
 var colors = ['#6F1E51','#FFC312','#F79F1F','#EE5A24','#EA2027','#C4E538','#A3CB38','#009432','#006266','#12CBC4','#1289A7','#0652DD','#1B1464','#FDA7DF','#D980FA','#9980FA','#5758BB','#ED4C67','#B53471','#833471','#6F1E51'];
 var body = document.querySelector("body");
+var div = document.getElementById('page')
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
@@ -62,8 +63,9 @@ fetch('https://www.hebcal.com/shabbat/?cfg=json&'+zip+'&m=50')
           document.getElementById('holiday').innerHTML = '<hr>' + data.items.filter(i => i.category == "holiday")[0].title;
           var holidayname=data.items.filter(i => i.category == "holiday")[0].title;
           let p = document.createElement("p")
+          p.setAttribute('id', 'holidaycandle')
           p.innerHTML=data.items.filter(i => i.memo == holidayname)[0].title
-          document.body.append(p)
+          div.append(p)
           console.log('true')
         }
         if (data.items.filter(i => i.yomtov == true)){

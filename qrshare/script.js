@@ -8,7 +8,7 @@ const ctx = canvas.getContext('2d');
 const image = qr;
 
 
-function generate() {
+function myFunction() {
     data = input.value;
     if (input.value <= 0){
         console.log("nope")
@@ -21,6 +21,7 @@ function generate() {
         qrIMG.src = imgSRC;
         draw();
     }
+
 }  
 
 function draw() {
@@ -28,6 +29,7 @@ function draw() {
     };
 
 
+/*
 async function shareCanvas() {
 const canvasElement = document.getElementById('canvas');
 const dataUrl = canvasElement.toDataURL();
@@ -48,32 +50,8 @@ files: filesArray,
 navigator.share(shareData);
 }
 
-const backpack = {
-    name: "Everyday Backpack",
-    volume: 30,
-    pocketNum: 15,
-    lidOpen:false,
-    toggleLid: function(lidStatus){
-        this.lidOpen = lidStatus
-        return backpack.lidOpen;
-    },
-};
-
-const backpack1 = {
-    name: "Boring Backpack",
-    volume: 30,
-    pocketNum: 15,
-    lidOpen:false,
-    toggleLid: function(lidStatus){
-        this.lidOpen = lidStatus
-    },
-};
-
-var backpacks = [backpack, backpack1]
 
 
-
-/*
 const capture = async () => {
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");

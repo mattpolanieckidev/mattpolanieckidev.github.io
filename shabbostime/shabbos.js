@@ -67,10 +67,11 @@ fetch('https://www.hebcal.com/shabbat/?cfg=json&'+zip+'&m=50')
         if (data.items.filter(i => i.category == "holiday")){
           setdiv(); 
           div.setAttribute("id",'holiday'); 
-          document.getElementById('holiday').innerHTML = '<hr>' + data.items.filter(i => i.category == "holiday")[0].title;
+          document.getElementById('holiday').innerHTML = data.items.filter(i => i.category == "holiday")[0].title;
           var holidayname=data.items.filter(i => i.category == "holiday")[0].title;
           let p = document.createElement("p")
           p.setAttribute('id', 'holidaycandle')
+          p.setAttribute('class', 'holidaycandle')
           p.innerHTML=data.items.filter(i => i.memo == holidayname)[0].title
           div.append(p)
           console.log('true')
@@ -79,7 +80,7 @@ fetch('https://www.hebcal.com/shabbat/?cfg=json&'+zip+'&m=50')
           setdiv();
           div.setAttribute("id",'holiday2');
           div.setAttribute("class",'holidaycandle');    
-          document.getElementById('holiday2').innerHTML = '<hr>' + data.items.filter(i => i.yomtov == true)[0].title;
+          document.getElementById('holiday2').innerHTML = data.items.filter(i => i.yomtov == true)[0].title;
           var holidayname=data.items.filter(i => i.yomtov == true)[0].title;
           let p = document.createElement("p")
           p.setAttribute('class', 'holidaycandle')
@@ -88,7 +89,7 @@ fetch('https://www.hebcal.com/shabbat/?cfg=json&'+zip+'&m=50')
           setdiv()
           div.setAttribute("id",'holiday3');  
           div.setAttribute("class",'holidaycandle');  
-          document.getElementById('holiday3').innerHTML = '<hr>' + data.items.filter(i => i.yomtov == true)[1].title;
+          document.getElementById('holiday3').innerHTML = data.items.filter(i => i.yomtov == true)[1].title;
           var holidayname2 = data.items.filter(i => i.yomtov == true)[1].title;
           let p2 = document.createElement("p");
           p2.setAttribute('class', 'holidaycandle')

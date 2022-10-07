@@ -19,10 +19,10 @@ body{
 
 #page {
 	display: grid;
-	grid-template-areas: "header header"
-						"candles parsha"
-						"candles havdala";
-	grid-template-columns:1fr 1fr;
+	grid-template-areas: "header header header"
+						"candles parsha havdala"
+						"holiday holiday holiday ";
+	grid-template-columns:1fr 1fr 1fr;
 	justify-content: space-evenly;
 }
 .header{
@@ -75,11 +75,12 @@ h3{
 #zip{
 	font-size:16px;
 }
-.parsha, #candleLighting, #havdala, .color, #holiday, .holidaycandle{
+.parsha, #candleLighting, #havdala, .color, #holiday, .holidaycandle, #holiday2, #holiday3{
 	font-size: 60px;
 	font-weight: 200;
 	line-height: normal;
 	text-align: center;
+
 }
 
 #parsha{
@@ -87,16 +88,13 @@ h3{
 }
 
 #holidaycandle, .holidaycandle, #holiday2{
+
 	text-align: center;
 }
-
-
-hr{
-	background-color: white;
-	height: 6px;
-	margin-top: 20px;
-	border:none;
+.candles, .parsha, .havdala{
+	border-bottom: white 1px solid ;
 }
+
 
 @media only screen 
    and (min-width : 1200px) {
@@ -120,10 +118,22 @@ hr{
 	.header{
 		font-size: 40px;
 	}
-	.parsha, #candleLighting, #parsha, #havdala, #holiday, #holidaycandle, .holidaycandle, #holiday2  {
+	.holidaycandle{
+		font-size: 40px;
+	}
+
+	.candles, .parsha, .havdala{
+		border-bottom: none;
+	}
+	
+	.parsha, #candleLighting, #parsha, #havdala, #holiday, #holiday2 , #holiday3    {
 		font-size: 40px;
 		margin: 0 5px;
+		border-bottom: white 1px solid ;
+		padding: 4px 0;
 	}
+
+
 
 	.parsha p{
 		margin: auto 0 0;

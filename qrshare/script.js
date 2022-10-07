@@ -29,6 +29,7 @@ function draw() {
     };
 
 
+     
 /*
 async function shareCanvas() {
 const canvasElement = document.getElementById('canvas');

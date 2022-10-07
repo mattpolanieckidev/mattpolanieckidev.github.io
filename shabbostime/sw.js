@@ -2,8 +2,6 @@ var CACHE_NAME;
 self.addEventListener('install', function(event) {
     CACHE_NAME = 'my-site-cache-v1';
     var urlsToCache = [
-       '/',
-      'index.html',
       'daf.css',
       'daf.js'
     ];

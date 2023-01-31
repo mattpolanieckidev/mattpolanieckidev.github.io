@@ -50,7 +50,7 @@ function writePasuk(){
 }
 
 //get today's date and page number
-fetch('http://www.sefaria.org/api/texts/Siddur_Sefard%2C_Various_Prayers_%26_Segulot%2C_Parashat_Haman_Reading_for_Tuesday_Beshalach.1')
+fetch('https://www.sefaria.org/api/texts/Siddur_Sefard%2C_Various_Prayers_%26_Segulot%2C_Parashat_Haman_Reading_for_Tuesday_Beshalach.1')
   .then(function (response) {
     return response.json()
   })

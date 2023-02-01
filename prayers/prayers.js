@@ -19,6 +19,74 @@ var versionNum;
 var versionDate;
 var links;
 
+//dark mode
+function night(){
+  if (localStorage.getItem("night") === "light"){
+  document.getElementById("body").classList.toggle("night");
+  document.getElementById("toggleclose").classList.toggle("nightcolor");
+  document.getElementById("masechta").classList.toggle("nightcolor");
+  document.getElementById("modal").classList.toggle("bg-dark");
+  document.getElementById("nav").classList.toggle("bg-dark");
+  document.getElementById("switch1").checked = true;
+  localStorage.setItem("night", "dark");}
+  else{
+    document.getElementById("body").classList.toggle("night");
+    document.getElementById("toggleclose").classList.toggle("nightcolor");
+    document.getElementById("masechta").classList.toggle("nightcolor");
+    document.getElementById("modal").classList.toggle("bg-dark");
+    document.getElementById("nav").classList.toggle("bg-dark");
+    document.getElementById("switch1").checked = false;
+    localStorage.setItem("night", "light");
+  }
+}
+
+function hide(){
+  var x = document.getElementsByClassName("english");
+  for (i = 0; i < x.length; i++) {
+    x.item(i).classList.toggle("hidden");
+  }
+  if (localStorage.getItem("hidden") === "show"){
+  localStorage.setItem("hidden", "hidden");}
+    else{
+      localStorage.setItem("hidden", "show");
+    }
+
+}
+
+//set slider value on mobile
+function myFunction(x) {
+  if (x.matches) { // If media query matches
+    adjustFont("1");
+  } else {
+    adjustFont("2");
+  }
+}
+
+var x = window.matchMedia("(orientation:portrait)")
+myFunction(x)
+x.addListener(myFunction)
+
+//adjust font size based on slider value
+function adjustFont(a){
+  for (i = 0; i < textdiv.length; i++) {
+    if (a === "1"){
+      slider.value="1";
+      localStorage.setItem("size", "1");
+      textdiv.item(i).style.fontSize="18px";
+    }
+    else if (a === "2"){
+      slider.value="2";
+      localStorage.setItem("size", "2");
+      textdiv.item(i).style.fontSize="24px";
+    }
+    else if (a === "3"){
+      localStorage.setItem("size", "3");
+      textdiv.item(i).style.fontSize="32px";
+    }
+    }
+  };
+
+
 //create and append Div, Heading, and Unordered List
 function createDiv(){
   div = document.createElement("div");
@@ -78,6 +146,8 @@ function nextPage() {
       next = pull.next;
     })
 }
+
+
 
 
 //get previous page

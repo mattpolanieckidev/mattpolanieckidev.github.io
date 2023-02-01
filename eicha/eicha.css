@@ -99,6 +99,21 @@ h3{
   margin-top:10px;
 }
 
+.aleph{
+  fill:white;
+  width: 40px;
+}
+
+.col input{
+  border-radius: 25px;
+  margin-bottom: 10px;
+  outline:none;
+  background: none;
+  font-size: 18px;
+  text-align: center;
+  padding:20px 10px 20px 5px;
+}
+
   @media screen and (orientation:portrait){
     .pageText, .textContent{
       margin:0 1.5%;

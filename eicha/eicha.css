@@ -129,14 +129,22 @@ display:none;
 }
 
 
-  @media screen and (orientation:portrait){
-    .pageText, .textContent{
-      margin:0 1.5%;
-      font-size: 18px;
-      padding-left:0;
-    }
-    #date{
-      display:none;
-    }
-    }
+@media screen and (orientation:portrait){
+  .pageText, .textContent{
+    margin:0 2.5%;
+    font-size: 18px;
+    padding-left:0;
+    width:fit-content;
+  }
+  #date{
+    display:none;
+  }
+  .footer{
+    height:100px;
+  }
+
+  .finder{
+    margin:75px 20px 0;
+  }
+}
   

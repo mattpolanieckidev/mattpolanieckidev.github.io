@@ -1,4 +1,4 @@
-var date, next, prev, enPasuk, hePasuk, amudCount, section, currentAmud, masechtaProgress, masechtaSearch = document.getElementById("masechta");
+var date, next, prev, hePasuk, amudCount, section, currentAmud;
 var pageTitle = document.getElementById("pageTitle");
 var textdiv = document.getElementById("content");
 var div, heading, ul, pasuk, newHeading, links;
@@ -36,14 +36,11 @@ function createDiv(){
 function writePasuk(){
   for (var pasuk of hePasuk) {
     var li = document.createElement("li");
-    if (localStorage.getItem("hidden") === "hidden"){
     li.innerHTML = hePasuk[count];
     ul.appendChild(li);
     count++;
     document.getElementById("switch2").checked = false;
     adjustFont(localStorage.getItem("size"));
-    }
-    
   }
 }
 
@@ -74,7 +71,6 @@ function night(){
         return response.json()
       }) //get today's text
       .then(function (pull) {
-        amudCount = (pull.length / 2) + 1;
         section = pull.sections.toString();
         hePasuk = pull.he;
         count = 0;

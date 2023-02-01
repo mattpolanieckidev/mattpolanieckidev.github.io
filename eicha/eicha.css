@@ -5,10 +5,10 @@ body{
 }
 
 .textContent{
-  margin: 0 15%;
-  padding: 45px 20px 0;
+  text-align: right;
+  width: clamp(45ch, 50%, 75ch);
   font-size: 24px;
-  text-align:right;
+  margin: 5% 0 0 22%;
 }
 
 .english{

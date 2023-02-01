@@ -35,22 +35,18 @@ function createDiv(){
 //Loop through available pasukim and append to unordered list. Check to see if the translation should be shown or not. 
 function writePasuk(){
   for (var pasuk of hePasuk) {
-    var li = document.createElement("li");
+    var p = document.createElement("p");
     if (localStorage.getItem("hidden") === "hidden"){
-    li.innerHTML = hePasuk[count] + "<p class=\"english hidden\">" + pasuk + "</p>";
-    ul.appendChild(li);
+    p.innerHTML = hePasuk[count];
+    ul.appendChild(p);
     count++;
     }
-    else {
-      li.innerHTML = hePasuk[count] + "<p class=\"english\">" + pasuk + "</p>";
-      ul.appendChild(li);
-      count++;
-    }
+   
   }
 }
 
 //get today's date and page number
-fetch('https://www.sefaria.org/api/texts/Siddur_Sefard%2C_Various_Prayers_%26_Segulot%2C_Parashat_Haman_Reading_for_Tuesday_Beshalach.1')
+fetch('http://www.sefaria.org/api/texts/Siddur_Sefard%2C_Additional_Prayers_%2C_Chapter_of_Manna?lang=he&with=all&lang2=he')
   .then(function (response) {
     return response.json()
   })
@@ -108,7 +104,7 @@ function nextPage() {
     })
 }
 */
-
+/*
 function hide(){
   var x = document.getElementsByClassName("english");
   for (i = 0; i < x.length; i++) {
@@ -120,4 +116,4 @@ function hide(){
       localStorage.setItem("hidden", "show");
     }
 
-}
+}*/

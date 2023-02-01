@@ -7,19 +7,6 @@ var fontSize = slider.value;
 var textContent = document.getElementsByClassName("pageText");
 
 
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function() {
-    navigator.serviceWorker.register("sw.js").then(function(registration) {
-      // Registration was successful
-      console.log("ServiceWorker registration successful with scope: ", registration.scope);
-    }, function(err) {
-      // registration failed :(
-      console.log("ServiceWorker registration failed: ", err);
-    });
-  });
-}
-
-
 if (localStorage.getItem("night") === "dark") {
   document.getElementById("body").classList.add("night");
   document.getElementById("nav").classList.add("bg-dark");
@@ -166,5 +153,4 @@ function adjustFont(a){
 
 
 
-fetch('https://www.sefaria.org/api/texts/Siddur_Sefard%2C_Additional_Prayers_%2C_Chapter_of_Manna?lang=he&with=all&lang2=he')
   

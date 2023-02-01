@@ -62,29 +62,6 @@ function myFunction(x) {
   }
 }
 
-var x = window.matchMedia("(orientation:portrait)")
-myFunction(x)
-x.addListener(myFunction)
-
-//adjust font size based on slider value
-function adjustFont(a){
-  for (i = 0; i < textdiv.length; i++) {
-    if (a === "1"){
-      slider.value="1";
-      localStorage.setItem("size", "1");
-      textdiv.item(i).style.fontSize="18px";
-    }
-    else if (a === "2"){
-      slider.value="2";
-      localStorage.setItem("size", "2");
-      textdiv.item(i).style.fontSize="24px";
-    }
-    else if (a === "3"){
-      localStorage.setItem("size", "3");
-      textdiv.item(i).style.fontSize="32px";
-    }
-    }
-  };
 
 
 //create and append Div, Heading, and Unordered List
@@ -112,6 +89,8 @@ function writePasuk(){
    
   }
 }
+
+
 
 //get today's date and page number
 fetch('https://www.sefaria.org/api/texts/Siddur_Sefard%2C_Additional_Prayers_%2C_Chapter_of_Manna?lang=he&with=all&lang2=he')
@@ -146,6 +125,30 @@ function nextPage() {
       next = pull.next;
     })
 }
+
+var x = window.matchMedia("(orientation:portrait)")
+myFunction(x)
+x.addListener(myFunction)
+
+//adjust font size based on slider value
+function adjustFont(a){
+  for (i = 0; i < pageText.length; i++) {
+    if (a === "1"){
+      slider.value="1";
+      localStorage.setItem("size", "1");
+      pageText.style.fontSize="18px";
+    }
+    else if (a === "2"){
+      slider.value="2";
+      localStorage.setItem("size", "2");
+      pageText.style.fontSize="24px";
+    }
+    else if (a === "3"){
+      localStorage.setItem("size", "3");
+      pageText.style.fontSize="32px";
+    }
+    }
+  };
 
 
 

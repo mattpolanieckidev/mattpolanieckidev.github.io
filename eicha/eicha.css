@@ -114,6 +114,21 @@ h3{
   padding:20px 10px 20px 5px;
 }
 
+.col label {
+display:none;
+}
+
+
+.modal-backdrop {
+  z-index: 1020;
+}
+
+.modalrow{
+  display: inline-block;
+  margin-right: 20px;
+}
+
+
   @media screen and (orientation:portrait){
     .pageText, .textContent{
       margin:0 1.5%;

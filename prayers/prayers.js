@@ -46,7 +46,7 @@ function writePasuk(){
 }
 
 //get today's date and page number
-fetch('http://www.sefaria.org/api/texts/Siddur_Sefard%2C_Additional_Prayers_%2C_Chapter_of_Manna?lang=he&with=all&lang2=he')
+fetch('https://www.sefaria.org/api/texts/Siddur_Sefard%2C_Additional_Prayers_%2C_Chapter_of_Manna?lang=he&with=all&lang2=he')
   .then(function (response) {
     return response.json()
   })

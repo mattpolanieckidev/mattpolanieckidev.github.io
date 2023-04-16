@@ -50,59 +50,27 @@ var omer = [
 	{ hebrew: 'הַיּוֹם תִּשְׁעָה וְאַרְבָּעִים יוֹם, שֶׁהֵם שִׁבְעָה שָׁבוּעוֹת לָעֹמֶר', english: 'Today is Forty-Nine Days, which are Seven Weeks of the Omer' },
 ]
 
-var start = new Date(2023, 4, 6);
-var d = new Date(Date.now());
-var interval = d.getTime() - start.getTime();
-var days = Math.round(interval / 24 / 60 / 60 / 1000);
-var colors = ['#6F1E51', '#FFC312', '#F79F1F', '#EE5A24', '#EA2027', '#C4E538', '#A3CB38', '#009432', '#006266', '#12CBC4', '#1289A7', '#0652DD', '#1B1464', '#FDA7DF', '#D980FA', '#9980FA', '#5758BB', '#ED4C67', '#B53471', '#833471', '#6F1E51'];
-var body = document.querySelector("body");
-var nav = document.getElementById("colorlabel2")
-document.getElementById('english').textContent = omer[days].english;
-document.getElementById('hebrew').textContent = omer[days].hebrew;
+function countDays(startDate) {
+	const oneDay = 24 * 60 * 60 * 1000; // number of milliseconds in a day
+	const today = new Date(); // get today's date
+	const start = new Date(startDate); // convert the start date string to a date object
+	const diffDays = Math.floor((today - start) / oneDay); // calculate the difference in days and round down
+
+	return diffDays; // return the number of days
+}
+
+const daysSinceStart = countDays("2023-04-06") - 1;
+const colors = ['#6F1E51', '#FFC312', '#F79F1F', '#EE5A24', '#EA2027', '#C4E538', '#A3CB38', '#009432', '#006266', '#12CBC4', '#1289A7', '#0652DD', '#1B1464', '#FDA7DF', '#D980FA', '#9980FA', '#5758BB', '#ED4C67', '#B53471', '#833471', '#6F1E51'];
+const body = document.body;
+const nav = document.getElementById("colorlabel2");
+
+document.getElementById('hebrew').textContent = omer[daysSinceStart]?.hebrew || "";
+document.getElementById('english').textContent = omer[daysSinceStart]?.english || "";
 
 function changeColor() {
-	var i = colors[Math.floor(Math.random() * colors.length)]
-	body.style.backgroundColor = i;
-	nav.style.backgroundColor = i;
-	document.getElementById('colorlabel2').innerHTML = "Sefirat HaOmer " + i;
+	const randomColor = colors[Math.floor(Math.random() * colors.length)];
+	body.style.backgroundColor = randomColor;
+	nav.style.backgroundColor = randomColor;
+	nav.innerHTML = "Sefirat HaOmer " + randomColor;
 }
-
-// Register service worker to control making site work offline
-
-if ('serviceWorker' in navigator) {
-	navigator.serviceWorker
-		.register('sw.js')
-		.then(() => { console.log('Service Worker Registered'); });
-}
-
-// Code to handle install prompt on desktop
-
-let deferredPrompt;
-
-
-window.addEventListener('beforeinstallprompt', (e) => {
-	// Prevent Chrome 67 and earlier from automatically showing the prompt
-	e.preventDefault();
-	// Stash the event so it can be triggered later.
-	deferredPrompt = e;
-	// Update UI to notify the user they can add to home screen
-	addBtn.style.display = 'block';
-
-	addBtn.addEventListener('click', () => {
-		// hide our user interface that shows our A2HS button
-		addBtn.style.display = 'none';
-		// Show the prompt
-		deferredPrompt.prompt();
-		// Wait for the user to respond to the prompt
-		deferredPrompt.userChoice.then((choiceResult) => {
-			if (choiceResult.outcome === 'accepted') {
-				console.log('User accepted the A2HS prompt');
-			} else {
-				console.log('User dismissed the A2HS prompt');
-			}
-			deferredPrompt = null;
-		});
-	});
-});
-
 

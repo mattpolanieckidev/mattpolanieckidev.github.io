@@ -74,3 +74,22 @@ function changeColor() {
 	nav.innerHTML = "Sefirat HaOmer " + randomColor;
 }
 
+/*
+
+function markDayAsCounted(day) {
+	// check if the day has already been counted
+	if (localStorage.getItem(`omer_${day}`) === 'true') {
+		console.log(`Day ${day} has already been counted.`);
+		return;
+	}
+
+	// mark the day as counted
+	localStorage.setItem(`omer_${day}`, 'true');
+
+	// update the button to show that the day has been counted
+	const button = document.getElementById(`button`);
+	button.textContent = '✓';
+
+	console.log(`Day ${day} has been counted.`);
+}
+*/

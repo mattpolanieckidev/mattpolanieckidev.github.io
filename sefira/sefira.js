@@ -59,7 +59,7 @@ function countDays(startDate) {
 	return diffDays; // return the number of days
 }
 
-const daysSinceStart = countDays("2023-04-06") - 1;
+const daysSinceStart = countDays("2023-04-07");
 const colors = ['#6F1E51', '#FFC312', '#F79F1F', '#EE5A24', '#EA2027', '#C4E538', '#A3CB38', '#009432', '#006266', '#12CBC4', '#1289A7', '#0652DD', '#1B1464', '#FDA7DF', '#D980FA', '#9980FA', '#5758BB', '#ED4C67', '#B53471', '#833471', '#6F1E51'];
 const body = document.body;
 const nav = document.getElementById("colorlabel2");
@@ -74,22 +74,49 @@ function changeColor() {
 	nav.innerHTML = "Sefirat HaOmer " + randomColor;
 }
 
-/*
+
 
 function markDayAsCounted(day) {
-	// check if the day has already been counted
-	if (localStorage.getItem(`omer_${day}`) === 'true') {
-		console.log(`Day ${day} has already been counted.`);
-		return;
-	}
+    // check if the day has already been counted
+    if (localStorage.getItem(`omer_${day}`) === 'true') {
+        console.log(`Day ${day} has already been counted.`);
+        
+        // update the button to show that the day has been counted
+        const button = document.getElementById(`count-button`);
+        button.textContent = '✓';
+        
+        return;
+    }
 
-	// mark the day as counted
-	localStorage.setItem(`omer_${day}`, 'true');
+    // mark the day as counted
+    localStorage.setItem(`omer_${day}`, 'true');
 
-	// update the button to show that the day has been counted
-	const button = document.getElementById(`button`);
-	button.textContent = '✓';
+    // update the button to show that the day has been counted
+    const button = document.getElementById(`count-button`);
+    button.textContent = '✓';
 
-	console.log(`Day ${day} has been counted.`);
+    console.log(`Day ${day} has been counted.`);
 }
-*/
+
+function getCountedDays() {
+  const countedDays = [];
+  for (let i = 1; i <= 49; i++) {
+    if (localStorage.getItem(`omer_${i}`) === 'true') {
+      countedDays.push({
+        date: new Date(Date.parse(`2023-04-${i + 6}`)),
+        hebrew: omer[i - 1].hebrew
+      });
+    }
+  }
+  return countedDays;
+}
+
+var countedDaysList = document.getElementById('counted-days');
+const countedDays = getCountedDays();
+countedDays.forEach(day => {
+  const listItem = document.createElement('li');
+  listItem.textContent = `${day.date.toLocaleDateString()}`;
+  countedDaysList.appendChild(listItem);
+});
+
+

@@ -20,11 +20,9 @@
 	#wrapper {
 		display: flex;
 		flex-direction: column;
-
 		align-items: center;
 		text-align: center;
 		margin: 0 1.5%;
-
 		justify-content: center;
 	}
 
@@ -53,7 +51,28 @@
 
 	li{
 		color:white;
+		list-style: none;
 	}
+
+	.circle {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: black;
+  color: white;
+  text-align: center;
+  line-height: 30px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+ul {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px;
+
+}
 </style>
 <body onload="changeColor()">
 	<nav class="navbar navbar-collapse-lg navbar-dark">
@@ -82,6 +101,7 @@
 			סְפִירַת הָעֹֽמֶר
 
 		</p>
+	<h1 id="heading">Sefirat HaOmer</h1>
 	<div><p> <br><span id="english"></span><br></p> </div>
 	<div><p> <br><span id="hebrew"></span><br></p> </div>
 </div>
@@ -89,7 +109,7 @@
 
 
 
-<p>Days Counted</p><ul id="counted-days"></ul>
+<div id="circles-container"><p>Days Counted</p><ul id="counted-days"></ul></div>
 
 
 <script src="sefira.js"></script>

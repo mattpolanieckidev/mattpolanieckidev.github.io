@@ -99,24 +99,27 @@ function markDayAsCounted(day) {
 }
 
 function getCountedDays() {
-  const countedDays = [];
-  for (let i = 1; i <= 49; i++) {
-    if (localStorage.getItem(`omer_${i}`) === 'true') {
-      countedDays.push({
-        date: new Date(Date.parse(`2023-04-${i + 6}`)),
-        hebrew: omer[i - 1].hebrew
-      });
-    }
+	const countedDays = [];
+	for (let i = 1; i <= 49; i++) {
+	  if (localStorage.getItem(`omer_${i}`) === 'true') {
+		countedDays.push({
+		  day: i,
+		  hebrew: omer[i - 1].hebrew
+		});
+	  }
+	}
+	return countedDays;
   }
-  return countedDays;
-}
 
-var countedDaysList = document.getElementById('counted-days');
+
+const countedDaysList = document.getElementById('counted-days');
 const countedDays = getCountedDays();
 countedDays.forEach(day => {
   const listItem = document.createElement('li');
-  listItem.textContent = `${day.date.toLocaleDateString()}`;
+  const dayNumber = document.createElement('span');
+  dayNumber.textContent = day.day;
+  dayNumber.classList.add('circle');
+  listItem.appendChild(dayNumber);
+ 
   countedDaysList.appendChild(listItem);
 });
-
-

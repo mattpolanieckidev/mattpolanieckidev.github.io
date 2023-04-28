@@ -22,6 +22,7 @@ if ("serviceWorker" in navigator) {
 
 if (localStorage.getItem("night") === "dark") {
   document.getElementById("body").classList.add("night");
+  document.getElementById("textContent").classList.add("night");
   document.getElementById("nav").classList.add("bg-dark");
   document.getElementById("modal").classList.add("bg-dark");
   document.getElementById("switch1").checked = true;

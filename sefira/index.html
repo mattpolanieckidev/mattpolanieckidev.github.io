@@ -11,36 +11,68 @@
 	<link rel="manifest" href="manifest.json" crossorigin="use-credentials">
 </head>
 <style>
-body{
-	top:0;
-	margin:0;
-	font-family: arial;
+	body {
+		top: 0;
+		margin: 0;
+		font-family: arial;
+	}
+
+	#wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		margin: 0 1.5%;
+		justify-content: center;
+	}
+
+	h1 {
+		font-size: 50px;
+		color: white;
+
+	}
+
+	#english,
+	.bracha {
+		margin-top: 40px;
+		font-size: 30px;
+		color: white;
+	}
+
+
+	#hebrew {
+		font-size: 40px;
+		color: white;
+	}
+
+	button {
+		padding: 1% 4%;
+	}
+
+	li{
+		color:white;
+		list-style: none;
+	}
+
+	.circle {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: black;
+  color: white;
+  text-align: center;
+  line-height: 30px;
+  font-weight: bold;
+  margin-right: 10px;
 }
 
-#wrapper{
-	display: flex;
-	flex-direction: column;
-	height: 90vh;
-	align-items: center;
-	text-align: center;
-	margin:0 1.5%;
-	
-  justify-content: center;
-}
+ul {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px;
 
-h1{
-	font-size: 50px;
-	color:white;
-	
 }
-#english, #hebrew{
-	font-size:40px;
-	color:white;
-}
-button{
-	padding: 1% 4%;
-}
-
 </style>
 <body onload="changeColor()">
 	<nav class="navbar navbar-collapse-lg navbar-dark">
@@ -64,10 +96,21 @@ button{
 	</nav>
 
 	<div id ="wrapper">
-	<h1 id="heading">Sefirat HaOmer</h1>
+		<p class="bracha">בָּרוּךְ אַתָּה יְהֹוָה אֱלֹהֵֽינוּ מֶֽלֶךְ הָעוֹלָם אֲשֶׁר קִדְּ֒שָֽׁנוּ בְּמִצְוֹתָיו
+			וְצִוָּֽנוּ עַל
+			סְפִירַת הָעֹֽמֶר
+
+		</p>
+	
 	<div><p> <br><span id="english"></span><br></p> </div>
 	<div><p> <br><span id="hebrew"></span><br></p> </div>
 </div>
+<button id="count-button" onclick="markDayAsCounted(daysSinceStart+1)">Count day</button>
+
+
+
+<div id="circles-container"><p>Days Counted</p><ul id="counted-days"></ul></div>
+
 
 <script src="sefira.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

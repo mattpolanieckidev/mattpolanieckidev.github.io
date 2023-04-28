@@ -77,26 +77,47 @@ function changeColor() {
 
 
 function markDayAsCounted(day) {
-    // check if the day has already been counted
-    if (localStorage.getItem(`omer_${day}`) === 'true') {
-        console.log(`Day ${day} has already been counted.`);
-        
-        // update the button to show that the day has been counted
-        const button = document.getElementById(`count-button`);
-        button.textContent = '✓';
-        
-        return;
-    }
-
-    // mark the day as counted
-    localStorage.setItem(`omer_${day}`, 'true');
-
-    // update the button to show that the day has been counted
-    const button = document.getElementById(`count-button`);
-    button.textContent = '✓';
-
-    console.log(`Day ${day} has been counted.`);
-}
+	// check if the day has already been counted
+	if (localStorage.getItem(`omer_${day}`) === 'true') {
+	  console.log(`Day ${day} has already been counted.`);
+	  
+	  // update the button to show that the day has been counted
+	  const button = document.getElementById(`count-button`);
+	  button.textContent = '✓';
+	  
+	  return;
+	}
+  
+	// mark the day as counted
+	localStorage.setItem(`omer_${day}`, 'true');
+  
+	// update the button to show that the day has been counted
+	const button = document.getElementById(`count-button`);
+	button.textContent = '✓';
+  
+	console.log(`Day ${day} has been counted.`);
+  
+	// add the newly counted day to the list
+	const countedDaysList = document.getElementById('counted-days');
+	const listItem = document.createElement('li');
+	const dayNumber = document.createElement('span');
+	dayNumber.textContent = day;
+	dayNumber.classList.add('circle');
+	listItem.appendChild(dayNumber);
+	countedDaysList.appendChild(listItem);
+  }
+  
+  const countedDays = getCountedDays();
+  const countedDaysList = document.getElementById('counted-days');
+  countedDays.forEach(day => {
+	const listItem = document.createElement('li');
+	const dayNumber = document.createElement('span');
+	dayNumber.textContent = day.day;
+	dayNumber.classList.add('circle');
+	listItem.appendChild(dayNumber);
+	countedDaysList.appendChild(listItem);
+  });
+  
 
 function getCountedDays() {
 	const countedDays = [];
@@ -112,14 +133,3 @@ function getCountedDays() {
   }
 
 
-const countedDaysList = document.getElementById('counted-days');
-const countedDays = getCountedDays();
-countedDays.forEach(day => {
-  const listItem = document.createElement('li');
-  const dayNumber = document.createElement('span');
-  dayNumber.textContent = day.day;
-  dayNumber.classList.add('circle');
-  listItem.appendChild(dayNumber);
- 
-  countedDaysList.appendChild(listItem);
-});

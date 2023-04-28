@@ -9,70 +9,10 @@
     <meta name="Description" content="Sefirat HaOmer">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 	<link rel="manifest" href="manifest.json" crossorigin="use-credentials">
+	<link rel="stylesheet" href="sefira.css">
 </head>
 <style>
-	body {
-		top: 0;
-		margin: 0;
-		font-family: arial;
-	}
 
-	#wrapper {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		text-align: center;
-		margin: 0 1.5%;
-		justify-content: center;
-	}
-
-	h1 {
-		font-size: 50px;
-		color: white;
-
-	}
-
-	#english,
-	.bracha {
-		margin-top: 40px;
-		font-size: 30px;
-		color: white;
-	}
-
-
-	#hebrew {
-		font-size: 40px;
-		color: white;
-	}
-
-	button {
-		padding: 1% 4%;
-	}
-
-	li{
-		color:white;
-		list-style: none;
-	}
-
-	.circle {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: black;
-  color: white;
-  text-align: center;
-  line-height: 30px;
-  font-weight: bold;
-  margin-right: 10px;
-}
-
-ul {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-gap: 10px;
-
-}
 </style>
 <body onload="changeColor()">
 	<nav class="navbar navbar-collapse-lg navbar-dark">
@@ -101,9 +41,9 @@ ul {
 			סְפִירַת הָעֹֽמֶר
 
 		</p>
-	
-	<div><p> <br><span id="english"></span><br></p> </div>
 	<div><p> <br><span id="hebrew"></span><br></p> </div>
+	<div><p> <br><span id="english"></span><br></p> </div>
+
 </div>
 <button id="count-button" onclick="markDayAsCounted(daysSinceStart+1)">Count day</button>
 

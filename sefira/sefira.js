@@ -52,13 +52,24 @@ var omer = [
 
 function countDays(startDate) {
 	const oneDay = 24 * 60 * 60 * 1000; // number of milliseconds in a day
-	const today = new Date(); // get today's date
+	const now = new Date(); // get the current date and time
 	const start = new Date(startDate); // convert the start date string to a date object
-	const diffDays = Math.floor((today - start) / oneDay); // calculate the difference in days and round down
-
+	const diffDays = Math.floor((now - start) / oneDay);
+  
+	// get the current time and check if it's before 8pm
+	const currentHour = now.getHours();
+	const isBefore8pm = currentHour < 20; // 8pm = 20:00 in 24-hour time format
+  
+	// if it's before 8pm, subtract one day from the current date to get yesterday's date
+	const displayDate = isBefore8pm ? new Date(now.getTime() - oneDay).toLocaleDateString() : now.toLocaleDateString();
+  
+	// add the date to a P tag
+	const todayDateP = document.getElementById('today-date');
+	todayDateP.textContent = `This is the count for ${displayDate}`;
+  
 	return diffDays; // return the number of days
-}
-
+  }
+  
 const daysSinceStart = countDays("2023-04-07");
 const colors = ['#6F1E51', '#FFC312', '#F79F1F', '#EE5A24', '#EA2027', '#C4E538', '#A3CB38', '#009432', '#006266', '#12CBC4', '#1289A7', '#0652DD', '#1B1464', '#FDA7DF', '#D980FA', '#9980FA', '#5758BB', '#ED4C67', '#B53471', '#833471', '#6F1E51'];
 const body = document.body;
@@ -73,8 +84,6 @@ function changeColor() {
 	nav.style.backgroundColor = randomColor;
 	nav.innerHTML = "Sefirat HaOmer " + randomColor;
 }
-
-
 
 function markDayAsCounted(day) {
 	// check if the day has already been counted
@@ -131,12 +140,18 @@ function getCountedDays() {
 	}
 	return countedDays;
 }
-
-function displayTodaysDate() {
+function daysUntilNextOmerCycle() {
 	const today = new Date();
-	const todayDate = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-	const todayDateP = document.getElementById('today-date');
-	todayDateP.textContent = "This is the count for " + todayDate;
-}
-
-displayTodaysDate();
+	const currentYear = today.getFullYear();
+	const omerEndDate = new Date(`${currentYear}-05-16T23:59:59`);
+	
+	if (today > omerEndDate) {
+	  const nextYear = currentYear + 1;
+	  const nextOmerStartDate = new Date(`${nextYear}-03-27`);
+	  const daysUntilNextOmer = Math.ceil((nextOmerStartDate - today) / (1000 * 60 * 60 * 24));
+	  return `There are ${daysUntilNextOmer} days until next year's Omer.`;
+	} else {
+	  return 'This year\'s Omer cycle has not ended yet.';
+	}
+  }
+  

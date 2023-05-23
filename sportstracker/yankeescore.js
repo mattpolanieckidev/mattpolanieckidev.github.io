@@ -99,7 +99,7 @@ async function getNYBaseballGameScores() {
     const isYankeesHome = homeTeamName === 'New York Yankees';
     const isMetsHome = homeTeamName === 'New York Mets';
     const opponentTeamName = isYankeesHome || isMetsHome ? awayTeamName : homeTeamName;
-    const gameTitle = isYankeesHome ? `Yankees vs ${opponentTeamName}` : `Mets vs ${opponentTeamName}`;
+  
 
     const card = document.createElement('div');
     card.classList.add('card');
@@ -109,10 +109,6 @@ async function getNYBaseballGameScores() {
     gameDateElem.classList.add('game-date');
     card.appendChild(gameDateElem);
 
-    const gameTitleElem = document.createElement('h2');
-    gameTitleElem.textContent = gameTitle;
-    gameTitleElem.classList.add('game-title');
-    card.appendChild(gameTitleElem);
 
     const teamInfo = document.createElement('div');
     teamInfo.classList.add('team-info');

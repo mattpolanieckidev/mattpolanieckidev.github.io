@@ -35,7 +35,7 @@ async function getNHLscores() {
         const card = document.createElement('div');
         card.classList.add('card');
 
-        const gameDate = new Date(game.date);
+        const gameDate = new Date(game.game.date.date);
         const gameDateString = gameDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         const gameDateElement = document.createElement('p');
         gameDateElement.classList.add('game-date');

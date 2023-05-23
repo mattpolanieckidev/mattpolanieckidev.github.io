@@ -37,7 +37,7 @@ async function getNHLscores() {
 
         const gameDate = new Date(game.game.date.date);
         const gameDateString = gameDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-        const gameDateElement = document.createElement('p');
+        const gameDateElement = document.createElement('h1');
         gameDateElement.classList.add('game-date');
         gameDateElement.textContent = gameDateString;
 
@@ -51,11 +51,11 @@ async function getNHLscores() {
 
         const homeTeamScore = document.createElement('p');
         homeTeamScore.classList.add('team-info');
-        homeTeamScore.textContent = `${homeTeam.name} ${homeScore.total}`;
+        homeTeamScore.textContent = `${homeTeam.name}: ${homeScore.total}`;
 
         const awayTeamScore = document.createElement('p');
         awayTeamScore.classList.add('team-info');
-        awayTeamScore.textContent = `${awayTeam.name} ${awayScore.total}`;
+        awayTeamScore.textContent = `${awayTeam.name}: ${awayScore.total}`;
 
         card.appendChild(gameDateElement);
         card.appendChild(homeTeamLogo);

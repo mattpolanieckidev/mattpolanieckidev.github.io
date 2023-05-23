@@ -1,0 +1,102 @@
+.header h1 {
+    font-family: 'Faster One', cursive;
+      font-size: 84px;
+      font-weight: lighter;
+      letter-spacing: 8px;
+      color: white;
+      margin-top: 0;
+      margin-bottom: 10px;
+  }
+
+  .header h2 {
+      font-family: 'ABeeZee', sans-serif;
+      font-size: 24px;
+      color: white;
+      margin-top: -10px;
+    }
+
+  body {
+      background-color: #93D3FB;
+      font-family: arial;
+  }
+
+  .game-date {
+    font-family: arial;
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
+  .game-title {
+    font-family: arial;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  .team-info {
+    display: flex;
+    align-items: center;
+  }
+
+  .team-logo {
+    height: 40px;
+    width: 40px;
+  }
+
+  .team-name {
+    font-size: 18px;
+    margin-bottom: 0;
+  }
+
+  .logo-score {
+  display: flex;
+  align-items: center;
+}
+
+.team-logo {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.score-info {
+  margin-top: 10px;
+}
+
+.team-info {
+  margin-top: 10px;
+}
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f2f2f2;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin: 10px auto;
+    padding: 10px;
+    width: 80%;
+  }
+  .card img {
+    height: 40px;
+    margin-right: 10px;
+    width: 40px;
+  }
+
+  .card h1 {
+    font-family: arial;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .card p {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }

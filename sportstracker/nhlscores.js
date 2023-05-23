@@ -17,68 +17,73 @@ async function getNHLscores() {
       const container = document.getElementById('nhlgame-scores-container');
       container.innerHTML = '';
   
-      const currentDate = new Date(); // Current date
-      const pastWeekDate = new Date(); // Date of a week ago
-      pastWeekDate.setDate(pastWeekDate.getDate() - 7);
-  
-      let foundGames = false;
-  
-      games.forEach(game => {
-        const gameDate = new Date(game.date);
-  
-        if (gameDate >= pastWeekDate && gameDate <= currentDate) {
-          const homeTeam = game.teams?.home;
-          const awayTeam = game.teams?.away;
-          const homeScore = game.scores?.home?.total;
-          const awayScore = game.scores?.away?.total;
-  
-          if (homeTeam && awayTeam && homeScore !== undefined && awayScore !== undefined) {
-            const card = document.createElement('div');
-            card.classList.add('card');
-  
-            const homeTeamLogo = document.createElement('img');
-            homeTeamLogo.src = homeTeam.logo;
-            homeTeamLogo.classList.add('team-logo');
-  
-            const awayTeamLogo = document.createElement('img');
-            awayTeamLogo.src = awayTeam.logo;
-            awayTeamLogo.classList.add('team-logo');
-  
-            const homeTeamScore = document.createElement('p');
-            homeTeamScore.classList.add('team-info');
-            homeTeamScore.textContent = `${homeTeam.name} ${homeScore}`;
-  
-            const awayTeamScore = document.createElement('p');
-            awayTeamScore.classList.add('team-info');
-            awayTeamScore.textContent = `${awayTeam.name} ${awayScore}`;
-  
-            card.appendChild(homeTeamLogo);
-            card.appendChild(homeTeamScore);
-            card.appendChild(awayTeamLogo);
-            card.appendChild(awayTeamScore);
-  
-            container.appendChild(card);
-  
-            foundGames = true;
-          }
-        }
-      });
-  
-      if (!foundGames) {
-        const noGamesCard = document.createElement('div');
-        noGamesCard.classList.add('card');
-  
-        const noGamesText = document.createElement('p');
-        noGamesText.classList.add('game-title');
-        noGamesText.textContent = 'League Season is over';
-  
-        noGamesCard.appendChild(noGamesText);
-        container.appendChild(noGamesCard);
+      let gamesCount = 0;
+
+    for (let i = games.length - 1; i >= 0; i--) {
+      if (gamesCount === 7) {
+        break;
       }
-    } else {
-      console.log('Unable to retrieve Islanders scores.');
+
+      const game = games[i];
+
+      const homeTeam = game.teams?.home;
+      const awayTeam = game.teams?.away;
+      const homeScore = game.scores?.home;
+      const awayScore = game.scores?.away;
+
+      if (homeTeam && awayTeam && homeScore !== undefined && awayScore !== undefined) {
+        const card = document.createElement('div');
+        card.classList.add('card');
+
+        const gameDate = new Date(game.date);
+        const gameDateString = gameDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        const gameDateElement = document.createElement('p');
+        gameDateElement.classList.add('game-date');
+        gameDateElement.textContent = gameDateString;
+
+        const homeTeamLogo = document.createElement('img');
+        homeTeamLogo.src = homeTeam.logo;
+        homeTeamLogo.classList.add('team-logo');
+
+        const awayTeamLogo = document.createElement('img');
+        awayTeamLogo.src = awayTeam.logo;
+        awayTeamLogo.classList.add('team-logo');
+
+        const homeTeamScore = document.createElement('p');
+        homeTeamScore.classList.add('team-info');
+        homeTeamScore.textContent = `${homeTeam.name} ${homeScore}`;
+
+        const awayTeamScore = document.createElement('p');
+        awayTeamScore.classList.add('team-info');
+        awayTeamScore.textContent = `${awayTeam.name} ${awayScore}`;
+
+        card.appendChild(gameDateElement);
+        card.appendChild(homeTeamLogo);
+        card.appendChild(homeTeamScore);
+        card.appendChild(awayTeamLogo);
+        card.appendChild(awayTeamScore);
+
+        container.appendChild(card);
+
+        gamesCount++;
+      }
     }
+
+    if (gamesCount === 0) {
+      const noGamesCard = document.createElement('div');
+      noGamesCard.classList.add('card');
+
+      const noGamesText = document.createElement('p');
+      noGamesText.classList.add('game-title');
+      noGamesText.textContent = 'No games found';
+
+      noGamesCard.appendChild(noGamesText);
+      container.appendChild(noGamesCard);
+    }
+  } else {
+    console.log('Unable to retrieve Knicks scores.');
   }
+}
   
   getNHLscores();
   

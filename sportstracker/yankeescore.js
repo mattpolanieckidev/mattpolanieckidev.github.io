@@ -110,7 +110,7 @@ async function getNYBaseballGameScores() {
     teamInfo.classList.add('team-info');
 
     const cardHeader = document.createElement('h1');
-    cardHeader.textContent = `${gameDay} (${gameTime})`;
+    cardHeader.textContent = `${gameDay} (${gameDateTimeEST})`;
     card.appendChild(cardHeader);
 
     const homeTeamLogo = document.createElement('img');

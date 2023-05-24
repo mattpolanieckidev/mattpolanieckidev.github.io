@@ -117,18 +117,11 @@ async function getNYBaseballGameScores() {
     homeTeamLogo.src = isYankeesHome || isMetsHome ? logoAway : logoHome;
     homeTeamLogo.alt = `${homeTeamName} logo`;
     homeTeamLogo.classList.add('team-logo');
-    teamInfo.appendChild(homeTeamLogo);
-
+    
     const gameTitleText = document.createElement('p');
     gameTitleText.textContent = gameTitle;
     card.appendChild(gameTitleText);
 
-    const teamName = document.createElement('p');
-    teamName.textContent = isYankeesHome || isMetsHome ? awayTeamName : homeTeamName;
-    teamName.classList.add('team-name');
-    teamInfo.appendChild(teamName);
-
-    card.appendChild(teamInfo);
 
     if (game.status.short === 'FT') {
       const scoreInfo = document.createElement('div');

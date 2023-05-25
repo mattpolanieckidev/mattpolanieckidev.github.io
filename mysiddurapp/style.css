@@ -1,0 +1,42 @@
+#main-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color:#212427;
+  }
+
+  .pageHeading{
+    text-align: center  ;
+  }
+
+  .textContent, .pageText{
+    font-size: 2em;
+    text-align:right;
+    width: clamp(45ch, 50%, 75ch);
+    padding-top: 15px;
+  }
+
+  @media screen and (orientation:portrait){
+    .pageText, .textContent{
+      margin:0 2.5%;
+      font-size: 18px;
+      padding-left:0;
+      width:fit-content;
+      
+    }
+    #date{
+      display:none;
+    }
+    .footer{
+      height:100px;
+    }
+  
+    .finder{
+      margin:75px 20px 0;
+    }
+    .innerDiv p{
+        direction: rtl;
+      }
+  }
+    

@@ -27,6 +27,9 @@ function fetchNextPart(url) {
         p.innerHTML = pasuk;
         innerDiv.appendChild(p);
       });
+
+      addSectionToList(pull.ref); // Add section title to the navigation list
+
   }
   
         // Check if there is a next part
@@ -39,7 +42,20 @@ function fetchNextPart(url) {
         // Handle any errors that occur during the fetch
         console.error('Error fetching part of the prayer:', error);
       });
+
+      
   }
   
+
+// Function to create navigation list with section titles
+function addSectionToList(title) {
+    const listItem = document.createElement("li");
+    const link = document.createElement("a");
+    link.textContent = title;
+    link.href = "#" + title.replace(/\s+/g, "-").toLowerCase(); // Generate anchor link based on the section title
+    listItem.appendChild(link);
+    navList.appendChild(listItem);
+  }
+
 // Fetch Ashkenazi Siddur - Modeh Ani from Sefaria API
 fetchNextPart('https://www.sefaria.org/api/texts/Siddur_Ashkenaz%2C_Weekday%2C_Shacharit%2C_Preparatory_Prayers%2C_Modeh_Ani?ven=Artscroll_siddur&lang=bi');

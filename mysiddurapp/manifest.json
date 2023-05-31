@@ -2,7 +2,7 @@
 "name": "MySiddur",
 "short_name": "MySiddur",
 "start_url": "https://mattpolanieckidev.github.io/mysiddur/index.html",
-"scope": "https://mattpolanieckidev.github.io/mysiddur/",
+"scope": "https://mattpolanieckidev.github.io/mysiddur/index.html",
 "display": "standalone",
 "description": "A description for your application",
 "lang": "English",

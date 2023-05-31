@@ -1,3 +1,14 @@
+.navbar-toggler{
+  background-color: white;
+}
+
+.navbar-brand{
+  color:white;
+}
+
+.nav-link, #navList{
+  color:white;
+}
 #main-content{
     display: flex;
     justify-content: center;
@@ -26,6 +37,7 @@
     direction: rtl;
     font-family: sans-serif;
   }
+ 
 
   @media screen and (orientation:portrait){
     .pageText, .textContent{

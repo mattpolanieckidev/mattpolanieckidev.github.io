@@ -1,16 +1,3 @@
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function() {
-    navigator.serviceWorker.register("service-worker.js").then(function(registration) {
-      // Registration was successful
-      console.log("ServiceWorker registration successful with scope: ", registration.scope);
-    }, function(err) {
-      // registration failed :(
-      console.log("ServiceWorker registration failed: ", err);
-    });
-  });
-}
-
-
 var pageTitle = document.getElementById("pageTitle");
 var textdiv = document.getElementById("main-content");
 var textContent = document.getElementsByClassName("pageText");
@@ -21,7 +8,7 @@ function fetchNextPart(url) {
       .then(response => response.json())
       .then(pull => {
         const refVariants = pull.ref;
-        const isWeekdayShacharit = refVariants.includes("Weekday, Shacharit");
+        const isWeekdayShacharit = refVariants.includes("Weekday, Mincha");
   
         if (isWeekdayShacharit) {
           const div = document.createElement("div");
@@ -42,7 +29,7 @@ function fetchNextPart(url) {
             innerDiv.appendChild(p);
           });
   
-       //   addSectionToList(pull.ref); // Add section ref to the navigation list
+         // addSectionToList(pull.ref); // Add section ref to the navigation list
         }
   
         // Check if there is a next part
@@ -91,7 +78,7 @@ function fetchNextPart(url) {
 
 
 // Fetch Ashkenazi Siddur - Modeh Ani from Sefaria API
-fetchNextPart('https://www.sefaria.org/api/texts/Siddur_Ashkenaz%2C_Weekday%2C_Shacharit%2C_Preparatory_Prayers%2C_Modeh_Ani?ven=Artscroll_siddur&lang=bi');
+fetchNextPart('https://www.sefaria.org/api/texts/Siddur_Ashkenaz%2C_Weekday%2C_Minchah%2C_Ashrei?lang=he');
 
 function adjustFontSize(size) {
   const textContentElements = document.getElementsByClassName("pageText");

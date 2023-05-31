@@ -59,32 +59,62 @@ function fetchNextPart(url) {
   
   
 
-// Function to create navigation list with section refs
-function addSectionToList(ref) {
+// Function to create navigation list with section titles
+function addSectionToList(title) {
   const listItem = document.createElement("li");
   const link = document.createElement("a");
-  link.textContent = ref;
-  const anchorId = ref.replace(/\s+/g, "-").toLowerCase();
-  link.href = "#" + anchorId; // Generate anchor link based on the section ref
+  link.textContent = title;
+  const anchorId = title.replace(/\s+/g, "-").toLowerCase();
+  link.href = "#" + anchorId; // Generate anchor link based on the section title
   listItem.appendChild(link);
   navList.appendChild(listItem);
 
   // Update the corresponding pageHeading with a link
   const pageHeading = document.querySelector(`h3[data-anchor="${anchorId}"]`);
   if (pageHeading) {
-    pageHeading.innerHTML = `<a href="#${anchorId}">${ref}</a>`;
+    pageHeading.innerHTML = `<a href="#${anchorId}">${title}</a>`;
   }
 
-  // Check if the hamburger menu button exists
-  const navbarToggler = document.querySelector(".navbar-toggler");
-  if (navbarToggler) {
+  // Check if the navigation menu is open
+  const navbarCollapse = document.querySelector(".navbar-collapse.show");
+  if (navbarCollapse) {
     // Add a click event listener to close the navigation menu when a link is clicked
     link.addEventListener("click", () => {
-      navbarToggler.click(); // Simulate a click on the hamburger menu button to close the menu
+      const navbarToggler = document.querySelector(".navbar-toggler");
+      if (navbarToggler) {
+        navbarToggler.click(); // Simulate a click on the hamburger menu button to close the menu
+      }
     });
   }
 }
 
 
+
 // Fetch Ashkenazi Siddur - Modeh Ani from Sefaria API
 fetchNextPart('https://www.sefaria.org/api/texts/Siddur_Ashkenaz%2C_Weekday%2C_Shacharit%2C_Preparatory_Prayers%2C_Modeh_Ani?ven=Artscroll_siddur&lang=bi');
+
+function adjustFontSize(size) {
+  const textContentElements = document.getElementsByClassName("textContent");
+  for (let i = 0; i < textContentElements.length; i++) {
+    textContentElements[i].style.fontSize = size + "px";
+  }
+}
+
+// Event listener for font size change
+document.addEventListener("DOMContentLoaded", () => {
+  const fontSizeButtons = document.querySelectorAll(".font-size-btn");
+
+  fontSizeButtons.forEach(button => {
+    button.addEventListener("click", event => {
+      const fontSize = event.target.dataset.fontSize;
+      adjustFontSize(fontSize);
+    });
+  });
+});
+
+// Example HTML for modal:
+// <div class="modal">
+//   <button class="font-size-btn" data-font-size="18">18px</button>
+//   <button class="font-size-btn" data-font-size="22">22px</button>
+//   <button class="font-size-btn" data-font-size="26">26px</button>
+// </div>

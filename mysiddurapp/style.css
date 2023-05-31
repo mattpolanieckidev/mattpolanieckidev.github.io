@@ -18,6 +18,10 @@
    
   }
 
+  .textContent a{
+    font-size: 12px;
+  }
+
   .pageText p {
     direction: rtl;
     font-family: sans-serif;

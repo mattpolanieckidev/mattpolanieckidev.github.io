@@ -94,7 +94,7 @@ function addSectionToList(title) {
 fetchNextPart('https://www.sefaria.org/api/texts/Siddur_Ashkenaz%2C_Weekday%2C_Shacharit%2C_Preparatory_Prayers%2C_Modeh_Ani?ven=Artscroll_siddur&lang=bi');
 
 function adjustFontSize(size) {
-  const textContentElements = document.getElementsByClassName("textContent");
+  const textContentElements = document.getElementsByClassName("pageText");
   for (let i = 0; i < textContentElements.length; i++) {
     textContentElements[i].style.fontSize = size + "px";
   }
@@ -112,9 +112,3 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Example HTML for modal:
-// <div class="modal">
-//   <button class="font-size-btn" data-font-size="18">18px</button>
-//   <button class="font-size-btn" data-font-size="22">22px</button>
-//   <button class="font-size-btn" data-font-size="26">26px</button>
-// </div>

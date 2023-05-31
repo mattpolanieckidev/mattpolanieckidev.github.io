@@ -16,9 +16,10 @@
 
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Welcome to MySiddurApp</a>
-      <button class="btn btn-primary font-size-modal-btn" data-toggle="modal" data-target="#fontSizeModal">
-        Adjust Font Size
-      </button>
+  <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Font
+</button>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -26,19 +27,23 @@
    
     
       <!-- Font Size Modal -->
-<div class="modal fade" id="fontSizeModal" tabindex="-1" role="dialog" aria-labelledby="fontSizeModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="fontSizeModalLabel">Adjust Font Size</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Font Size</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <button class="btn btn-secondary font-size-btn" data-font-size="18">18px</button>
         <button class="btn btn-secondary font-size-btn" data-font-size="22">22px</button>
         <button class="btn btn-secondary font-size-btn" data-font-size="26">26px</button>
+      </div>
+      <div class="modal-footer">
+   
       </div>
     </div>
   </div>

@@ -87,6 +87,13 @@ function adjustFontSize(size) {
   }
 }
 
+function adjustFontSize(size) {
+  const textContentElements = document.getElementsByClassName("pageText");
+  for (let i = 0; i < textContentElements.length; i++) {
+    textContentElements[i].style.fontSize = size + "px";
+  }
+}
+
 // Event listener for font size change
 document.addEventListener("DOMContentLoaded", () => {
   const fontSizeButtons = document.querySelectorAll(".font-size-btn");
@@ -95,7 +102,23 @@ document.addEventListener("DOMContentLoaded", () => {
     button.addEventListener("click", event => {
       const fontSize = event.target.dataset.fontSize;
       adjustFontSize(fontSize);
+      // Save the font size to local storage
+      localStorage.setItem("fontSize", fontSize);
     });
   });
+});
+
+// Event listener before page unload to save font size
+window.addEventListener("beforeunload", () => {
+  const currentFontSize = getComputedStyle(document.querySelector(".pageText")).fontSize;
+  localStorage.setItem("fontSize", parseInt(currentFontSize));
+});
+
+// Apply font size on page load
+document.addEventListener("DOMContentLoaded", () => {
+  const storedFontSize = localStorage.getItem("fontSize");
+  if (storedFontSize) {
+    adjustFontSize(storedFontSize);
+  }
 });
 

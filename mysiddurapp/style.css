@@ -23,7 +23,7 @@
   }
 
   .textContent{
-    font-size: 1em;
+    font-size: 22px;
     text-align:right;
     width: clamp(45ch, 50%, 75ch);
    

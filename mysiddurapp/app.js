@@ -57,24 +57,6 @@ function fetchNextPart(url) {
       });
   }
   
-  
-
-// Function to create navigation list with section titles
-/*function addSectionToList(title) {
-  const listItem = document.createElement("li");
-  const link = document.createElement("a");
-  link.textContent = title;
-  const anchorId = title.replace(/\s+/g, "-").toLowerCase();
-  link.href = "#" + anchorId; // Generate anchor link based on the section title
-  listItem.appendChild(link);
-  navList.appendChild(listItem);
-
-  // Update the corresponding pageHeading with a link
-  const pageHeading = document.querySelector(`h3[data-anchor="${anchorId}"]`);
-  if (pageHeading) {
-    pageHeading.innerHTML = `<a href="#${anchorId}">${title}</a>`;
-  }
-*/
   // Check if the navigation menu is open
   const navbarCollapse = document.querySelector(".navbar-collapse.show");
   if (navbarCollapse) {
@@ -86,9 +68,6 @@ function fetchNextPart(url) {
       }
     });
   }
-
-
-
 
 // Fetch Ashkenazi Siddur - Modeh Ani from Sefaria API
 fetchNextPart('https://www.sefaria.org/api/texts/Siddur_Ashkenaz%2C_Weekday%2C_Shacharit%2C_Preparatory_Prayers%2C_Modeh_Ani?ven=Artscroll_siddur&lang=bi');

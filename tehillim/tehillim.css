@@ -97,7 +97,7 @@ p.english, .textContent li, #pageText li{
 @media screen and (orientation:portrait){
   .pageText, .textContent{
     margin:0 1.5%;
-    font-size: 18px;
+    font-size: 28px;
     padding-left:0;
   }
   #date{

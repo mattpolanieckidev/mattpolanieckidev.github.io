@@ -1,13 +1,13 @@
 body{
   top:0;
   margin:0;
-  font-size:18px;
+  font-size:28px;
 }
 
 .textContent{
   text-align: right;
   width: clamp(45ch, 50%, 75ch);
-  font-size: 24px;
+  font-size: 28px;
   margin: 5% 0 0 22%;
 }
 
@@ -132,7 +132,7 @@ display:none;
 @media screen and (orientation:portrait){
   .pageText, .textContent{
     margin:0 2.5%;
-    font-size: 18px;
+    font-size: 28px;
     padding-left:0;
     width:fit-content;
   }

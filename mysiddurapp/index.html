@@ -26,13 +26,13 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Font Size</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             Font Size
             </div>
             <div class="modal-body">
-              <button class="btn btn-secondary font-size-btn" data-font-size="26">26px</button>
-              <button class="btn btn-secondary font-size-btn" data-font-size="28">28px</button>
-              <button class="btn btn-secondary font-size-btn" data-font-size="30">30px</button>
+              <div>
+                Text Size
+                <input type="range" min="1" max="3" value="2" step="1" id="fontSize" class="form-control-range" oninput="adjustFont(this.value)"><br>
+                </div>
             </div>
           </div>
         </div>

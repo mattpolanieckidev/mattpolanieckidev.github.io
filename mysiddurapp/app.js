@@ -10,7 +10,8 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-
+var slider = document.getElementById("fontSize");
+var fontSize = slider.value;
 var pageTitle = document.getElementById("pageTitle");
 var textdiv = document.getElementById("main-content");
 var textContent = document.getElementsByClassName("pageText");
@@ -40,6 +41,7 @@ function fetchNextPart(url) {
             const p = document.createElement("p");
             p.innerHTML = pasuk;
             innerDiv.appendChild(p);
+            adjustFont(localStorage.getItem("size"));
           });
   
        //   addSectionToList(pull.ref); // Add section ref to the navigation list
@@ -79,15 +81,37 @@ function adjustFontSize(size) {
   }
 }
 
-// Event listener for font size change
-document.addEventListener("DOMContentLoaded", () => {
-  const fontSizeButtons = document.querySelectorAll(".font-size-btn");
+//set slider value on mobile
+function myFunction(x) {
+  if (x.matches) { // If media query matches
+    adjustFont("1");
+  } else {
+    adjustFont("2");
+  }
+}
 
-  fontSizeButtons.forEach(button => {
-    button.addEventListener("click", event => {
-      const fontSize = event.target.dataset.fontSize;
-      adjustFontSize(fontSize);
-    });
-  });
-});
+var x = window.matchMedia("(orientation:portrait)")
+myFunction(x)
+x.addListener(myFunction)
+
+//adjust font size based on slider value
+function adjustFont(a){
+  for (i = 0; i < textContent.length; i++) {
+    if (a === "1"){
+      slider.value="1";
+      localStorage.setItem("size", "1");
+      textContent.item(i).style.fontSize="24px";
+    }
+    else if (a === "2"){
+      slider.value="2";
+      localStorage.setItem("size", "2");
+      textContent.item(i).style.fontSize="30px";
+    }
+    else if (a === "3"){
+      localStorage.setItem("size", "3");
+      textContent.item(i).style.fontSize="36px";
+    }
+    }
+  };
+
 

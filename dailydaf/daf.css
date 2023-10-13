@@ -174,5 +174,16 @@ display:none;
   .finder{
     margin:75px 20px 0;
   }
+    /* Add the following styles to stack .buttonAI on top */
+    .topcontent {
+      grid-template-columns: 1fr;
+      margin: 0 2.5%;
+    }
+    .buttonAI{
+      text-align: center;
+    }
+    #summary{
+      text-align: left;
+    }
 }
   

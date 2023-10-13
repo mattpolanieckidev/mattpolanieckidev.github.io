@@ -20,13 +20,12 @@ body {
   background: #121212;
 }
 
-.content{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+.topcontent{
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  justify-content: space-evenly;
   color:#212427;
-}
+} 
 
 .custom-control{
   margin-bottom: 10px;
@@ -49,6 +48,10 @@ body {
   flex-direction: row;
   justify-content: space-evenly;
   margin: 4% 0;
+}
+.buttonAI{
+
+  margin: 4% 2.5%;
 }
 
 .hidden{
@@ -78,6 +81,15 @@ p.english, .textContent li, .nextPageContent li{
 
 .finder{
   margin:75px 400px 0;
+  display: flex;
+  justify-content: center;
+  gap:40px;
+}
+.finderbottom{
+  margin:75px 400px 0;
+  display: flex;
+  justify-content: center;
+  gap:40px;
 }
 
 .form-row{
@@ -139,6 +151,10 @@ display:none;
 .modalrow{
   display: inline-block;
   margin-right: 20px;
+}
+
+.gpt{
+  background-color: #48BBB0;
 }
 
 @media screen and (orientation:portrait){

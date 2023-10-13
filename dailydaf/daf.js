@@ -5,7 +5,7 @@ var div, heading, ul, pasuk, newHeading, links;
 var slider = document.getElementById("fontSize");
 var fontSize = slider.value;
 var textContent = document.getElementsByClassName("pageText");
-
+let result;
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function() {
@@ -19,10 +19,10 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-
+//nightmode
 if (localStorage.getItem("night") === "dark") {
-  document.getElementById("body").classList.add("night");
-  document.getElementById("textContent").classList.add("night");
+
+  document.getElementById("textContent").classList.add("nightcolor");
   document.getElementById("nav").classList.add("bg-dark");
   document.getElementById("modal").classList.add("bg-dark");
   document.getElementById("switch1").checked = true;
@@ -68,7 +68,7 @@ function night() {
   const isNight = localStorage.getItem("night") === "dark";
   
   // Toggle the "night" class on the body, toggle the "nightcolor" class on elements, and toggle the "bg-dark" class on elements
-  document.getElementById("body").classList.toggle("night", !isNight);
+  document.getElementById("textcontent").classList.toggle("night", !isNight);
   document.getElementById("toggleclose").classList.toggle("nightcolor", !isNight);
   document.getElementById("masechta").classList.toggle("nightcolor", !isNight);
   document.getElementById("modal").classList.toggle("bg-dark", !isNight);
@@ -215,3 +215,39 @@ const getPage = () => {
       prev = pull.prev;
     })
 }
+
+
+  async function generateAI() {
+    const url = 'https://chatgpt-api8.p.rapidapi.com/';
+    const options = {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'X-RapidAPI-Key': 'bd3893a85fmsh47b0203e08b8f58p13007djsn0a939f91a737',
+        'X-RapidAPI-Host': 'chatgpt-api8.p.rapidapi.com',
+      },
+      body: JSON.stringify([
+        {
+          content: 'Summarize this text into 5 bullet points:' +enPasuk[0],
+          role: 'user',
+        },
+      ]),
+    };
+  
+    try {
+      const response = await fetch(url, options);
+      const result = await response.json(); // Parse the response as JSON
+  
+      // Check if the response structure matches the expected format
+      if (result.text && result.finish_reason && result.model) {
+        const generatedText = result.text;
+        console.log(generatedText);
+        document.getElementById('summary').innerText = generatedText;
+      } else {
+        console.error('Response structure is not as expected.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  

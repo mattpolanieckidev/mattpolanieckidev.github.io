@@ -7,25 +7,16 @@ var fontSize = slider.value;
 var textContent = document.getElementsByClassName("pageText");
 let result;
 
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function() {
-    navigator.serviceWorker.register("sw.js").then(function(registration) {
-      // Registration was successful
-      console.log("ServiceWorker registration successful with scope: ", registration.scope);
-    }, function(err) {
-      // registration failed :(
-      console.log("ServiceWorker registration failed: ", err);
-    });
-  });
-}
-
 //nightmode
 if (localStorage.getItem("night") === "dark") {
-
-  document.getElementById("textContent").classList.add("nightcolor");
-  document.getElementById("nav").classList.add("bg-dark");
-  document.getElementById("modal").classList.add("bg-dark");
+  document.getElementById("content").classList.toggle("night", !isNight);
+  document.getElementById("body").classList.toggle("night", !isNight);
+  document.getElementById("toggleclose").classList.toggle("nightcolor", !isNight);
+  document.getElementById("masechta").classList.toggle("nightcolor", !isNight);
+  document.getElementById("modal").classList.toggle("bg-dark", !isNight);
+  document.getElementById("nav").classList.toggle("bg-dark", !isNight);
   document.getElementById("switch1").checked = true;
+ 
 }
 else {
   document.getElementById("body").classList.remove("night");
@@ -48,19 +39,26 @@ function createDiv(){
 
 //Loop through available pasukim and append to unordered list. Check to see if the translation should be shown or not.
 function writePasuk() {
-  enPasuk.forEach((pasuk, index) => {
-    const li = document.createElement("li");
-    const isHidden = localStorage.getItem("hidden") === "hidden";
-    const englishClass = isHidden ? "english hidden" : "english";
-    li.innerHTML = `${hePasuk[index]}<p class="${englishClass}">${pasuk}</p>`;
-    ul.appendChild(li);
-  });
-  
+  for (let i = 0; i < enPasuk.length; i++) {
+    const enLines = enPasuk[i];
+    const heLines = hePasuk[i];
+
+    for (let j = 0; j < enLines.length; j++) {
+      const enLine = enLines[j];
+      const heLine = heLines[j];
+      
+      const li = document.createElement("li");
+      const isHidden = localStorage.getItem("hidden") === "hidden";
+      const englishClass = isHidden ? "english hidden" : "english";
+      
+      li.innerHTML = `<p>${heLine}</p><p class="${englishClass}">${enLine}</p>`;
+      ul.appendChild(li);
+    }
+  }
   const isHidden = localStorage.getItem("hidden") === "hidden";
   document.getElementById("switch2").checked = !isHidden;
   adjustFont(localStorage.getItem("size"));
 }
-
 
 //dark mode
 function night() {
@@ -68,18 +66,16 @@ function night() {
   const isNight = localStorage.getItem("night") === "dark";
   
   // Toggle the "night" class on the body, toggle the "nightcolor" class on elements, and toggle the "bg-dark" class on elements
-  document.getElementById("textcontent").classList.toggle("night", !isNight);
+  document.getElementById("content").classList.toggle("night", !isNight);
+  document.getElementById("body").classList.toggle("night", !isNight);
   document.getElementById("toggleclose").classList.toggle("nightcolor", !isNight);
   document.getElementById("masechta").classList.toggle("nightcolor", !isNight);
   document.getElementById("modal").classList.toggle("bg-dark", !isNight);
   document.getElementById("nav").classList.toggle("bg-dark", !isNight);
   
   // Update the state of the "switch1" checkbox and the value of the "night" key in `localStorage`
-  document.getElementById("switch1").checked = isNight;
   localStorage.setItem("night", isNight ? "light" : "dark");
 }
-
-
 
 //get today's date and page number
 fetch("https://www.sefaria.org/api/calendars/")
@@ -98,7 +94,6 @@ fetch("https://www.sefaria.org/api/calendars/")
         masechtaSearch.value = pull.book;
         enPasuk = pull.text;
         hePasuk = pull.he;
-        count = 0;
         createDiv();
         heading.innerHTML = pull.ref;
         writePasuk();
@@ -114,35 +109,60 @@ fetch("https://www.sefaria.org/api/calendars/")
 
 //get next page
 const nextPage = async () => {
+  // Fetch the next page's content
   const response = await fetch(`https://www.sefaria.org/api/texts/${next}`);
   const { text: enPasuk, he: hePasuk, ref, next: nextPasuk } = await response.json();
-  count = 0;
+
+  // Split the nextPasuk into masechta and page using space as the delimiter
+  const [masechta, page] = nextPasuk.split(' ');
+
+  // Create the new next variable with the preferred format "Kiddushin.66"
+  next = `${masechta}.${page}`;
+
+  // create a new content div, and set the heading
   createDiv();
   heading.innerHTML = ref;
-  writePasuk();
-  heading.scrollIntoView({behavior:"auto", block:"center"});
-  document.getElementById("next").innerHTML = nextPasuk;
-  next = nextPasuk;
+
+  // Write the new page's content to the screen
+  writePasuk(enPasuk, hePasuk);
+
+  // Scroll to the new heading
+  heading.scrollIntoView({ behavior: "auto", block: "center" });
+
+  // Update the "next" element to display the next page
+  document.getElementById("next").innerHTML = next;
 }
 
+
+
+
 //get previous page
-const prevPage = () => {
-  fetch("https://www.sefaria.org/api/texts/" + prev)
-    .then(response => response.json())
-    .then(pull => {
-      document.getElementById("content").textContent = "";
-      enPasuk = pull.text;
-      hePasuk = pull.he;
-      count = 0;
-      createDiv();
-      heading.innerHTML = pull.ref;
-      writePasuk();
-      prev = pull.prev;
-      next = pull.next;
-      document.getElementById("next").innerHTML = next;
-      document.getElementById("prev").innerHTML = prev;
-    });
+const prevPage = async () => {
+  document.getElementById("content").textContent = "";
+  // Fetch the prev page's content
+  const response = await fetch(`https://www.sefaria.org/api/texts/${prev}`);
+  const { text: enPasuk, he: hePasuk, ref, prev: prevPasuk, next: nextPasuk} = await response.json();
+
+  // Split the prevPasuk into masechta and page using space as the delimiter
+  const [masechta, page] = prevPasuk.split(' ');
+
+  // Create the new prev variable with the preferred format "Kiddushin.66"
+  prev = `${masechta}.${page}`;
+
+  // Update the next variable with the new value
+  next = `${nextPasuk}`;
+  // create a new content div, and set the heading
+  createDiv();
+  heading.innerHTML = ref;
+
+  // Write the new page's content to the screen
+  writePasuk(enPasuk, hePasuk);
+
+  // Update the "next" element to display the next page
+  document.getElementById("next").innerHTML = next;
+  document.getElementById("prev").innerHTML = prev;
 }
+
 
 const hide = () => {
   const x = document.getElementsByClassName("english");
@@ -151,103 +171,3 @@ const hide = () => {
   }
   localStorage.setItem("hidden", localStorage.getItem("hidden") === "show" ? "hidden" : "show");
 }
-
-
-//set slider value on mobile
-const myFunction = x => {
-  const fontValue = x.matches ? "1" : "2";
-  adjustFont(fontValue);
-}
-
-var x = window.matchMedia("(orientation:portrait)")
-myFunction(x)
-x.addListener(myFunction)
-
-//adjust font size based on slider value
-function adjustFont(a){
-  for (i = 0; i < textContent.length; i++) {
-    if (a === "1"){
-      slider.value="1";
-      localStorage.setItem("size", "1");
-      textContent.item(i).style.fontSize="18px";
-    }
-    else if (a === "2"){
-      slider.value="2";
-      localStorage.setItem("size", "2");
-      textContent.item(i).style.fontSize="24px";
-    }
-    else if (a === "3"){
-      localStorage.setItem("size", "3");
-      textContent.item(i).style.fontSize="32px";
-    }
-    }
-  };
-
-//progress bar for full daf cycle
-const startDate = new Date("1/5/2020");
-const endDate = new Date("6/7/2027");
-const today = new Date();
-const daysElapsed = Math.floor((today - startDate) / (1000 * 3600 * 24));
-const totalDays = Math.floor((endDate - startDate) / (1000 * 3600 * 24));
-const progressNum = ((daysElapsed / totalDays) * 100).toFixed(2);
-const progress = document.getElementById("progress");
-progress.style.width = `${progressNum}%`;
-progress.innerHTML = `Siyum HaShas ${progressNum}%`;
-
-//find a daf
-const getPage = () => {
-  const masechtaName = document.getElementById("masechta").value;
-  const dafNum = document.getElementById("pageSelect").value;
-  
-  fetch(`https://www.sefaria.org/api/texts/${masechtaName}.${dafNum}`)
-    .then(response => response.json())
-    .then(pull => {
-      document.getElementById("content").textContent = "";
-      enPasuk = pull.text;
-      hePasuk = pull.he;
-      count = 0;
-      createDiv();
-      heading.innerHTML = pull.ref;
-      writePasuk();
-      document.getElementById("prev").innerHTML = pull.prev;
-      document.getElementById("next").innerHTML = pull.next;
-      next = pull.next;
-      prev = pull.prev;
-    })
-}
-
-
-  async function generateAI() {
-    const url = 'https://chatgpt-api8.p.rapidapi.com/';
-    const options = {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'X-RapidAPI-Key': 'bd3893a85fmsh47b0203e08b8f58p13007djsn0a939f91a737',
-        'X-RapidAPI-Host': 'chatgpt-api8.p.rapidapi.com',
-      },
-      body: JSON.stringify([
-        {
-          content: 'Summarize this text into 5 bullet points:' +enPasuk[0],
-          role: 'user',
-        },
-      ]),
-    };
-  
-    try {
-      const response = await fetch(url, options);
-      const result = await response.json(); // Parse the response as JSON
-  
-      // Check if the response structure matches the expected format
-      if (result.text && result.finish_reason && result.model) {
-        const generatedText = result.text;
-        console.log(generatedText);
-        document.getElementById('summary').innerText = generatedText;
-      } else {
-        console.error('Response structure is not as expected.');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  

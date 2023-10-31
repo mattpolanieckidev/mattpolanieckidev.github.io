@@ -74,36 +74,45 @@ const myFunction = x => {
   }
   
   
-    async function generateAI() {
-      const url = 'https://chatgpt-api8.p.rapidapi.com/';
-      const options = {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          'X-RapidAPI-Key': 'bd3893a85fmsh47b0203e08b8f58p13007djsn0a939f91a737',
-          'X-RapidAPI-Host': 'chatgpt-api8.p.rapidapi.com',
-        },
-        body: JSON.stringify([
-          {
-            content: 'Summarize this text into 5 bullet points:' +enPasuk[0],
-            role: 'user',
-          },
-        ]),
-      };
-    
-      try {
-        const response = await fetch(url, options);
-        const result = await response.json(); // Parse the response as JSON
-    
-        // Check if the response structure matches the expected format
-        if (result.text && result.finish_reason && result.model) {
-          const generatedText = result.text;
-          console.log(generatedText);
-          document.getElementById('summary').innerText = generatedText;
-        } else {
-          console.error('Response structure is not as expected.');
-        }
-      } catch (error) {
-        console.error(error);
+  async function generateAI() {
+    const url = 'https://simple-chatgpt-api.p.rapidapi.com/ask';
+    const button = document.querySelector('.gpt'); // Select the button element
+  
+    // Set the button to a loading state
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'X-RapidAPI-Key': 'bd3893a85fmsh47b0203e08b8f58p13007djsn0a939f91a737',
+        'X-RapidAPI-Host': 'simple-chatgpt-api.p.rapidapi.com',
+      },
+      body: JSON.stringify({
+        question: 'Summarize this text into 5 bullet points:' + enPasuk[0] + enPasuk[1], // Modify this to use the desired question
+      }),
+    };
+  
+    try {
+      const response = await fetch(url, options);
+  
+      if (!response.ok) {
+        throw new Error(`Request failed with status: ${response.status}`);
       }
-    }
+  
+      const result = await response.json();
+  
+      // Check if the response structure matches the expected format
+      if (result.answer) {
+        const generatedText = result.answer;
+        document.getElementById('summary').innerText = generatedText;
+        button.innerHTML = 'Generate AI Summary'
+      } else {
+        console.error('Response structure is not as expected.');
+      }
+    } catch (error) {
+      console.error(error);
+      button.classList.remove('loading-button');
+    } 
+  }
+  

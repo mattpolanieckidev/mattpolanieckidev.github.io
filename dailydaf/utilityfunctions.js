@@ -85,7 +85,7 @@ const myFunction = x => {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'X-RapidAPI-Key': 'bd3893a85fmsh47b0203e08b8f58p13007djsn0a939f91a737',
+        'X-RapidAPI-Key': '057428540fmsh5cec038c682e999p1c88eajsn3ad697cf50d4',
         'X-RapidAPI-Host': 'simple-chatgpt-api.p.rapidapi.com',
       },
       body: JSON.stringify({

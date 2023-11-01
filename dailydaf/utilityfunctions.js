@@ -89,7 +89,7 @@ const myFunction = x => {
         'X-RapidAPI-Host': 'simple-chatgpt-api.p.rapidapi.com',
       },
       body: JSON.stringify({
-        question: 'Summarize this text into 5 bullet points:' + enPasuk[0] + enPasuk[1], // Modify this to use the desired question
+        question: 'Summarize this text into 5 bullet points:' + enPasuk[0], // Modify this to use the desired question
       }),
     };
   

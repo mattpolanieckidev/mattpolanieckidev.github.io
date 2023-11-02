@@ -1,7 +1,6 @@
-var date, next, prev, enPasuk, hePasuk, amudCount, section, currentAmud, masechtaProgress, masechtaSearch = document.getElementById("masechta");
+var date, next, prev, enPasuk, hePasuk, amudCount, section, currentAmud, masechtaProgress, masechtaSearch = document.getElementById("masechta"),div, heading, ul, pasuk, newHeading, links;
 var pageTitle = document.getElementById("pageTitle");
 var textdiv = document.getElementById("content");
-var div, heading, ul, pasuk, newHeading, links;
 var slider = document.getElementById("fontSize");
 var fontSize = slider.value;
 var textContent = document.getElementsByClassName("pageText");
@@ -97,6 +96,7 @@ fetch("https://www.sefaria.org/api/calendars/")
         createDiv();
         heading.innerHTML = pull.ref;
         writePasuk();
+        
         document.getElementById("next").innerHTML = pull.next;
         document.getElementById("prev").innerHTML = pull.prev;
         next = pull.next;
@@ -110,7 +110,7 @@ fetch("https://www.sefaria.org/api/calendars/")
 //get next page
 const nextPage = async () => {
   // Fetch the next page's content
-  const response = await fetch(`https://www.sefaria.org/api/texts/${next}`);
+  const response = await fetch(`https://www.sefaria.org/api/texts/`+next);
   const { text: enPasuk, he: hePasuk, ref, next: nextPasuk } = await response.json();
 
   // Split the nextPasuk into masechta and page using space as the delimiter

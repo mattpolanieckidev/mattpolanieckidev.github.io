@@ -38,10 +38,6 @@ body{
 	text-align:center;
 }
 
-h3{
-	margin-bottom: 0;
-}
-
 .parsha{
 	grid-area: parsha;
 }
@@ -75,7 +71,15 @@ h3{
 #zip{
 	font-size:16px;
 }
-.parsha, #candleLighting, #havdala, .color, #holiday, .holidaycandle, #holiday2, #holiday3{
+
+.weatherbox{
+font-size:18px;
+display: flex;
+align-items: center;
+justify-content: center;
+margin:0;
+}
+.parsha, #candleLightingDate, #havdalaDay, .color, #holiday, .holidaycandle, #holiday2, #holiday3{
 	font-size: 60px;
 	font-weight: 200;
 	line-height: normal;
@@ -87,10 +91,6 @@ h3{
 	font-weight: bold;
 }
 
-#holidaycandle, .holidaycandle, #holiday2{
-
-	text-align: center;
-}
 .candles, .parsha, .havdala{
 	border-bottom: white 1px solid ;
 }
@@ -118,24 +118,18 @@ h3{
 	.header{
 		font-size: 40px;
 	}
-	.holidaycandle{
-		font-size: 40px;
-	}
 
-	.candles, .parsha, .havdala{
-		border-bottom: none;
-	}
-	
-	.parsha, #candleLighting, #parsha, #havdala, #holiday, #holiday2 , #holiday3    {
-		font-size: 40px;
+	.parsha, #candleLightingDate, #candleLightingTime, #parsha, #havdalaDay, #havdalaTime, #holiday, #holiday2 , #holiday3 , .holidaycandle   {
+		font-size: 35px;
 		margin: 0 5px;
-		border-bottom: white 1px solid ;
 		padding: 4px 0;
+		text-align: center;
 	}
-
-
 
 	.parsha p{
 		margin: auto 0 0;
+	}
+	.weatherbox p {
+		margin:0;
 	}
 }

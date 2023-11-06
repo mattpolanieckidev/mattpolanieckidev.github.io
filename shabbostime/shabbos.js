@@ -58,14 +58,14 @@ function find() {
 
           // Get candlelighting
           var d = new Date(data.items.filter(i => i.category == "candles")[0]?.date);
-          var formattedDate = days[d.getDay()] + " " + (d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getFullYear();
+          var formattedDate = days[d.getDay()] + " " + (d.getMonth() + 1) + "-" + d.getDate();
           var candleLightingTime = (data.items.filter(i => i.category == "candles")[0]?.title || '');
           document.getElementById("candleLightingDate").innerHTML = formattedDate;
           document.getElementById("candleLightingTime").innerHTML = candleLightingTime;
 
           // Get havdala
           var e = new Date(data.items.filter(i => i.category == "havdalah")[0]?.date);
-          var formattedDate = days[e.getDay()] + " " + (e.getMonth() + 1) + "-" + e.getDate() + "-" + e.getFullYear();
+          var formattedDate = days[e.getDay()] + " " + (e.getMonth() + 1) + "-" + e.getDate();
           var havdalaTime = (data.items.filter(i => i.category == "havdalah")[0]?.title || '')
           document.getElementById("havdalaDay").innerHTML = formattedDate;
           document.getElementById("havdalaTime").innerHTML = havdalaTime;

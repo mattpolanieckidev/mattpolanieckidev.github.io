@@ -13,30 +13,58 @@ function getJewishHolidays(year) {
     return str;
 }
 
-
-const latitude = 41.822232;
-const longitude = -71.448292;
-const tzid = 'America/New_York';
-const decemberStart = new Date(2023, 11, 1); // December 1, 2023
-const decemberEnd = new Date(2023, 11, 31);  // December 31, 2023
-
-// Create a GeoLocation instance
-const gloc = new hebcal.GeoLocation(null, latitude, longitude, 0, tzid);
-
-// Loop through each day in December
-for (let currentDate = new Date(decemberStart); currentDate <= decemberEnd; currentDate.setDate(currentDate.getDate() + 1)) {
-  // Create a Zmanim instance for the current day
-  const zmanim = new hebcal.Zmanim(gloc, currentDate, false);
-
-  // Calculate the earliest Shacharit time
-  const earliestShacharit = zmanim.alotHaShachar();
-
-  // Format the time without the timezone offset using toLocaleTimeString
-  const timeStr = earliestShacharit.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-
-  console.log(`${currentDate.toLocaleDateString()}: Earliest Shacharit Time: ${timeStr}`);
+function displayJewishHolidays(events, outputElement) {
+    outputElement.textContent = events;
 }
 
+
+document.getElementById('f1').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const year = document.getElementById('year').value;
+
+    if (year) {
+        const holidays = getJewishHolidays(year);
+        displayJewishHolidays(holidays, document.getElementById('calendar'));
+    } else {
+        alert('Please enter a valid Hebrew year (3763 or later)');
+    }
+});
+
+
+function getDaveningTimes() {
+    const monthInput = document.getElementById('month').value;
+    const yearInput = document.getElementById('year2').value;
+
+    const latitude = 40.6229;
+    const longitude = -73.7243;
+    const tzid = 'America/New_York';
+    const startDay = new Date(yearInput, monthInput - 1, 1);
+    const endDay = new Date(yearInput, monthInput, 0);
+
+    // Create a GeoLocation instance
+    const gloc = new hebcal.GeoLocation(null, latitude, longitude, 0, tzid);
+
+    let daveningTimes = '';
+
+    // Loop through each day in the specified month and year
+    for (let currentDate = new Date(startDay); currentDate <= endDay; currentDate.setDate(currentDate.getDate() + 1)) {
+      // Create a Zmanim instance for the current day
+      const zmanim = new hebcal.Zmanim(gloc, currentDate, false);
+
+      // Calculate the earliest Tallis and Tefilin time using misheyakirMachmir
+      const tallisTime = zmanim.misheyakirMachmir();
+   
+
+      // Format the times without the timezone offset using toLocaleTimeString
+      const tallisTimeStr = tallisTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+
+      daveningTimes += `${currentDate.toLocaleDateString()}: Earliest Tallis Time: ${tallisTimeStr}\n`;
+    }
+
+    // Display davening times in the pre element
+    document.getElementById('davening').textContent = daveningTimes;
+  }
 /*
 const options = {
     year: 2023,

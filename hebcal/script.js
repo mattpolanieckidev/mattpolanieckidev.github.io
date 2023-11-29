@@ -13,69 +13,31 @@ function getJewishHolidays(year) {
     return str;
 }
 
-function calculateEarliestDaveningTimes(latitude, longitude, year, month, angleBelowHorizon) {
-    const geoLocation = new hebcal.GeoLocation(latitude, longitude);
-    const numDaysInMonth = new Date(year, month, 0).getDate();
 
-    const daveningTimes = [];
-    for (let day = 1; day <= numDaysInMonth; day++) {
-        const currentDate = new Date(year, month - 1, day);
-        const sunrise = hebcal.Hdate.sunrise(geoLocation, currentDate);
-        const adjustedSunrise = new Date(sunrise.sunrise() - (angleBelowHorizon * 60000));
+const latitude = 41.822232;
+const longitude = -71.448292;
+const tzid = 'America/New_York';
+const decemberStart = new Date(2023, 11, 1); // December 1, 2023
+const decemberEnd = new Date(2023, 11, 31);  // December 31, 2023
 
-        daveningTimes.push({
-            date: currentDate.toDateString(),
-            earliestTime: adjustedSunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        });
-    }
+// Create a GeoLocation instance
+const gloc = new hebcal.GeoLocation(null, latitude, longitude, 0, tzid);
 
-    return daveningTimes;
+// Loop through each day in December
+for (let currentDate = new Date(decemberStart); currentDate <= decemberEnd; currentDate.setDate(currentDate.getDate() + 1)) {
+  // Create a Zmanim instance for the current day
+  const zmanim = new hebcal.Zmanim(gloc, currentDate, false);
+
+  // Calculate the earliest Shacharit time
+  const earliestShacharit = zmanim.alotHaShachar();
+
+  // Format the time without the timezone offset using toLocaleTimeString
+  const timeStr = earliestShacharit.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+  console.log(`${currentDate.toLocaleDateString()}: Earliest Shacharit Time: ${timeStr}`);
 }
 
-function displayJewishHolidays(events, outputElement) {
-    outputElement.textContent = events;
-}
-
-function displayDaveningTimesInHTML(times, outputElement) {
-    outputElement.innerHTML = ''; // Clear previous content
-
-    times.forEach((time) => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${time.date}: ${time.earliestTime}`;
-        outputElement.appendChild(listItem);
-    });
-}
-
-document.getElementById('f1').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const year = document.getElementById('year').value;
-
-    if (year) {
-        const holidays = getJewishHolidays(year);
-        displayJewishHolidays(holidays, document.getElementById('calendar'));
-    } else {
-        alert('Please enter a valid Hebrew year (3763 or later)');
-    }
-});
-
-document.getElementById('f2').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const month = document.getElementById('month').value;
-    const year = document.getElementById('year2').value;
-
-    if (month && year) {
-        const latitude = 40.7128; // New York City
-        const longitude = -74.0060; // New York City
-        const angleBelowHorizon = 12.9;
-
-        const daveningTimes = calculateEarliestDaveningTimes(latitude, longitude, year, month, angleBelowHorizon);
-        displayDaveningTimesInHTML(daveningTimes, document.getElementById('davening'));
-    } else {
-        alert('Please enter valid month and year values.');
-    }
-});
-
-
+/*
 const options = {
     year: 2023,
     isHebrewYear: false,
@@ -91,3 +53,4 @@ for (const ev of events) {
     const date = hd.greg();
     console.log(date.toLocaleDateString(), ev.render('en'), hd.toString());
 }
+*/

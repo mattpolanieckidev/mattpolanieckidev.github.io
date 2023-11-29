@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YILC Calendar</title>
+</head>
+
+<body>
+    <h1>@hebcal/core 📅</h1>
+    <div class="holidaylist">
+        <form id="f1">
+            <input type=text id=year placeholder="Hebrew year 3763 or later">
+            <button type=submit>go</button>
+        </form>
+        <pre id="calendar">
+    </pre>
+    </div>
+    <div class="daveningtimes">
+        <form id="f2">
+            <label for="month">Month of 2023:</label>
+            <input type="text" id="month" placeholder="Enter month of 2023">
+            <label for="year2">Year:</label>
+            <input type="text" id="year2" placeholder="Enter year">
+            <button type="submit">Get Davening Times</button>
+        </form>
+        <pre id="davening"></pre>
+    </div>
+
+</body>
+
+<!-- Add this script tag before your script.js -->
+<script src="https://unpkg.com/@hebcal/core@5.0.0-rc6/dist/bundle.js"></script>
+<script src="script.js"></script>
+
+
+</html>

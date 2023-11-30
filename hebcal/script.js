@@ -64,7 +64,7 @@ function getDaveningTimes() {
     }
 
     // Display Tallis times in the pre element
-    document.getElementById('degreeTitle').textContent = `Earliest Talis and Tefilin time by ${degreesAboveHorizon}° above horizon`;
+    document.getElementById('degreeTitle').textContent = `Earliest Talis and Tefilin time by ${degreesAboveHorizon}° below horizon`;
     document.getElementById('davening').textContent = tallisTimes;
 }
 

@@ -13,38 +13,11 @@ function getJewishHolidays(year) {
     return str;
 }
 
-function calculateEarliestDaveningTimes(latitude, longitude, year, month, angleBelowHorizon) {
-    const geoLocation = new hebcal.GeoLocation(latitude, longitude);
-    const numDaysInMonth = new Date(year, month, 0).getDate();
-
-    const daveningTimes = [];
-    for (let day = 1; day <= numDaysInMonth; day++) {
-        const currentDate = new Date(year, month - 1, day);
-        const sunrise = hebcal.Hdate.sunrise(geoLocation, currentDate);
-        const adjustedSunrise = new Date(sunrise.sunrise() - (angleBelowHorizon * 60000));
-
-        daveningTimes.push({
-            date: currentDate.toDateString(),
-            earliestTime: adjustedSunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        });
-    }
-
-    return daveningTimes;
-}
 
 function displayJewishHolidays(events, outputElement) {
     outputElement.textContent = events;
 }
 
-function displayDaveningTimesInHTML(times, outputElement) {
-    outputElement.innerHTML = ''; // Clear previous content
-
-    times.forEach((time) => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${time.date}: ${time.earliestTime}`;
-        outputElement.appendChild(listItem);
-    });
-}
 
 document.getElementById('f1').addEventListener('submit', function (event) {
     event.preventDefault();
@@ -58,24 +31,44 @@ document.getElementById('f1').addEventListener('submit', function (event) {
     }
 });
 
-document.getElementById('f2').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const month = document.getElementById('month').value;
-    const year = document.getElementById('year2').value;
 
-    if (month && year) {
-        const latitude = 40.7128; // New York City
-        const longitude = -74.0060; // New York City
-        const angleBelowHorizon = 12.9;
+function getDaveningTimes() {
+    const monthInput = document.getElementById('month').value;
+    const yearInput = document.getElementById('year2').value;
+    const degreesAboveHorizon = parseFloat(document.getElementById('degrees').value) || 12.9;
 
-        const daveningTimes = calculateEarliestDaveningTimes(latitude, longitude, year, month, angleBelowHorizon);
-        displayDaveningTimesInHTML(daveningTimes, document.getElementById('davening'));
-    } else {
-        alert('Please enter valid month and year values.');
+
+    const latitude = 40.6229;
+    const longitude = -73.7243;
+    const tzid = 'America/New_York';
+    const startDay = new Date(yearInput, monthInput - 1, 1);
+    const endDay = new Date(yearInput, monthInput, 0);
+
+    // Create a GeoLocation instance
+    const gloc = new hebcal.GeoLocation(null, latitude, longitude, 0, tzid);
+
+    let tallisTimes = '';
+
+    // Loop through each day in the specified month and year
+    for (let currentDate = new Date(startDay); currentDate <= endDay; currentDate.setDate(currentDate.getDate() + 1)) {
+        // Create a Zmanim instance for the current day
+        const zmanim = new hebcal.Zmanim(gloc, currentDate, false);
+
+        // Calculate the Tallis time at 12.9 degrees above the horizon
+        const tallisTime = zmanim.timeAtAngle(degreesAboveHorizon, true);
+
+        // Format the time without the timezone offset using toLocaleTimeString
+        const tallisTimeStr = tallisTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+        tallisTimes += `${currentDate.toLocaleDateString()}: ${tallisTimeStr}\n`;
     }
-});
 
+    // Display Tallis times in the pre element
+    document.getElementById('degreeTitle').textContent = `Earliest Talis and Tefilin time by ${degreesAboveHorizon}°`;
+    document.getElementById('davening').textContent = tallisTimes;
+}
 
+/*
 const options = {
     year: 2023,
     isHebrewYear: false,
@@ -91,3 +84,4 @@ for (const ev of events) {
     const date = hd.greg();
     console.log(date.toLocaleDateString(), ev.render('en'), hd.toString());
 }
+*/

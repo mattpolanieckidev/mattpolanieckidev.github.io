@@ -7,6 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YILC Calendar</title>
 </head>
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .daveningtimes {
+        display: flex;
+        flex-direction: row;
+    }
+</style>
 
 <body>
     <h1>@hebcal/core 📅</h1>
@@ -21,11 +31,14 @@
     <div class="daveningtimes">
         <form id="f2">
             <label for="month">Month of 2023:</label>
-            <input type="text" id="month" placeholder="Enter month of 2023">
+            <input type="text" id="month" placeholder="Enter month">
             <label for="year2">Year:</label>
             <input type="text" id="year2" placeholder="Enter year">
-            <button type="submit">Get Davening Times</button>
+            <label for="degrees">Degrees above the horizon:</label>
+            <input type="number" id="degrees" value="12.9" step="0.1">
+            <button type="button" onclick="getDaveningTimes()">Get Davening Times</button>
         </form>
+        <h2 id="degreeTitle"></h2>
         <pre id="davening"></pre>
     </div>
 

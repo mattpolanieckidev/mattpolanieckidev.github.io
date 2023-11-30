@@ -14,7 +14,11 @@
 
     .daveningtimes {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
+    }
+
+    li {
+        list-style: none;
     }
 </style>
 
@@ -30,12 +34,18 @@
     </div>
     <div class="daveningtimes">
         <form id="f2">
-            <label for="month">Month of 2023:</label>
-            <input type="text" id="month" placeholder="Enter month">
-            <label for="year2">Year:</label>
-            <input type="text" id="year2" placeholder="Enter year">
-            <label for="degrees">Degrees above the horizon:</label>
-            <input type="number" id="degrees" value="12.9" step="0.1">
+            <li>
+                <label for="month">Month:</label>
+                <input type="text" id="month" placeholder="Enter month">
+            </li>
+            <li>
+                <label for="year2">Year:</label>
+                <input type="text" id="year2" placeholder="Enter year">
+            </li>
+            <li>
+                <label for="degrees">Degrees above the horizon:</label>
+                <input type="number" id="degrees" value="12.9" step="0.1">
+            </li>
             <button type="button" onclick="getDaveningTimes()">Get Davening Times</button>
         </form>
         <h2 id="degreeTitle"></h2>

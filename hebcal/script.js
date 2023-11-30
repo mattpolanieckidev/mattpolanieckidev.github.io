@@ -13,6 +13,25 @@ function getJewishHolidays(year) {
     return str;
 }
 
+function calculateEarliestDaveningTimes(latitude, longitude, year, month, angleBelowHorizon) {
+    const geoLocation = new hebcal.GeoLocation(latitude, longitude);
+    const numDaysInMonth = new Date(year, month, 0).getDate();
+
+    const daveningTimes = [];
+    for (let day = 1; day <= numDaysInMonth; day++) {
+        const currentDate = new Date(year, month - 1, day);
+        const sunrise = hebcal.Hdate.sunrise(geoLocation, currentDate);
+        const adjustedSunrise = new Date(sunrise.sunrise() - (angleBelowHorizon * 60000));
+
+        daveningTimes.push({
+            date: currentDate.toDateString(),
+            earliestTime: adjustedSunrise.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        });
+    }
+
+    return daveningTimes;
+}
+
 function displayJewishHolidays(events, outputElement) {
     outputElement.textContent = events;
 }
@@ -34,6 +53,8 @@ document.getElementById('f1').addEventListener('submit', function (event) {
 function getDaveningTimes() {
     const monthInput = document.getElementById('month').value;
     const yearInput = document.getElementById('year2').value;
+    const degreesAboveHorizon = parseFloat(document.getElementById('degrees').value) || 12.9;
+
 
     const latitude = 40.6229;
     const longitude = -73.7243;
@@ -44,27 +65,40 @@ function getDaveningTimes() {
     // Create a GeoLocation instance
     const gloc = new hebcal.GeoLocation(null, latitude, longitude, 0, tzid);
 
-    let daveningTimes = '';
+    let tallisTimes = '';
 
     // Loop through each day in the specified month and year
     for (let currentDate = new Date(startDay); currentDate <= endDay; currentDate.setDate(currentDate.getDate() + 1)) {
-      // Create a Zmanim instance for the current day
-      const zmanim = new hebcal.Zmanim(gloc, currentDate, false);
+        // Create a Zmanim instance for the current day
+        const zmanim = new hebcal.Zmanim(gloc, currentDate, false);
 
-      // Calculate the earliest Tallis and Tefilin time using misheyakirMachmir
-      const tallisTime = zmanim.misheyakirMachmir();
-   
+        // Calculate the Tallis time at 12.9 degrees above the horizon
+        const tallisTime = zmanim.timeAtAngle(degreesAboveHorizon, true);
 
-      // Format the times without the timezone offset using toLocaleTimeString
-      const tallisTimeStr = tallisTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        // Format the time without the timezone offset using toLocaleTimeString
+        const tallisTimeStr = tallisTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-
-      daveningTimes += `${currentDate.toLocaleDateString()}: Earliest Tallis Time: ${tallisTimeStr}\n`;
+        tallisTimes += `${currentDate.toLocaleDateString()}: ${tallisTimeStr}\n`;
     }
 
-    // Display davening times in the pre element
-    document.getElementById('davening').textContent = daveningTimes;
-  }
+    // Display Tallis times in the pre element
+    document.getElementById('degreeTitle').textContent = `Earliest Talis and Tefilin time by ${degreesAboveHorizon}° below horizon`;
+    document.getElementById('davening').textContent = tallisTimes;
+}
+
+function downloadCSV() {
+    const tallisTimes = document.getElementById('davening').textContent;
+    const csvContent = 'data:text/csv;charset=utf-8,' + encodeURIComponent(tallisTimes);
+
+    const downloadLink = document.createElement('a');
+    downloadLink.href = csvContent;
+    downloadLink.download = 'davening_times.csv';
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+}
+
+
 /*
 const options = {
     year: 2023,
@@ -81,4 +115,3 @@ for (const ev of events) {
     const date = hd.greg();
     console.log(date.toLocaleDateString(), ev.render('en'), hd.toString());
 }
-*/

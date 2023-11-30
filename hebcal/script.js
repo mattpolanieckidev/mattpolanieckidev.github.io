@@ -68,6 +68,19 @@ function getDaveningTimes() {
     document.getElementById('davening').textContent = tallisTimes;
 }
 
+function downloadCSV() {
+    const tallisTimes = document.getElementById('davening').textContent;
+    const csvContent = 'data:text/csv;charset=utf-8,' + encodeURIComponent(tallisTimes);
+
+    const downloadLink = document.createElement('a');
+    downloadLink.href = csvContent;
+    downloadLink.download = 'davening_times.csv';
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+}
+
+
 /*
 const options = {
     year: 2023,

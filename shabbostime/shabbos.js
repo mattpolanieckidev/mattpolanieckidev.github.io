@@ -53,8 +53,8 @@ function find() {
           document.getElementById("header").innerHTML = city;
 
           // Get parsha
-          document.getElementById('parshalabel').innerHTML = "Torah portion: <br> <span id = \"parsha\"> </span>";
-          document.getElementById('parsha').innerHTML = data.items.filter(i => i.category == "parashat")[0]?.title || '';
+          document.getElementById('parshalabel').innerHTML = "Torah portion: <br> <span id = \"parsha\"> </span> <i class=\"fa-regular fa-rectangle-list fa-2xs\" onclick=\"generateAI()\"></i>";
+          document.getElementById('parsha').innerHTML = data.items.filter(i => i.category == "parashat")[0]?.title  || '';
 
           // Get candlelighting
           var d = new Date(data.items.filter(i => i.category == "candles")[0]?.date);
@@ -128,3 +128,51 @@ inputField.addEventListener("keyup", function (event) {
     document.getElementById("submit").click();
   }
 });
+
+
+async function generateAI() {
+  const url = 'https://simple-chatgpt-api.p.rapidapi.com/ask';
+  const button = document.querySelector('.fa-rectangle-list'); // Select the Font Awesome icon
+
+  // Set the icon to a loading state
+  button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+
+  // Fetch data from the API
+  const options = {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'X-RapidAPI-Key': 'bd3893a85fmsh47b0203e08b8f58p13007djsn0a939f91a737',
+          'X-RapidAPI-Host': 'simple-chatgpt-api.p.rapidapi.com',
+      },
+      body: JSON.stringify({
+          question: 'Summarize this parsha into 5 bullet points formatted as HTML list items:', // Modify this to use the desired question
+      }),
+  };
+
+  try {
+      // Send the request
+      const response = await fetch(url, options);
+
+      // Check if response status is OK
+      if (!response.ok) {
+          throw new Error('Network response was not ok.');
+      }
+
+      // Parse response as JSON
+      const data = await response.json();
+
+      // Extract and display the summary in a div below the Parsha label
+      const summary = data.answer;
+      const summaryDiv = document.createElement('div');
+      summaryDiv.innerHTML = `<h4>Parsha Summary:</h4>${summary}`;
+      document.getElementById('parsha').appendChild(summaryDiv);
+
+  } catch (error) {
+      console.error('Error fetching data:', error);
+      // Handle error, reset button state, or show error message to the user
+  } finally {
+      // Reset the Font Awesome icon
+      button.innerHTML = '<i class="fa-regular fa-rectangle-list fa-2xs"></i>';
+  }
+}

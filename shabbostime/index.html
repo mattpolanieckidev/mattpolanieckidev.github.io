@@ -9,7 +9,6 @@
     <link rel="apple-touch-icon" href="images/icons/icon-192x192.png">
     <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
     <meta name="theme-color" content="#5f5eaa">
-    <meta charset="UTF-8">
 </head>
 <body onload="changeColor()">
     <nav class="navbar navbar-collapse-lg navbar-dark">
@@ -41,31 +40,18 @@
                 <input type="number" id="zip" placeholder="Zip Code" aria-label="Zip Code" aria-describedby="basic-addon2" autofocus>
                 <button class="btn btn-outline-primary" id="submit" type="button" onclick="find()"> Submit</button>
             </div>
-            
         </div>
         <div class="candles">
-            <div class="weatherbox">
-                <p id = "candleLightingDate"> </p>
-                <img src="https://openweathermap.org/img/wn/04d.png">
-                <p id="weatherFriday"></p>
-            </div>
-            <p id="candleLightingTime"></p>
-            
+            <p id = "candleLighting"> </p>
+    
         </div>
         <div class="parsha">
             <p id="parshalabel"></p>
     
         </div>
         <div class="havdala">
-            <div class="weatherbox">
-                <p id = "havdalaDay"> </p>
-                <img src="https://openweathermap.org/img/wn/04d.png">
-                <p id="weatherSaturday"></p>
-            </div>
-            <p id = "havdalaTime"> </p>
+            <p id = "havdala"> </p>
         </div>
-
-        <table id="weatherTable"></table>
        
     </div>
     <script type="text/javascript" src="shabbos.js"></script>

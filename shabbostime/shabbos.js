@@ -53,7 +53,7 @@ function find() {
           document.getElementById("header").innerHTML = city;
 
           // Get parsha
-          document.getElementById('parshalabel').innerHTML = "Torah portion: <br> <span id = \"parsha\"> </span> <i class=\"fa-regular fa-rectangle-list fa-2xs\" onclick=\"generateAI()\"></i>";
+          document.getElementById('parshalabel').innerHTML = "Torah portion: <br> <span id = \"parsha\"> </span> <i id=\"gpt\" class=\"fa-regular fa-rectangle-list fa-2xs\" onclick=\"generateAI()\"></i>";
           document.getElementById('parsha').innerHTML = data.items.filter(i => i.category == "parashat")[0]?.title  || '';
 
           // Get candlelighting
@@ -132,7 +132,7 @@ inputField.addEventListener("keyup", function (event) {
 
 async function generateAI() {
   const url = 'https://simple-chatgpt-api.p.rapidapi.com/ask';
-  const button = document.querySelector('.fa-rectangle-list'); // Select the Font Awesome icon
+  const button = document.getElementById('gpt'); // Select the GPT icon
 
   // Set the icon to a loading state
   button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
@@ -161,7 +161,6 @@ async function generateAI() {
 
       // Parse response as JSON
       const data = await response.json();
-
       // Extract and display the summary in a div below the Parsha label
       const summary = data.answer;
       const summaryDiv = document.createElement('div');
@@ -173,6 +172,6 @@ async function generateAI() {
       // Handle error, reset button state, or show error message to the user
   } finally {
       // Reset the Font Awesome icon
-      button.innerHTML = '<i class="fa-regular fa-rectangle-list fa-2xs"></i>';
+      button.innerHTML = '';
   }
 }

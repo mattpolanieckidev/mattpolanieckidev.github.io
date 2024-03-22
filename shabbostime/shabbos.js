@@ -7,6 +7,7 @@ var colors = ['#6F1E51', '#FFC312', '#F79F1F', '#EE5A24', '#EA2027', '#C4E538', 
 var body = document.querySelector("body");
 var page = document.getElementById('page')
 var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+var parsha;
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
@@ -55,6 +56,7 @@ function find() {
           // Get parsha
           document.getElementById('parshalabel').innerHTML = "Torah portion: <br> <span id = \"parsha\"> </span> <i id=\"gpt\" class=\"fa-regular fa-rectangle-list fa-2xs\" onclick=\"generateAI()\"></i>";
           document.getElementById('parsha').innerHTML = data.items.filter(i => i.category == "parashat")[0]?.title  || '';
+          parsha = data.items.filter(i => i.category == "parashat")[0]?.title;
 
           // Get candlelighting
           var d = new Date(data.items.filter(i => i.category == "candles")[0]?.date);
@@ -146,7 +148,7 @@ async function generateAI() {
           'X-RapidAPI-Host': 'simple-chatgpt-api.p.rapidapi.com',
       },
       body: JSON.stringify({
-          question: 'Summarize this parsha into 5 bullet points formatted as HTML list items:', // Modify this to use the desired question
+          question: 'Summarize this parsha into 5 bullet points formatted as HTML list items:' + parsha, // Modify this to use the desired question
       }),
   };
 

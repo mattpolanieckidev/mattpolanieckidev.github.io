@@ -50,25 +50,54 @@ var omer = [
 	{ hebrew: 'הַיּוֹם תִּשְׁעָה וְאַרְבָּעִים יוֹם, שֶׁהֵם שִׁבְעָה שָׁבוּעוֹת לָעֹמֶר', english: 'Today is Forty-Nine Days, which are Seven Weeks of the Omer' },
 ]
 
+var omerStartDate;
+
+function daysUntilNextOmerCycle() {
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    omerStartDate = new Date(`${currentYear}-04-23T00:00:00`); // April 23rd, 2024
+
+    if (today < omerStartDate) {
+        const daysUntilNextOmer = Math.ceil((omerStartDate - today) / (1000 * 60 * 60 * 24));
+        return `There are ${daysUntilNextOmer} days until this year's Omer cycle starts.`;
+    } else {
+        const nextYear = currentYear + 1;
+        const nextOmerStartDate = new Date(`${nextYear}-04-23T00:00:00`); // April 23rd of next year
+        const daysUntilNextOmer = Math.ceil((nextOmerStartDate - today) / (1000 * 60 * 60 * 24));
+        return `There are ${daysUntilNextOmer} days until next year's Omer cycle starts.`;
+    }
+}
+daysUntilNextOmerCycle();
+
 function countDays(startDate) {
-	const oneDay = 24 * 60 * 60 * 1000; // number of milliseconds in a day
-	const now = new Date(); // get the current date and time
-	const start = new Date(startDate); // convert the start date string to a date object
-	const diffDays = Math.floor((now - start) / oneDay);
+    const oneDay = 24 * 60 * 60 * 1000; // number of milliseconds in a day
+    const now = new Date(); // get the current date and time
+
+    // Check if today's date is before the start of the Omer cycle
+    if (now < omerStartDate) {
+        const daysUntilOmerStart = Math.ceil((omerStartDate - now) / oneDay);
+        const displayText = `Days until Omer: ${daysUntilOmerStart}`;
+        const todayDateP = document.getElementById('today-date');
+        todayDateP.textContent = displayText;
+        return 0; // Return 0 days counted as the Omer cycle hasn't started yet
+    }
   
-	// get the current time and check if it's before 8pm
-	const currentHour = now.getHours();
-	const isBefore8pm = currentHour < 20; // 8pm = 20:00 in 24-hour time format
+    const diffDays = Math.floor((now - omerStartDate) / oneDay);
   
-	// if it's before 8pm, subtract one day from the current date to get yesterday's date
-	const displayDate = isBefore8pm ? new Date(now.getTime() - oneDay).toLocaleDateString() : now.toLocaleDateString();
+    // get the current time and check if it's before 8pm
+    const currentHour = now.getHours();
+    const isBefore8pm = currentHour < 20; // 8pm = 20:00 in 24-hour time format
   
-	// add the date to a P tag
-	const todayDateP = document.getElementById('today-date');
-	todayDateP.textContent = `This is the count for ${displayDate}`;
+    // if it's before 8pm, subtract one day from the current date to get yesterday's date
+    const displayDate = isBefore8pm ? new Date(now.getTime() - oneDay).toLocaleDateString() : now.toLocaleDateString();
   
-	return diffDays; // return the number of days
-  }
+    // add the date to a P tag
+    const todayDateP = document.getElementById('today-date');
+    todayDateP.textContent = `This is the count for ${displayDate}`;
+  
+    return diffDays; // return the number of days
+}
+
   
 const daysSinceStart = countDays("2023-04-23");
 const colors = ['#6F1E51', '#FFC312', '#F79F1F', '#EE5A24', '#EA2027', '#C4E538', '#A3CB38', '#009432', '#006266', '#12CBC4', '#1289A7', '#0652DD', '#1B1464', '#FDA7DF', '#D980FA', '#9980FA', '#5758BB', '#ED4C67', '#B53471', '#833471', '#6F1E51'];
@@ -146,18 +175,3 @@ function getCountedDays() {
     }
     return countedDays;
 }
-function daysUntilNextOmerCycle() {
-	const today = new Date();
-	const currentYear = today.getFullYear();
-	const omerEndDate = new Date(`${currentYear}-05-16T23:59:59`);
-	
-	if (today > omerEndDate) {
-	  const nextYear = currentYear + 1;
-	  const nextOmerStartDate = new Date(`${nextYear}-03-27`);
-	  const daysUntilNextOmer = Math.ceil((nextOmerStartDate - today) / (1000 * 60 * 60 * 24));
-	  return `There are ${daysUntilNextOmer} days until next year's Omer.`;
-	} else {
-	  return 'This year\'s Omer cycle has not ended yet.';
-	}
-  }
-  

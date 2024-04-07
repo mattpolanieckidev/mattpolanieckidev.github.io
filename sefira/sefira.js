@@ -1,5 +1,5 @@
 var omer = [
-	{ hebrew: 'הַיּוֹם שְׁנֵי יָמִים לָעֹמֶר', english: 'Today is One Day of the Omer' },
+	{ hebrew: 'הַיּוֹם אחד יָמִים לָעֹמֶר', english: 'Today is One Day of the Omer' },
 	{ hebrew: 'הַיּוֹם שְׁנֵי יָמִים לָעֹמֶר', english: 'Today is Two Days of the Omer' },
 	{ hebrew: 'הַיּוֹם שְׁלֹשָׁה יָמִים לָעֹמֶר', english: 'Today is Three Days of the Omer' },
 	{ hebrew: 'הַיּוֹם אַרְבָּעָה יָמִים לָעֹמֶר', english: 'Today is Four Days of the Omer' },
@@ -70,7 +70,7 @@ function countDays(startDate) {
 	return diffDays; // return the number of days
   }
   
-const daysSinceStart = countDays("2023-04-07");
+const daysSinceStart = countDays("2023-04-23");
 const colors = ['#6F1E51', '#FFC312', '#F79F1F', '#EE5A24', '#EA2027', '#C4E538', '#A3CB38', '#009432', '#006266', '#12CBC4', '#1289A7', '#0652DD', '#1B1464', '#FDA7DF', '#D980FA', '#9980FA', '#5758BB', '#ED4C67', '#B53471', '#833471', '#6F1E51'];
 const body = document.body;
 const nav = document.getElementById("colorlabel2");
@@ -86,8 +86,10 @@ function changeColor() {
 }
 
 function markDayAsCounted(day) {
+	const today = new Date();
+    const currentYear = today.getFullYear();
 	// check if the day has already been counted
-	if (localStorage.getItem(`omer_${day}`) === 'true') {
+	if (localStorage.setItem(`omer_${currentYear}_${day}`, 'true')) {
 		console.log(`Day ${day} has already been counted.`);
 
 		// update the button to show that the day has been counted
@@ -98,7 +100,7 @@ function markDayAsCounted(day) {
 	}
 
 	// mark the day as counted
-	localStorage.setItem(`omer_${day}`, 'true');
+	localStorage.setItem(`omer_${currentYear}_${day}`, 'true');
 
 	// update the button to show that the day has been counted
 	const button = document.getElementById(`count-button`);
@@ -129,16 +131,20 @@ countedDays.forEach(day => {
 
 
 function getCountedDays() {
-	const countedDays = [];
-	for (let i = 1; i <= 49; i++) {
-		if (localStorage.getItem(`omer_${i}`) === 'true') {
-			countedDays.push({
-				day: i,
-				hebrew: omer[i - 1].hebrew
-			});
-		}
-	}
-	return countedDays;
+    const countedDays = [];
+    const today = new Date();
+    const currentYear = today.getFullYear();
+
+    for (let i = 1; i <= 49; i++) {
+        // Check if the day is counted for the current year
+        if (localStorage.getItem(`omer_${currentYear}_${i}`) === 'true') {
+            countedDays.push({
+                day: i,
+                hebrew: omer[i - 1].hebrew
+            });
+        }
+    }
+    return countedDays;
 }
 function daysUntilNextOmerCycle() {
 	const today = new Date();

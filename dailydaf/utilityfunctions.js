@@ -1,25 +1,29 @@
-
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function() {
-    navigator.serviceWorker.register("sw.js").then(function(registration) {
-      // Registration was successful
-      console.log("ServiceWorker registration successful with scope: ", registration.scope);
-    }, function(err) {
-      // registration failed :(
-      console.log("ServiceWorker registration failed: ", err);
+  window.addEventListener("load", registerServiceWorker);
+}
+
+function registerServiceWorker() {
+  navigator.serviceWorker.register("sw.js")
+    .then(registration => {
+      console.log("ServiceWorker registration successful with scope:", registration.scope);
+    })
+    .catch(error => {
+      console.error("ServiceWorker registration failed:", error);
     });
-  });
 }
 
 //set slider value on mobile
-const myFunction = x => {
-    const fontValue = x.matches ? "1" : "2";
-    adjustFont(fontValue);
-  }
-  
-  var x = window.matchMedia("(orientation:portrait)")
-  myFunction(x)
-  x.addListener(myFunction)
+const landscapeQuery = window.matchMedia("(orientation: landscape)");
+
+// Specify the event type ("orientationchange")
+landscapeQuery.addEventListener("orientationchange", e => {
+  const isLandscape = e.matches;
+  const fontValue = isLandscape ? "1" : "2";
+  adjustFont(fontValue);
+});
+
+// Initialize based on current orientation
+adjustFont(landscapeQuery.matches ? "1" : "2");
   
   //adjust font size based on slider value
   function adjustFont(a){

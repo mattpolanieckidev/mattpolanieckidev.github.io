@@ -1,19 +1,5 @@
-var date, next, prev, enPasuk;
-var current = document.getElementById("content");
-var amudCount;
-var section;
-var currentAmud;
-var masechtaProgress;
-var masechtaSearch = document.getElementById('masechta');
-var pageTitle = document.getElementById("pageTitle");
-var div, heading, ul;
-var pasuk;
-var hidden = 0;
-var slider = document.getElementById("fontSize");
-var fontSize = slider.value;
-var textContent = document.getElementsByClassName("pageText");
-
-
+// Variables
+var date, next, prev, enPasuk, current = document.getElementById("content"), amudCount, section, currentAmud, masechtaProgress, masechtaSearch = document.getElementById('masechta'), pageTitle = document.getElementById("pageTitle"), div, heading, ul, pasuk, hidden = 0, slider = document.getElementById("fontSize"), fontSize = slider.value, textContent = document.getElementsByClassName("pageText");
 
 
 //create and append Div, Heading, and Unordered List
@@ -177,45 +163,79 @@ adjustFont(landscapeQuery.matches ? "1" : "2");
     };
 
 
-    async function generateAI() {
-        const url = 'https://simple-chatgpt-api.p.rapidapi.com/ask';
-        const button = document.querySelector('.gpt'); // Select the button element
-      
-        // Set the button to a loading state
-        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+// Define an array of the names of all the tractates
+var tractates = [
+    "Berakhot", "Pe'ah", "Demai", "Kil'ayim", "Shevi'it", "Terumot", "Ma'aserot", "Ma'aser Sheni", "Hallah", "Orlah", "Bikkurim",
+    "Shabbat", "Eruvin", "Pesachim", "Shekalim", "Yoma", "Sukkah", "Beitzah", "Rosh Hashanah", "Ta'anit", "Megillah", "Mo'ed Katan", "Hagigah",
+    "Yevamot", "Ketubot", "Nedarim", "Nazir", "Sotah", "Gittin", "Kiddushin",
+    "Bava Kamma", "Bava Metzia", "Bava Batra", "Sanhedrin", "Makkot", "Shevu'ot", "Eduyot", "Avodah Zarah", "Avot", "Horayot",
+    "Zevachim", "Menachot", "Chullin", "Bekhorot", "Arakhin", "Temurah", "Keritot", "Me'ilah", "Tamid", "Middot", "Kinnim",
+    "Kelim", "Oholot", "Nega'im", "Parah", "Tohorot", "Mikva'ot", "Niddah", "Makhshirin", "Zavim", "Tevul Yom", "Yadayim", "Uktzin"
+];
+
+// Function to populate the dropdown with tractate options
+function populateDropdown() {
+    var dropdown = document.getElementById("masechtaDropdown");
+    tractates.forEach(function(masechta) {
+        var option = document.createElement("option");
+        option.text = masechta;
+        option.value = masechta;
+        dropdown.appendChild(option);
+    });
+}
+
+// Call the function to populate the dropdown
+populateDropdown();
+
+document.addEventListener('DOMContentLoaded', function() {
+    const generatedText = localStorage.getItem('generatedText');
+    if (generatedText) {
+        document.getElementById('summary').innerText = generatedText;
+    }
+});
     
-        const options = {
-          method: 'POST',
-          headers: {
+async function generateAI() {
+    const url = 'https://simple-chatgpt-api.p.rapidapi.com/ask';
+    const button = document.querySelector('.gpt'); // Select the button element
+
+    // Set the button to a loading state
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+
+    const options = {
+        method: 'POST',
+        headers: {
             'content-type': 'application/json',
             'X-RapidAPI-Key': '057428540fmsh5cec038c682e999p1c88eajsn3ad697cf50d4',
             'X-RapidAPI-Host': 'simple-chatgpt-api.p.rapidapi.com',
-          },
-          body: JSON.stringify({
+        },
+        body: JSON.stringify({
             question: 'Summarize this text into 5 bullet points:' + enPasuk[0], // Modify this to use the desired question
-          }),
-        };
-      
-        try {
-          const response = await fetch(url, options);
-      
-          if (!response.ok) {
+        }),
+    };
+
+    try {
+        const response = await fetch(url, options);
+
+        if (!response.ok) {
             throw new Error(`Request failed with status: ${response.status}`);
-          }
-      
-          const result = await response.json();
-      
-          // Check if the response structure matches the expected format
-          if (result.answer) {
+        }
+
+        const result = await response.json();
+
+        // Check if the response structure matches the expected format
+        if (result.answer) {
             const generatedText = result.answer;
+            // Store the generated text in localStorage
+            localStorage.setItem('generatedText', generatedText);
             document.getElementById('summary').innerText = generatedText;
             button.innerHTML = 'Generate AI Summary'
-          } else {
+        } else {
             console.error('Response structure is not as expected.');
-          }
-        } catch (error) {
-          console.error(error);
-          button.classList.remove('loading-button');
-        } 
-      }
-      
+        }
+    } catch (error) {
+        console.error(error);
+        button.classList.remove('loading-button');
+    }
+}
+
+

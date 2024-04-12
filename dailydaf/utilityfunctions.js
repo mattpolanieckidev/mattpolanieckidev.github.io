@@ -78,45 +78,53 @@ adjustFont(landscapeQuery.matches ? "1" : "2");
   }
   
   
-  async function generateAI() {
+  document.addEventListener('DOMContentLoaded', function() {
+    const generatedText = localStorage.getItem('generatedText');
+    if (generatedText) {
+        document.getElementById('summary').innerText = generatedText;
+    }
+});
+
+async function generateAI() {
     const url = 'https://simple-chatgpt-api.p.rapidapi.com/ask';
     const button = document.querySelector('.gpt'); // Select the button element
-  
+
     // Set the button to a loading state
     button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
 
     const options = {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'X-RapidAPI-Key': '057428540fmsh5cec038c682e999p1c88eajsn3ad697cf50d4',
-        'X-RapidAPI-Host': 'simple-chatgpt-api.p.rapidapi.com',
-      },
-      body: JSON.stringify({
-        question: 'Summarize this text into 5 bullet points:' + enPasuk[0], // Modify this to use the desired question
-      }),
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+            'X-RapidAPI-Key': '057428540fmsh5cec038c682e999p1c88eajsn3ad697cf50d4',
+            'X-RapidAPI-Host': 'simple-chatgpt-api.p.rapidapi.com',
+        },
+        body: JSON.stringify({
+            question: 'Summarize this text into 5 bullet points:' + enPasuk[0], // Modify this to use the desired question
+        }),
     };
-  
+
     try {
-      const response = await fetch(url, options);
-  
-      if (!response.ok) {
-        throw new Error(`Request failed with status: ${response.status}`);
-      }
-  
-      const result = await response.json();
-  
-      // Check if the response structure matches the expected format
-      if (result.answer) {
-        const generatedText = result.answer;
-        document.getElementById('summary').innerText = generatedText;
-        button.innerHTML = 'Generate AI Summary'
-      } else {
-        console.error('Response structure is not as expected.');
-      }
+        const response = await fetch(url, options);
+
+        if (!response.ok) {
+            throw new Error(`Request failed with status: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        // Check if the response structure matches the expected format
+        if (result.answer) {
+            const generatedText = result.answer;
+            // Store the generated text in localStorage
+            localStorage.setItem('generatedText', generatedText);
+            document.getElementById('summary').innerText = generatedText;
+            button.innerHTML = 'Generate AI Summary'
+        } else {
+            console.error('Response structure is not as expected.');
+        }
     } catch (error) {
-      console.error(error);
-      button.classList.remove('loading-button');
-    } 
-  }
-  
+        console.error(error);
+        button.classList.remove('loading-button');
+    }
+}

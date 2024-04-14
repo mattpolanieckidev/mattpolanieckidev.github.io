@@ -1,52 +1,21 @@
-var date;
-var next;
-var prev;
-var enPasuk;
-var hePasuk;
-var amudCount;
-var section;
-var currentAmud;
-var masechtaProgress;
-var masechtaSearch = document.getElementById("masechta");
-var pageTitle = document.getElementById("pageTitle");
-var textdiv = document.getElementById("content");
-var div;
-var heading;
-var ul;
-var pasuk;
-var newHeading;
-var versionNum;
-var versionDate;
-var links;
-var slider = document.getElementById("fontSize");
-var fontSize = slider.value;
-var textContent = document.getElementsByClassName("pageText");
+var date, next, prev, enPasuk, hePasuk, amudCount, section, currentAmud, masechtaProgress, masechtaSearch = document.getElementById("masechta"), pageTitle = document.getElementById("pageTitle"), textdiv = document.getElementById("content"), div, heading, ul, pasuk, newHeading, versionNum, versionDate, links, slider = document.getElementById("fontSize"), fontSize = slider.value, textContent = document.getElementsByClassName("pageText");
 
-
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function() {
-    navigator.serviceWorker.register("sw.js").then(function(registration) {
-      // Registration was successful
-      console.log("ServiceWorker registration successful with scope: ", registration.scope);
-    }, function(err) {
-      // registration failed :(
-      console.log("ServiceWorker registration failed: ", err);
-    });
-  });
-}
-
-
-if (localStorage.getItem("night") === "dark") {
-  document.getElementById("body").classList.add("night");
-  document.getElementById("nav").classList.add("bg-dark");
-  document.getElementById("modal").classList.add("bg-dark");
-  document.getElementById("switch1").checked = true;
-}
-else {
+const isNight = localStorage.getItem("night") === "dark";
+const nightElements = ["content", "body", "toggleclose", "masechta", "modal", "nav"];
+nightElements.forEach(elementId => {
+  document.getElementById(elementId).classList.toggle("night", !isNight);
+  if (["modal", "nav"].includes(elementId)) {
+    document.getElementById(elementId).classList.toggle("bg-dark", !isNight);
+  }
+});
+document.getElementById("switch1").checked = isNight;
+if (!isNight) {
   document.getElementById("body").classList.remove("night");
-  document.getElementById("switch1").checked = false;
   localStorage.setItem("night", "light");
 }
+
+
+
 
 
 //create and append Div, Heading, and Unordered List
@@ -82,6 +51,24 @@ function writePasuk(){
       document.getElementById("switch2").checked = true;
       adjustFont(localStorage.getItem("size"));
     }
+  }
+}
+
+
+//dark mode
+function night(){
+  if (localStorage.getItem("night") === "light"){
+  document.getElementById("body").classList.toggle("night");
+  document.getElementById("modal").classList.toggle("bg-dark");
+  document.getElementById("nav").classList.toggle("bg-dark");
+  document.getElementById("switch1").checked = true;
+  localStorage.setItem("night", "dark");}
+  else{
+    document.getElementById("body").classList.toggle("night");
+    document.getElementById("modal").classList.toggle("bg-dark");
+    document.getElementById("nav").classList.toggle("bg-dark");
+    document.getElementById("switch1").checked = false;
+    localStorage.setItem("night", "light");
   }
 }
 

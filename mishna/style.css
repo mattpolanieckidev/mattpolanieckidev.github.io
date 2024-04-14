@@ -1,7 +1,17 @@
 body {
   margin:0 0 160px;
+  font-size:18px;
 }
-
+.footer {
+  position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 160px;
+    width: 100%;
+}
+iframe{
+  width: 100%;
+}
 .aleph{
   fill:white;
   width: 40px;
@@ -19,21 +29,12 @@ body {
   background: #121212;
 }
 
-.topcontent{
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  justify-content: space-evenly;
-  color:#212427;
-} 
 
-.custom-control{
-  margin-bottom: 10px;
-}
 .textContent{
-  font-size: 2em;
+  margin: 0 20%;
+  padding: 45px 20px 0;
+  font-size: 24px;
   text-align:right;
-  width: clamp(45ch, 50%, 75ch);
-  padding-top: 15px;
 }
 
 .english{
@@ -47,10 +48,6 @@ body {
   flex-direction: row;
   justify-content: space-evenly;
   margin: 4% 0;
-}
-.buttonAI{
-
-  margin: 4% 2.5%;
 }
 
 .hidden{
@@ -79,22 +76,7 @@ p.english, .textContent li, .nextPageContent li{
 }
 
 .finder{
-  margin:75px 400px 0;
-  display: flex;
-  justify-content: center;
-  gap:40px;
-}
-.finderbottom{
-  margin:75px 400px 0;
-  display: flex;
-  justify-content: center;
-  gap:40px;
-}
-
-.form-row{
-  display:flex;
-  flex-direction: column;
-
+  margin:75px 20px 0;
 }
 
 .finder .btn{
@@ -119,7 +101,8 @@ p.english, .textContent li, .nextPageContent li{
 }
 .col input{
   border-radius: 25px;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
+  border-radius: 25px;
   outline:none;
   background: none;
   font-size: 18px;
@@ -136,12 +119,6 @@ display:none;
     margin:0 5px 3px 2px;
     fill:white;
   }
-  
-#next svg {
-    height: 22px;
-    margin:0 5px 3px 2px;
-    fill:white;
-  }
 
 .modal-backdrop {
   z-index: 1020;
@@ -152,26 +129,11 @@ display:none;
   margin-right: 20px;
 }
 
-.gpt{
-  background-color: #48BBB0;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.loading-button {
-  animation: spin 2s linear infinite;
-
-}
-
 @media screen and (orientation:portrait){
   .pageText, .textContent{
-    margin:0 2.5%;
+    margin:0 1.5%;
     font-size: 18px;
     padding-left:0;
-    width:fit-content;
   }
   #date{
     display:none;
@@ -179,25 +141,5 @@ display:none;
   .footer{
     height:100px;
   }
-
-  .finder{
-    margin:75px 20px 0;
-  }
-
-  .finderbottom {
-    margin:auto;
-  }
-    
-    /* Add the following styles to stack .buttonAI on top */
-    .topcontent {
-      grid-template-columns: 1fr;
-      margin: 0 2.5%;
-    }
-    .buttonAI{
-      text-align: center;
-    }
-    #summary{
-      text-align: left;
-    }
 }
   

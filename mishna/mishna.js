@@ -1,6 +1,39 @@
 // Variables
 var date, next, prev, enPasuk, current = document.getElementById("content"), amudCount, section, currentAmud, masechtaProgress, masechtaSearch = document.getElementById('masechta'), pageTitle = document.getElementById("pageTitle"), div, heading, ul, pasuk, hidden = 0, slider = document.getElementById("fontSize"), fontSize = slider.value, textContent = document.getElementsByClassName("pageText");
 
+//set slider value on mobile
+const landscapeQuery = window.matchMedia("(orientation: landscape)");
+
+// Specify the event type ("orientationchange")
+landscapeQuery.addEventListener("orientationchange", e => {
+  const isLandscape = e.matches;
+  const fontValue = isLandscape ? "1" : "2";
+  adjustFont(fontValue);
+});
+
+// Initialize based on current orientation
+adjustFont(landscapeQuery.matches ? "1" : "2");
+  
+  //adjust font size based on slider value
+  function adjustFont(a){
+    for (i = 0; i < textContent.length; i++) {
+      if (a === "1"){
+        slider.value="1";
+        localStorage.setItem("size", "1");
+        textContent.item(i).style.fontSize="18px";
+      }
+      else if (a === "2"){
+        slider.value="2";
+        localStorage.setItem("size", "2");
+        textContent.item(i).style.fontSize="24px";
+      }
+      else if (a === "3"){
+        localStorage.setItem("size", "3");
+        textContent.item(i).style.fontSize="32px";
+      }
+      }
+    };
+  
 
 //create and append Div, Heading, and Unordered List
 function createDiv(){

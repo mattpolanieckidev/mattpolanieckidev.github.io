@@ -85,46 +85,100 @@ adjustFont(landscapeQuery.matches ? "1" : "2");
     }
 });
 
+// async function generateAI() {
+//     const url = 'https://simple-chatgpt-api.p.rapidapi.com/ask';
+//     const button = document.querySelector('.gpt'); // Select the button element
+
+//     // Set the button to a loading state
+//     button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+
+//     const options = {
+//         method: 'POST',
+//         headers: {
+//             'content-type': 'application/json',
+//             'X-RapidAPI-Key': '057428540fmsh5cec038c682e999p1c88eajsn3ad697cf50d4',
+//             'X-RapidAPI-Host': 'simple-chatgpt-api.p.rapidapi.com',
+//         },
+//         body: JSON.stringify({
+//             question: 'Summarize this text into 5 bullet points:' + enPasuk[0], // Modify this to use the desired question
+//         }),
+//     };
+
+//     try {
+//         const response = await fetch(url, options);
+
+//         if (!response.ok) {
+//             throw new Error(`Request failed with status: ${response.status}`);
+//         }
+
+//         const result = await response.json();
+
+//         // Check if the response structure matches the expected format
+//         if (result.answer) {
+//             const generatedText = result.answer;
+//             // Store the generated text in localStorage
+//             localStorage.setItem('generatedText', generatedText);
+//             document.getElementById('summary').innerText = generatedText;
+//             button.innerHTML = 'Generate AI Summary'
+//         } else {
+//             console.error('Response structure is not as expected.');
+//         }
+//     } catch (error) {
+//         console.error(error);
+//         button.classList.remove('loading-button');
+//     }
+// }
+
+
 async function generateAI() {
-    const url = 'https://simple-chatgpt-api.p.rapidapi.com/ask';
-    const button = document.querySelector('.gpt'); // Select the button element
+  const questionInput = document.getElementById('userQuestion');
+  const question = questionInput.value.trim();
 
-    // Set the button to a loading state
-    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+  if (!question) {
+      alert("Please enter a question.");
+      return;
+  }
 
-    const options = {
-        method: 'POST',
-        headers: {
-            'content-type': 'application/json',
-            'X-RapidAPI-Key': '057428540fmsh5cec038c682e999p1c88eajsn3ad697cf50d4',
-            'X-RapidAPI-Host': 'simple-chatgpt-api.p.rapidapi.com',
-        },
-        body: JSON.stringify({
-            question: 'Summarize this text into 5 bullet points:' + enPasuk[0], // Modify this to use the desired question
-        }),
-    };
+  const button = document.querySelector('.gpt'); // Select the button element
 
-    try {
-        const response = await fetch(url, options);
+  // Set the button to a loading state
+  button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
 
-        if (!response.ok) {
-            throw new Error(`Request failed with status: ${response.status}`);
-        }
+  const url = 'https://simple-chatgpt-api.p.rapidapi.com/ask';
+  const options = {
+      method: 'POST',
+      headers: {
+          'content-type': 'application/json',
+          'X-RapidAPI-Key': '057428540fmsh5cec038c682e999p1c88eajsn3ad697cf50d4',
+         'X-RapidAPI-Host': 'simple-chatgpt-api.p.rapidapi.com',
+      },
+      body: JSON.stringify({
+          question: question + ' ' + enPasuk[0].join(' ') // Modify to use the displayed Daf Yomi text
+      }),
+  };
 
-        const result = await response.json();
+  try {
+      const response = await fetch(url, options);
 
-        // Check if the response structure matches the expected format
-        if (result.answer) {
-            const generatedText = result.answer;
-            // Store the generated text in localStorage
-            localStorage.setItem('generatedText', generatedText);
-            document.getElementById('summary').innerText = generatedText;
-            button.innerHTML = 'Generate AI Summary'
-        } else {
-            console.error('Response structure is not as expected.');
-        }
-    } catch (error) {
-        console.error(error);
-        button.classList.remove('loading-button');
-    }
+      if (!response.ok) {
+          throw new Error(`Request failed with status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      // Check if the response structure matches the expected format
+      if (result.answer) {
+          const generatedText = result.answer;
+          // Store the generated text in localStorage
+          localStorage.setItem('generatedText', generatedText);
+          document.getElementById('summary').innerText = generatedText;
+          button.innerHTML = 'Ask AI';
+      } else {
+          console.error('Response structure is not as expected.');
+          button.innerHTML = 'Ask AI';
+      }
+  } catch (error) {
+      console.error(error);
+      button.innerHTML = 'Ask AI';
+  }
 }

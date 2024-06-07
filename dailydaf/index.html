@@ -111,10 +111,11 @@
       <p>Turn on JS yo</p>
     </noscript>
     <div class="topcontent">
-      <div class="buttonAI">
-        <button class="btn btn-primary gpt" onclick="generateAI()"> Generate AI Summary</button>
-        <p id="summary"></p>
-      </div>
+      <div class="chatContainer">
+        <input type="text" id="userQuestion" placeholder="Ask a question about the Daf Yomi text">
+        <button class="gpt" onclick="generateAI()">Ask AI</button>
+        <div id="summary"></div>
+    </div>
       <div class="content" id="content"></div>
     </div>
 

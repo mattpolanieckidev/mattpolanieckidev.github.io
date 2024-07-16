@@ -215,6 +215,7 @@ p.english, .textContent li, .nextPageContent li {
   .topcontent {
     flex-direction: column;
     align-items: center;
+    grid-template-columns: 1fr;
   }
   .chatContainer {
     position: relative;
@@ -225,4 +226,15 @@ p.english, .textContent li, .nextPageContent li {
   #summary {
     text-align: left;
   }
+}
+.chatContainer.minimized {
+  height: 0;
+  overflow: hidden;
+}
+#minimizeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
 }

@@ -182,3 +182,7 @@ async function generateAI() {
       button.innerHTML = 'Ask AI';
   }
 }
+function toggleChatContainer() {
+  const chatContainer = document.querySelector('.chatContainer');
+  chatContainer.classList.toggle('minimized');
+}

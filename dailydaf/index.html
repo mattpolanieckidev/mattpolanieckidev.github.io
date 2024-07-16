@@ -112,9 +112,11 @@
     </noscript>
     <div class="topcontent">
       <div class="chatContainer">
+        <button id="minimizeButton" onclick="toggleChatContainer()"><i class="fas fa-chevron-down"></i></button>
         <input type="text" id="userQuestion" placeholder="Ask a question about the Daf Yomi text">
         <button class="gpt" onclick="generateAI()">Ask AI</button>
         <div id="summary"></div>
+        
     </div>
       <div class="content" id="content"></div>
     </div>

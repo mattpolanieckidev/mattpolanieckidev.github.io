@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemara in a Flash</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin: 20px 0;
+            color: #343a40;
+        }
+
+        .flashcard {
+            margin: 20px auto;
+            padding: 50px;
+            width: 300px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #343a40;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .buttons {
+            margin: 20px;
+        }
+
+        .button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #ffffff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .progress {
+            margin: 20px auto;
+            width: 500px;
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #007bff;
+            width: 0%;
+            transition: width 0.3s ease;
+           
+        }
+    </style>
+</head>
+<body>
+    <h1>Gemara in a Flash</h1>
+    <div class="flashcard" id="flashcard">?</div>
+    <div class="buttons">
+        <button class="button" id="show-translation">Show Translation</button>
+        <button class="button" id="next-card" disabled>Next</button>
+    </div>
+    <div class="progress">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <script>
+        const flashcards = [
+        {"phrase": "אדרבה", "translation": "On the contrary"},
+    {"phrase": "אטו", "translation": "Is it so?/Do you think?"},
+    {"phrase": "אי אפשר", "translation": "It is impossible"},
+    {"phrase": "אי נמי", "translation": "Alternatively"},
+    {"phrase": "אין הכי נמי", "translation": "Yes, indeed!"},
+    {"phrase": "אלא מאי", "translation": "But what [then]?"},
+    {"phrase": "אימא", "translation": "I would say"},
+    {"phrase": "איתמר", "translation": "It was stated"},
+    {"phrase": "אין ספק מוציא מידי ודאי", "translation": "A doubt cannot override a certainty"},
+    {"phrase": "בשלמא", "translation": "It is well [understood]"},
+    {"phrase": "בעי", "translation": "[He] asks/requests"},
+    {"phrase": "גופא", "translation": "Returning to the earlier statement"},
+    {"phrase": "האי מאי", "translation": "What is this?"},
+    {"phrase": "הכי קאמר", "translation": "This is what [it] means"},
+    {"phrase": "הוה אמינא", "translation": "I would have thought"},
+    {"phrase": "הכא במאי עסקינן", "translation": "Here, what are we dealing with?"},
+    {"phrase": "ולא עוד אלא", "translation": "Not only that, but"},
+    {"phrase": "והתנן", "translation": "But didn’t we learn in the Mishnah?"},
+    {"phrase": "והא", "translation": "But behold!"},
+    {"phrase": "ורמינהו", "translation": "They posed a contradiction"},
+    {"phrase": "זיל", "translation": "Go"},
+    {"phrase": "טעמא ד...", "translation": "The reason is [because of]"},
+    {"phrase": "ייתיב", "translation": "[He] was sitting"},
+    {"phrase": "כמה דלא", "translation": "As long as not"},
+    {"phrase": "לא צריכא אלא", "translation": "It is needed only"},
+    {"phrase": "מאי טעמא", "translation": "What is the reason?"},
+    {"phrase": "מאי בינייהו", "translation": "What is the difference between them?"},
+    {"phrase": "מיתיבי", "translation": "They raised an objection"},
+    {"phrase": "מנלן", "translation": "From where do we know this?"},
+    {"phrase": "נפקא מינה", "translation": "A practical difference arises"},
+    {"phrase": "סברא היא", "translation": "It is logical"},
+    {"phrase": "קא סלקא דעתך", "translation": "You might have thought"},
+    {"phrase": "קל וחומר", "translation": "A fortiori argument"},
+    {"phrase": "קשיא", "translation": "It is difficult"},
+    {"phrase": "רבי פלוני אומר", "translation": "Rabbi [so-and-so] says"},
+    {"phrase": "רישא", "translation": "The beginning of a statement"},
+    {"phrase": "סיפא", "translation": "The end of a statement"},
+    {"phrase": "שמע מינה", "translation": "Learn from this"},
+    {"phrase": "תיקו", "translation": "Let it remain unresolved"},
+    {"phrase": "תניא", "translation": "It was taught in a Baraita"},
+    {"phrase": "תנינא", "translation": "We learned in a Mishnah"},
+    {"phrase": "תנו רבנן", "translation": "The sages taught"},
+    {"phrase": "הכי נמי מסתברא", "translation": "This is also logical"},
+    {"phrase": "כי האי גוונא", "translation": "In such a case"},
+    {"phrase": "לא שנא", "translation": "It makes no difference"},
+    {"phrase": "לכתחילה", "translation": "Ideally"},
+    {"phrase": "בדיעבד", "translation": "After the fact"},
+    {"phrase": "וכי תימא", "translation": "And if you say"},
+    {"phrase": "היינו דאמרי אינשי", "translation": "This is what people say"},
+    {"phrase": "מהו דתימא", "translation": "What might you have said?"}
+];
+
+        let currentIndex = 0;
+        const flashcard = document.getElementById('flashcard');
+        const showTranslationButton = document.getElementById('show-translation');
+        const nextCardButton = document.getElementById('next-card');
+        const progressBar = document.getElementById('progress-bar');
+
+        function updateFlashcard() {
+            const currentFlashcard = flashcards[currentIndex];
+            flashcard.textContent = currentFlashcard.phrase;
+            showTranslationButton.disabled = false;
+            nextCardButton.disabled = false;
+        }
+
+        function showTranslation() {
+            const currentFlashcard = flashcards[currentIndex];
+            flashcard.textContent = currentFlashcard.translation;
+            showTranslationButton.disabled = true;
+          
+        }
+
+        function nextFlashcard() {
+            currentIndex++;
+            if (currentIndex < flashcards.length) {
+                updateFlashcard();
+                const progress = ((currentIndex) / flashcards.length) * 100;
+                progressBar.style.width = `${progress}%`;
+            } else {
+                flashcard.textContent = "✓"; // Checkmark symbol
+                progressBar.style.width = `100%`;
+                alert('You have completed all the flashcards!');
+                showTranslationButton.disabled = true;
+              
+            }
+        }
+
+        showTranslationButton.addEventListener('click', showTranslation);
+        nextCardButton.addEventListener('click', nextFlashcard);
+
+        // Initialize the first flashcard
+        updateFlashcard();
+    </script>
+</body>
+</html>

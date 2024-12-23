@@ -59,6 +59,16 @@ const showTranslationButton = document.getElementById('show-translation');
 const nextCardButton = document.getElementById('next-card');
 const progressBar = document.getElementById('progress-bar');
 
+// Function to shuffle the flashcards array
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+shuffle(flashcards); // Shuffle the flashcards array
+
 function updateFlashcard() {
     const currentFlashcard = flashcards[currentIndex];
     flashcard.innerHTML = `<span class="phraseInitial">Phrase: ${currentFlashcard.phrase}</span><br>`

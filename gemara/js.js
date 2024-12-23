@@ -61,7 +61,7 @@ const progressBar = document.getElementById('progress-bar');
 
 function updateFlashcard() {
     const currentFlashcard = flashcards[currentIndex];
-    flashcard.textContent = currentFlashcard.phrase;
+    flashcard.innerHTML = `<span class="phraseInitial">Phrase: ${currentFlashcard.phrase}</span><br>`
     showTranslationButton.disabled = false;
     nextCardButton.disabled = false;
 }

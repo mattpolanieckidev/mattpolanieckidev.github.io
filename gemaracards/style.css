@@ -84,4 +84,5 @@ h1 {
     .progress, .flashcard{
         width:auto
     }
+    .flashcard{margin:0 2%; }
 }

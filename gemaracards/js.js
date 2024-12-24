@@ -2,14 +2,18 @@ const toggleThemeButton = document.getElementById("toggle-theme");
 toggleThemeButton.addEventListener("click", () => {
     const h1 = document.querySelector("h1");
     const flashcard = document.getElementById("flashcard");
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach(button => button.classList.toggle("dark-mode"));
     document.body.classList.toggle("dark-mode");
     h1.classList.toggle("dark-mode");
     flashcard.classList.toggle("dark-mode");
     const currentTheme = document.body.classList.contains("dark-mode") ? "Dark" : "Light";
-    toggleThemeButton.textContent = `${currentTheme === "Dark" ? "Light" : "Dark"} Mode`;
+    toggleThemeButton.textContent = `${currentTheme === "Dark" ? "☀️" : "🌙"} Mode`;
     localStorage.setItem("theme", currentTheme);
     
 });
+
+
 
 
 const flashcards = 

@@ -1,3 +1,17 @@
+const toggleThemeButton = document.getElementById("toggle-theme");
+toggleThemeButton.addEventListener("click", () => {
+    const h1 = document.querySelector("h1");
+    const flashcard = document.getElementById("flashcard");
+    document.body.classList.toggle("dark-mode");
+    h1.classList.toggle("dark-mode");
+    flashcard.classList.toggle("dark-mode");
+    const currentTheme = document.body.classList.contains("dark-mode") ? "Dark" : "Light";
+    toggleThemeButton.textContent = `${currentTheme === "Dark" ? "Light" : "Dark"} Mode`;
+    localStorage.setItem("theme", currentTheme);
+    
+});
+
+
 const flashcards = 
 [
 {"phrase": "אדרבה", "translation": "On the contrary", "description": "Used to present a perspective or conclusion opposite to what was previously assumed or stated."},

@@ -68,9 +68,10 @@ const letters = {
 
         const randomLetter = selectedLetters[Math.floor(Math.random() * selectedLetters.length)];
         const display = includeNekudot ? letters[randomLetter][Math.floor(Math.random() * letters[randomLetter].length)] : randomLetter;
-        flashcard.style.fontSize="30vw";
+        flashcard.style.fontSize ="15vw"
         if(window.innerHeight > window.innerWidth){
-            flashcard.style.fontSize="60vw";;
+            flashcard.style.fontSize="60vw";
+         
         }
         flashcard.textContent = display;
         
@@ -78,7 +79,9 @@ const letters = {
 
     // Reset flashcard when settings change
     function resetFlashcard() {
+       
         flashcard.textContent = "Select letters to begin";
+        
        
         
     }
@@ -88,7 +91,8 @@ const letters = {
         document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
         resetFlashcard();
         selectedLetters=[];
-        flashcard.style.fontSize="10vw";
+        includeNekudot = false;
+        flashcard.style.fontSize ="5vw"
     }
 
     function rainbowifyH1() {

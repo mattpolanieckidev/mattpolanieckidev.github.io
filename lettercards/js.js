@@ -73,18 +73,22 @@ const letters = {
             flashcard.style.fontSize="60vw";;
         }
         flashcard.textContent = display;
+        
     });
 
     // Reset flashcard when settings change
     function resetFlashcard() {
         flashcard.textContent = "Select letters to begin";
-
+       
         
     }
 
     //function to clear all checkboxes
     function reset(){
         document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
+        resetFlashcard();
+        selectedLetters=[];
+        flashcard.style.fontSize="10vw";
     }
 
     function rainbowifyH1() {
@@ -113,3 +117,4 @@ const letters = {
       // Call the function when the DOM is fully loaded
       document.addEventListener('DOMContentLoaded', rainbowifyH1);
       
+  

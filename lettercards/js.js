@@ -68,7 +68,10 @@ const letters = {
 
         const randomLetter = selectedLetters[Math.floor(Math.random() * selectedLetters.length)];
         const display = includeNekudot ? letters[randomLetter][Math.floor(Math.random() * letters[randomLetter].length)] : randomLetter;
-        flashcard.style.fontSize="30vw"
+        flashcard.style.fontSize="30vw";
+        if(window.innerHeight > window.innerWidth){
+            flashcard.style.fontSize="60vw";;
+        }
         flashcard.textContent = display;
     });
 
@@ -78,3 +81,35 @@ const letters = {
 
         
     }
+
+    //function to clear all checkboxes
+    function reset(){
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
+    }
+
+    function rainbowifyH1() {
+        const h1 = document.querySelector('h1');
+        if (!h1) {
+          console.error("No h1 element found on the page.");
+          return;
+        }
+      
+        const text = h1.textContent;
+        h1.innerHTML = ''; // Clear existing content
+      
+        const colors = ["#EC383E", "#F29C2C", "#3AB856", "#2AAEE9", "#B871B1"];
+        let colorIndex = 0;
+      
+        for (let i = 0; i < text.length; i++) {
+          const charSpan = document.createElement('span');
+          charSpan.textContent = text[i];
+          charSpan.style.color = colors[colorIndex];
+          h1.appendChild(charSpan);
+      
+          colorIndex = (colorIndex + 1) % colors.length; // Cycle through colors
+        }
+      }
+      
+      // Call the function when the DOM is fully loaded
+      document.addEventListener('DOMContentLoaded', rainbowifyH1);
+      

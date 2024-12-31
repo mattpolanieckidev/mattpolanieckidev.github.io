@@ -3,7 +3,6 @@ const opponentBench = document.querySelectorAll('.opponent-bench .pokemon');
 const playerActive = document.getElementById('player-active');
 const opponentActive = document.getElementById('opponent-active');
 const flipButton = document.getElementById('flip-button');
-const playerScore = document.getElementById('player-score');
 const playerKOsDisplay = document.getElementById('player-kos');
 const opponentKOsDisplay = document.getElementById('opponent-kos');
 
@@ -11,7 +10,6 @@ let playerBenchData = [];
 let opponentBenchData = [];
 let activePlayerPokemon = null;
 let activeOpponentPokemon = null;
-let playerHits = 0;
 let playerTurn = true;
 let playerKOs = 0;
 let opponentKOs = 0;
@@ -28,17 +26,19 @@ async function fetchRandomPokemon() {
 async function initializeGame() {
     const [playerData, opponentData] = await Promise.all([fetchRandomPokemon(), fetchRandomPokemon()]);
 
-    playerBenchData = playerData.map(pokemon => ({ ...pokemon, currentHealth: 100, maxHealth: 100 }));
-    opponentBenchData = opponentData.map(pokemon => ({ ...pokemon, currentHealth: 100, maxHealth: 100 }));
+    playerBenchData = playerData.map(pokemon => ({ ...pokemon, currentHealth: 100, maxHealth: 100, benchIndex: null }));
+    opponentBenchData = opponentData.map(pokemon => ({ ...pokemon, currentHealth: 100, maxHealth: 100, benchIndex: null }));
 
     playerBench.forEach((el, index) => {
         const pokemon = playerBenchData[index];
+        pokemon.benchIndex = index;
         updatePokemonDisplay(el, pokemon);
         el.addEventListener('click', () => swapPokemon(index));
     });
 
     opponentBench.forEach((el, index) => {
         const pokemon = opponentBenchData[index];
+        pokemon.benchIndex = index;
         updatePokemonDisplay(el, pokemon);
     });
 
@@ -73,6 +73,18 @@ function updateHealthBar(pokemonElement, currentHealth, maxHealth) {
     }
 }
 
+function updateBenchDisplay() {
+    playerBench.forEach((el, index) => {
+        const pokemon = playerBenchData[index];
+        updatePokemonDisplay(el, pokemon);
+    });
+
+    opponentBench.forEach((el, index) => {
+        const pokemon = opponentBenchData[index];
+        updatePokemonDisplay(el, pokemon);
+    });
+}
+
 function swapPokemon(index) {
     activePlayerPokemon = playerBenchData[index];
     updatePokemonDisplay(playerActive, activePlayerPokemon);
@@ -92,17 +104,16 @@ flipButton.addEventListener('click', () => {
     const playerResult = Math.random() < 0.5 ? 'Heads' : 'Tails';
 
     if (playerResult === 'Heads') {
-        playerHits++;
         if (activeOpponentPokemon) {
             activeOpponentPokemon.currentHealth -= 20;
             updatePokemonDisplay(opponentActive, activeOpponentPokemon);
+            updateBenchPokemon(opponentBenchData, activeOpponentPokemon);
 
             if (activeOpponentPokemon.currentHealth <= 0) {
                 alert('Opponent Pokemon Knocked Out!');
                 playerKOs++;
                 playerKOsDisplay.textContent = playerKOs;
                 handleOpponentKnockout();
-                updateBenchDisplay();
             } else {
                 setTimeout(cpuTurn, 1000);
             }
@@ -123,13 +134,13 @@ function cpuTurn() {
         if (activePlayerPokemon) {
             activePlayerPokemon.currentHealth -= 20;
             updatePokemonDisplay(playerActive, activePlayerPokemon);
+            updateBenchPokemon(playerBenchData, activePlayerPokemon);
 
             if (activePlayerPokemon.currentHealth <= 0) {
                 alert('Your Pokemon was Knocked Out!');
                 opponentKOs++;
                 opponentKOsDisplay.textContent = opponentKOs;
                 handlePlayerKnockout();
-                updateBenchDisplay();
             }
         }
     } else {
@@ -139,14 +150,20 @@ function cpuTurn() {
     playerTurn = true;
 }
 
+function updateBenchPokemon(benchData, pokemon) {
+    if (pokemon.benchIndex !== null) {
+        benchData[pokemon.benchIndex].currentHealth = pokemon.currentHealth;
+    }
+    updateBenchDisplay();
+}
+
 function handleOpponentKnockout() {
     const availableOpponents = opponentBenchData.filter(pokemon => pokemon.currentHealth > 0);
     if (availableOpponents.length > 0) {
         const nextOpponentIndex = opponentBenchData.indexOf(availableOpponents[0]);
         activeOpponentPokemon = opponentBenchData[nextOpponentIndex];
         updatePokemonDisplay(opponentActive, activeOpponentPokemon);
-        playerHits = 0;
-        updateBenchDisplay(); // Update the bench after changing active pokemon
+        updateBenchDisplay();
     } else {
         alert("You Win!");
         resetGame();
@@ -158,7 +175,7 @@ function handlePlayerKnockout() {
     if (availablePlayers.length > 0) {
         const nextPlayerIndex = playerBenchData.indexOf(availablePlayers[0]);
         swapPokemon(nextPlayerIndex);
-        updateBenchDisplay(); // Update the bench after swapping
+        updateBenchDisplay();
     } else {
         alert("You Lose!");
         resetGame();
@@ -166,18 +183,14 @@ function handlePlayerKnockout() {
 }
 
 function resetGame() {
-    playerHits = 0;
-    playerScore.textContent = playerHits;
     playerKOs = 0;
     opponentKOs = 0;
     playerKOsDisplay.textContent = playerKOs;
     opponentKOsDisplay.textContent = opponentKOs;
-
-    playerBench.forEach(el => el.removeEventListener('click', swapPokemon)); // Remove old listeners
-
-    playerBenchData = playerBenchData.map(pokemon => ({ ...pokemon, currentHealth: 100, maxHealth: 100 }));
-    opponentBenchData = opponentBenchData.map(pokemon => ({ ...pokemon, currentHealth: 100, maxHealth: 100 }));
-    initializeGame(); // Re-initialize the game (including event listeners)
+    playerBench.forEach(el => el.removeEventListener('click', swapPokemon));
+    playerBenchData = playerBenchData.map(pokemon => ({ ...pokemon, currentHealth: 100, maxHealth: 100, benchIndex: null }));
+    opponentBenchData = opponentBenchData.map(pokemon => ({ ...pokemon, currentHealth: 100, maxHealth: 100, benchIndex: null }));
+    initializeGame();
 }
 
 initializeGame();

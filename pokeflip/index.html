@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">  <h1>Pokemon Flip</h1></div>
+    <div class="game-container">
+        <div>
+          
+            
+            <!-- Opponent Bench -->
+            <div class="bench-label">Opponent Bench</div>
+            <div class="bench opponent-bench">
+                <div class="pokemon" data-index="0"></div>
+                <div class="pokemon" data-index="1"></div>
+                <div class="pokemon" data-index="2"></div>
+                <div class="pokemon" data-index="3"></div>
+                <div class="pokemon" data-index="4"></div>
+            </div>
+        </div>
+        
+        <!-- Active Pokemon -->
+        <div>
+            <div class="active-pokemon">
+                <div class="pokemon" id="opponent-active">Opponent</div>
+                <div class="pokemon" id="player-active">Player</div>
+            </div>
+            
+            <!-- Coin Flip -->
+            <div class="coin-flip">
+                <button id="flip-button">Flip</button>
+            </div>
+            
+            <!-- Score -->
+            <div class="score">
+                Your KOs: <span id="player-kos">0</span><br>
+                Opponent KOs: <span id="opponent-kos">0</span>
+            </div>
+        </div>
+        
+        <div>
+            <!-- Player Bench -->
+            <div class="bench-label">Your Bench</div>
+            <div class="bench player-bench">
+                <div class="pokemon" data-index="0"></div>
+                <div class="pokemon" data-index="1"></div>
+                <div class="pokemon" data-index="2"></div>
+                <div class="pokemon" data-index="3"></div>
+                <div class="pokemon" data-index="4"></div>
+            </div>
+        </div>
+    </div>
+    <script src="js.js"></script>
+</body>
+</html>

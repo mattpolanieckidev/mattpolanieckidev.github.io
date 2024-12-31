@@ -2,7 +2,7 @@ async function getKnicksScores() {
   const apiKey = '100bd1992920e53de5b70fcb3e6267e4'; // replace with your own API key
 
   // Fetch Knicks games
-  const knicksEndpoint = 'https://v1.basketball.api-sports.io/games?league=12&season=2022-2023&team=151';
+  const knicksEndpoint = 'https://v1.basketball.api-sports.io/games?league=12&season=2023-2024&team=151';
   const knicksResponse = await fetch(knicksEndpoint, {
     headers: {
       'x-apisports-key': apiKey,

@@ -54,6 +54,7 @@ h1 {
     text-align: center;
     overflow: hidden; /* Prevents content overflow */
     transition: transform 0.2s; /* Smooth transition for hover effect */
+    text-transform: capitalize;
 }
 
 .pokemon:hover {
@@ -67,6 +68,7 @@ h1 {
 
 .pokemon.active {
     border: 4px solid #00f;
+   
 }
 
 .active-pokemon {
@@ -135,14 +137,22 @@ button:hover {
 }
 
 .pokeball {
-    position: absolute; /* Make it absolute for positioning */
-    top: 50%; /* Position vertically in the center */
-    left: 10%; /* Position horizontally in the center */
-    transform: translate(-50%, -50%); /* Offset for centering */
-    width: 200px; /* Adjust width as needed */
-    height: 200px; /* Adjust height as needed */
-  }
+    position: relative;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: block;
+    margin: 20px auto;
+}
 
+.pokeball:hover {
+    transform: scale(1.1);
+}
+
+.pokeball:active {
+    transform: scale(0.9);
+}
 
 @media (device-orientation: landscape) {
     .game-container {

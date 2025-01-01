@@ -164,6 +164,7 @@ function handleOpponentKnockout() {
         activeOpponentPokemon = opponentBenchData[nextOpponentIndex];
         updatePokemonDisplay(opponentActive, activeOpponentPokemon);
         updateBenchDisplay();
+        playerTurn = true; // VERY IMPORTANT: Set playerTurn back to true
     } else {
         alert("You Win!");
         resetGame();

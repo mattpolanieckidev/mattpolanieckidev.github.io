@@ -1,48 +1,72 @@
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin:1.5%;
-    height: 100vh;
     background-color: #f5f5f5;
-}
-.game-container {
     display: flex;
     flex-direction: column;
+
     align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    max-width: 1200px;
-    padding: 20px;
-    box-sizing: border-box;
+    min-height: 100vh; /* Ensure body takes full viewport height */
+    margin: 0;
 }
 
-h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
+.header {
+    text-align: left;
+    width: 90%; /* Match game container width */
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
 }
+
+h1{
+    display: inline;
+}
+
+.game-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px;
+    width: 70%;
+    height: 80vh;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);    
+    background-image: linear-gradient(to bottom, rgb(245, 112, 112) 50%, white 50%);
+}
+
 
 .bench-label {
     font-size: 1.2rem;
     margin-bottom: 10px;
     font-weight: 900;
+    text-align: center; /* Center the bench labels */
 }
 
 .bench {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.bench.opponent-bench {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.bench.player-bench {
+    grid-row: 2;
+    grid-column: 3;
 }
 
 .pokemon {
-    position: relative;
-    width: 200px;
-    height: 150px;
+    width: 100px; /* Reduced width for better grid layout */
+    height: 100px; /* Reduced height to maintain aspect ratio */
     background: #ccc;
     border: 2px solid #000;
     display: flex;
@@ -50,66 +74,61 @@ h1 {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px; /* Slightly smaller font */
     text-align: center;
-    overflow: hidden; /* Prevents content overflow */
-    transition: transform 0.2s; /* Smooth transition for hover effect */
+    overflow: hidden;
+    transition: transform 0.2s;
     text-transform: capitalize;
 }
 
 .pokemon:hover {
-    transform: scale(1.05); /* Slightly enlarge on hover */
+    transform: scale(1.05);
 }
 
 .pokemon img {
-    max-width: 100%;
-    max-height: 100px;
+    max-width: 90%; /* Slightly reduce max-width of images */
+    max-height: 60px; /* Slightly reduce max-height of images */
 }
 
 .pokemon.active {
     border: 4px solid #00f;
-   
 }
 
 .active-pokemon {
+    grid-row: 1 / span 2;
+    grid-column: 2;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center; /* Center content vertically */
     align-items: center;
-    margin-bottom: 20px;
-    width: 100%;
     gap: 20px;
+    padding: 20px;
 }
 
 .coin-flip {
-    margin-top: 20px;
     text-align: center;
+    margin-top: 20px; /* Add some top margin */
 }
 
-.score {
-    font-size: 18px;
-    margin-top: 20px;
-    text-align: center;
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
+.pokeball {
+    width: 100px;
+    height: 100px;
     cursor: pointer;
-    transition: background-color 0.3s; /* Smooth background color transition */
+    transition: transform 0.2s;
+    margin:0 2px;
 }
 
-button:hover {
-    background-color: #0056b3;
+.pokeball:hover {
+    transform: scale(1.1);
+}
+
+.pokeball:active {
+    transform: scale(0.9);
 }
 
 .health-bar {
     width: 100%;
-    height: 10px;
+    height: 8px; /* Slightly thinner health bar */
     background-color: #ccc;
     border-radius: 5px;
     margin-top: 5px;
@@ -132,46 +151,85 @@ button:hover {
     opacity: 0.5;
     filter: grayscale(100%);
     cursor: default;
-    pointer-events: none; /* Prevent clicks on fainted Pokemon */
-    z-index: -2;
+    pointer-events: none;
+    z-index: -0;
 }
 
-.pokeball {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    cursor: pointer;
-    transition: transform 0.2s;
-    display: block;
-    margin: 20px auto;
+.scoreflip{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
 }
 
-.pokeball:hover {
-    transform: scale(1.1);
+/* Media Queries */
+@media (orientation: landscape) {
+
+    .active-pokemon {
+       
+        align-items: center; /* Center active pokemon in landscape */
+        justify-content: center;
+        justify-items: center;
+        
+    }
+
+    .active-pokemon img{
+        width: 400px;
+        
+    }
+
+    .bench .pokemon {
+        width: 100px;
+        
+    }
+    .centercolumn{
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .centercolumn .pokemon{
+        width: 200px;
+        height:150px;
+    }
+
+    .centercolumn img{
+        max-height: 80%;
+    }
 }
 
-.pokeball:active {
-    transform: scale(0.9);
-}
-
-@media (device-orientation: landscape) {
+@media (orientation: portrait) {
     .game-container {
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: space-evenly;
-        gap: 20px;
+        grid-template-columns: 1fr; /* Single column in portrait */
+        grid-template-rows: auto auto auto; /* Three rows */
+        height:auto;
+        width:auto;
     }
 
     .bench {
-        flex-direction: column;
+        display: flex;
+        flex-direction: row;
     }
 
     .active-pokemon {
-        flex-direction: column;
-        align-items: first baseline;
+        grid-row: 2;
+        grid-column: 1;
     }
 
-    .coin-flip {
-        align-self: center;
+    .bench.player-bench {
+        grid-row: 3;
+        grid-column: 1;
+    }
+
+    .bench .pokemon {
+        width: 60px;
+        height: 45px;
+    }
+    .pokemon img {
+        max-height: 35px;
+    }
+    .pokeball{
+        width: 75px;
+        height: 75px;
     }
 }

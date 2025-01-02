@@ -7,54 +7,52 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="header">  <h1>Pokemon Flip</h1></div>
+    <div class="header">  <h1> PokeFlip</h1> <object data="pokeball.svg" class="pokeball"> </object></div>
     <div class="game-container">
-        <div>
-          
-            
-            <!-- Opponent Bench -->
-            <div class="bench-label">Opponent Bench</div>
-            <div class="bench opponent-bench">
-                <div class="pokemon" data-index="0"></div>
-                <div class="pokemon" data-index="1"></div>
-                <div class="pokemon" data-index="2"></div>
-                <div class="pokemon" data-index="3"></div>
-                <div class="pokemon" data-index="4"></div>
-            </div>
-        </div>
-        
-        <!-- Active Pokemon -->
-        <div>
-            <div class="active-pokemon">
-                <div class="pokemon" id="opponent-active">Opponent</div>
-                <div class="pokemon" id="player-active">Player</div>
-            </div>
-            
-            <!-- Coin Flip -->
-            <div class="coin-flip">
-                <button id="flip-button">Flip</button>
-            </div>
-            
-            <!-- Score -->
-            <div class="score">
-                Your KOs: <span id="player-kos">0</span><br>
-                Opponent KOs: <span id="opponent-kos">0</span>
-            </div>
-        </div>
-        
-        <div>
-            <!-- Player Bench -->
-            <div class="bench-label">Your Bench</div>
-            <div class="bench player-bench">
-                <div class="pokemon" data-index="0"></div>
-                <div class="pokemon" data-index="1"></div>
-                <div class="pokemon" data-index="2"></div>
-                <div class="pokemon" data-index="3"></div>
-                <div class="pokemon" data-index="4"></div>
-            </div>
+        <!-- CPU Bench -->
+        <div class="opponentside">
+        <div class="bench-label">Opponent Bench</div>
+        <div class="bench opponent-bench">
+            <div class="pokemon" data-index="0"></div>
+            <div class="pokemon" data-index="1"></div>
+            <div class="pokemon" data-index="2"></div>
+            <div class="pokemon" data-index="3"></div>
+            <div class="pokemon" data-index="4"></div>
         </div>
     </div>
-    <object class="pokeball"> </object> 
-    <script src="js.js"></script>
+    
+    <!-- Active Pokemon -->
+    <div class="centercolumn">
+        <div class="active-pokemon">
+            <div class="pokemon" id="opponent-active">Opponent</div>
+            <div class="pokemon" id="player-active">Player</div>
+        </div>
+    <div class="scoreflip">
+        <!-- Score -->
+        <div class="score">
+            Your KOs: <span id="player-kos">0</span><br>
+            Opponent KOs: <span id="opponent-kos">0</span>
+        </div>
+          <!-- Coin Flip -->
+          <div class="coin-flip">
+            <button id="flip-button">Flip</button>
+        </div>
+        
+    </div>
+    </div>
+      <!-- Player Bench -->
+    <div class="playerside">
+        <div class="bench-label">Your Bench</div>
+        <div class="bench player-bench">
+            <div class="pokemon" data-index="0"></div>
+            <div class="pokemon" data-index="1"></div>
+            <div class="pokemon" data-index="2"></div>
+            <div class="pokemon" data-index="3"></div>
+            <div class="pokemon" data-index="4"></div>
+        </div>
+    </div>
+</div>
+
+<script src="js.js"></script>
 </body>
 </html>

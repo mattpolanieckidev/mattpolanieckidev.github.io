@@ -5,17 +5,16 @@ body{
 }
 
 .textContent{
-  margin: 0 15%;
+  margin: 0 25%;
   padding: 45px 20px 0;
   font-size: 24px;
   text-align:right;
 }
 
-
 .english{
   margin-bottom:0;
   text-align: left;
-  display:inline-block;
+
 }
 
 .button{

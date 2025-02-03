@@ -109,33 +109,37 @@ fetch("https://www.sefaria.org/api/calendars/")
 
 //get next page
 const nextPage = async () => {
-  // Fetch the next page's content
-  const response = await fetch(`https://www.sefaria.org/api/texts/`+next);
-  const { text: enPasuk, he: hePasuk, ref, next: nextPasuk } = await response.json();
+  try {
+    // Fetch the next page's content
+    const response = await fetch(`https://www.sefaria.org/api/texts/${encodeURIComponent(next)}`);
+    if (!response.ok) throw new Error("Failed to fetch next page");
 
-  // Split the nextPasuk into masechta and page using space as the delimiter
-  const [masechta, page] = nextPasuk.split(' ');
+    const { text: enPasuk, he: hePasuk, ref, next: nextPasuk } = await response.json();
 
-  // Create the new next variable with the preferred format "Kiddushin.66"
-  next = `${masechta}.${page}`;
+    // Split the nextPasuk into masechta and page using the correct delimiter
+    const [masechta, page] = nextPasuk.split('.'); // Use '.' if the API returns "Kiddushin.66"
 
-  // create a new content div, and set the heading
-  createDiv();
-  heading.innerHTML = ref;
+    // Create the updated next variable
+    const updatedNext = `${masechta}.${page}`;
 
-  // Write the new page's content to the screen
-  writePasuk(enPasuk, hePasuk);
+    // Clear existing content and create a new content div
+    document.getElementById("content").textContent = "";
+    createDiv();
+    heading.innerHTML = ref;
 
-  // Scroll to the new heading
-  heading.scrollIntoView({ behavior: "auto", block: "center" });
+    // Write the new page's content to the screen
+    writePasuk(enPasuk, hePasuk);
 
-  // Update the "next" element to display the next page
-  document.getElementById("next").innerHTML = next;
-}
+    // Scroll to the new heading
+    heading.scrollIntoView({ behavior: "auto", block: "center" });
 
-
-
-
+    // Update the "next" element to display the next page
+    document.getElementById("next").innerHTML = updatedNext;
+  } catch (error) {
+    console.error("Error fetching next page:", error);
+    alert("Failed to load the next page. Please try again.");
+  }
+};
 //get previous page
 const prevPage = async () => {
   document.getElementById("content").textContent = "";

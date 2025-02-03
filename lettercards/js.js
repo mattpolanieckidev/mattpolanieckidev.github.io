@@ -79,11 +79,7 @@ const letters = {
 
     // Reset flashcard when settings change
     function resetFlashcard() {
-       
         flashcard.textContent = "Select letters to begin";
-        
-       
-        
     }
 
     //function to clear all checkboxes

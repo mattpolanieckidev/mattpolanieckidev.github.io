@@ -1,17 +1,3 @@
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", registerServiceWorker);
-}
-
-function registerServiceWorker() {
-  navigator.serviceWorker.register("sw.js")
-    .then(registration => {
-      console.log("ServiceWorker registration successful with scope:", registration.scope);
-    })
-    .catch(error => {
-      console.error("ServiceWorker registration failed:", error);
-    });
-}
-
 //set slider value on mobile
 const landscapeQuery = window.matchMedia("(orientation: landscape)");
 

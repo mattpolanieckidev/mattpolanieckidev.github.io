@@ -27,7 +27,7 @@ body {
   margin: 0 2.5%;
 }
 
-.textContent {
+.textContent, .pasuk-pair {
   font-size: 2em;
   text-align: right;
   width: clamp(45ch, 50%, 75ch);
@@ -89,7 +89,7 @@ a:not([href]):not([tabindex]) {
   color: white;
 }
 
-li {
+.pasuk-pair {
   direction: rtl;
 }
 
@@ -97,7 +97,7 @@ p.english, .textContent li, .nextPageContent li {
   margin-top: 35px;
 }
 
-.english, .progress, .pageTitle {
+.english-line, .progress, .pageTitle {
   direction: ltr;
 }
 
@@ -172,6 +172,21 @@ p.english, .textContent li, .nextPageContent li {
 .modalrow {
   display: inline-block;
   margin-right: 20px;
+}
+
+
+
+.hebrew-line {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: right;
+  color: black;
+}
+
+.english-line {
+  font-size: 16px;
+  text-align: left;
+  color: black;
 }
 
 @keyframes spin {

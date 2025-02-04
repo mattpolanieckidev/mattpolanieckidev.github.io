@@ -30,7 +30,7 @@ body {
 .textContent, .pasuk-pair {
   font-size: 2em;
   text-align: right;
-  width: clamp(45ch, 50%, 75ch);
+  /* width: clamp(45ch, 50%, 75ch); */
   padding-top: 15px;
 }
 

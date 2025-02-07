@@ -27,10 +27,10 @@ body {
   margin: 0 2.5%;
 }
 
-.textContent, .pasuk-pair {
+.textContent, .pasuk-pair, p.content {
   font-size: 2em;
   text-align: right;
-  /* width: clamp(45ch, 50%, 75ch); */
+  width: clamp(45ch, 50%, 75ch);
   padding-top: 15px;
 }
 
@@ -206,7 +206,7 @@ p.english, .textContent li, .nextPageContent li {
 }
 
 @media screen and (orientation: portrait) {
-  .pageText, .textContent {
+  .pageText, .textContent, .content {
     margin: 0 2.5%;
     font-size: 18px;
     padding-left: 0;

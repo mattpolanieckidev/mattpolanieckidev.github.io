@@ -3,7 +3,7 @@ var pageTitle = document.getElementById("pageTitle");
 var textdiv = document.getElementById("content");
 var slider = document.getElementById("fontSize");
 var fontSize = slider.value;
-var textContent = document.getElementsByClassName("pageText");
+var hebpairs = document.getElementsByClassName("hebrew-line")
 let result;
 
 
@@ -25,7 +25,7 @@ if (localStorage.getItem("night") === "dark") {
 // Create and append Div, Heading, and Unordered List
 function createDiv() {
   div = document.createElement("div");
-  div.classList.add("textContent");
+  div.classList.add("heading");
   textdiv.appendChild(div);
   heading = document.createElement("h3");
   heading.className = "pageHeading";

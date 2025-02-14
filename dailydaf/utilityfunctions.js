@@ -1,5 +1,6 @@
 // Shared variables
-var textContent = document.getElementsByClassName("pageText");
+var textContent = document.getElementsByClassName("hebrew-line");
+var entextContent = document.getElementsByClassName("english-line");
 var slider = document.getElementById("fontSize");
 var enPasuk, hePasuk, next, prev, heading;
 
@@ -23,12 +24,15 @@ function adjustFont(a) {
       slider.value = "1";
       localStorage.setItem("size", "1");
       textContent.item(i).style.fontSize = "18px";
+      entextContent.item(i).style.fontSize = "18px";
     } else if (a === "2") {
       slider.value = "2";
       localStorage.setItem("size", "2");
       textContent.item(i).style.fontSize = "24px";
+      entextContent.item(i).style.fontSize = "24px";
     } else if (a === "3") {
       localStorage.setItem("size", "3");
+      entextContent.item(i).style.fontSize = "32px";
       textContent.item(i).style.fontSize = "32px";
     }
   }

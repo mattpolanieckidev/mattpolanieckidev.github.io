@@ -1,0 +1,70 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 50px;
+    background-color: #f4f4f4;
+}
+#timer {
+    font-size: 200px;
+    margin: 20px;
+    padding: 40px;
+    background: white;
+    border-radius: 10px;
+    display: inline-block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 80vw;
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.number-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 20px 0;
+}
+button {
+    font-size: 20px;
+    margin: 10px;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.start {
+    background-color: #4CAF50;
+    color: white;
+}
+.stop {
+    background-color: #f44336;
+    color: white;
+}
+.number-pad button {
+    background-color: #ddd;
+    width: 80px;
+    height: 80px;
+    font-size: 32px;
+}
+button:hover {
+    opacity: 0.8;
+}
+.options {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+.fullscreen {
+    background-color: #007BFF;
+    color: white;
+}
+.fullscreen-mode .number-pad, .fullscreen-mode .options, .fullscreen-mode .start, .fullscreen-mode .stop, .fullscreen-mode .fullscreen {
+    display: none;
+}

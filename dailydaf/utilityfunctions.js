@@ -78,59 +78,37 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 async function generateAI() {
-  const questionInput = document.getElementById('userQuestion');
-  const question = questionInput.value.trim();
-
-  if (!question) {
-    alert("Please enter a question.");
-    return;
-  }
 
   const button = document.querySelector('.gpt'); // Select the button element
 
   // Set the button to a loading state
   button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
 
-  const url = 'https://simple-chatgpt-api.p.rapidapi.com/ask';
-  const options = {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'X-RapidAPI-Key': '057428540fmsh5cec038c682e999p1c88eajsn3ad697cf50d4',
-      'X-RapidAPI-Host': 'simple-chatgpt-api.p.rapidapi.com',
-    },
-    body: JSON.stringify({
-      question: question + ' ' + enPasuk[0].join(' ') // Modify to use the displayed Daf Yomi text
-    }),
-  };
-
-  try {
-    const response = await fetch(url, options);
-
-    if (!response.ok) {
-      throw new Error(`Request failed with status: ${response.status}`);
-    }
-
-    const result = await response.json();
-
-    // Check if the response structure matches the expected format
-    if (result.answer) {
-      const generatedText = result.answer;
-      // Store the generated text in localStorage
-      localStorage.setItem('generatedText', generatedText);
-      document.getElementById('summary').innerText = generatedText;
-      button.innerHTML = 'Ask AI';
+    fetch("https://openrouter.ai/api/v1/chat/completions", {
+  method: "POST",
+  headers: {
+    "Authorization": "Bearer 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",
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    "model": "rekaai/reka-flash-3:free",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What is" + content.innerHTML +"about? Summarize in a simple list of 5 statements."
+      }
+    ]
+  })
+})  
+  .then(response => response.json())  // Parse the response as JSON
+  .then(data => {
+    // Handle the parsed response
+    if (data && data.choices && data.choices[0]) {
+      console.log('Answer:', data.choices[0].message.content);  // Log the response
     } else {
-      console.error('Response structure is not as expected.');
-      button.innerHTML = 'Ask AI';
+      console.error('Unexpected response structure:', data);
     }
-  } catch (error) {
-    console.error(error);
-    button.innerHTML = 'Ask AI';
-  }
-}
-
-function toggleChatContainer() {
-  const chatContainer = document.querySelector('.chatContainer');
-  chatContainer.classList.toggle('minimized');
-}
+  })
+  .catch(error => {
+    console.error('Error:', error);  // Handle errors
+  })};

@@ -3,6 +3,7 @@ var textContent = document.getElementsByClassName("hebrew-line");
 var entextContent = document.getElementsByClassName("english-line");
 var slider = document.getElementById("fontSize");
 var enPasuk, hePasuk, next, prev, heading;
+var input = document.getElementById("userInput");
 
 // Set slider value on mobile
 const landscapeQuery = window.matchMedia("(orientation: landscape)");
@@ -70,12 +71,12 @@ const getPage = () => {
     });
 };
 
-document.addEventListener('DOMContentLoaded', function() {
-  const generatedText = localStorage.getItem('generatedText');
-  if (generatedText) {
-    document.getElementById('summary').innerText = generatedText;
-  }
-});
+// document.addEventListener('DOMContentLoaded', function() {
+//   const generatedText = localStorage.getItem('generatedText');
+//   if (generatedText) {
+//     document.getElementById('summary').innerText = generatedText;
+//   }
+// });
 
 async function generateAI() {
 
@@ -84,31 +85,43 @@ async function generateAI() {
   // Set the button to a loading state
   button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
 
-    fetch("https://openrouter.ai/api/v1/chat/completions", {
-  method: "POST",
-  headers: {
-    "Authorization": "Bearer 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",
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    "model": "rekaai/reka-flash-3:free",
-    "messages": [
-      {
-        "role": "user",
-        "content": "What is" + content.innerHTML +"about? Summarize in a simple list of 5 statements."
+  const url = "https://open-ai21.p.rapidapi.com/chatgpt";
+
+  const options = {
+    method: "POST",
+    headers: {
+      "x-rapidapi-key": "bd3893a85fmsh47b0203e08b8f58p13007djsn0a939f91a737", // Replace with a secure key
+      "x-rapidapi-host": "open-ai21.p.rapidapi.com",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      messages: [{ role: "user", content: "What is" + content.innerHTML+ "about?" }],
+      web_access: false,
+    }),
+  };
+  
+  const fetchData = async () => {
+    try {
+      const response = await fetch(url, options);
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+  
+      const data = await response.json(); // Parse response JSON
+  
+      // Log full response for debugging
+      console.log("API Response:", data);
+  
+      // Extract and display the result
+      if (data.status && data.result) {
+        document.getElementById("summary").innerText = data.result; // Make sure there's a div with id="output" in your HTML
+      } else {
+        document.getElementById("summary").innerText = "No valid response received.";
       }
-    ]
-  })
-})  
-  .then(response => response.json())  // Parse the response as JSON
-  .then(data => {
-    // Handle the parsed response
-    if (data && data.choices && data.choices[0]) {
-      console.log('Answer:', data.choices[0].message.content);  // Log the response
-    } else {
-      console.error('Unexpected response structure:', data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      document.getElementById("summary").innerText = "Error retrieving data.";
     }
-  })
-  .catch(error => {
-    console.error('Error:', error);  // Handle errors
-  })};
+  };
+  
+  fetchData();
+  
+  };

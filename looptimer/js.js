@@ -74,5 +74,8 @@ function parseTime(input) {
 }
 
 function toggleFullscreen() {
-    document.body.classList.toggle("fullscreen-mode");
+    document.getElementById("number-pad").classList.toggle("fullscreen-mode");
+    document.getElementById("timer").classList.toggle("ftimer");
+    document.querySelector("h1").classList.toggle("fullscreen-mode")
+
 }

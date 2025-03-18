@@ -77,5 +77,28 @@ function toggleFullscreen() {
     document.getElementById("number-pad").classList.toggle("fullscreen-mode");
     document.getElementById("timer").classList.toggle("ftimer");
     document.querySelector("h1").classList.toggle("fullscreen-mode")
-
-}
+    if (!document.fullscreenElement) {
+        // Enter fullscreen mode
+        let elem = document.documentElement;
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) { // Firefox
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, Edge
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { // Internet Explorer
+            elem.msRequestFullscreen();
+        }
+    } else {
+        // Exit fullscreen mode
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { // Firefox
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { // Chrome, Safari, Edge
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { // Internet Explorer
+            document.msExitFullscreen();
+        }
+    }
+    }

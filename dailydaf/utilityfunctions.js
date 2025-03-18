@@ -3,7 +3,7 @@ var textContent = document.getElementsByClassName("hebrew-line");
 var entextContent = document.getElementsByClassName("english-line");
 var slider = document.getElementById("fontSize");
 var enPasuk, hePasuk, next, prev, heading;
-var input = document.getElementById("userInput");
+var input = document.getElementById("userQuestion").value;
 
 // Set slider value on mobile
 const landscapeQuery = window.matchMedia("(orientation: landscape)");
@@ -95,7 +95,7 @@ async function generateAI() {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      messages: [{ role: "user", content: "What is" + content.innerHTML+ "about?" }],
+      messages: [{ role: "user", content: input + content.innerHTML }],
       web_access: false,
     }),
   };
@@ -112,7 +112,8 @@ async function generateAI() {
   
       // Extract and display the result
       if (data.status && data.result) {
-        document.getElementById("summary").innerText = data.result; // Make sure there's a div with id="output" in your HTML
+        document.getElementById("summary").innerText = data.result; 
+        button.innerHTML = 'Ask AI';// Make sure there's a div with id="output" in your HTML
       } else {
         document.getElementById("summary").innerText = "No valid response received.";
       }

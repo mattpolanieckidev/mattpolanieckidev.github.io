@@ -54,7 +54,7 @@ function find() {
           document.getElementById("header").innerHTML = city;
 
           // Get parsha
-          document.getElementById('parshalabel').innerHTML = "Torah portion: <br> <span id = \"parsha\"> </span> <i id=\"gpt\" class=\"fa-regular fa-rectangle-list fa-2xs\" onclick=\"generateAI()\"></i>";
+          document.getElementById('parshalabel').innerHTML = "Torah portion: <br> <span id = \"parsha\"> </span> <button id=\"gpt\" class=\"fa-regular fa-rectangle-list fa-2xs\" onclick=\"generateAI()\"></button>";
           document.getElementById('parsha').innerHTML = data.items.filter(i => i.category == "parashat")[0]?.title  || '';
           parsha = data.items.filter(i => i.category == "parashat")[0]?.title;
 
@@ -131,49 +131,55 @@ inputField.addEventListener("keyup", function (event) {
   }
 });
 
-
 async function generateAI() {
-  const url = 'https://simple-chatgpt-api.p.rapidapi.com/ask';
-  const button = document.getElementById('gpt'); // Select the GPT icon
 
-  // Set the icon to a loading state
-  button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+  const button = document.getElementById('gpt'); // Select the button element
 
-  // Fetch data from the API
+  // Set the button to a loading state
+  button.classList.toggle("fa-regular", "fa-rectangle-list", "fa-2xs");
+  button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+  const url = "https://open-ai21.p.rapidapi.com/chatgpt";
+
   const options = {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-          'X-RapidAPI-Key': 'bd3893a85fmsh47b0203e08b8f58p13007djsn0a939f91a737',
-          'X-RapidAPI-Host': 'simple-chatgpt-api.p.rapidapi.com',
-      },
-      body: JSON.stringify({
-          question: 'Summarize this parsha into 5 bullet points formatted as HTML list items:' + parsha, // Modify this to use the desired question
-      }),
+    method: "POST",
+    headers: {
+      "x-rapidapi-key": "bd3893a85fmsh47b0203e08b8f58p13007djsn0a939f91a737", // Replace with a secure key
+      "x-rapidapi-host": "open-ai21.p.rapidapi.com",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      messages: [{ role: "user", content: "Summarize this parsha in 5 bullet sentences in HTML list format. Only include the <ul> and <li> in the return. Do not include ```html in the return " + parsha }],
+      web_access: false,
+    }),
   };
-
-  try {
-      // Send the request
+  
+  const fetchData = async () => {
+    try {
       const response = await fetch(url, options);
-
-      // Check if response status is OK
-      if (!response.ok) {
-          throw new Error('Network response was not ok.');
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+  
+      const data = await response.json(); // Parse response JSON
+  
+      // Log full response for debugging
+      console.log("API Response:", data);
+  
+      // Extract and display the result
+      if (data.status && data.result) {
+        const summary = data.result;
+        const summaryDiv = document.createElement('div');
+        summaryDiv.innerHTML = `<h4 class=\"psummary\">Parsha Summary:</h4>${summary}`;
+        document.getElementById('parsha').appendChild(summaryDiv);
+        button.innerHTML = '';
+      } else {
+        document.getElementById("summary").innerText = "No valid response received.";
       }
-
-      // Parse response as JSON
-      const data = await response.json();
-      // Extract and display the summary in a div below the Parsha label
-      const summary = data.answer;
-      const summaryDiv = document.createElement('div');
-      summaryDiv.innerHTML = `<h4>Parsha Summary:</h4>${summary}`;
-      document.getElementById('parsha').appendChild(summaryDiv);
-
-  } catch (error) {
-      console.error('Error fetching data:', error);
-      // Handle error, reset button state, or show error message to the user
-  } finally {
-      // Reset the Font Awesome icon
-      button.innerHTML = '';
-  }
-}
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      document.getElementById("summary").innerText = "Error retrieving data.";
+    }
+  };
+  
+  fetchData();
+  
+  };

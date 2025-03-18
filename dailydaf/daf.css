@@ -98,6 +98,9 @@ p.english, .textContent li, .nextPageContent li {
   transition: 0.5s;
 }
 
+.gpt{
+  background: #1da88a;;
+}
 .finder .btn:hover, .chatContainer .gpt:hover {
   background: #2fdbb6;
 }

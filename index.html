@@ -1,87 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Matt's Projects</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matt Polaniecki's Projects</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .card a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="#">Matt's JS Tools</a>
-
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="shabbostime/">Shabbos Times</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="dailydaf/" tabindex="-1" aria-disabled="true">Daily Daf</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="tehillim/" tabindex="-1" aria-disabled="true">Tehillim</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="esther/" tabindex="-1" aria-disabled="true">Megillat Esther</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <div class="card" >
-                <div class="card-body">
-                    <h5 class="card-title">Shabbos Times</h5>
-                    
-                    <p class="card-text">Tool to generate weekly Shabbos times for Cedarhurst NY</p>
-                    <a href="shabbostime/" class="card-link">Shabbos Times</a>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card" >
-                <div class="card-body">
-                    <h5 class="card-title">Daily Daf</h5>
-                    
-                    <p class="card-text">View today's Daf Yomi with Hebrew and English translation</p>
-                    <a href="dailydaf/" class="card-link">Daily Daf</a>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card" >
-                <div class="card-body">
-                    <h5 class="card-title">Tehillim</h5>
-                    
-                    <p class="card-text">View Tehillim with Hebrew and English translation</p>
-                    <a href="tehillim/" class="card-link">Tehillim</a>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-          <div class="card" >
-              <div class="card-body">
-                  <h5 class="card-title">Megillat Esther</h5>
-                  
-                  <p class="card-text">View Megillat Esther with Hebrew and English translation</p>
-                  <a href="esther/" class="card-link">Megillat Esther</a>
-              </div>
-          </div>
-      </div>
+    <h1>Matt Polaniecki's Projects</h1>
+    <div class="container">
+        <div class="card"><h2>Daily Daf</h2><p>Study the daily Daf Yomi with easy access to readings and resources.</p><a href="https://mattpolanieckidev.github.io/dailydaf/" target="_blank">Visit</a></div>
+        <div class="card"><h2>Eicha</h2><p>Read the Book of Lamentations with a simple online interface.</p><a href="https://mattpolanieckidev.github.io/eicha/" target="_blank">Visit</a></div>
+        <div class="card"><h2>Esther</h2><p>Explore the Book of Esther, essential for Purim readings.</p><a href="https://mattpolanieckidev.github.io/esther/" target="_blank">Visit</a></div>
+        <div class="card"><h2>Garage</h2><p>A project related to organizing or managing a garage workspace.</p><a href="https://mattpolanieckidev.github.io/garage/" target="_blank">Visit</a></div>
+        <div class="card"><h2>Gemara Cards</h2><p>Flashcards designed to help study Talmudic concepts.</p><a href="https://mattpolanieckidev.github.io/gemaracards/" target="_blank">Visit</a></div>
+        <div class="card"><h2>Hebcal</h2><p>Get Jewish calendar dates and holidays in an easy-to-use format.</p><a href="https://mattpolanieckidev.github.io/hebcal/" target="_blank">Visit</a></div>
+        <div class="card"><h2>Letter Cards</h2><p>Learn and practice Hebrew letters with interactive flashcards.</p><a href="https://mattpolanieckidev.github.io/lettercards/" target="_blank">Visit</a></div>
+        <div class="card"><h2>Loop Timer</h2><p>A timer tool for tracking looped activities or tasks.</p><a href="https://mattpolanieckidev.github.io/looptimer/" target="_blank">Visit</a></div>
+        <div class="card"><h2>Mishna</h2><p>Study the Mishna with structured text and resources.</p><a href="https://mattpolanieckidev.github.io/mishna/" target="_blank">Visit</a></div>
+        <div class="card"><h2>My Siddur App</h2><p>A digital Siddur for daily prayers and blessings.</p><a href="https://mattpolanieckidev.github.io/mysiddurapp/" target="_blank">Visit</a></div>
+        <div class="card"><h2>Pokedex</h2><p>An interactive Pokédex for Pokémon enthusiasts.</p><a href="https://mattpolanieckidev.github.io/pokedex/" target="_blank">Visit</a></div>
+        <div class="card"><h2>PokeFlip</h2><p>A Pokémon-themed card matching or flipping game.</p><a href="https://mattpolanieckidev.github.io/pokeflip/" target="_blank">Visit</a></div>
+        <div class="card"><h2>Prayers</h2><p>A collection of Jewish prayers for various occasions.</p><a href="https://mattpolanieckidev.github.io/prayers/" target="_blank">Visit</a></div>
+        <div class="card"><h2>QR Share</h2><p>Generate and share QR codes for quick access to links.</p><a href="https://mattpolanieckidev.github.io/qrshare/" target="_blank">Visit</a></div>
+        <div class="card"><h2>Sefira</h2><p>Track the daily Omer count with a simple counter.</p><a href="https://mattpolanieckidev.github.io/sefira/" target="_blank">Visit</a></div>
+        <div class="card"><h2>Shabbos Time</h2><p>Find accurate Shabbat times based on your location.</p><a href="https://mattpolanieckidev.github.io/shabbostime/" target="_blank">Visit</a></div>
+        <div class="card"><h2>Sports Tracker</h2><p>Log and track sports activities and performance.</p><a href="https://mattpolanieckidev.github.io/sportstracker/" target="_blank">Visit</a></div>
+        <div class="card"><h2>Tehillim</h2><p>Read the Psalms with an easy-to-navigate interface.</p><a href="https://mattpolanieckidev.github.io/tehillim/" target="_blank">Visit</a></div>
     </div>
-</div>
-
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>

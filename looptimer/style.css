@@ -5,7 +5,7 @@ body {
     background-color: #f4f4f4;
 }
 .timer {
-    font-size: 75vw;
+    font-size: 20vw;
     margin: 20px;
     padding: 40px;
     background: white;
@@ -70,7 +70,7 @@ button:hover {
 }
 
 .ftimer{
-    font-size: 500px;
+    font-size: 30vw;
     margin: 20px;
     padding: 40px;
     background: white;

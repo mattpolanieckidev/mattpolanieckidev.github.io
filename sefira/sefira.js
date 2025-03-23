@@ -55,14 +55,14 @@ var omerStartDate;
 function daysUntilNextOmerCycle() {
     const today = new Date();
     const currentYear = today.getFullYear();
-    omerStartDate = new Date(`${currentYear}-04-23T00:00:00`); // April 23rd, 2024
+    omerStartDate = new Date(`${currentYear}-04-14T00:00:00`); // April 23rd, 2024
 
     if (today < omerStartDate) {
         const daysUntilNextOmer = Math.ceil((omerStartDate - today) / (1000 * 60 * 60 * 24));
         return `There are ${daysUntilNextOmer} days until this year's Omer cycle starts.`;
     } else {
         const nextYear = currentYear + 1;
-        const nextOmerStartDate = new Date(`${nextYear}-04-23T00:00:00`); // April 23rd of next year
+        const nextOmerStartDate = new Date(`${nextYear}-04-14T00:00:00`); // April 23rd of next year
         const daysUntilNextOmer = Math.ceil((nextOmerStartDate - today) / (1000 * 60 * 60 * 24));
         return `There are ${daysUntilNextOmer} days until next year's Omer cycle starts.`;
     }
@@ -99,7 +99,7 @@ function countDays(startDate) {
 }
 
   
-const daysSinceStart = countDays("2023-04-23");
+const daysSinceStart = countDays("2025-04-14");
 const colors = ['#6F1E51', '#FFC312', '#F79F1F', '#EE5A24', '#EA2027', '#C4E538', '#A3CB38', '#009432', '#006266', '#12CBC4', '#1289A7', '#0652DD', '#1B1464', '#FDA7DF', '#D980FA', '#9980FA', '#5758BB', '#ED4C67', '#B53471', '#833471', '#6F1E51'];
 const body = document.body;
 const nav = document.getElementById("colorlabel2");

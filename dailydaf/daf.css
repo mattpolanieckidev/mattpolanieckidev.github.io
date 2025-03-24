@@ -12,29 +12,34 @@ body {
   text-align: center;
 }
 
-.nightcolor, .night {
-  color: white;
-}
-
+/* Night Mode Styles */
 .night {
   background: #121212;
-}
-
-.night .hebrew-line,
-.night .english-line {
-  color: white;
+  color: #E8E8E8;
 }
 
 .night .textContent,
 .night .pasuk-pair,
-.night p.content {
-  color: white;
+.night .hebrew-line,
+.night .english-line,
+.night p,
+.night .chat-header,
+.night #minimizeButton {
+  color: #E8E8E8;
 }
 
-a:not([href]):not([tabindex]) {
-  color: white;
+.night .chatContainer {
+  background: #2d2d2d;
+  border-color: #404040;
 }
 
+.night .chatContainer input,
+.night #summary {
+  background: #404040;
+  color: #E8E8E8;
+}
+
+/* Hide/Show Elements */
 .hidden {
   display: none;
 }
@@ -79,6 +84,7 @@ p.english, .textContent li, .nextPageContent li {
   color: #212427;
   margin-bottom: 10px;
   font-family: serif;
+  transition: font-size 0.3s ease;
 }
 
 .hebrew-line p {
@@ -90,6 +96,7 @@ p.english, .textContent li, .nextPageContent li {
   font-size: 16px;
   text-align: left;
   color: #212427;
+  transition: font-size 0.3s ease;
 }
 
 .english-line p {
@@ -202,10 +209,6 @@ p.english, .textContent li, .nextPageContent li {
   color: #212427;
 }
 
-.night .chat-header {
-  color: white;
-}
-
 #minimizeButton {
   position: static;
   background: none;
@@ -220,10 +223,6 @@ p.english, .textContent li, .nextPageContent li {
   font-size: 16px;
   padding: 0;
   margin-left: auto;
-}
-
-.night #minimizeButton {
-  color: white;
 }
 
 #minimizeButton:hover {

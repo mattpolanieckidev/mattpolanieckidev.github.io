@@ -106,23 +106,7 @@ function night() {
   
   // Add night mode styles for chat container
   const chatContainer = document.querySelector('.chatContainer');
-  if (!isNight) {
-    chatContainer.style.background = '#2d2d2d';
-    chatContainer.style.borderColor = '#404040';
-    chatContainer.querySelector('input').style.background = '#404040';
-    chatContainer.querySelector('input').style.color = 'white';
-    chatContainer.querySelector('#summary').style.background = '#404040';
-    chatContainer.querySelector('#summary').style.color = 'white';
-    chatContainer.classList.add('night');
-  } else {
-    chatContainer.style.background = 'white';
-    chatContainer.style.borderColor = '#ccc';
-    chatContainer.querySelector('input').style.background = 'white';
-    chatContainer.querySelector('input').style.color = '#212427';
-    chatContainer.querySelector('#summary').style.background = '#f9f9f9';
-    chatContainer.querySelector('#summary').style.color = '#212427';
-    chatContainer.classList.remove('night');
-  }
+  chatContainer.classList.toggle('night', !isNight);
   
   localStorage.setItem("night", isNight ? "light" : "dark");
 }

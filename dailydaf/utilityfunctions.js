@@ -11,33 +11,40 @@ const landscapeQuery = window.matchMedia("(orientation: landscape)");
 // Specify the event type ("orientationchange")
 landscapeQuery.addEventListener("orientationchange", e => {
   const isLandscape = e.matches;
-  const fontValue = isLandscape ? "1" : "2";
-  adjustFont(fontValue);
+  // Always default to 50 regardless of orientation
+  adjustFont("50");
 });
 
-// Initialize based on current orientation
-adjustFont(landscapeQuery.matches ? "1" : "2");
+// Initialize with default value of 50
+adjustFont("50");
 
 // Adjust font size based on slider value
-function adjustFont(a) {
+function adjustFont(value) {
+  // Convert value to a number and normalize it to a 0-1 range
+  const size = Number(value);
+  const normalizedSize = (size - 1) / 99; // Since range is 1-100
+  
+  // Calculate font sizes based on the normalized value
+  // Hebrew text ranges from 16px to 36px
+  // English text ranges from 12px to 28px
+  const hebrewSize = 16 + (20 * normalizedSize);
+  const englishSize = 12 + (16 * normalizedSize);
+
   for (let i = 0; i < textContent.length; i++) {
-    if (a === "1") {
-      slider.value = "1";
-      localStorage.setItem("size", "1");
-      textContent.item(i).style.fontSize = "18px";
-      entextContent.item(i).style.fontSize = "18px";
-    } else if (a === "2") {
-      slider.value = "2";
-      localStorage.setItem("size", "2");
-      textContent.item(i).style.fontSize = "24px";
-      entextContent.item(i).style.fontSize = "24px";
-    } else if (a === "3") {
-      localStorage.setItem("size", "3");
-      entextContent.item(i).style.fontSize = "32px";
-      textContent.item(i).style.fontSize = "32px";
-    }
+    textContent.item(i).style.fontSize = `${hebrewSize}px`;
+    entextContent.item(i).style.fontSize = `${englishSize}px`;
   }
+  
+  // Save the size preference
+  localStorage.setItem("size", value);
+  slider.value = value;
 }
+
+// Initialize slider with saved preference or default of 50
+document.addEventListener('DOMContentLoaded', () => {
+  const savedSize = localStorage.getItem("size") || "50";
+  adjustFont(savedSize);
+});
 
 // Progress bar for full daf cycle
 const startDate = new Date("1/5/2020");

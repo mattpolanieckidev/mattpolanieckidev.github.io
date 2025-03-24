@@ -6,16 +6,25 @@ var fontSize = slider.value;
 var hebpairs = document.getElementsByClassName("hebrew-line")
 let result;
 
-
-// Night mode
-if (localStorage.getItem("night") === "dark") {
-  document.getElementById("content").classList.toggle("night", !isNight);
-  document.getElementById("body").classList.toggle("night", !isNight);
-  document.getElementById("toggleclose").classList.toggle("nightcolor", !isNight);
-  document.getElementById("masechta").classList.toggle("nightcolor", !isNight);
-  document.getElementById("modal").classList.toggle("bg-dark", !isNight);
-  document.getElementById("nav").classList.toggle("bg-dark", !isNight);
+// Night mode initialization
+const isNight = localStorage.getItem("night") === "dark";
+if (isNight) {
+  document.getElementById("content").classList.add("night");
+  document.getElementById("body").classList.add("night");
+  document.getElementById("toggleclose").classList.add("nightcolor");
+  document.getElementById("masechta").classList.add("nightcolor");
+  document.getElementById("modal").classList.add("bg-dark");
+  document.getElementById("nav").classList.add("bg-dark");
   document.getElementById("switch1").checked = true;
+  
+  // Add night mode styles for chat container on initial load
+  const chatContainer = document.querySelector('.chatContainer');
+  chatContainer.style.background = '#2d2d2d';
+  chatContainer.style.borderColor = '#404040';
+  chatContainer.querySelector('input').style.background = '#404040';
+  chatContainer.querySelector('input').style.color = 'white';
+  chatContainer.querySelector('#summary').style.background = '#404040';
+  chatContainer.querySelector('#summary').style.color = 'white';
 } else {
   document.getElementById("body").classList.remove("night");
   document.getElementById("switch1").checked = false;
@@ -45,13 +54,17 @@ const writePasuk = () => {
         hePasuk[i].forEach((line) => {
           const heDiv = document.createElement("div");
           heDiv.className = "hebrew-line";
-          heDiv.innerHTML = line;
+          const heP = document.createElement("p");
+          heP.innerHTML = line;
+          heDiv.appendChild(heP);
           pairDiv.appendChild(heDiv);
         });
       } else if (typeof hePasuk[i] === "string") {
         const heDiv = document.createElement("div");
         heDiv.className = "hebrew-line";
-        heDiv.innerHTML = hePasuk[i];
+        const heP = document.createElement("p");
+        heP.innerHTML = hePasuk[i];
+        heDiv.appendChild(heP);
         pairDiv.appendChild(heDiv);
       }
 
@@ -60,13 +73,17 @@ const writePasuk = () => {
         enPasuk[i].forEach((line) => {
           const enDiv = document.createElement("div");
           enDiv.className = "english-line";
-          enDiv.innerHTML = line;
+          const enP = document.createElement("p");
+          enP.innerHTML = line;
+          enDiv.appendChild(enP);
           pairDiv.appendChild(enDiv);
         });
       } else if (typeof enPasuk[i] === "string") {
         const enDiv = document.createElement("div");
         enDiv.className = "english-line";
-        enDiv.innerHTML = enPasuk[i];
+        const enP = document.createElement("p");
+        enP.innerHTML = enPasuk[i];
+        enDiv.appendChild(enP);
         pairDiv.appendChild(enDiv);
       }
 
@@ -86,6 +103,27 @@ function night() {
   document.getElementById("masechta").classList.toggle("nightcolor", !isNight);
   document.getElementById("modal").classList.toggle("bg-dark", !isNight);
   document.getElementById("nav").classList.toggle("bg-dark", !isNight);
+  
+  // Add night mode styles for chat container
+  const chatContainer = document.querySelector('.chatContainer');
+  if (!isNight) {
+    chatContainer.style.background = '#2d2d2d';
+    chatContainer.style.borderColor = '#404040';
+    chatContainer.querySelector('input').style.background = '#404040';
+    chatContainer.querySelector('input').style.color = 'white';
+    chatContainer.querySelector('#summary').style.background = '#404040';
+    chatContainer.querySelector('#summary').style.color = 'white';
+    chatContainer.classList.add('night');
+  } else {
+    chatContainer.style.background = 'white';
+    chatContainer.style.borderColor = '#ccc';
+    chatContainer.querySelector('input').style.background = 'white';
+    chatContainer.querySelector('input').style.color = '#212427';
+    chatContainer.querySelector('#summary').style.background = '#f9f9f9';
+    chatContainer.querySelector('#summary').style.color = '#212427';
+    chatContainer.classList.remove('night');
+  }
+  
   localStorage.setItem("night", isNight ? "light" : "dark");
 }
 
@@ -259,9 +297,46 @@ const prevPage = async () => {
 
 // Toggle English translation visibility
 const hide = () => {
-  const x = document.getElementsByClassName("english");
+  const x = document.getElementsByClassName("english-line");
   for (let i = 0; i < x.length; i++) {
     x.item(i).classList.toggle("hidden");
   }
   localStorage.setItem("hidden", localStorage.getItem("hidden") === "show" ? "hidden" : "show");
 };
+
+// Toggle chat container visibility
+const toggleChat = () => {
+  const chatContainer = document.querySelector('.chatContainer');
+  const minimizeButton = document.getElementById('minimizeButton');
+
+  chatContainer.classList.toggle('minimized');
+  
+  // Update button text/icon based on state
+  if (chatContainer.classList.contains('minimized')) {
+    
+    minimizeButton.innerHTML = '<i class="fas fa-chevron-up"></i>';
+  } else {
+    minimizeButton.innerHTML = '<i class="fas fa-chevron-down"></i>';
+  }
+};
+
+// Initialize chat container structure
+document.addEventListener('DOMContentLoaded', () => {
+  const chatContainer = document.querySelector('.chatContainer');
+  if (chatContainer) {
+    // Create header if it doesn't exist
+    if (!chatContainer.querySelector('.chat-header')) {
+      const header = document.createElement('div');
+      header.className = 'chat-header';
+      
+      // Move the minimize button into the header
+      const minimizeButton = document.getElementById('minimizeButton');
+      if (minimizeButton) {
+        header.appendChild(minimizeButton);
+      }
+      
+      // Insert header at the beginning of chat container
+      chatContainer.insertBefore(header, chatContainer.firstChild);
+    }
+  }
+});

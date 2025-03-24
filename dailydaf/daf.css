@@ -20,6 +20,17 @@ body {
   background: #121212;
 }
 
+.night .hebrew-line,
+.night .english-line {
+  color: white;
+}
+
+.night .textContent,
+.night .pasuk-pair,
+.night p.content {
+  color: white;
+}
+
 a:not([href]):not([tabindex]) {
   color: white;
 }
@@ -63,17 +74,27 @@ p.english, .textContent li, .nextPageContent li {
 }
 
 .hebrew-line {
-  font-size: 18px;
+  font-size: 24px;
   text-align: right;
   color: #212427;
-  font-weight: bold;
   margin-bottom: 10px;
+  font-family: serif;
+}
+
+.hebrew-line p {
+  margin: 0;
+  padding: 0;
 }
 
 .english-line {
   font-size: 16px;
   text-align: left;
   color: #212427;
+}
+
+.english-line p {
+  margin: 0;
+  padding: 0;
 }
 
 /* Finder Styles */
@@ -154,6 +175,7 @@ p.english, .textContent li, .nextPageContent li {
   border-radius: 10px;
   padding: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: max-height 0.3s ease-out;
 }
 
 .chatContainer input {
@@ -165,16 +187,47 @@ p.english, .textContent li, .nextPageContent li {
 }
 
 .chatContainer.minimized {
-  height: 0;
+  max-height: 40px;
   overflow: hidden;
+  padding: 5px;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  min-height: 30px;
+  font-weight: 700;
+  color: #212427;
+}
+
+.night .chat-header {
+  color: white;
 }
 
 #minimizeButton {
+  position: static;
   background: none;
   border: none;
   cursor: pointer;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #212427;
+  font-size: 16px;
+  padding: 0;
+  margin-left: auto;
+}
+
+.night #minimizeButton {
+  color: white;
+}
+
+#minimizeButton:hover {
+  opacity: 0.8;
 }
 
 /* Loading Button Animation */

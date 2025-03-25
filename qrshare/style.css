@@ -49,7 +49,9 @@ button{
     opacity: .9;
 }
 
-
+#download{
+    display: none;
+}   
 
 @media screen and (orientation:portrait){
     img{width: 50%; margin: 20px 0;}

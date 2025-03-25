@@ -39,6 +39,20 @@ body {
   color: #E8E8E8;
 }
 
+.night #toggleclose,
+.night #masechta {
+  color: #E8E8E8;
+}
+
+.night #modal {
+  background-color: #2d2d2d;
+  color: #E8E8E8;
+}
+
+.night #nav {
+  background-color: #2d2d2d !important;
+}
+
 /* Hide/Show Elements */
 .hidden {
   display: none;

@@ -8,26 +8,23 @@ let result;
 
 // Night mode initialization
 const isNight = localStorage.getItem("night") === "dark";
-if (isNight) {
-  document.getElementById("content").classList.add("night");
-  document.getElementById("body").classList.add("night");
-  document.getElementById("toggleclose").classList.add("nightcolor");
-  document.getElementById("masechta").classList.add("nightcolor");
-  document.getElementById("modal").classList.add("bg-dark");
-  document.getElementById("nav").classList.add("bg-dark");
-  document.getElementById("switch1").checked = true;
-  
-  // Add night mode styles for chat container on initial load
-  const chatContainer = document.querySelector('.chatContainer');
-  chatContainer.style.background = '#2d2d2d';
-  chatContainer.style.borderColor = '#404040';
-  chatContainer.querySelector('input').style.background = '#404040';
-  chatContainer.querySelector('input').style.color = 'white';
-  chatContainer.querySelector('#summary').style.background = '#404040';
-  chatContainer.querySelector('#summary').style.color = 'white';
-} else {
-  document.getElementById("body").classList.remove("night");
-  document.getElementById("switch1").checked = false;
+const elements = ["content", "body", "toggleclose", "masechta", "modal", "nav"];
+
+// Apply or remove night mode class
+elements.forEach(id => {
+  const element = document.getElementById(id);
+  if (isNight) {
+    element.classList.add("night");
+  } else {
+    element.classList.remove("night");
+  }
+});
+
+// Set switch state
+document.getElementById("switch1").checked = isNight;
+
+// Set initial localStorage value if not set
+if (!localStorage.getItem("night")) {
   localStorage.setItem("night", "light");
 }
 

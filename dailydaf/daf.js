@@ -44,53 +44,41 @@ function createDiv() {
 // Loop through available pasukim and append to unordered list. Check to see if the translation should be shown or not.
 const writePasuk = () => {
   const content = document.getElementById("content");
-  if (Array.isArray(hePasuk) && Array.isArray(enPasuk)) {
-    for (let i = 0; i < Math.max(hePasuk.length, enPasuk.length); i++) {
-      const pairDiv = document.createElement("div");
-      pairDiv.className = "pasuk-pair";
-
-      // Hebrew Text
-      if (Array.isArray(hePasuk[i])) {
-        hePasuk[i].forEach((line) => {
-          const heDiv = document.createElement("div");
-          heDiv.className = "hebrew-line";
-          const heP = document.createElement("p");
-          heP.innerHTML = line;
-          heDiv.appendChild(heP);
-          pairDiv.appendChild(heDiv);
-        });
-      } else if (typeof hePasuk[i] === "string") {
-        const heDiv = document.createElement("div");
-        heDiv.className = "hebrew-line";
-        const heP = document.createElement("p");
-        heP.innerHTML = hePasuk[i];
-        heDiv.appendChild(heP);
-        pairDiv.appendChild(heDiv);
-      }
-
-      // English Text
-      if (Array.isArray(enPasuk[i])) {
-        enPasuk[i].forEach((line) => {
-          const enDiv = document.createElement("div");
-          enDiv.className = "english-line";
-          const enP = document.createElement("p");
-          enP.innerHTML = line;
-          enDiv.appendChild(enP);
-          pairDiv.appendChild(enDiv);
-        });
-      } else if (typeof enPasuk[i] === "string") {
-        const enDiv = document.createElement("div");
-        enDiv.className = "english-line";
-        const enP = document.createElement("p");
-        enP.innerHTML = enPasuk[i];
-        enDiv.appendChild(enP);
-        pairDiv.appendChild(enDiv);
-      }
-
-      content.appendChild(pairDiv);
-    }
-  } else {
+  if (!Array.isArray(hePasuk) || !Array.isArray(enPasuk)) {
     content.innerHTML = "<p>Error: Hebrew and English text not available.</p>";
+    return;
+  }
+
+  const createTextElement = (text, className) => {
+    const div = document.createElement("div");
+    div.className = className;
+    const p = document.createElement("p");
+    p.innerHTML = text;
+    div.appendChild(p);
+    return div;
+  };
+
+  for (let i = 0; i < Math.max(hePasuk.length, enPasuk.length); i++) {
+    const pairDiv = document.createElement("div");
+    pairDiv.className = "pasuk-pair";
+
+    // Handle Hebrew text
+    const heText = hePasuk[i];
+    if (Array.isArray(heText)) {
+      heText.forEach(line => pairDiv.appendChild(createTextElement(line, "hebrew-line")));
+    } else if (typeof heText === "string") {
+      pairDiv.appendChild(createTextElement(heText, "hebrew-line"));
+    }
+
+    // Handle English text
+    const enText = enPasuk[i];
+    if (Array.isArray(enText)) {
+      enText.forEach(line => pairDiv.appendChild(createTextElement(line, "english-line")));
+    } else if (typeof enText === "string") {
+      pairDiv.appendChild(createTextElement(enText, "english-line"));
+    }
+
+    content.appendChild(pairDiv);
   }
 };
 

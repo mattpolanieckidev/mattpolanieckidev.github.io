@@ -19,9 +19,8 @@
 
   .pageHeading{
     text-align: right  ;
-    margin-right: 10px;
-    font-size: 22px;
     color: green;
+    font-weight: bolder;
   }
 
   .textContent{
@@ -61,9 +60,8 @@ button{
 }
 button.accordion::before{
    content:'\25BC'; 
-   
-    align-items: center;
-
+   font-size: 20px;
+   margin:0  10px;
   }
   
  .hidden{

@@ -2,6 +2,7 @@
 "name": "LetterCards",
 "short_name": "LetterCards",
 "start_url": "https://mattpolanieckidev.github.io/lettercards",
+"scope": "https://mattpolanieckidev.github.io/lettercards",
 "display": "standalone",
 "description": "A description for your application",
 "lang": " The default language of your application",

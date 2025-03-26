@@ -2,6 +2,7 @@
 "name": "GemaraCards",
 "short_name": "GemaraCards",
 "start_url": "https://mattpolanieckidev.github.io/gemaracards",
+"scope": "https://mattpolanieckidev.github.io/gemaracards",
 "display": "standalone",
 "description": "A description for your application",
 "lang": " The default language of your application",

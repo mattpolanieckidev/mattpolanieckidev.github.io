@@ -2,6 +2,7 @@
   "name": "Nishmas",
   "short_name": "Nishmas",
   "start_url": "https://mattpolanieckidev.github.io/prayers/nishmas.html",
+  "scope": "https://mattpolanieckidev.github.io/prayers/nishmas.html",
   "display": "standalone",
   "description": "Nishmas Kol Chai",
   "lang": " The default language of your application",

@@ -71,11 +71,11 @@ button.accordion::before{
 
 
   @media screen and (orientation:portrait){
-    .pageText, .textContent{
+  .textContent{
       margin:0 2.5%;
       font-size: 18px;
-      padding-left:0;
       
+      width: auto;
       
     }
     #date{

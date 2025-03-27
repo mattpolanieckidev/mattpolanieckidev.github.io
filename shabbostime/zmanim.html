@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zmanim</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image" href="images/icons/icon-72x72.png">
+    <link rel="apple-touch-icon" href="images/icons/icon-192x192.png">
+    <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
+    <script src="https://kit.fontawesome.com/0a7f654060.js" crossorigin="anonymous"></script>
+    <meta name="theme-color" content="#5f5eaa">
+    <link rel="stylesheet" type="text/css" href="zmanim.css">
+
+</head>
+<body>
+    <nav class="navbar navbar-collapse-lg navbar-dark">
+        <a class="navbar-brand " href="index.html" id="colorlabel2">Shabbos Times</a>
+        <a class="navbar-brand " href="zmanim.html" id="zmanim">Zmanim</a>
+    </nav>
+    <div id="page">
+        <div class="header">Today's <span id="date"></span> Zmanim</div>
+        <div class="finder">
+            <input type="number" id="zip" placeholder="Zip Code" aria-label="Zip Code" aria-describedby="basic-addon2" autofocus>
+            <button class="btn btn-outline-primary" id="submit" type="button" onclick="getZmanim()"> Submit</button>
+        </div>
+        <div class="zmanim-container">
+            <div class="zmanim-item">
+                <div class="zmanim-label">Sunrise</div>
+                <div class="zmanim-value" id="sunrise"></div>
+            </div>
+            <div class="zmanim-item">
+                <div class="zmanim-label">Shkiah</div>
+                <div class="zmanim-value" id="shkiah"></div>
+            </div>
+            <div class="zmanim-item">
+                <div class="zmanim-label">Sunset</div>
+                <div class="zmanim-value" id="sunset"></div>
+            </div>
+            
+        </div>
+    </div>
+    <script src="zmanim.js"></script>
+</body> 
+</html>
+

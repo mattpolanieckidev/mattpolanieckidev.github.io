@@ -71,14 +71,14 @@ body{
 }
 .zmanim-label{
     font-weight: bold;
-    font-size: 32px;
+    font-size: 28px;
 }           
 .zmanim-value{
-    font-size: 36px;
+    font-size: 32px;
 }
 .card{
    
-    width: 500px;
+    width: 395px;
     margin: 10px;   
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

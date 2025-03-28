@@ -62,6 +62,7 @@ body{
     justify-content: space-between;
     align-items: center;
     flex: 1;
+    margin-top: 20px;
 }
 .zmanim-item{
     flex: 1;
@@ -70,10 +71,24 @@ body{
 }
 .zmanim-label{
     font-weight: bold;
-    font-size: 18px;
+    font-size: 36px;
 }           
 .zmanim-value{
-    font-size: 20px;
+    font-size: 40px;
+}
+.card{
+    border: 2px solid #1E3A8A;
+    border-radius: 10px;
+    padding: 10px 60px;
+    margin: 10px;   
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    
+ 
+}
+.card:hover{
+    transform: scale(1.05);
 }
 @media screen and (orientation:portrait){
     #page{

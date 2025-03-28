@@ -1,32 +1,43 @@
-
-
 /**
  * Gets the zmanim for the current date and stores it in local storage. Then it fetches the zmanim data from the Hebcal API and populates the sunrise and sunset fields on the page.
  */
 async function getZmanim() {
+  const zipInput = document.getElementById("zip").value;
+  if (!zipInput) {
+    alert("Please enter a zip code");
+    return;
+  }
+
+  // Store the new zip code
+  localStorage.setItem("zipcode", zipInput);
+
   const today = new Date();
   const date = today.toISOString().split('T')[0];
   const formattedDate = today.getMonth() + 1 + '/' + today.getDate() + '/' + today.getFullYear();
   document.getElementById("date").innerHTML = formattedDate;
-  if (!localStorage.getItem("zipcode")) {
-    document.getElementById("zip").value = localStorage.getItem("zipcode");
-  }
 
-  const zip = localStorage.getItem("zipcode");
-  const url = `https://www.hebcal.com/zmanim?cfg=json&zip=${zip}&start=${date}`;
-  const response = await fetch(url);
-  const data = await response.json();
-  console.log(data);
-  document.getElementById("city").innerHTML = data.location.city + ", " + data.location.state;
-  document.getElementById("sunrise").innerHTML = formatTime(data.times.sunrise);
-  document.getElementById("sunset").innerHTML = formatTime(data.times.sunset);
+  try {
+    const url = `https://www.hebcal.com/zmanim?cfg=json&zip=${zipInput}&start=${date}`;
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error('Failed to fetch zmanim data');
+    }
+    const data = await response.json();
+    document.getElementById("city").innerHTML = data.location.city + ", " + data.location.state;
+    document.getElementById("sunrise").innerHTML = formatTime(data.times.sunrise);
+    document.getElementById("sunset").innerHTML = formatTime(data.times.sunset);
+  } catch (error) {
+    console.error('Error:', error);
+    alert("Error fetching zmanim data. Please try again.");
+  }
 }
 
 // Check if zip code is already stored in local storage
 if (localStorage.getItem("zipcode")) {
-document.getElementById("zip").value = localStorage.getItem("zipcode");
+  document.getElementById("zip").value = localStorage.getItem("zipcode");
   getZmanim();
 }
+
 function formatTime(time) {
     const date = new Date(time);
     const hours = date.getHours();

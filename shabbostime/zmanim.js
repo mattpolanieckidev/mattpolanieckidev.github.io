@@ -1,19 +1,31 @@
 
 
+/**
+ * Gets the zmanim for the current date and stores it in local storage. Then it fetches the zmanim data from the Hebcal API and populates the sunrise and sunset fields on the page.
+ */
 async function getZmanim() {
-    const today = new Date();
-    const date = today.toISOString().split('T')[0];
-    document.getElementById("date").innerHTML = date;
-    const zip = document.getElementById("zip").value;
-    localStorage.setItem("zip", zip);   
-    const url = `https://www.hebcal.com/zmanim?cfg=json&zip=${zip}&start=${date}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    console.log(data);
-    document.getElementById("sunrise").innerHTML = formatTime(data.times.sunrise);
-    document.getElementById("sunset").innerHTML = formatTime(data.times.sunset);
+  const today = new Date();
+  const date = today.toISOString().split('T')[0];
+  document.getElementById("date").innerHTML = date;
+  if (!localStorage.getItem("zipcode")) {
+    document.getElementById("zip").value = localStorage.getItem("zipcode");
+  }
+
+  const zip = localStorage.getItem("zipcode");
+  const url = `https://www.hebcal.com/zmanim?cfg=json&zip=${zip}&start=${date}`;
+  const response = await fetch(url);
+  const data = await response.json();
+  console.log(data);
+  document.getElementById("city").innerHTML = data.location.city + ", " + data.location.state;
+  document.getElementById("sunrise").innerHTML = formatTime(data.times.sunrise);
+  document.getElementById("sunset").innerHTML = formatTime(data.times.sunset);
 }
 
+// Check if zip code is already stored in local storage
+if (localStorage.getItem("zipcode")) {
+document.getElementById("zip").value = localStorage.getItem("zipcode");
+  getZmanim();
+}
 function formatTime(time) {
     const date = new Date(time);
     const hours = date.getHours();
@@ -72,4 +84,3 @@ function formatTime(time) {
 //     }
 // }
 //
-getZmanim();

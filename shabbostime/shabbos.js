@@ -12,7 +12,7 @@ var parsha;
 function changeColor() {
   var i = colors[Math.floor(Math.random() * colors.length)]
   body.style.backgroundColor = i;
-  document.getElementById('colorlabel2').innerHTML = "Shabbos Times " + i;
+  document.getElementById('colorlabel2').innerHTML = "Shabbos Times ";
   inputField.value = localStorage.getItem("zipcode")
   if (inputField.value === "") {
     console.log("empty")

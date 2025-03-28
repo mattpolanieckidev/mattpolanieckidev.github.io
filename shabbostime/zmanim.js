@@ -26,6 +26,8 @@ async function getZmanim() {
     document.getElementById("city").innerHTML = data.location.city + ", " + data.location.state;
     document.getElementById("sunrise").innerHTML = formatTime(data.times.sunrise);
     document.getElementById("sunset").innerHTML = formatTime(data.times.sunset);
+    document.getElementById("sofZmanKriatShema").innerHTML = formatTime(data.times.sofZmanShma);
+    document.getElementById("earliestMincha").innerHTML = formatTime(data.times.minchaGedola);
   } catch (error) {
     console.error('Error:', error);
     alert("Error fetching zmanim data. Please try again.");

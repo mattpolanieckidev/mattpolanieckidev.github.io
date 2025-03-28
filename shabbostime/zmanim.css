@@ -77,9 +77,8 @@ body{
     font-size: 40px;
 }
 .card{
-    border: 2px solid #1E3A8A;
-    border-radius: 10px;
-    padding: 10px 60px;
+   
+    width: 500px;
     margin: 10px;   
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

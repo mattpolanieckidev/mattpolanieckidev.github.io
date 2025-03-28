@@ -30,6 +30,12 @@ body{
    border-bottom: 2px solid #fff;
 }
 
+.city{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #city{
     font-size: 40px;
     font-weight: bold;  
@@ -48,6 +54,7 @@ body{
 .finder input{
     width: 100px;
     margin-right: 10px;
+    text-align: center;
 }
 
 .header{

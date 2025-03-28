@@ -12,7 +12,10 @@ body {
  border:none;
  color:white;
 }
-
+.navbar .active{
+  font-weight: bolder;
+  border-bottom: 2px solid #fff;
+}
 .psummary{
   margin:20px 0 5px;
 }

@@ -1,7 +1,14 @@
+/* 
+Primary: Deep blue (#1E3A8A)
+Secondary: Gold/amber (#D97706)
+Background: Clean white (#FFFFFF)
+Text: Dark navy (#0F172A)
+Accents: Light blue (#BFDBFE) */
+
 body{
-    background-color: #f0f0f0;
+    background-color: #fff;
     font-family: 'Arial', sans-serif;
-    color: #333;
+    color: #0F172A;
     margin: 0;
     padding: 0; 
     height: 100vh;
@@ -10,7 +17,7 @@ body{
 }   
 
 .navbar{
-    background-color: #333;
+    background-color: #1E3A8A;    
     color: #fff;
     padding: 10px;
     display: flex;
@@ -18,8 +25,13 @@ body{
     align-items: center;
     }
 
+.navbar .active{
+   font-weight: bolder;
+   border-bottom: 2px solid #fff;
+}
+
 #city{
-    font-size: 24px;
+    font-size: 40px;
     font-weight: bold;  
     margin: 0;
     padding: 0;
@@ -40,9 +52,9 @@ body{
 
 .header{
     text-align: center;
-    font-size: 20px;
+    font-size: 40px;
     font-weight: bold;
-          
+    margin-top: 20px;
 }
 .zmanim-container{
     display: flex;

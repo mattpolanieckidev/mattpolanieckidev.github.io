@@ -6,7 +6,8 @@
 async function getZmanim() {
   const today = new Date();
   const date = today.toISOString().split('T')[0];
-  document.getElementById("date").innerHTML = date;
+  const formattedDate = today.getMonth() + 1 + '/' + today.getDate() + '/' + today.getFullYear();
+  document.getElementById("date").innerHTML = formattedDate;
   if (!localStorage.getItem("zipcode")) {
     document.getElementById("zip").value = localStorage.getItem("zipcode");
   }

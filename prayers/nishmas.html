@@ -10,73 +10,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="nishmas.css"
 </head>
 <style>
-    body{
-        background-color: #f0f0f0;
-        font-family: 'Space Mono', monospace;
-        margin: 0;
-        padding: 0;
-    }
-    .content{
-        max-width: 800px;
-        margin: 90px auto;
-        padding: 20px;
-        background-color: #fff;
-        font-size: 1.9em;
-        line-height: 1.6;
-        color: #333;
-        text-align: justify;
-        padding: 20px;
-        border: 1px solid #ddd;
-    }
-    .content p{
-        direction: rtl;
-        margin: 5% 2.5%;
-        
-    }
-    .header{
-        background-color: #9A42FF;
-        color: #fff;
-        padding: 1px;
-        text-align: center;
-        display: flex;
-
-        align-items: center;
-        justify-content: space-evenly;
-        position:fixed;
-        top: 0;
-        z-index: 1000;  
-        width:100%;
-        
-    }
-    button:hover{
-        background-color: #7c609c;
-    }
-    button{
-        background-color: #9A42FF;
-        color: #fff;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-top: 10px;
-       
-    }
- 
-        
-      @media (max-width: 768px) {
-        .header{
-            flex-direction: column;
-        }
-        #darkModeToggle{
-            padding-bottom: 10px;
-        }
-        .content{
-            margin-top: 210px;
-            font-family: serif;
-        }
-    }      
+   
 </style>
 <div class="header">
     <h1>Nishmas Kol Chai</h1>
@@ -125,34 +62,11 @@
 
         function toggleDarkMode() {
             const body = document.body;
-            body.classList.toggle("dark-mode");
             const darkModeToggle = document.getElementById("darkModeToggle");
-            if (body.classList.contains("dark-mode")) {
-                darkModeToggle.innerHTML = "☀️";
-                localStorage.setItem("darkMode", "enabled");
-                const body = document.querySelector("body");
-                const content = document.querySelector(".content");
-                const header = document.querySelector(".header");
-                header.style.backgroundColor = "#333";
-                header.style.color = "#fff";    
-                header.style.border = "1px solid #ddd";
-             
-                body.style.backgroundColor = "#333";
-                content.style.backgroundColor = "#333";
-                content.style.color = "#fff";    
-            } else {
-                darkModeToggle.innerHTML = "🌙";
-                localStorage.setItem("darkMode", "disabled");
-                const body = document.querySelector("body");
-                const content = document.querySelector(".content");
-                const header = document.querySelector(".header");
-                header.style.backgroundColor = "#9A42FF";
-                header.style.color = "#fff";
-                body.style.backgroundColor = "#f0f0f0";
-                content.style.backgroundColor = "#fff";
-                content.style.color = "#333";
-                                
-            }
+            const isDarkMode = body.classList.toggle("dark-mode");
+
+            darkModeToggle.innerHTML = isDarkMode ? "☀️" : "🌙";
+            localStorage.setItem("darkMode", isDarkMode ? "enabled" : "disabled");
         }
 
         // Initialize the count when page loads

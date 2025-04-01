@@ -1,0 +1,90 @@
+ body{
+        background-color: #f0f0f0;
+        font-family: 'Space Mono', monospace;
+        margin: 0;
+        padding: 0;
+    }
+    .content{
+        max-width: 800px;
+        margin: 90px auto;
+        padding: 20px;
+        background-color: #fff;
+        font-size: 1.9em;
+        line-height: 1.6;
+        color: #333;
+        text-align: justify;
+        padding: 20px;
+        border: 1px solid #ddd;
+    }
+    .content p{
+        direction: rtl;
+        margin: 5% 2.5%;
+        
+    }
+    .header{
+        background-color: #9A42FF;
+        color: #fff;
+        padding: 1px;
+        text-align: center;
+        display: flex;
+
+        align-items: center;
+        justify-content: space-evenly;
+        position:fixed;
+        top: 0;
+        z-index: 1000;  
+        width:100%;
+        
+    }
+    button:hover{
+        background-color: #7c609c;
+    }
+    button{
+        background-color: #9A42FF;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+       
+    }
+
+    body.dark-mode {
+        background-color: #333;
+        color: #fff;
+     
+    }
+
+    .dark-mode .content {
+        background-color: #333;
+        color: #fff;
+        border:none;
+    }
+
+    .dark-mode .header {
+        background-color: #333;
+        color: #fff;
+ 
+    }
+
+    /* Add transitions for smooth effect */
+    body, .content, .header {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    i{
+        cursor: pointer;
+    }
+
+      @media (max-width: 768px) {
+        .header{
+            flex-direction: column;
+        }
+        #darkModeToggle{
+            padding-bottom: 10px;
+        }
+        .content{
+            margin-top: 210px;
+            font-family: serif;
+        }
+    }      

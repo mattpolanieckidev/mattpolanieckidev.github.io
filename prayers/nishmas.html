@@ -132,6 +132,11 @@
                 localStorage.setItem("darkMode", "enabled");
                 const body = document.querySelector("body");
                 const content = document.querySelector(".content");
+                const header = document.querySelector(".header");
+                header.style.backgroundColor = "#333";
+                header.style.color = "#fff";    
+                header.style.border = "1px solid #ddd";
+             
                 body.style.backgroundColor = "#333";
                 content.style.backgroundColor = "#333";
                 content.style.color = "#fff";    
@@ -140,6 +145,9 @@
                 localStorage.setItem("darkMode", "disabled");
                 const body = document.querySelector("body");
                 const content = document.querySelector(".content");
+                const header = document.querySelector(".header");
+                header.style.backgroundColor = "#9A42FF";
+                header.style.color = "#fff";
                 body.style.backgroundColor = "#f0f0f0";
                 content.style.backgroundColor = "#fff";
                 content.style.color = "#333";

@@ -87,4 +87,15 @@
             margin-top: 210px;
             font-family: serif;
         }
+        .settings{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+           
+        }
+        .settings button{
+            border:1px white solid;
+            margin: 0 10px;
+        }   
     }      

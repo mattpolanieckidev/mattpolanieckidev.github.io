@@ -49,13 +49,15 @@
 		</div>
 
 	</div>
-	<button id="count-button" onclick="markDayAsCounted(daysSinceStart+1)">Count day</button>
+	<div class="grid-center">
+	<button type="button" class="btn btn-primary" id="count-button" onclick="markDayAsCounted(daysSinceStart+1)">Count day</button>
 
-	<div id="circles-container">
-		<p>Days Counted</p>
-		<ul id="counted-days"></ul>
-	</div>
-
+	
+</div>
+<div id="circles-container">
+	<p>Days Counted</p>
+	<ul id="counted-days"></ul>
+</div>
 	<script src="sefira.js"></script>
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
 		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

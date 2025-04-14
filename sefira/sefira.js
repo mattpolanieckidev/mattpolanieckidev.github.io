@@ -48,130 +48,84 @@ var omer = [
 	{ hebrew: 'הַיּוֹם שִׁבְעָה וְאַרְבָּעִים יוֹם, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וַחֲמִשָּׁה יָמִים לָעֹמֶר', english: 'Today is Forty-Seven Days, which are Six Weeks and Five Days of the Omer' },
 	{ hebrew: 'הַיּוֹם שְׁמוֹנָה וְאַרְבָּעִים יוֹם, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וְשִׁשָּׁה יָמִים לָעֹמֶר', english: 'Today is Forty-Eight Days, which are Six Weeks and Six Days of the Omer' },
 	{ hebrew: 'הַיּוֹם תִּשְׁעָה וְאַרְבָּעִים יוֹם, שֶׁהֵם שִׁבְעָה שָׁבוּעוֹת לָעֹמֶר', english: 'Today is Forty-Nine Days, which are Seven Weeks of the Omer' },
-]
+];
 
-var omerStartDate;
+// Constants
+const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+const OMER_START_MONTH = 3; // April (0-based index)
+const OMER_START_DAY = 13; // April 13th
 
-function daysUntilNextOmerCycle() {
+// Utility Functions
+function getOmerStartDate(year) {
+    return new Date(year, OMER_START_MONTH, OMER_START_DAY);
+}
+
+function daysBetweenDates(startDate, endDate) {
+    return Math.ceil((endDate - startDate) / ONE_DAY_MS);
+}
+
+function updateTextContent(id, text) {
+    const element = document.getElementById(id);
+    if (element) element.textContent = text;
+}
+
+function getCurrentOmerDay() {
     const today = new Date();
     const currentYear = today.getFullYear();
-    omerStartDate = new Date(`${currentYear}-04-14T00:00:00`); // April 23rd, 2024
+    const omerStartDate = getOmerStartDate(currentYear);
 
     if (today < omerStartDate) {
-        const daysUntilNextOmer = Math.ceil((omerStartDate - today) / (1000 * 60 * 60 * 24));
-        return `There are ${daysUntilNextOmer} days until this year's Omer cycle starts.`;
-    } else {
-        const nextYear = currentYear + 1;
-        const nextOmerStartDate = new Date(`${nextYear}-04-14T00:00:00`); // April 23rd of next year
-        const daysUntilNextOmer = Math.ceil((nextOmerStartDate - today) / (1000 * 60 * 60 * 24));
-        return `There are ${daysUntilNextOmer} days until next year's Omer cycle starts.`;
+        return { day: 0, message: `Days until Omer: ${daysBetweenDates(today, omerStartDate)}` };
     }
-}
-daysUntilNextOmerCycle();
 
-function countDays(startDate) {
-    const oneDay = 24 * 60 * 60 * 1000; // number of milliseconds in a day
-    const now = new Date(); // get the current date and time
+    const diffDays = Math.floor((today - omerStartDate) / ONE_DAY_MS);
+    const isBefore8pm = today.getHours() < 20;
+    const displayDate = isBefore8pm ? new Date(today - ONE_DAY_MS) : today;
 
-    // Check if today's date is before the start of the Omer cycle
-    if (now < omerStartDate) {
-        const daysUntilOmerStart = Math.ceil((omerStartDate - now) / oneDay);
-        const displayText = `Days until Omer: ${daysUntilOmerStart}`;
-        const todayDateP = document.getElementById('today-date');
-        todayDateP.textContent = displayText;
-        return 0; // Return 0 days counted as the Omer cycle hasn't started yet
-    }
-  
-    const diffDays = Math.floor((now - omerStartDate) / oneDay);
-  
-    // get the current time and check if it's before 8pm
-    const currentHour = now.getHours();
-    const isBefore8pm = currentHour < 20; // 8pm = 20:00 in 24-hour time format
-  
-    // if it's before 8pm, subtract one day from the current date to get yesterday's date
-    const displayDate = isBefore8pm ? new Date(now.getTime() - oneDay).toLocaleDateString() : now.toLocaleDateString();
-  
-    // add the date to a P tag
-    const todayDateP = document.getElementById('today-date');
-    todayDateP.textContent = `This is the count for ${displayDate}`;
-  
-    return diffDays; // return the number of days
+    return { day: diffDays, message: `This is the count for ${displayDate.toLocaleDateString()}` };
 }
 
-  
-const daysSinceStart = countDays("2025-04-14");
-const colors = ['#6F1E51', '#FFC312', '#F79F1F', '#EE5A24', '#EA2027', '#C4E538', '#A3CB38', '#009432', '#006266', '#12CBC4', '#1289A7', '#0652DD', '#1B1464', '#FDA7DF', '#D980FA', '#9980FA', '#5758BB', '#ED4C67', '#B53471', '#833471', '#6F1E51'];
-const body = document.body;
-const nav = document.getElementById("colorlabel2");
+// Main Logic
+function initializeOmer() {
+    const { day, message } = getCurrentOmerDay();
 
-document.getElementById('hebrew').textContent = omer[daysSinceStart]?.hebrew || "";
-document.getElementById('english').textContent = omer[daysSinceStart]?.english || "";
+    // Update DOM
+    updateTextContent('today-date', message);
+    updateTextContent('hebrew', omer[day]?.hebrew || "");
+    updateTextContent('english', omer[day]?.english || "");
 
-function changeColor() {
-	const randomColor = colors[Math.floor(Math.random() * colors.length)];
-	body.style.backgroundColor = randomColor;
-	nav.style.backgroundColor = randomColor;
-	nav.innerHTML = "Sefirat HaOmer " + randomColor;
+    // Mark counted days
+    renderCountedDays();
+}
+
+function renderCountedDays() {
+    const countedDays = getCountedDays();
+    const countedDaysList = document.getElementById('counted-days');
+    if (!countedDaysList) return;
+
+    countedDaysList.innerHTML = ""; // Clear existing list
+    countedDays.forEach(({ day, hebrew }) => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `<span class="circle">${day}</span> ${hebrew}`;
+        countedDaysList.appendChild(listItem);
+    });
 }
 
 function markDayAsCounted(day) {
-	const today = new Date();
-    const currentYear = today.getFullYear();
-	// check if the day has already been counted
-	if (localStorage.setItem(`omer_${currentYear}_${day}`, 'true')) {
-		console.log(`Day ${day} has already been counted.`);
+    const currentYear = new Date().getFullYear();
+    const key = `omer_${currentYear}_${day}`;
+    if (localStorage.getItem(key)) return;
 
-		// update the button to show that the day has been counted
-		const button = document.getElementById(`count-button`);
-		button.textContent = '✓';
-
-		return;
-	}
-
-	// mark the day as counted
-	localStorage.setItem(`omer_${currentYear}_${day}`, 'true');
-
-	// update the button to show that the day has been counted
-	const button = document.getElementById(`count-button`);
-	button.textContent = '✓';
-
-	console.log(`Day ${day} has been counted.`);
-
-	// add the newly counted day to the list
-	const countedDaysList = document.getElementById('counted-days');
-	const listItem = document.createElement('li');
-	const dayNumber = document.createElement('span');
-	dayNumber.textContent = day;
-	dayNumber.classList.add('circle');
-	listItem.appendChild(dayNumber);
-	countedDaysList.appendChild(listItem);
+    localStorage.setItem(key, 'true');
+    renderCountedDays();
 }
-
-const countedDays = getCountedDays();
-const countedDaysList = document.getElementById('counted-days');
-countedDays.forEach(day => {
-	const listItem = document.createElement('li');
-	const dayNumber = document.createElement('span');
-	dayNumber.textContent = day.day;
-	dayNumber.classList.add('circle');
-	listItem.appendChild(dayNumber);
-	countedDaysList.appendChild(listItem);
-});
-
 
 function getCountedDays() {
-    const countedDays = [];
-    const today = new Date();
-    const currentYear = today.getFullYear();
-
-    for (let i = 1; i <= 49; i++) {
-        // Check if the day is counted for the current year
-        if (localStorage.getItem(`omer_${currentYear}_${i}`) === 'true') {
-            countedDays.push({
-                day: i,
-                hebrew: omer[i - 1].hebrew
-            });
-        }
-    }
-    return countedDays;
+    const currentYear = new Date().getFullYear();
+    return Array.from({ length: 49 }, (_, i) => i + 1)
+        .filter(day => localStorage.getItem(`omer_${currentYear}_${day}`) === 'true')
+        .map(day => ({ day, hebrew: omer[day - 1]?.hebrew }));
 }
+
+// Initialize
+initializeOmer();

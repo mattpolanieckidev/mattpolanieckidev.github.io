@@ -2,6 +2,8 @@ body {
     top: 0;
     margin: 0;
     font-family: arial;
+    background-color: black;
+    color:#E8E8E8;
 }
 
 #wrapper {
@@ -15,21 +17,23 @@ body {
 
 h1 {
     font-size: 50px;
-    color: white;
+    color: #E8E8E8;
 
 }
 
 #english,
-.bracha {
+.bracha, #today-date {
     margin-top: 40px;
     font-size: 30px;
-    color: white;
+    color: #E8E8E8;
 }
 
-
+#circles-container{
+    color:#E8E8E8;
+}
 #hebrew {
     font-size: 40px;
-    color: white;
+    color: #E8E8E8;
 }
 
 button {
@@ -37,21 +41,23 @@ button {
 }
 
 li{
-    color:white;
+    color:#E8E8E8;
     list-style: none;
 }
 
 .circle {
+
 display: inline-block;
 width: 30px;
 height: 30px;
 border-radius: 50%;
 background-color: black;
-color: white;
+color: #E8E8E8;
 text-align: center;
 line-height: 30px;
 font-weight: bold;
 margin-right: 10px;
+border:1px solid white;
 }
 
 ul {
@@ -59,4 +65,11 @@ display: grid;
 grid-template-columns: repeat(5, 1fr);
 grid-gap: 10px;
 
+}
+
+.grid-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }

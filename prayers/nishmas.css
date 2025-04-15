@@ -68,6 +68,10 @@
  
     }
 
+    #settingsContainer{
+        display: none;
+    }
+
     /* Add transitions for smooth effect */
     body, .content, .header {
         transition: background-color 0.3s ease, color 0.3s ease;

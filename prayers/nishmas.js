@@ -10,10 +10,9 @@ document.getElementById("date").innerHTML = today();
 
 //function to keep track of Nishmas 40 day cycle. 
 //1.User sets the start date of the cycle in the date input and it is stored in local storage. 
-//2. The function updates the number of days left and days completed.
-//3. It would show the days completed as "xx of 40 days".
-//4. The day is completed when the user clicks the "Day Completed" button.
-//4. The days completed are stored in local storage.
+//2. The function counts how many days it has been since the start date and displays the number of days completed out of 40.
+//3. The function is called when the user loads the page and when the user clicks the "Start Cycle" button.
+//4. The function also checks if the user has set a start date before and uses that date to calculate the days completed.
 
 function cycleStart(){
     const startDate = document.getElementById("startDate").value;
@@ -25,7 +24,8 @@ function updateDaysCompleted() {
     const startDate = new Date(localStorage.getItem("startDate"));
     const today = new Date();
     const daysLeft = Math.floor((today - startDate) / (1000 * 3600 * 24));
-    const daysCompleted = 40 - daysLeft;
+    const daysCompleted = Math.max(0, Math.min(daysLeft, 40)); // Ensure daysCompleted is between 0 and 40
+    const daysRemaining = Math.max(0, 40 - daysCompleted); // Calculate remaining days
     document.getElementById("daysCompleted").textContent = `You have completed ${daysCompleted} of 40 days`;
     
 }
@@ -56,6 +56,10 @@ function toggleDarkMode() {
     localStorage.setItem("darkMode", isDarkMode ? "enabled" : "disabled");
 }
 
+function toggleSettings() {
+    const settings = document.getElementById("settingsContainer");
+    settings.style.display = settings.style.display === "none" ? "block" : "none";
+}
 
 // Initialize the count and dark mode when page loads
 updateDaysCompleted();

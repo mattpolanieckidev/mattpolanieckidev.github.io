@@ -53,7 +53,8 @@ var omer = [
 // Constants
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 const OMER_START_MONTH = 3; // April (0-based index)
-const OMER_START_DAY = 14; // April 13th
+const OMER_START_DAY = 13; // April 13th
+var day;
 
 // Utility Functions
 function getOmerStartDate(year) {
@@ -98,34 +99,39 @@ function initializeOmer() {
     renderCountedDays();
 }
 
+
+
+function updateCount(){
+	const today = new Date();
+	const currentYear = today.getFullYear();
+	const omerStartDate = getOmerStartDate(currentYear);
+	const diffDays = Math.floor((today - omerStartDate) / ONE_DAY_MS);
+	const omerDay = localStorage.getItem('omerDay') || 0;
+	const isBefore8pm = today.getHours() < 20;
+	day = isBefore8pm ? diffDays - 1 : diffDays;
+	if (day < 0) day = 0;
+	if (day > 49) day = 49;
+	updateTextContent('hebrew', omer[day]?.hebrew || "");
+	updateTextContent('english', omer[day]?.english || "");
+	localStorage.setItem('omerDay', day);	
+	if (!localStorage.getItem('countedDays')) {
+		localStorage.setItem('countedDays', JSON.stringify([]));
+	}
+	const countedDays = JSON.parse(localStorage.getItem('countedDays'));	
+	if (!countedDays.includes(day)) {
+		countedDays.push(day);
+		localStorage.setItem('countedDays', JSON.stringify(countedDays));
+	}
+	updateTextContent('counted-days', omerDay[day]?.hebrew || "");
+	updateTextContent('counted-days-list', countedDays.map(day => omer[day]?.hebrew || "").join(', '));
+}
+
 function renderCountedDays() {
-    const countedDays = getCountedDays();
-    const countedDaysList = document.getElementById('counted-days');
-    if (!countedDaysList) return;
-
-    countedDaysList.innerHTML = ""; // Clear existing list
-    countedDays.forEach(({ day, hebrew }) => {
-        const listItem = document.createElement('li');
-        listItem.innerHTML = `<span class="circle">${day}</span> ${hebrew}`;
-        countedDaysList.appendChild(listItem);
-    });
-}
-
-function markDayAsCounted(day) {
-    const currentYear = new Date().getFullYear();
-    const key = `omer_${currentYear}_${day}`;
-    if (localStorage.getItem(key)) return;
-
-    localStorage.setItem(key, 'true');
-    renderCountedDays();
-}
-
-function getCountedDays() {
-    const currentYear = new Date().getFullYear();
-    return Array.from({ length: 49 }, (_, i) => i + 1)
-        .filter(day => localStorage.getItem(`omer_${currentYear}_${day}`) === 'true')
-        .map(day => ({ day, hebrew: omer[day - 1]?.hebrew }));
+	const countedDays = localStorage.getItem('omarDays') ? JSON.parse(localStorage.getItem('omarDays')) : [];
+	const countedDaysContainer = document.getElementById('counted-days');
+	countedDaysContainer.innerHTML = '';
 }
 
 // Initialize
 initializeOmer();
+renderCountedDays();

@@ -53,7 +53,7 @@ var omer = [
 // Constants
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 const OMER_START_MONTH = 3; // April (0-based index)
-const OMER_START_DAY = 14; // April 13th
+const OMER_START_DAY = 13; // April 13th
 
 // Utility Functions
 function getOmerStartDate(year) {

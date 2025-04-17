@@ -56,6 +56,7 @@ const OMER_START_MONTH = 3; // April (0-based index)
 const OMER_START_DAY = 13; // April 13th
 var day;
 
+
 // Utility Functions
 function getOmerStartDate(year) {
     return new Date(year, OMER_START_MONTH, OMER_START_DAY);
@@ -79,7 +80,7 @@ function getCurrentOmerDay() {
         return { day: 0, message: `Days until Omer: ${daysBetweenDates(today, omerStartDate)}` };
     }
 
-    const diffDays = Math.floor((today - omerStartDate) / ONE_DAY_MS);
+    const diffDays = Math.floor((today - omerStartDate) / ONE_DAY_MS) - 1;
     const isBefore8pm = today.getHours() < 20;
     const displayDate = isBefore8pm ? new Date(today - ONE_DAY_MS) : today;
 
@@ -100,36 +101,26 @@ function initializeOmer() {
 }
 
 
-
+//function should be called when the user clicks the related button. It should add the current day to the count in local storage and add an list item to the page. 
 function updateCount(){
 	const today = new Date();
 	const currentYear = today.getFullYear();
 	const omerStartDate = getOmerStartDate(currentYear);
 	const diffDays = Math.floor((today - omerStartDate) / ONE_DAY_MS);
-	const omerDay = localStorage.getItem('omerDay') || 0;
 	const isBefore8pm = today.getHours() < 20;
 	day = isBefore8pm ? diffDays - 1 : diffDays;
 	if (day < 0) day = 0;
 	if (day > 49) day = 49;
 	updateTextContent('hebrew', omer[day]?.hebrew || "");
 	updateTextContent('english', omer[day]?.english || "");
-	localStorage.setItem('omerDay', day);	
-	if (!localStorage.getItem('countedDays')) {
-		localStorage.setItem('countedDays', JSON.stringify([]));
-	}
-	const countedDays = JSON.parse(localStorage.getItem('countedDays'));	
-	if (!countedDays.includes(day)) {
-		countedDays.push(day);
-		localStorage.setItem('countedDays', JSON.stringify(countedDays));
-	}
-	updateTextContent('counted-days', omerDay[day]?.hebrew || "");
-	updateTextContent('counted-days-list', countedDays.map(day => omer[day]?.hebrew || "").join(', '));
+	localStorage.setItem('omerDay', day);
 }
 
 function renderCountedDays() {
-	const countedDays = localStorage.getItem('omarDays') ? JSON.parse(localStorage.getItem('omarDays')) : [];
+	const countedDays = localStorage.getItem('omarDay') ? JSON.parse(localStorage.getItem('omarDays')) : [];
 	const countedDaysContainer = document.getElementById('counted-days');
-	countedDaysContainer.innerHTML = '';
+	countedDaysContainer.innerHTML = countedDays.map(day => `<li>${omer[day] || ""}</li>`).join('');
+
 }
 
 // Initialize

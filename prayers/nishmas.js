@@ -13,7 +13,7 @@ document.getElementById("date").innerHTML = today();
 //2. The function counts how many days it has been since the start date and displays the number of days completed out of 40.
 //3. The function is called when the user loads the page and when the user clicks the "Start Cycle" button.
 //4. The function also checks if the user has set a start date before and uses that date to calculate the days completed.
-
+//5. After 40 days are completed, it should start the count over again but retain how many times I've completed a 40 day cycle.
 function cycleStart(){
     const startDate = document.getElementById("startDate").value;
     localStorage.setItem("startDate", startDate);
@@ -25,9 +25,17 @@ function updateDaysCompleted() {
     const today = new Date();
     const daysLeft = Math.floor((today - startDate) / (1000 * 3600 * 24));
     const daysCompleted = Math.max(0, Math.min(daysLeft, 40)); // Ensure daysCompleted is between 0 and 40
-    const daysRemaining = Math.max(0, 40 - daysCompleted); // Calculate remaining days
     document.getElementById("daysCompleted").textContent = `You have completed ${daysCompleted} of 40 days`;
-    
+    document.getElementById("startDate").value = startDate.toISOString().split("T")[0]; // Update the input field with the stored date
+   // Start a new cycle if 40 days have been completed. Retain original start date and mark how many cycles have been completed. 
+    if (daysCompleted === 40) {
+        const cyclesCompleted = parseInt(localStorage.getItem("cyclesCompleted")) || 0;
+        localStorage.setItem("startDate", startDate.toISOString().split("T")[0]);
+        localStorage.setItem("cyclesCompleted", cyclesCompleted + 1);
+        document.getElementById("startDate").value = startDate.toISOString().split("T")[0];
+        document.getElementById("daysCompleted").textContent = `You have completed ${daysCompleted} of 40 days. You have completed ${cyclesCompleted + 1} cycles`;
+     
+    }
 }
 
 

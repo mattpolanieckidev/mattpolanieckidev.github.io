@@ -36,7 +36,8 @@
     font-size: 26px;
     text-align:justify;
     width: clamp(45ch, 50%, 75ch);
-   
+  
+  transition: font-size 0.3s ease; 
   }
 
   .textContent a{

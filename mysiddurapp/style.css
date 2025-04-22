@@ -62,6 +62,10 @@
 
     transition: 0.4s;
   }
+.pageText {
+  font-size: 30px; /* your default size */
+  transition: font-size 0.3s ease;
+}
 
 button{
   display: flex;

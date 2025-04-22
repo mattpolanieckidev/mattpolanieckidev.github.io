@@ -9,7 +9,15 @@
 .nav-link, #navList{
   color:white;
 }
+
+.navbar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
 #main-content{
+  padding-top: 75px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,7 +33,7 @@
 
   .textContent {
     font-size: 26px;
-    text-align:right;
+    text-align:justify;
     width: clamp(45ch, 50%, 75ch);
    
   }

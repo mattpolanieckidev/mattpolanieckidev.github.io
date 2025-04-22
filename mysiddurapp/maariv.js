@@ -1,67 +1,11 @@
+var slider = document.getElementById("fontSize");
+var fontSize = slider.value;
 var pageTitle = document.getElementById("pageTitle");
 var textdiv = document.getElementById("main-content");
 var textContent = document.getElementsByClassName("pageText");
 
-// Recursive function to fetch subsequent parts of the prayer
-function fetchNextPart(url) {
-    return fetch(url)
-      .then(response => response.json())
-      .then(pull => {
-        const refVariants = pull.ref;
-        const isWeekdayShacharit = refVariants.includes("Weekday, Maariv");
-  
-        if (isWeekdayShacharit) {
-          const div = document.createElement("div");
-          div.classList.add("textContent");
-          textdiv.appendChild(div);
-          const heading = document.createElement("h3");
-          heading.className = "pageHeading";
-          heading.setAttribute("data-anchor", pull.ref.replace(/\s+/g, "-").toLowerCase()); // Set data-anchor attribute
-          div.appendChild(heading);
-          const innerDiv = document.createElement("div");
-          innerDiv.classList.add("pageText");
-          div.appendChild(innerDiv);
-          const hePasuk = pull.he;
-          heading.innerHTML = pull.heTitleVariants; // Use pull.ref instead of pull.heTitleVariants
-          hePasuk.forEach(pasuk => {
-            const p = document.createElement("p");
-            p.innerHTML = pasuk;
-            innerDiv.appendChild(p);
-          });
-  
-         // addSectionToList(pull.ref); // Add section ref to the navigation list
-        }
-  
-        // Check if there is a next part
-        if (pull.next) {
-          // Fetch the next part recursively
-          return fetchNextPart(`https://www.sefaria.org/api/texts/${pull.next}`);
-        }
-      })
-      .catch(error => {
-        // Handle any errors that occur during the fetch
-        console.error('Error fetching part of the prayer:', error);
-      });
-  }
-  
-  
 
-// Function to create navigation list with section titles
-/*function addSectionToList(title) {
-  const listItem = document.createElement("li");
-  const link = document.createElement("a");
-  link.textContent = title;
-  const anchorId = title.replace(/\s+/g, "-").toLowerCase();
-  link.href = "#" + anchorId; // Generate anchor link based on the section title
-  listItem.appendChild(link);
-  navList.appendChild(listItem);
-
-  // Update the corresponding pageHeading with a link
-  const pageHeading = document.querySelector(`h3[data-anchor="${anchorId}"]`);
-  if (pageHeading) {
-    pageHeading.innerHTML = `<a href="#${anchorId}">${title}</a>`;
-  }
-*/
+  
   // Check if the navigation menu is open
   const navbarCollapse = document.querySelector(".navbar-collapse.show");
   if (navbarCollapse) {
@@ -74,12 +18,6 @@ function fetchNextPart(url) {
     });
   }
 
-
-
-
-// Fetch Ashkenazi Siddur - Modeh Ani from Sefaria API
-fetchNextPart('https://www.sefaria.org/api/texts/Siddur_Ashkenaz%2C_Weekday%2C_Maariv%2C_Vehu_Rachum?lang=en');
-
 function adjustFontSize(size) {
   const textContentElements = document.getElementsByClassName("pageText");
   for (let i = 0; i < textContentElements.length; i++) {
@@ -87,15 +25,82 @@ function adjustFontSize(size) {
   }
 }
 
-// Event listener for font size change
-document.addEventListener("DOMContentLoaded", () => {
-  const fontSizeButtons = document.querySelectorAll(".font-size-btn");
+//set slider value on mobile
+function myFunction(x) {
+  if (x.matches) { // If media query matches
+    adjustFont("1");
+  } else {
+    adjustFont("2");
+  }
+}
 
-  fontSizeButtons.forEach(button => {
-    button.addEventListener("click", event => {
-      const fontSize = event.target.dataset.fontSize;
-      adjustFontSize(fontSize);
-    });
+var x = window.matchMedia("(orientation:portrait)")
+myFunction(x)
+x.addListener(myFunction)
+
+//adjust font size based on slider value
+function adjustFont(a){
+  for (i = 0; i < textContent.length; i++) {
+    if (a === "1"){
+      slider.value="1";
+      localStorage.setItem("size", "1");
+      textContent.item(i).style.fontSize="24px";
+    }
+    else if (a === "2"){
+      slider.value="2";
+      localStorage.setItem("size", "2");
+      textContent.item(i).style.fontSize="30px";
+    }
+    else if (a === "3"){
+      localStorage.setItem("size", "3");
+      textContent.item(i).style.fontSize="36px";
+    }
+    }
+  };
+
+// Function to enable pinch-to-zoom for font size. 
+function enablePinchZoom() {
+  let initialDistance = null;
+  let currentFontSize = textContent.length > 0 
+    ? parseInt(window.getComputedStyle(textContent[0]).fontSize, 10) 
+    : 16; // Default to 16px if no elements are found
+
+  document.addEventListener("touchmove", (event) => {
+    if (event.touches.length === 2) {
+      const touch1 = event.touches[0];
+      const touch2 = event.touches[1];
+
+      // Calculate the distance between two touch points
+      const distance = Math.sqrt(
+        Math.pow(touch2.pageX - touch1.pageX, 2) +
+        Math.pow(touch2.pageY - touch1.pageY, 2)
+      );
+
+      if (initialDistance === null) {
+        initialDistance = distance;
+      } else {
+        const scale = distance / initialDistance;
+
+        // Adjust font size based on the scale
+        const newFontSize = Math.max(16, Math.min(50, currentFontSize * scale)); // Limit font size between 16px and 50px
+        for (let i = 0; i < textContent.length; i++) {
+          textContent[i].style.fontSize = `${newFontSize}px`;
+        }
+      }
+    }
   });
-});
 
+  document.addEventListener("touchend", (event) => {
+    if (event.touches.length < 2) {
+      // Reset initial distance and save the current font size
+      initialDistance = null;
+      if (textContent.length > 0) {
+        currentFontSize = parseInt(window.getComputedStyle(textContent[0]).fontSize, 10);
+        localStorage.setItem("size", currentFontSize); // Save the font size to localStorage
+      }
+    }
+  });
+}
+
+// Call the function to enable pinch-to-zoom
+enablePinchZoom();

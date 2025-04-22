@@ -93,3 +93,49 @@ function adjustFont(a){
     });
   }
 
+// Function to enable pinch-to-zoom for font size. 
+function enablePinchZoom() {
+  let initialDistance = null;
+  let currentFontSize = textContent.length > 0 
+    ? parseInt(window.getComputedStyle(textContent[0]).fontSize, 10) 
+    : 16; // Default to 16px if no elements are found
+
+  document.addEventListener("touchmove", (event) => {
+    if (event.touches.length === 2) {
+      const touch1 = event.touches[0];
+      const touch2 = event.touches[1];
+
+      // Calculate the distance between two touch points
+      const distance = Math.sqrt(
+        Math.pow(touch2.pageX - touch1.pageX, 2) +
+        Math.pow(touch2.pageY - touch1.pageY, 2)
+      );
+
+      if (initialDistance === null) {
+        initialDistance = distance;
+      } else {
+        const scale = distance / initialDistance;
+
+        // Adjust font size based on the scale
+        const newFontSize = Math.max(16, Math.min(50, currentFontSize * scale)); // Limit font size between 16px and 50px
+        for (let i = 0; i < textContent.length; i++) {
+          textContent[i].style.fontSize = `${newFontSize}px`;
+        }
+      }
+    }
+  });
+
+  document.addEventListener("touchend", (event) => {
+    if (event.touches.length < 2) {
+      // Reset initial distance and save the current font size
+      initialDistance = null;
+      if (textContent.length > 0) {
+        currentFontSize = parseInt(window.getComputedStyle(textContent[0]).fontSize, 10);
+        localStorage.setItem("size", currentFontSize); // Save the font size to localStorage
+      }
+    }
+  });
+}
+
+// Call the function to enable pinch-to-zoom
+enablePinchZoom();

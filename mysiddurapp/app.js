@@ -38,25 +38,7 @@ var x = window.matchMedia("(orientation:portrait)")
 myFunction(x)
 x.addListener(myFunction)
 
-//adjust font size based on slider value
-function adjustFont(a){
-  for (i = 0; i < textContent.length; i++) {
-    if (a === "1"){
-      slider.value="1";
-      localStorage.setItem("size", "1");
-      textContent.item(i).style.fontSize="24px";
-    }
-    else if (a === "2"){
-      slider.value="2";
-      localStorage.setItem("size", "2");
-      textContent.item(i).style.fontSize="30px";
-    }
-    else if (a === "3"){
-      localStorage.setItem("size", "3");
-      textContent.item(i).style.fontSize="36px";
-    }
-    }
-  };
+
 
 // Function to enable pinch-to-zoom for font size. 
 function enablePinchZoom() {

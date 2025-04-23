@@ -32,8 +32,12 @@
     font-weight: bolder;
   }
 
+  .pageText{
+   font-size: 30px;
+  }
+
   .textContent {
-    font-size: 26px;
+    font-size: 30px;
     text-align:justify;
     width: clamp(45ch, 50%, 75ch);
    

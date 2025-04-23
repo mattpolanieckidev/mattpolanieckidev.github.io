@@ -80,7 +80,7 @@ function getCurrentOmerDay() {
         return { day: 0, message: `Days until Omer: ${daysBetweenDates(today, omerStartDate)}` };
     }
 
-    const diffDays = Math.floor((today - omerStartDate) / ONE_DAY_MS) - 1;
+    const diffDays = Math.floor((today - omerStartDate) / ONE_DAY_MS);
     const isBefore8pm = today.getHours() < 20;
     const displayDate = isBefore8pm ? new Date(today - ONE_DAY_MS) : today;
 
@@ -108,7 +108,7 @@ function updateCount(){
 	const omerStartDate = getOmerStartDate(currentYear);
 	const diffDays = Math.floor((today - omerStartDate) / ONE_DAY_MS);
 	const isBefore8pm = today.getHours() < 20;
-	day = isBefore8pm ? diffDays - 1 : diffDays;
+	day = isBefore8pm ? diffDays : diffDays;
 	if (day < 0) day = 0;
 	if (day > 49) day = 49;
 	updateTextContent('hebrew', omer[day]?.hebrew || "");

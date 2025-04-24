@@ -44,12 +44,12 @@ function adjustFont(a){
     if (a === "1"){
       slider.value="1";
       localStorage.setItem("size", "1");
-      textContent.item(i).style.fontSize="24px";
+      textContent.item(i).style.fontSize="30px";
     }
     else if (a === "2"){
       slider.value="2";
       localStorage.setItem("size", "2");
-      textContent.item(i).style.fontSize="30px";
+      textContent.item(i).style.fontSize="34px";
     }
     else if (a === "3"){
       localStorage.setItem("size", "3");

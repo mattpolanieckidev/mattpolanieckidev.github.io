@@ -175,3 +175,21 @@ const hebcalUrl = `https://www.hebcal.com/hebcal?cfg=json&start=${formattedDate}
   }    
 checkRoshChodesh();
 
+//check the current time, if it's after 12:00 PM, move the user to mincha.html. If after 7:00 PM, move the user to maariv.html
+function checkTime() {
+  const today = new Date();
+  const hours = today.getHours();
+  const minutes = today.getMinutes();
+  const currentTime = hours * 60 + minutes; // Convert to minutes
+  const noonTime = 12 * 60; // 12:00 PM in minutes
+
+  if (currentTime >= noonTime) {
+    window.location.href = "mincha.html";
+  }
+  const maarivTime = 19 * 60; // 7:00 PM in minutes
+  if (currentTime >= maarivTime) {
+    window.location.href = "maariv.html";
+  }
+
+}
+checkTime();

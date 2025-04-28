@@ -16,7 +16,8 @@
 <body>
   <nav class="navbar navbar-collapse navbar-light" style="background-color: #101935;">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">MySiddurApp</a>
+      <a class="navbar-brand" href="#">Mincha</a>
+      
       <p id="todayDate">Today's Date:</p>
       <p id="roshChodeshStatus"></p>
       <!-- Button trigger modal -->
@@ -52,6 +53,12 @@
           <li class="nav-item">
             <a href="mincha.html" class="nav-link">Mincha</a>
           </li>
+          <ul>
+            <li><a href="#ashrei">Ashrei</a></li>
+            <li><a href="#shmonei-esrei">Shmonei Esrei</a></li>
+            <li><a href="#aleinu">Aleinu</a></li>
+         
+          </ul>
           <li class="nav-item">
             <a href="maariv.html" class="nav-link">Maariv</a>
           </li>
@@ -64,7 +71,7 @@
     <section id="main-content">
       <h2>Mincha</h2>
       <!-- Content for the prayers section goes here -->
-      <div class="textContent">
+      <div class="textContent" id="ashrei">
         <h3 class="pageHeading" data-anchor="siddur-ashkenaz,-weekday,-minchah,-ashrei">אשרי</h3>
         <div class="pageText">
           <p><b>אַשְׁרֵי</b> יוֹשְׁ֒בֵי בֵיתֶֽךָ עוֹד יְהַלְלֽוּךָ סֶּֽלָה: אַשְׁרֵי הָעָם שֶׁכָּֽכָה לּוֹ אַשְׁרֵי
@@ -94,7 +101,7 @@
             תֻּשְׁבְּ֒חָתָֽא וְנֶחָמָתָֽא דַּאֲמִירָן בְּעָלְ֒מָֽא וְאִמְרוּ <b>אָמֵן</b>:</p>
         </div>
       </div>
-      <div class="textContent">
+      <div class="textContent" id="shmonei-esrei">
         <h3 class="pageHeading" data-anchor="siddur-ashkenaz,-weekday,-minchah,-amida,-patriarchs">אבות</h3>
         <div class="pageText">
      
@@ -509,7 +516,7 @@
             יִשְׂרָאֵל וְאִמְרוּ <b>אָמֵן</b>:</p>
         </div>
       </div>
-      <div class="textContent">
+      <div class="textContent" id="aleinu">
         <h3 class="pageHeading" data-anchor="siddur-ashkenaz,-weekday,-minchah,-concluding-prayers,-alenu">עלינו</h3>
         <div class="pageText">
           <p><b>עָלֵֽינוּ</b> לְשַׁבֵּֽחַ לַאֲדוֹן הַכֹּל לָתֵת גְּדֻלָּה לְיוֹצֵר בְּרֵאשִׁית שֶׁלֺּא עָשָֽׂנוּ

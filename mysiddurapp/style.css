@@ -91,6 +91,17 @@ button.accordion::before{
   z-index: -1;
 }
 
+#todayDate, #roshChodeshStatus{
+  color:white;
+}
+
+#roshChodeshStatus{
+  background-color: #212427;
+  border: 1px solid black;
+  border-radius: 25px;
+  padding:0 25px;
+
+}
   @media screen and (orientation:portrait){
   .textContent{
       margin:0 2.5%;

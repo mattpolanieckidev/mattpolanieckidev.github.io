@@ -93,15 +93,22 @@ button.accordion::before{
 
 #todayDate, #roshChodeshStatus{
   color:white;
+  margin:0;
 }
 
 #roshChodeshStatus{
-  background-color: #212427;
+  background-color: #f0f0f0;
   border: 1px solid black;
   border-radius: 25px;
   padding:0 25px;
+  color:#212427;
 
 }
+
+.roshChodesh{
+  color:darkgreen;
+}
+
   @media screen and (orientation:portrait){
   .textContent{
       margin:0 2.5%;
@@ -126,5 +133,9 @@ button.accordion::before{
     .innerDiv p{
         direction: rtl;
       }
+      #todayDate{
+        display: none;
+      }
+    
   }
     

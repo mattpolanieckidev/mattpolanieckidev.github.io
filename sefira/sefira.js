@@ -84,45 +84,22 @@ function getCurrentOmerDay() {
     const isBefore8pm = today.getHours() < 20;
     const displayDate = isBefore8pm ? new Date(today - ONE_DAY_MS) : today;
 
-    return { day: diffDays, message: `This is the count for ${displayDate.toLocaleDateString()}` };
+    return { day: diffDays, message: `This is the count for the night of ${displayDate.toLocaleDateString()}` };
 }
 
 // Main Logic
 function initializeOmer() {
     const { day, message } = getCurrentOmerDay();
-
+	const countNumText = document.getElementById('countNum');
     // Update DOM
     updateTextContent('today-date', message);
     updateTextContent('hebrew', omer[day]?.hebrew || "");
     updateTextContent('english', omer[day]?.english || "");
+	countNumText.innerHTML = `${day+1}`;
 
-    // Mark counted days
-    renderCountedDays();
-}
+}	
 
-
-//function should be called when the user clicks the related button. It should add the current day to the count in local storage and add an list item to the page. 
-function updateCount(){
-	const today = new Date();
-	const currentYear = today.getFullYear();
-	const omerStartDate = getOmerStartDate(currentYear);
-	const diffDays = Math.floor((today - omerStartDate) / ONE_DAY_MS);
-	const isBefore8pm = today.getHours() < 20;
-	day = isBefore8pm ? diffDays : diffDays;
-	if (day < 0) day = 0;
-	if (day > 49) day = 49;
-	updateTextContent('hebrew', omer[day]?.hebrew || "");
-	updateTextContent('english', omer[day]?.english || "");
-	localStorage.setItem('omerDay', day);
-}
-
-function renderCountedDays() {
-	const countedDays = localStorage.getItem('omarDay') ? JSON.parse(localStorage.getItem('omarDays')) : [];
-	const countedDaysContainer = document.getElementById('counted-days');
-	countedDaysContainer.innerHTML = countedDays.map(day => `<li>${omer[day] || ""}</li>`).join('');
-
-}
 
 // Initialize
 initializeOmer();
-renderCountedDays();
+

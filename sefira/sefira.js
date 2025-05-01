@@ -1,105 +1,96 @@
-var omer = [
-	{ hebrew: 'הַיּוֹם אחד יָמִים לָעֹמֶר', english: 'Today is One Day of the Omer' },
-	{ hebrew: 'הַיּוֹם שְׁנֵי יָמִים לָעֹמֶר', english: 'Today is Two Days of the Omer' },
-	{ hebrew: 'הַיּוֹם שְׁלֹשָׁה יָמִים לָעֹמֶר', english: 'Today is Three Days of the Omer' },
-	{ hebrew: 'הַיּוֹם אַרְבָּעָה יָמִים לָעֹמֶר', english: 'Today is Four Days of the Omer' },
-	{ hebrew: 'הַיּוֹם חֲמִשָּׁה יָמִים לָעֹמֶר', english: 'Today is Five Days of the Omer' },
-	{ hebrew: 'הַיּוֹם שִׁשָּׁה יָמִים לָעֹמֶר', english: 'Today is Six Days of the Omer' },
-	{ hebrew: 'הַיּוֹם שִׁבְעָה יָמִים, שֶׁהֵם שָׁבוּעַ אֶחָד לָעֹמֶר', english: 'Today is Seven Days, which are One Week of the Omer' },
-	{ hebrew: 'הַיּוֹם שְׁמוֹנָה יָמִים, שֶׁהֵם שָׁבוּעַ אֶחָד וְיוֹם אֶחָד לָעֹמֶר', english: 'Today is Eight Days, which are One Week and One Day of the Omer' },
-	{ hebrew: 'הַיּוֹם תִּשְׁעָה יָמִים, שֶׁהֵם שָׁבוּעַ אֶחָד וּשְׁנֵי יָמִים לָעֹמֶר', english: 'Today is Nine Days, which are One Week and Two Days of the Omer' },
-	{ hebrew: 'הַיּוֹם עֲשָׂרָה יָמִים, שֶׁהֵם שָׁבוּעַ אֶחָד וּשְׁלֹשָׁה יָמִים לָעֹמֶר', english: 'Today is Ten Days, which are One Week and Three Days of the Omer' },
-	{ hebrew: 'הַיּוֹם אַחַד עָשָׂר יוֹם, שֶׁהֵם שָׁבוּעַ אֶחָד וְאַרְבָּעָה יָמִים לָעֹמֶר', english: 'Today is Eleven Days, which are One Week and Four Days of the Omer' },
-	{ hebrew: 'הַיּוֹם שְׁנֵים עָשָׂר יוֹם, שֶׁהֵם שָׁבוּעַ אֶחָד וַחֲמִשָּׁה יָמִים לָעֹמֶר', english: 'Today is Twelve Days, which are One Week and Five Days of the Omer' },
-	{ hebrew: 'הַיּוֹם שְׁלֹשָׁה עָשָׂר יוֹם, שֶׁהֵם שָׁבוּעַ אֶחָד וְשִׁשָּׁה יָמִים לָעֹמֶר', english: 'Today is Thirteen Days, which are One Week and Six Days of the Omer' },
-	{ hebrew: 'הַיּוֹם אַרְבָּעָה עָשָׂר יוֹם, שֶׁהֵם שְׁנֵי שָׁבוּעוֹת לָעֹמֶר', english: 'Today is Fourteen Days, which are Two Weeks of the Omer' },
-	{ hebrew: 'הַיּוֹם חֲמִשָּׁה עָשָׂר יוֹם, שֶׁהֵם שְׁנֵי שָׁבוּעוֹת וְיוֹם אֶחָד לָעֹמֶר', english: 'Today is Fifteen Days, which are Two Weeks and One Day of the Omer' },
-	{ hebrew: 'הַיּוֹם שִׁשָּׁה עָשָׂר יוֹם, שֶׁהֵם שְׁנֵי שָׁבוּעוֹת וּשְׁנֵי יָמִים לָעֹמֶר', english: 'Today is Sixteen Days, which are Two Weeks and Two Days of the Omer' },
-	{ hebrew: 'הַיּוֹם שִׁבְעָה עָשָׂר יוֹם, שֶׁהֵם שְׁנֵי שָׁבוּעוֹת וּשְׁלֹשָׁה יָמִים לָעֹמֶר', english: 'Today is Seventeen Days, which are Two Weeks and Three Days of the Omer' },
-	{ hebrew: 'הַיּוֹם שְׁמוֹנָה עָשָׂר יוֹם, שֶׁהֵם שְׁנֵי שָׁבוּעוֹת וְאַרְבָּעָה יָמִים לָעֹמֶר', english: 'Today is Eighteen Days, which are Two Weeks and Four Days of the Omer' },
-	{ hebrew: 'הַיּוֹם תִּשְׁעָה עָשָׂר יוֹם, שֶׁהֵם שְׁנֵי שָׁבוּעוֹת וַחֲמִשָּׁה יָמִים לָעֹמֶר', english: 'Today is Nineteen Days, which are Two Weeks and Five Days of the Omer' },
-	{ hebrew: 'הַיּוֹם עֶשְׂרִים יוֹם, שֶׁהֵם שְׁנֵי שָׁבוּעוֹת וְשִׁשָּׁה יָמִים לָעֹמֶר', english: 'Today is Twenty Days, which are Two Weeks and Six Days of the Omer' },
-	{ hebrew: 'הַיּוֹם אֶחָד וְעֶשְׂרִים יוֹם, שֶׁהֵם שְׁלֹשָׁה שָׁבוּעוֹת לָעֹמֶר', english: 'Today is Twenty-One Days, which are Three Weeks of the Omer' },
-	{ hebrew: 'הַיּוֹם שְׁנַֽיִם וְעֶשְׂרִים יוֹם, שֶׁהֵם שְׁלֹשָׁה שָׁבוּעוֹת וְיוֹם אֶחָד לָעֹמֶר', english: 'Today is Twenty-Two Days, which are Three Weeks and One Day of the Omer' },
-	{ hebrew: 'הַיּוֹם שְׁלֹשָׁה וְעֶשְׂרִים יוֹם, שֶׁהֵם שְׁלֹשָׁה שָׁבוּעוֹת וּשְׁנֵי יָמִים לָעֹמֶר', english: 'Today is Twenty-Three Days, which are Three Weeks and Two Days of the Omer' },
-	{ hebrew: 'הַיּוֹם אַרְבָּעָה וְעֶשְׂרִים יוֹם, שֶׁהֵם שְׁלֹשָׁה שָׁבוּעוֹת וּשְׁלֹשָׁה יָמִים לָעֹמֶר', english: 'Today is Twenty-Four Days, which are Three Weeks and Three Days of the Omer' },
-	{ hebrew: 'הַיּוֹם חֲמִשָּׁה וְעֶשְׂרִים יוֹם, שֶׁהֵם שְׁלֹשָׁה שָׁבוּעוֹת וְאַרְבָּעָה יָמִים לָעֹמֶר', english: 'Today is Twenty-Five Days, which are Three Weeks and Four Days of the Omer' },
-	{ hebrew: 'הַיּוֹם שִׁשָּׁה וְעֶשְׂרִים יוֹם, שֶׁהֵם שְׁלֹשָׁה שָׁבוּעוֹת וַחֲמִשָּׁה יָמִים לָעֹמֶר', english: 'Today is Twenty-Six Days, which are Three Weeks and Five Days of the Omer' },
-	{ hebrew: 'הַיּוֹם שִׁבְעָה וְעֶשְׂרִים יוֹם, שֶׁהֵם שְׁלֹשָׁה שָׁבוּעוֹת וְשִׁשָּׁה יָמִים לָעֹמֶר', english: 'Today is Twenty-Seven Days, which are Three Weeks and Six Days of the Omer' },
-	{ hebrew: 'הַיּוֹם שְׁמוֹנָה וְעֶשְׂרִים יוֹם, שֶׁהֵם אַרְבָּעָה שָׁבוּעוֹת לָעֹמֶר', english: 'Today is Twenty-Eight Days, which are Four Weeks of the Omer' },
-	{ hebrew: 'הַיּוֹם תִּשְׁעָה וְעֶשְׂרִים יוֹם, שֶׁהֵם אַרְבָּעָה שָׁבוּעוֹת וְיוֹם אֶחָד לָעֹמֶר', english: 'Today is Twenty-Nine Days, which are Four Weeks and One Day of the Omer' },
-	{ hebrew: 'הַיּוֹם שְׁלֹשִׁים יוֹם, שֶׁהֵם אַרְבָּעָה שָׁבוּעוֹת וּשְׁנֵי יָמִים לָעֹמֶר', english: 'Today is Thirty Days, which are Four Weeks and Two Days of the Omer' },
-	{ hebrew: 'הַיּוֹם אֶחָד וּשְׁלֹשִׁים יוֹם, שֶׁהֵם אַרְבָּעָה שָׁבוּעוֹת וּשְׁלֹשָׁה יָמִים לָעֹמֶר', english: 'Today is Thirty-One Days, which are Four Weeks and Three Days of the Omer' },
-	{ hebrew: 'הַיּוֹם שְׁנַיִם וּשְׁלֹשִׁים יוֹם, שֶׁהֵם אַרְבָּעָה שָׁבוּעוֹת וְאַרְבָּעָה יָמִים לָעֹמֶר', english: 'Today is Thirty-Two Days, which are Four Weeks and Four Days of the Omer' },
-	{ hebrew: 'הַיּוֹם שְׁלֹשָׁה וּשְׁלֹשִׁים יוֹם, שֶׁהֵם אַרְבָּעָה שָׁבוּעוֹת וַחֲמִשָּׁה יָמִים לָעֹמֶר', english: 'Today is Thirty-Three Days, which are Four Weeks and Five Days of the Omer' },
-	{ hebrew: 'הַיּוֹם אַרְבָּעָה וּשְׁלֹשִׁים יוֹם, שֶׁהֵם אַרְבָּעָה שָׁבוּעוֹת וְשִׁשָּׁה יָמִים לָעֹמֶר', english: 'Today is Thirty-Four Days, which are Four Weeks and Six Days of the Omer' },
-	{ hebrew: 'הַיּוֹם חֲמִשָּׁה וּשְׁלֹשִׁים יוֹם, שֶׁהֵם חֲמִשָּׁה שָׁבוּעוֹת לָעֹמֶר', english: 'Today is Thirty-Five Days, which are Five Weeks of the Omer' },
-	{ hebrew: 'הַיּוֹם שִׁשָּׁה וּשְׁלֹשִׁים יוֹם, שֶׁהֵם חֲמִשָּׁה שָׁבוּעוֹת וְיוֹם אֶחָד לָעֹמֶר', english: 'Today is Thirty-Six Days, which are Five Weeks and One Day of the Omer' },
-	{ hebrew: 'הַיּוֹם שִׁבְעָה וּשְׁלֹשִׁים יוֹם, שֶׁהֵם חֲמִשָּׁה שָׁבוּעוֹת וּשְׁנֵי יָמִים לָעֹמֶר', english: 'Today is Thirty-Seven Days, which are Five Weeks and Two Days of the Omer' },
-	{ hebrew: 'הַיּוֹם שְׁמוֹנָה וּשְׁלֹשִׁים יוֹם, שֶׁהֵם חֲמִשָּׁה שָׁבוּעוֹת וּשְׁלֹשָׁה יָמִים לָעֹמֶר', english: 'Today is Thirty-Eight Days, which are Five Weeks and Three Days of the Omer' },
-	{ hebrew: 'הַיּוֹם תִּשְׁעָה וּשְׁלֹשִׁים יוֹם, שֶׁהֵם חֲמִשָּׁה שָׁבוּעוֹת וְאַרְבָּעָה יָמִים לָעֹמֶר', english: 'Today is Thirty-Nine Days, which are Five Weeks and Four Days of the Omer' },
-	{ hebrew: 'הַיּוֹם אַרְבָּעִים יוֹם, שֶׁהֵם חֲמִשָּׁה שָׁבוּעוֹת וַחֲמִשָּׁה יָמִים לָעֹמֶר', english: 'Today is Forty Days, which are Five Weeks and Five Days of the Omer' },
-	{ hebrew: 'הַיּוֹם אֶחָד וְאַרְבָּעִים יוֹם, שֶׁהֵם חֲמִשָּׁה שָׁבוּעוֹת וְשִׁשָּׁה יָמִים לָעֹמֶר', english: 'Today is Forty-One Days, which are Five Weeks and Six Days of the Omer' },
-	{ hebrew: 'הַיּוֹם שְׁנַיִם וְאַרְבָּעִים יוֹם, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת לָעֹמֶר', english: 'Today is Forty-Two Days, which are Six Weeks of the Omer' },
-	{ hebrew: 'הַיּוֹם שְׁלֹשָׁה וְאַרְבָּעִים יוֹם, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וְיוֹם אֶחָד לָעֹמֶר', english: 'Today is Forty-Three Days, which are Six Weeks and One Day of the Omer' },
-	{ hebrew: 'הַיּוֹם אַרְבָּעָה וְאַרְבָּעִים יוֹם, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וּשְׁנֵי יָמִים לָעֹמֶר', english: 'Today is Forty-Four Days, which are Six Weeks and Two Days of the Omer' },
-	{ hebrew: 'הַיּוֹם חֲמִשָּׁה וְאַרְבָּעִים יוֹם, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וּשְׁלֹשָׁה יָמִים לָעֹמֶר', english: 'Today is Forty-Five Days, which are Six Weeks and Three Days of the Omer' },
-	{ hebrew: 'הַיּוֹם שִׁשָּׁה וְאַרְבָּעִים יוֹם, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וְאַרְבָּעָה יָמִים לָעֹמֶר', english: 'Today is Forty-Six Days, which are Six Weeks and Four Days of the Omer' },
-	{ hebrew: 'הַיּוֹם שִׁבְעָה וְאַרְבָּעִים יוֹם, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וַחֲמִשָּׁה יָמִים לָעֹמֶר', english: 'Today is Forty-Seven Days, which are Six Weeks and Five Days of the Omer' },
-	{ hebrew: 'הַיּוֹם שְׁמוֹנָה וְאַרְבָּעִים יוֹם, שֶׁהֵם שִׁשָּׁה שָׁבוּעוֹת וְשִׁשָּׁה יָמִים לָעֹמֶר', english: 'Today is Forty-Eight Days, which are Six Weeks and Six Days of the Omer' },
-	{ hebrew: 'הַיּוֹם תִּשְׁעָה וְאַרְבָּעִים יוֹם, שֶׁהֵם שִׁבְעָה שָׁבוּעוֹת לָעֹמֶר', english: 'Today is Forty-Nine Days, which are Seven Weeks of the Omer' },
-];
-
-// Constants
-const ONE_DAY_MS = 24 * 60 * 60 * 1000;
-const OMER_START_MONTH = 3; // April (0-based index)
-const OMER_START_DAY = 13; // April 13th
-var day;
-
-
-// Utility Functions
-function getOmerStartDate(year) {
-    return new Date(year, OMER_START_MONTH, OMER_START_DAY);
-}
-
-function daysBetweenDates(startDate, endDate) {
-    return Math.ceil((endDate - startDate) / ONE_DAY_MS);
-}
-
 function updateTextContent(id, text) {
     const element = document.getElementById(id);
     if (element) element.textContent = text;
 }
 
-function getCurrentOmerDay() {
-    const today = new Date();
-    const currentYear = today.getFullYear();
-    const omerStartDate = getOmerStartDate(currentYear);
+//here is the response from Hebcal for an alternative Omer date pull https://www.hebcal.com/hebcal?maj=on&cfg=json&start=2025-04-30&zip=11516&nx=on&gs=on&o=on&end=2025-04-30
+// {
+//     "title": "Hebcal Cedarhurst April 2025",
+//     "date": "2025-05-01T13:20:23.363Z",
+//     "version": "5.9.3-3.2.5",
+//     "location": {
+//         "title": "Cedarhurst, NY 11516",
+//         "city": "Cedarhurst",
+//         "tzid": "America/New_York",
+//         "latitude": 40.62835,
+//         "longitude": -73.726012,
+//         "cc": "US",
+//         "country": "United States",
+//         "elevation": 15,
+//         "admin1": "NY",
+//         "geo": "zip",
+//         "zip": "11516",
+//         "state": "NY",
+//         "stateName": "New York"
+//     },
+//     "range": {
+//         "start": "2025-04-30",
+//         "end": "2025-04-30"
+//     },
+//     "items": [
+//         {
+//             "title": "Yom HaZikaron",
+//             "date": "2025-04-30",
+//             "hdate": "2 Iyyar 5785",
+//             "category": "holiday",
+//             "subcat": "modern",
+//             "hebrew": "יום הזכרון",
+//             "link": "https://hebcal.com/h/yom-hazikaron-2025?us=js&um=api",
+//             "memo": "Israeli Memorial Day. Remembers those who died in the War of Independence and other wars in Israel. The full name of the holiday is Yom HaZikaron LeHalalei Ma'arakhot Yisrael ul'Nifge'ei Pe'ulot HaEivah (Hebrew: יוֹם הזִּכָּרוֹן לְחַלְלֵי מַעֲרָכוֹת יִשְׂרָאֵל וּלְנִפְגְעֵי פְּעֻלּוֹת הָאֵיבָה), Memorial Day for the Fallen Soldiers of the Wars of Israel and Victims of Actions of Terrorism. Although Yom Hazikaron is normally observed on the 4th of Iyyar, it may be moved earlier or postponed if observance of the holiday (or Yom HaAtzma'ut, which always follows it) would conflict with Shabbat"
+//         },
+//         {
+//             "title": "17th day of the Omer",
+//             "date": "2025-04-30",
+//             "hdate": "2 Iyyar 5785",
+//             "category": "omer",
+//             "title_orig": "Omer 17",
+//             "hebrew": "עומר יום 17",
+//             "link": "https://hebcal.com/o/5785/17?us=js&um=api",
+//             "omer": {
+//                 "count": {
+//                     "he": "הַיּוֹם שִׁבְעָה עָשָׂר יוֹם, שְׁהֵם שְׁנֵי שָׁבוּעוֹת וּשְׁלוֹשָׁה יָמִים לָעֽוֹמֶר",
+//                     "en": "Today is 17 days, which is 2 weeks and 3 days of the Omer"
+//                 },
+//                 "sefira": {
+//                     "he": "תִּפְאֶֽרֶת שֶׁבְּתִּפְאֶֽרֶת",
+//                     "translit": "Tiferet sheb'Tiferet",
+//                     "en": "Beauty within Beauty"
+//                 }
+//             }
+//         }
+//     ]
+// }
 
-    if (today < omerStartDate) {
-        return { day: 0, message: `Days until Omer: ${daysBetweenDates(today, omerStartDate)}` };
-    }
+function getOmerDate() {
+	const url = `https://www.hebcal.com/hebcal?maj=on&cfg=json&start=${new Date().toISOString().split('T')[0]}&zip=11516&nx=on&gs=on&o=on&end=${new Date().toISOString().split('T')[0]}`;
+	fetch(url)
+		.then(response => response.json())
+		.then(data => {
+			const omerData = data.items.find(item => item.category === 'omer');
+			if (omerData) {
+				const { date, hdate, title } = omerData;
+				const hebrewDate = hdate.split(' ')[0];	
+				const count = omerData.omer.count;
+				const sefira = omerData.omer.sefira;
+				const numbers = omerData.title_orig.split(' ');
+				const number = numbers[numbers.length - 1];
+				updateTextContent('countNum', number);
+				updateTextContent('hebrew', count.he);
+				updateTextContent('english', count.en);
+				updateTextContent('sefira', sefira.he);
+				updateTextContent('date', date);
+				console.log(`${count.en}`);
+				console.log(`Sefira: ${sefira.en}`);
+			} else {
+				console.error('Omer data not found in response.');
+			}
+		})
+		.catch(error => console.error('Error fetching Omer data:', error));
+	}
 
-    const diffDays = Math.floor((today - omerStartDate) / ONE_DAY_MS);
-    const isBefore8pm = today.getHours() < 20;
-    const displayDate = isBefore8pm ? new Date(today - ONE_DAY_MS) : today;
-
-    return { day: diffDays, message: `This is the count for the night of ${displayDate.toLocaleDateString()}` };
-}
-
-// Main Logic
-function initializeOmer() {
-    const { day, message } = getCurrentOmerDay();
-	const countNumText = document.getElementById('countNum');
-    // Update DOM
-    updateTextContent('today-date', message);
-    updateTextContent('hebrew', omer[day]?.hebrew || "");
-    updateTextContent('english', omer[day]?.english || "");
-	countNumText.innerHTML = `${day+1}`;
-
-}	
 
 
-// Initialize
-initializeOmer();
 
+
+
+getOmerDate();

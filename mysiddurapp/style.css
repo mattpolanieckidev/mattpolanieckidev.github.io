@@ -32,10 +32,6 @@
     font-weight: bolder;
   }
 
-  .pageText{
-   font-size: 30px;
-  }
-
   .textContent {
     font-size: 30px;
     text-align:justify;
@@ -48,7 +44,7 @@
     font-size: 12px;
   }
 
-  .pageText p {
+  .pageText p, .omer p {
     direction: rtl;
     font-family: sans-serif;
   }
@@ -66,7 +62,7 @@
 
     transition: 0.4s;
   }
-.pageText {
+.pageText, .omer{
   font-size: 30px; /* your default size */
   transition: font-size 0.3s ease;
 }
@@ -103,6 +99,10 @@ button.accordion::before{
   padding:0 25px;
   color:#212427;
 
+}
+
+.omer {
+  margin: 0 2.5%;
 }
 
 .roshChodesh{

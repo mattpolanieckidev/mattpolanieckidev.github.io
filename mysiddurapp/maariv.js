@@ -175,3 +175,40 @@ const hebcalUrl = `https://www.hebcal.com/hebcal?cfg=json&start=${formattedDate}
   }    
 checkRoshChodesh();
 
+function updateTextContent(id, text) {
+  const element = document.getElementById(id);
+  if (element) element.textContent = text;
+}
+function getOmerDate() {
+	const url = `https://www.hebcal.com/hebcal?maj=on&cfg=json&start=${new Date().toISOString().split('T')[0]}&zip=11516&nx=on&gs=on&o=on&end=${new Date().toISOString().split('T')[0]}`;
+	fetch(url)
+		.then(response => response.json())
+		.then(data => {
+			const omerData = data.items.find(item => item.category === 'omer');
+			if (omerData) {
+				const { date} = omerData;
+				const count = omerData.omer.count;
+				const sefira = omerData.omer.sefira;
+				const numbers = omerData.title_orig.split(' ');
+				const number = numbers[numbers.length - 1];
+				updateTextContent('countNum', number);
+				updateTextContent('hebrew', count.he);
+				updateTextContent('english', count.en);
+				updateTextContent('sefira', sefira.he);
+				updateTextContent('today-date', `Today is ` + date);
+				console.log(`${count.en}`);
+				console.log(`Sefira: ${sefira.en}`);
+			} else {
+				console.error('Omer data not found in response.');
+			}
+		})
+		.catch(error => console.error('Error fetching Omer data:', error));
+	}
+
+
+
+
+
+
+getOmerDate();
+

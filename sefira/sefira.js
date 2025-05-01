@@ -68,8 +68,7 @@ function getOmerDate() {
 		.then(data => {
 			const omerData = data.items.find(item => item.category === 'omer');
 			if (omerData) {
-				const { date, hdate, title } = omerData;
-				const hebrewDate = hdate.split(' ')[0];	
+				const { date} = omerData;
 				const count = omerData.omer.count;
 				const sefira = omerData.omer.sefira;
 				const numbers = omerData.title_orig.split(' ');
@@ -78,7 +77,7 @@ function getOmerDate() {
 				updateTextContent('hebrew', count.he);
 				updateTextContent('english', count.en);
 				updateTextContent('sefira', sefira.he);
-				updateTextContent('date', date);
+				updateTextContent('today-date', `Today is ` + date);
 				console.log(`${count.en}`);
 				console.log(`Sefira: ${sefira.en}`);
 			} else {

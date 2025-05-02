@@ -1,13 +1,25 @@
-var input = document.getElementById("zip").value;
-var inputField = document.getElementById("zip");
-document.getElementById("zip").maxLength = "5";
-var zip;
-var city;
-var colors = ['#6F1E51', '#FFC312', '#F79F1F', '#EE5A24', '#EA2027', '#C4E538', '#A3CB38', '#009432', '#006266', '#12CBC4', '#1289A7', '#0652DD', '#1B1464', '#FDA7DF', '#D980FA', '#9980FA', '#5758BB', '#ED4C67', '#B53471', '#833471', '#6F1E51'];
-var body = document.querySelector("body");
-var page = document.getElementById('page')
-var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-var parsha;
+// Cache DOM elements
+const inputField = document.getElementById("zip");
+const body = document.querySelector("body");
+const page = document.getElementById("page");
+
+// Set input field properties
+inputField.maxLength = 5;
+
+// Initialize variables
+let input = inputField.value;
+let zip;
+let city;
+let parsha;
+
+// Define constants
+const colors = [
+  '#6F1E51', '#FFC312', '#F79F1F', '#EE5A24', '#EA2027', '#C4E538', '#A3CB38',
+  '#009432', '#006266', '#12CBC4', '#1289A7', '#0652DD', '#1B1464', '#FDA7DF',
+  '#D980FA', '#9980FA', '#5758BB', '#ED4C67', '#B53471', '#833471', '#6F1E51'
+];
+
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 function getZipcode() {
   return localStorage.getItem("zipcode") || '';
@@ -54,87 +66,94 @@ function updateShabbosInfo(city, parsha, candles, havdalah) {
   updateTextContent("havdala", havdalah);
 }
 
-function find() {
-  input = document.getElementById("zip").value;
-  zip = 'zip=' + input;
-  setZipcode(input);
-  fetch('https://www.hebcal.com/shabbat/?cfg=json&' + zip + '&m=50')
-    .then(function (response) {
-      response.json().then(function (data) {
-        // Check if the 'items' array exists and is not empty
-        if (data && data.items && data.items.length > 0) {
-          // Replace header text
-          city = data.location.city + ", " + data.location.state;
+async function find() {
+  try {
+    // Get the zip code from the input field
+    const input = document.getElementById("zip").value;
+    const zip = `zip=${input}`;
+    setZipcode(input);
 
-          // Get parsha
-          const parashatItem = data.items.filter(i => i.category == "parashat")[0];
-          parsha = parashatItem?.title || '';
+    // Fetch data from Hebcal API
+    const response = await fetch(`https://www.hebcal.com/shabbat/?cfg=json&${zip}&m=50`);
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-          // Get candlelighting and havdala
-          const candlesItem = data.items.find(i => i.category === "candles");
-          const havdalahItem = data.items.find(i => i.category === "havdalah");
+    const data = await response.json();
 
-          let candlesText = '';
-          let havdalahText = '';
+    // Check if the 'items' array exists and is not empty
+    if (!data || !data.items || data.items.length === 0) {
+      console.error("No data items found.");
+      return;
+    }
 
-          if (candlesItem) {
-            const d = new Date(candlesItem.date);
-            candlesText = `${days[d.getDay()]} ${d.getMonth() + 1}-${d.getDate()}-${d.getFullYear()}<br>${candlesItem.title}`;
-          }
+    // Extract city and state
+    const city = `${data.location.city}, ${data.location.state}`;
 
-          if (havdalahItem) {
-            const e = new Date(havdalahItem.date);
-            havdalahText = `${days[e.getDay()]} ${e.getMonth() + 1}-${e.getDate()}-${e.getFullYear()}<br>${havdalahItem.title}`;
-          }
+    // Extract parsha
+    const parashatItem = data.items.find(i => i.category === "parashat");
+    const parsha = parashatItem?.title || '';
 
-          updateShabbosInfo(city, parashatItem?.title || '', candlesText, havdalahText);
+    // Extract candlelighting and havdalah times
+    const candlesItem = data.items.find(i => i.category === "candles");
+    const havdalahItem = data.items.find(i => i.category === "havdalah");
 
-          // Handle holidays
-          var holidayItems = data.items.filter(i => i.category == "holiday");
-          if (holidayItems.length > 0) {
-            const holidayDiv = setdiv('holiday', 'holidaycandle');
-            updateTextContent('holiday', holidayItems[0]?.title || '');
-            var holidayname = holidayItems[0]?.title || '';
-            let p = document.createElement("p");
-            p.setAttribute('id', 'holidaycandle');
-            p.setAttribute('class', 'holidaycandle');
-            p.innerHTML = data.items.filter(i => i.memo == holidayname)[0]?.title || '';
-            holidayDiv.append(p);
-            console.log('true');
-          }
+    const candlesText = candlesItem
+      ? formatEventText(candlesItem.date, candlesItem.title)
+      : '';
+    const havdalahText = havdalahItem
+      ? formatEventText(havdalahItem.date, havdalahItem.title)
+      : '';
 
-          var yomtovItems = data.items.filter(i => i.yomtov == true);
-          if (yomtovItems.length >= 2) {
-            const holidayDiv2 = setdiv('holiday2', 'holidaycandle');
-            updateTextContent('holiday2', yomtovItems[0]?.title || '');
-            var holidayname = yomtovItems[0]?.title || '';
-            let p = document.createElement("p");
-            p.setAttribute('class', 'holidaycandle');
-            p.innerHTML = data.items.filter(i => i.memo == holidayname)[0]?.title || '';
-            holidayDiv2.append(p);
+    // Update Shabbos info
+    updateShabbosInfo(city, parsha, candlesText, havdalahText);
 
-            const holidayDiv3 = setdiv('holiday3', 'holidaycandle');
-            updateTextContent('holiday3', yomtovItems[1]?.title || '');
-            var holidayname2 = yomtovItems[1]?.title || '';
-            let p2 = document.createElement("p");
-            p2.setAttribute('class', 'holidaycandle');
-            p2.innerHTML = data.items.filter(i => i.memo == holidayname2)[0]?.title || '';
-            holidayDiv3.append(p2);
-          }
-        } else {
-          console.error("No data items found.");
-        }
-      })
-        .catch(function (error) {
-          console.error("Error parsing JSON:", error);
-        });
-    })
-    .catch(function (error) {
-      console.error("Error fetching data:", error);
-    });
+    // Handle holidays
+    const holidayItems = data.items.filter(i => i.category === "holiday");
+    handleHolidays(holidayItems);
+
+    // Handle Yom Tov
+    const yomtovItems = data.items.filter(i => i.yomtov === true);
+    handleYomTov(yomtovItems);
+  } catch (error) {
+    console.error("Error fetching or processing data:", error);
+  }
 }
 
+// Helper function to format event text
+function formatEventText(date, title) {
+  const d = new Date(date);
+  return `${days[d.getDay()]} ${d.getMonth() + 1}-${d.getDate()}-${d.getFullYear()}<br>${title}`;
+}
 
+// Helper function to handle holidays
+function handleHolidays(holidayItems) {
+  if (holidayItems.length > 0) {
+    const holidayDiv = setdiv('holiday', 'holidaycandle');
+    const holidayName = holidayItems[0]?.title || '';
+    updateTextContent('holiday', holidayName);
+
+    const p = document.createElement("p");
+    p.setAttribute('id', 'holidaycandle');
+    p.setAttribute('class', 'holidaycandle');
+    p.innerHTML = holidayItems.find(i => i.memo === holidayName)?.title || '';
+    holidayDiv.append(p);
+  }
+}
+
+// Helper function to handle Yom Tov
+function handleYomTov(yomtovItems) {
+  if (yomtovItems.length >= 2) {
+    yomtovItems.slice(0, 2).forEach((item, index) => {
+      const holidayDiv = setdiv(`holiday${index + 2}`, 'holidaycandle');
+      const holidayName = item?.title || '';
+      updateTextContent(`holiday${index + 2}`, holidayName);
+
+      const p = document.createElement("p");
+      p.setAttribute('class', 'holidaycandle');
+      p.innerHTML = yomtovItems.find(i => i.memo === holidayName)?.title || '';
+      holidayDiv.append(p);
+    });
+  }
+}
 
 // Execute a function when the user releases a key on the keyboard
 inputField.addEventListener("keyup", function (event) {

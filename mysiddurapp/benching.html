@@ -223,104 +223,140 @@
 </div>
 </div>
 <script>
-    //allow users to pinch to zoom and change the font size of the text on the page
-    
-    function adjustFont(value) {
-        const hebrewElements = document.querySelectorAll('.hebrew-text');
-        const englishElements = document.querySelectorAll('.english-text');
-        const instructionElements = document.querySelectorAll('.instruction');
-        const pageHeadingElements = document.querySelectorAll('.pageHeading');
-        const englishTranslationElements = document.querySelectorAll('.english-translation');
-        
-        // Base font sizes (in px) - these are taken from your inline styles or are reasonable defaults
-        const baseSizes = {
-            hebrew: 30,
-            english: 16,
-            instruction: 14, // Assuming a base size for instructions
-            pageHeading: 24,
-            englishTranslation: 14 // Assuming a base size for translations
-        };
-        
-        let scaleFactor;
-        
-        switch (value.toString()) {
-            case '1': // Small
-            scaleFactor = 0.8;
-            break;
-            case '2': // Medium (default)
-            scaleFactor = 1.0;
-            break;
-            case '3': // Large
-            scaleFactor = 1.25;
-            break;
-            default:
-            console.warn("Invalid font size value:", value);
-            return;
-        }
-        
-        hebrewElements.forEach(el => el.style.fontSize = (baseSizes.hebrew * scaleFactor) + 'px');
-        englishElements.forEach(el => el.style.fontSize = (baseSizes.english * scaleFactor) + 'px');
-        instructionElements.forEach(el => el.style.fontSize = (baseSizes.instruction * scaleFactor) + 'px');
-        pageHeadingElements.forEach(el => el.style.fontSize = (baseSizes.pageHeading * scaleFactor) + 'px');
-        englishTranslationElements.forEach(el => el.style.fontSize = (baseSizes.englishTranslation * scaleFactor) + 'px');
+   // ===== Constants for Base Font Sizes (in px) =====
+const BASE_FONT_SIZES = {
+    hebrew: 30,
+    english: 16,
+    instruction: 14,
+    pageHeading: 24,
+    englishTranslation: 14
+};
+
+// ===== Font Size Scale Factors =====
+const FONT_SIZE_SCALES = {
+    1: 0.8,   // Small
+    2: 1.0,   // Medium (default)
+    3: 1.25   // Large
+};
+
+// ===== Pinch-to-Zoom Sensitivity Settings =====
+const PINCH_THRESHOLD_PX = 10;      // Minimum movement to trigger zoom
+const PINCH_SCALE_UP = 1.05;        // Scale factor to zoom in
+const PINCH_SCALE_DOWN = 0.95;      // Scale factor to zoom out
+
+// ===== Cache DOM Elements =====
+const ELEMENT_SELECTORS = {
+    hebrew: '.hebrew-text',
+    english: '.english-text',
+    instruction: '.instruction',
+    pageHeading: '.pageHeading',
+    englishTranslation: '.english-translation'
+};
+
+let cachedElements = {};
+
+function cacheElements() {
+    for (const [key, selector] of Object.entries(ELEMENT_SELECTORS)) {
+        cachedElements[key] = document.querySelectorAll(selector);
     }
-    
-    // Allow users to pinch to zoom and change the font size of the text on the page
-    function pinchToZoomText() {
-        let initialPinchDistance = null;
-        const fontSizeSlider = document.getElementById('fontSize');
-        const contentArea = document.body; // Listen for pinch on the whole body
-        
-        function getDistance(touch1, touch2) {
-            return Math.hypot(touch2.pageX - touch1.pageX, touch2.pageY - touch1.pageY);
+}
+
+// ===== Adjust Font Sizes =====
+function adjustFont(sizeValue) {
+    const scaleFactor = FONT_SIZE_SCALES[sizeValue];
+    if (!scaleFactor) {
+        console.warn("Invalid font size value:", sizeValue);
+        return;
+    }
+    // Apply scaled font size to each group
+    cachedElements.hebrew.forEach(el =>
+        el.style.fontSize = `${BASE_FONT_SIZES.hebrew * scaleFactor}px`
+    );
+    cachedElements.english.forEach(el =>
+        el.style.fontSize = `${BASE_FONT_SIZES.english * scaleFactor}px`
+    );
+    cachedElements.instruction.forEach(el =>
+        el.style.fontSize = `${BASE_FONT_SIZES.instruction * scaleFactor}px`
+    );
+    cachedElements.pageHeading.forEach(el =>
+        el.style.fontSize = `${BASE_FONT_SIZES.pageHeading * scaleFactor}px`
+    );
+    cachedElements.englishTranslation.forEach(el =>
+        el.style.fontSize = `${BASE_FONT_SIZES.englishTranslation * scaleFactor}px`
+    );
+}
+
+// ===== Pinch-to-Zoom Handler =====
+function pinchToZoomText() {
+    let initialPinchDistance = null;
+    const fontSizeSlider = document.getElementById('fontSize');
+    const contentArea = document.body;
+
+    function getDistance(touch1, touch2) {
+        return Math.hypot(
+            touch2.pageX - touch1.pageX,
+            touch2.pageY - touch1.pageY
+        );
+    }
+
+    contentArea.addEventListener('touchstart', event => {
+        if (event.touches.length === 2) {
+            initialPinchDistance = getDistance(event.touches[0], event.touches[1]);
         }
-        
-        contentArea.addEventListener('touchstart', function(event) {
-            if (event.touches.length === 2) {
-                // event.preventDefault(); // Consider if needed with user-scalable=no
-                initialPinchDistance = getDistance(event.touches[0], event.touches[1]);
+    }, { passive: true });
+
+    contentArea.addEventListener('touchmove', event => {
+        if (
+            event.touches.length === 2 &&
+            initialPinchDistance !== null &&
+            fontSizeSlider
+        ) {
+            const currentPinchDistance = getDistance(event.touches[0], event.touches[1]);
+            if (Math.abs(currentPinchDistance - initialPinchDistance) < PINCH_THRESHOLD_PX) {
+                return;
             }
-        }, { passive: true }); // Set to false if preventDefault is used and necessary
-        
-        contentArea.addEventListener('touchmove', function(event) {
-            if (event.touches.length === 2 && initialPinchDistance !== null && fontSizeSlider) {
-                // event.preventDefault(); // Prevent default browser zoom/scroll during pinch
-                const currentPinchDistance = getDistance(event.touches[0], event.touches[1]);
-                
-                // Debounce small movements
-                if (Math.abs(currentPinchDistance - initialPinchDistance) < 10) { // 10px threshold
-                    return;
-                }
-                
-                const scale = currentPinchDistance / initialPinchDistance;
-                let currentFontSizeValue = parseInt(fontSizeSlider.value);
-                
-                if (scale > 1.05 && currentFontSizeValue < 3) { // Zoom in, 5% increase
-                    currentFontSizeValue++;
-                    fontSizeSlider.value = currentFontSizeValue;
-                    adjustFont(currentFontSizeValue.toString());
-                    initialPinchDistance = currentPinchDistance; // Reset for continuous zoom
-                } else if (scale < 0.95 && currentFontSizeValue > 1) { // Zoom out, 5% decrease
-                    currentFontSizeValue--;
-                    fontSizeSlider.value = currentFontSizeValue;
-                    adjustFont(currentFontSizeValue.toString());
-                    initialPinchDistance = currentPinchDistance; // Reset for continuous zoom
-                }
+            let currentFontSizeValue = parseInt(fontSizeSlider.value, 10);
+
+            if (currentPinchDistance / initialPinchDistance > PINCH_SCALE_UP && currentFontSizeValue < 3) {
+                currentFontSizeValue++;
+                fontSizeSlider.value = currentFontSizeValue;
+                adjustFont(currentFontSizeValue);
+                initialPinchDistance = currentPinchDistance;
+            } else if (currentPinchDistance / initialPinchDistance < PINCH_SCALE_DOWN && currentFontSizeValue > 1) {
+                currentFontSizeValue--;
+                fontSizeSlider.value = currentFontSizeValue;
+                adjustFont(currentFontSizeValue);
+                initialPinchDistance = currentPinchDistance;
             }
-        }, { passive: true }); // Set to false if preventDefault is used
-        
-        contentArea.addEventListener('touchend', function(event) {
-            if (event.touches.length < 2) {
-                initialPinchDistance = null;
-            }
-        });
-        contentArea.addEventListener('touchcancel', function(event) {
+        }
+    }, { passive: true });
+
+    contentArea.addEventListener('touchend', () => {
+        if (event.touches && event.touches.length < 2) {
             initialPinchDistance = null;
+        }
+    });
+    contentArea.addEventListener('touchcancel', () => {
+        initialPinchDistance = null;
+    });
+}
+
+// ===== Initialize on DOM Ready =====
+document.addEventListener('DOMContentLoaded', () => {
+    cacheElements();
+    pinchToZoomText();
+
+    // Optional: Sync slider changes to font adjustment
+    const fontSizeSlider = document.getElementById('fontSize');
+    if (fontSizeSlider) {
+        fontSizeSlider.addEventListener('input', e => {
+            adjustFont(e.target.value);
         });
+        // Set initial font size
+        adjustFont(fontSizeSlider.value);
     }
-    
-    // Initialize pinch to zoom when the DOM is ready
-    document.addEventListener('DOMContentLoaded', pinchToZoomText);
+});
+
     
     
 </script>

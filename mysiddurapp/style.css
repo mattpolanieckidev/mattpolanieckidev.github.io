@@ -137,6 +137,9 @@ button.accordion::before{
       display:none;
     }
 
+ #purim, #chanukah{
+      display:none;
+    }
   @media screen and (orientation:portrait){
   .textContent{
       margin:0 2.5%;

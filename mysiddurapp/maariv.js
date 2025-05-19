@@ -161,15 +161,18 @@ const date = today.toISOString().split('T')[0];
 const yyymmmdd = date.split('-');
 const formattedDate = yyymmmdd[0] + '-' + yyymmmdd[1] + '-' + yyymmmdd[2];  
 const roshChodesh = document.getElementsByClassName("roshChodesh");
+const roshChodeshText= document.getElementById("roshChodeshText");
 document.getElementById("todayDate").innerHTML = formattedDate;
 const hebcalUrl = `https://www.hebcal.com/hebcal?cfg=json&start=${formattedDate}&end=${formattedDate}&zip=11516&nx=on`;
   fetch(hebcalUrl)
     .then(response => response.json())
     .then(data => {
-      if (data.items[0].category === "roshchodesh") {
-        document.getElementById("roshChodeshStatus").innerHTML = "Rosh Chodesh";        
+      if (data.items.category === "roshchodesh") {
+        document.getElementById("roshChodeshStatus").innerHTML = "Rosh Chodesh";
+        roshChodeshText.style.display = "block"; //show the roshChodesh div
       } else
       roshChodesh[0].style.display = "none"; //hide the roshChodesh div if not Rosh Chodesh
+      roshChodeshText.style.display = "none"; //hide the roshChodesh div if not Rosh Chodesh
     })
 
   }    

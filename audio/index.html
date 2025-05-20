@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Recorder App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@tailwindcss/browser@latest"></script>
+    <style>
+        /* Custom styles for the message box */
+        #message-box {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f0fdf4;
+            color: #15803d;
+            padding: 16px;
+            border-radius: 6px;
+            border: 1px solid #16a34a;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+        #message-box.show {
+            display: block;
+        }
+    </style>
+    <style>
+      .recording-animation {
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+      }
+    </style>
+</head>
+<body class="bg-gray-100 font-inter">
+    <div class="container mx-auto p-6 sm:p-10 md:p-12 lg:p-16">
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-blue-600 text-center mb-8">Audio Recorder</h1>
+
+        <div id="input-form" class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
+                <input type="text" id="name" placeholder="Enter your name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="subject" class="block text-gray-700 text-sm font-bold mb-2">Subject Name:</label>
+                <input type="text" id="subject" placeholder="Enter subject name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="conversationType" class="block text-gray-700 text-sm font-bold mb-2">Conversation Type:</label>
+                <input type="text" id="conversationType" placeholder="Enter conversation type" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+        </div>
+
+        <div id="recording-section" class="bg-white rounded-lg shadow-md p-6 mb-8 text-center">
+            <p id="recording-status" class="text-gray-700 mb-4">Click the button to start recording</p>
+            <button id="record-button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Start Recording</button>
+            <button id="stop-button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hidden">Stop Recording</button>
+            <div id="audio-player-container" class="mt-4 hidden">
+                <audio id="audio-player" controls class="mx-auto"></audio>
+            </div>
+        </div>
+
+        <div id="recordings-list-section" class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Your Recordings</h2>
+            <ul id="recordings-list" class="space-y-3">
+                </ul>
+        </div>
+        <div id="message-box" class=""></div>
+    </div>
+
+    <script>
+        // Get DOM elements
+        const nameInput = document.getElementById('name');
+        const subjectInput = document.getElementById('subject');
+        const conversationTypeInput = document.getElementById('conversationType');
+        const recordButton = document.getElementById('record-button');
+        const stopButton = document.getElementById('stop-button');
+        const recordingStatus = document.getElementById('recording-status');
+        const recordingsList = document.getElementById('recordings-list');
+        const audioPlayer = document.getElementById('audio-player');
+        const audioPlayerContainer = document.getElementById('audio-player-container');
+        const messageBox = document.getElementById('message-box');
+
+        let mediaRecorder;
+        let audioChunks = [];
+        let recordings = [];
+
+        // Function to show a message
+        function showMessage(message, type = 'success') {
+            messageBox.textContent = message;
+            messageBox.className = `fixed top-4 left-1/2 transform -translate-x-1/2 bg-${type === 'success' ? 'green' : 'red'}-100 text-${type === 'success' ? 'green' : 'red'}-700 border border-${type === 'success' ? 'green' : 'red'}-400 px-4 py-2 rounded shadow-md`;
+            messageBox.classList.add('show');
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 3000); // Hide after 3 seconds
+        }
+
+        // Get user media (audio)
+        async function getMedia() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    const recording = {
+                        name: nameInput.value,
+                        subject: subjectInput.value,
+                        conversationType: conversationTypeInput.value,
+                        audioUrl: audioUrl,
+                        audioBlob: audioBlob, // Store the blob
+                        timestamp: new Date().toISOString() // Add timestamp
+                    };
+                    recordings.push(recording);
+                    localStorage.setItem('recordings', JSON.stringify(recordings));
+                    audioChunks = [];
+                    updateRecordingsList();
+                    recordingStatus.textContent = 'Recording stopped. Click play to listen.';
+                    recordButton.classList.remove('hidden');
+                    stopButton.classList.add('hidden');
+                };
+
+            } catch (err) {
+                console.error('Error accessing microphone:', err);
+                showMessage('Please allow microphone access to record.', 'error');
+            }
+        }
+
+        // Function to start recording
+        function startRecording() {
+            if (!nameInput.value || !subjectInput.value || !conversationTypeInput.value) {
+                showMessage('Please fill in all the fields before recording.', 'error');
+                return;
+            }
+            recordButton.classList.add('hidden');
+            stopButton.classList.remove('hidden');
+            recordingStatus.textContent = 'Recording...';
+            recordingStatus.classList.add('recording-animation');
+            audioChunks = [];
+            mediaRecorder.start();
+        }
+
+        // Function to stop recording
+        function stopRecording() {
+            recordingStatus.classList.remove('recording-animation');
+            mediaRecorder.stop();
+        }
+
+        // Function to play audio
+        function playRecording(audioUrl) {
+            audioPlayer.src = audioUrl;
+            audioPlayerContainer.classList.remove('hidden');
+            audioPlayer.play();
+        }
+
+        // Function to update recordings list
+        function updateRecordingsList() {
+          if (!recordings || recordings.length === 0) {
+            recordingsList.innerHTML = '<li class="text-gray-500">No recordings yet.</li>';
+            return;
+          }
+            recordingsList.innerHTML = ''; // Clear previous list
+            recordings.forEach((recording, index) => {
+                const listItem = document.createElement('li');
+                listItem.className = "bg-white p-4 rounded-md shadow-sm flex justify-between items-center";
+
+                const recordingInfo = document.createElement('div');
+                recordingInfo.innerHTML = `<h4 class="text-md font-semibold text-gray-800">${recording.name} - ${recording.subject} - ${recording.conversationType}</h4>
+                                           <p class="text-sm text-gray-500">Recorded: ${new Date(recording.timestamp).toLocaleString()}</p>`; // Show formatted date
+
+                const playButton = document.createElement('button');
+                playButton.textContent = 'Play';
+                playButton.className = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm";
+                playButton.addEventListener('click', () => playRecording(recording.audioUrl));
+
+                const downloadButton = document.createElement('a');
+                downloadButton.textContent = 'Download';
+                downloadButton.href = recording.audioUrl;
+                downloadButton.download = `${recording.name}-${recording.subject}-${recording.conversationType}-${new Date(recording.timestamp).toISOString()}.mp3`; // Use timestamp in filename
+                downloadButton.className = "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm";
+                downloadButton.style.marginLeft = '8px';
+
+                const buttonContainer = document.createElement('div');
+                buttonContainer.appendChild(playButton);
+                buttonContainer.appendChild(downloadButton);
+                buttonContainer.className = 'flex space-x-2';
+
+                listItem.appendChild(recordingInfo);
+                listItem.appendChild(buttonContainer);
+                recordingsList.appendChild(listItem);
+            });
+        }
+
+        // Load recordings from local storage
+        window.onload = () => {
+            const savedRecordings = localStorage.getItem('recordings');
+            if (savedRecordings) {
+                try {
+                    recordings = JSON.parse(savedRecordings);
+                    updateRecordingsList();
+                } catch (error) {
+                    console.error("Error parsing saved recordings:", error);
+                    recordings = [];
+                    localStorage.removeItem('recordings'); // Clear corrupted data
+                    updateRecordingsList(); //ensure the list is empty
+                }
+            }
+
+            getMedia(); // Get media on load to avoid delay on first record
+            recordButton.addEventListener('click', startRecording);
+            stopButton.addEventListener('click', stopRecording);
+        };
+    </script>
+</body>
+</html>

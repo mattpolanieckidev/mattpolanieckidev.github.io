@@ -30,23 +30,29 @@
   <div id="webex-widget"></div>
 
   <script>
-    // Replace this with your actual token (from Webex Developer Tools)
-    const accessToken = 'YOUR_BEARER_TOKEN_HERE';
+    window.onload = function () {
+      // Replace with your actual token
+    const accessToken = 'YTIzZWUzM2YtMTEzNy00MzMyLWE4NDUtZWI4NTk3NzU4NjY1YWEzN2EyNGEtNTE1_PF84_785d4494-0c9c-46ee-99fe-73335eac122a';
 
     // Replace with your Webex Bot's email
-    const botEmail = 'your-bot@webex.bot';
+    const botEmail = 'educationITchatbot@webex.bot';
 
-    window.Webex.init({ accessToken });
+      if (window.Webex && window.Webex.init) {
+        window.Webex.init({ accessToken });
 
-    window.Webex.widget("#webex-widget").spaceWidget({
-      destinationType: "email",
-      destinationId: botEmail,
-      spaceActivities: {
-        files: true,
-        meet: true,
-        message: true
+        window.Webex.widget("#webex-widget").spaceWidget({
+          destinationType: "email",
+          destinationId: botEmail,
+          spaceActivities: {
+            files: true,
+            meet: true,
+            message: true
+          }
+        });
+      } else {
+        console.error("Webex SDK not loaded. Please check the script src.");
       }
-    });
+    };
   </script>
 
 </body>

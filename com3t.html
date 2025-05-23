@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Recorder App</title>
+    <!-- lamejs for MP3 encoding -->
+    <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 20px; 
+            background-color: #f4f7f6; 
+            color: #333;
+            line-height: 1.6;
+        }
+        .container { 
+            background-color: #fff; 
+            padding: 25px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 700px;
+            margin: 30px auto;
+        }
+        h1, h2 { 
+            color: #2c3e50; 
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            margin-top: 30px;
+        }
+        label { 
+            display: block; 
+            margin-top: 15px; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+            color: #555;
+        }
+        input[type="text"] { 
+            width: calc(100% - 24px); 
+            padding: 12px; 
+            margin-bottom: 15px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            box-sizing: border-box; 
+            font-size: 1em;
+        }
+        button { 
+            padding: 12px 20px; 
+            margin-right: 10px; 
+            margin-top: 20px; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            background-color: #3498db; 
+            color: white; 
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+        button:hover { 
+            background-color: #2980b9; 
+        }
+        button:disabled { 
+            background-color: #bdc3c7; 
+            cursor: not-allowed; 
+        }
+        #recordingsList ul { 
+            list-style-type: none; 
+            padding: 0; 
+        }
+        #recordingsList li { 
+            background-color: #ecf0f1; 
+            margin-bottom: 12px; 
+            padding: 15px; 
+            border-radius: 4px; 
+            border-left: 5px solid #3498db;
+            display: flex;
+            flex-direction: column;
+        }
+        #recordingsList li div {
+            margin-bottom: 8px;
+        }
+        #recordingsList li strong { 
+            color: #2c3e50; 
+        }
+        #recordingsList .actions button {
+            background-color: #2ecc71;
+            margin-top: 10px;
+            margin-right: 5px;
+            padding: 8px 12px;
+            font-size: 0.9em;
+        }
+        #recordingsList .actions button:hover {
+            background-color: #27ae60;
+        }
+        #recordingsList .actions button.delete { 
+            background-color: #e74c3c; 
+        }
+        #recordingsList .actions button.delete:hover { 
+            background-color: #c0392b; 
+        }
+        #status { 
+            margin-top: 20px; 
+            font-style: italic; 
+            color: #7f8c8d; 
+            min-height: 1.5em; /* Reserve space for status message */
+        }
+        audio { 
+            margin-top: 25px; 
+            width: 100%; 
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>COMET Audio</h1>
+
+        <div>
+            <label for="userName">Your Name:</label>
+            <input type="text" id="userName" placeholder="E.g., Jane Doe">
+
+            <label for="subjectName">Subject Name:</label>
+            <input type="text" id="subjectName" placeholder="E.g., Project Alpha Meeting">
+
+            <label for="conversationType">Conversation Type:</label>
+            <input type="text" id="conversationType" placeholder="E.g., Interview, Lecture, Notes">
+        </div>
+
+        <div>
+            <button id="startRecordButton">Start Recording</button>
+            <button id="stopRecordButton" disabled>Stop Recording</button>
+        </div>
+        <div id="status">Ready to record.</div>
+
+        <h2>Your Recordings</h2>
+        <div id="recordingsList">
+            <p>No recordings yet. Make one!</p>
+        </div>
+
+        <audio id="audioPlayer" controls></audio>
+    </div>
+
+        <div id="webex-widget"></div>
+
+  <script src="https://webex.github.io/widgets/js/sdk.js"></script>
+<div id="webex-widget"></div>
+<script>
+  window.Webex.init({
+    accessToken: 'YTIzZWUzM2YtMTEzNy00MzMyLWE4NDUtZWI4NTk3NzU4NjY1YWEzN2EyNGEtNTE1_PF84_785d4494-0c9c-46ee-99fe-73335eac122a'
+  });
+
+  window.Webex.widget("#webex-widget").spaceWidget({
+    destinationType: "email",
+    destinationId: "educationITchatbot@webex.bot",  // Replace with your bot's email
+    spaceActivities: {
+      files: true,
+      meet: true,
+      message: true,
+    }
+  });
+</script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userNameInput = document.getElementById('userName');
+            const subjectNameInput = document.getElementById('subjectName');
+            const conversationTypeInput = document.getElementById('conversationType');
+            const startRecordButton = document.getElementById('startRecordButton');
+            const stopRecordButton = document.getElementById('stopRecordButton');
+            const recordingsListDiv = document.getElementById('recordingsList');
+            const audioPlayer = document.getElementById('audioPlayer');
+            const statusDiv = document.getElementById('status');
+
+            let mediaRecorder;
+            let audioChunks = [];
+            let audioContext;
+
+            startRecordButton.addEventListener('click', startRecording);
+            stopRecordButton.addEventListener('click', stopRecording);
+
+            loadRecordings();
+
+            async function startRecording() {
+                const userName = userNameInput.value.trim();
+                const subjectName = subjectNameInput.value.trim();
+                const conversationType = conversationTypeInput.value.trim();
+
+                if (!userName || !subjectName || !conversationType) {
+                    alert("Please fill in all fields: Your Name, Subject Name, and Conversation Type.");
+                    return;
+                }
+
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                // Resume AudioContext if it's suspended (common in some browsers)
+                if (audioContext.state === 'suspended') {
+                    await audioContext.resume();
+                }
+
+                audioChunks = [];
+                statusDiv.textContent = "Requesting microphone access...";
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+
+                    mediaRecorder.ondataavailable = event => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = async () => {
+                        statusDiv.textContent = "Processing audio... Please wait.";
+                        stopRecordButton.disabled = true;
+                        startRecordButton.disabled = false; // Re-enable start early
+
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' }); // Browser default is often webm/opus
+                        
+                        try {
+                            const mp3Blob = await convertToMp3(audioBlob);
+                            if (mp3Blob) {
+                                const metadata = { userName, subjectName, conversationType };
+                                await saveRecording(mp3Blob, metadata);
+                                statusDiv.textContent = "Recording saved as MP3!";
+                            } else {
+                                throw new Error("MP3 conversion returned null.");
+                            }
+                        } catch (conversionError) {
+                             console.error("MP3 conversion failed:", conversionError);
+                             statusDiv.textContent = "Failed to convert to MP3. Recording not saved.";
+                             alert("Error: Could not convert audio to MP3. The raw recording might be in your browser's console if you need to recover it, or try a different browser/device.");
+                        }
+                        // Stop microphone tracks
+                        stream.getTracks().forEach(track => track.stop());
+                    };
+
+                    mediaRecorder.start();
+                    startRecordButton.disabled = true;
+                    stopRecordButton.disabled = false;
+                    statusDiv.textContent = "Recording... Click 'Stop Recording' to finish.";
+                } catch (err) {
+                    console.error("Error starting recording:", err);
+                    statusDiv.textContent = "Could not start recording.";
+                    alert("Could not start recording. Please ensure microphone access is allowed and no other app is using the microphone.");
+                    startRecordButton.disabled = false;
+                    stopRecordButton.disabled = true;
+                }
+            }
+
+            function stopRecording() {
+                if (mediaRecorder && mediaRecorder.state === "recording") {
+                    mediaRecorder.stop();
+                    // UI updates are handled in onstop and startRecording
+                }
+            }
+
+            async function convertToMp3(audioBlob) {
+                if (!window.lamejs) {
+                    console.error("lamejs MP3 library not loaded.");
+                    statusDiv.textContent = "Error: MP3 encoder not found.";
+                    return null;
+                }
+
+                try {
+                    const arrayBuffer = await audioBlob.arrayBuffer();
+                    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+
+                    const sampleRate = audioBuffer.sampleRate;
+                    let pcmData;
+
+                    // Convert to mono by taking the first channel or averaging if stereo
+                    if (audioBuffer.numberOfChannels === 2) {
+                        const left = audioBuffer.getChannelData(0);
+                        const right = audioBuffer.getChannelData(1);
+                        pcmData = new Float32Array(left.length);
+                        for (let i = 0; i < left.length; i++) {
+                            pcmData[i] = (left[i] + right[i]) / 2;
+                        }
+                    } else {
+                        pcmData = audioBuffer.getChannelData(0);
+                    }
+
+                    const int16Pcm = new Int16Array(pcmData.length);
+                    for (let i = 0; i < pcmData.length; i++) {
+                        let s = Math.max(-1, Math.min(1, pcmData[i])); // Clamp to -1 to 1
+                        int16Pcm[i] = s < 0 ? s * 0x8000 : s * 0x7FFF; // Convert to 16-bit signed int
+                    }
+
+                    const mp3encoder = new lamejs.Mp3Encoder(1, sampleRate, 128); // 1 channel, input sample rate, 128kbps
+                    const mp3Data = [];
+                    const bufferSize = 1152 * 2; // LameJS preferred buffer size (can be adjusted)
+
+                    for (let i = 0; i < int16Pcm.length; i += bufferSize) {
+                        const chunk = int16Pcm.subarray(i, Math.min(i + bufferSize, int16Pcm.length));
+                        const mp3buf = mp3encoder.encodeBuffer(chunk);
+                        if (mp3buf.length > 0) {
+                            mp3Data.push(mp3buf);
+                        }
+                    }
+                    const endBuffer = mp3encoder.flush();
+                    if (endBuffer.length > 0) {
+                        mp3Data.push(endBuffer);
+                    }
+
+                    return new Blob(mp3Data, { type: 'audio/mp3' });
+                } catch (error) {
+                    console.error("Error during MP3 conversion:", error);
+                    statusDiv.textContent = "Error during MP3 conversion.";
+                    return null;
+                }
+            }
+
+            function saveRecording(mp3Blob, metadata) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        const mp3DataUrl = reader.result;
+                        const recordingId = `rec_${Date.now()}`;
+                        const newRecording = {
+                            id: recordingId,
+                            userName: metadata.userName,
+                            subjectName: metadata.subjectName,
+                            conversationType: metadata.conversationType,
+                            timestamp: new Date().toISOString(),
+                            mp3DataUrl: mp3DataUrl
+                        };
+
+                        let recordings = JSON.parse(localStorage.getItem('audioRecordings')) || [];
+                        recordings.unshift(newRecording); // Add to the beginning of the list
+                        localStorage.setItem('audioRecordings', JSON.stringify(recordings));
+                        
+                        renderRecordingsList(recordings);
+                        resolve();
+                    };
+                    reader.onerror = (error) => {
+                        console.error("Error converting blob to Data URL:", error);
+                        statusDiv.textContent = "Failed to prepare recording for saving.";
+                        reject(error);
+                    };
+                    reader.readAsDataURL(mp3Blob);
+                });
+            }
+
+            function loadRecordings() {
+                const recordings = JSON.parse(localStorage.getItem('audioRecordings')) || [];
+                renderRecordingsList(recordings);
+            }
+
+            function renderRecordingsList(recordings) {
+                recordingsListDiv.innerHTML = ''; 
+
+                if (recordings.length === 0) {
+                    recordingsListDiv.innerHTML = '<p>No recordings yet. Make one!</p>';
+                    return;
+                }
+
+                const ul = document.createElement('ul');
+                recordings.forEach(rec => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <div><strong>Name:</strong> ${rec.userName}</div>
+                        <div><strong>Subject:</strong> ${rec.subjectName}</div>
+                        <div><strong>Type:</strong> ${rec.conversationType}</div>
+                        <div><strong>Recorded:</strong> ${new Date(rec.timestamp).toLocaleString()}</div>
+                        <div class="actions">
+                            <button data-url="${rec.mp3DataUrl}" class="play-button">Play</button>
+                            <button data-id="${rec.id}" class="delete delete-button">Delete</button>
+                        </div>
+                    `;
+                    ul.appendChild(li);
+                });
+                recordingsListDiv.appendChild(ul);
+
+                // Add event listeners to new buttons
+                ul.querySelectorAll('.play-button').forEach(button => {
+                    button.addEventListener('click', (e) => playRecording(e.target.dataset.url));
+                });
+                ul.querySelectorAll('.delete-button').forEach(button => {
+                    button.addEventListener('click', (e) => deleteRecording(e.target.dataset.id));
+                });
+            }
+
+            function playRecording(mp3DataUrl) {
+                audioPlayer.src = mp3DataUrl;
+                audioPlayer.play().catch(e => console.error("Error playing audio:", e));
+                statusDiv.textContent = "Playing recording...";
+            }
+
+            function deleteRecording(recordingId) {
+                if (!confirm("Are you sure you want to delete this recording?")) return;
+
+                let recordings = JSON.parse(localStorage.getItem('audioRecordings')) || [];
+                const updatedRecordings = recordings.filter(rec => rec.id !== recordingId);
+                localStorage.setItem('audioRecordings', JSON.stringify(updatedRecordings));
+                renderRecordingsList(updatedRecordings);
+                statusDiv.textContent = 'Recording deleted.';
+                if (audioPlayer.src.startsWith('data:audio/mp3') && !updatedRecordings.some(r => r.mp3DataUrl === audioPlayer.src)) {
+                    audioPlayer.src = ''; // Clear player if deleted audio was loaded
+                }
+            }
+        });
+    </script>
+</body>
+</html>

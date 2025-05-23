@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>EducationIT Webex Bot</title>
- <script crossorigin src="https://unpkg.com/webex@^1/umd/webex.min.js"></script>
+ 
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -21,14 +21,14 @@
       overflow: hidden;
     }
   </style>
-  <script crossorigin src="https://unpkg.com/webex@^1/umd/webex.min.js"></script>
+  <script crossorigin src="https://unpkg.com/webex@3.7.0/umd/webex.min.js"></script>
 </head>
 <body>
 
   <h2>💬 Chat with the EducationIT Bot</h2>
   <p>This is a secure internal tool. Your session may expire after a short time and require a new token.</p>
 
-<div id="my-webex-widget" />
+<div id="my-webex-widget"> </div>
 <script>
   var widgetEl = document.getElementById('my-webex-widget');
   // Init a new widget
@@ -36,7 +36,7 @@
     accessToken: 'YTIzZWUzM2YtMTEzNy00MzMyLWE4NDUtZWI4NTk3NzU4NjY1YWEzN2EyNGEtNTE1_PF84_785d4494-0c9c-46ee-99fe-73335eac122a',
     destinationId: 'educationITchatbot@webex.bot',
     destinationType: 'email',
-    spaceActivities: {"files":true,"meet":true,"message":true,"people":true},
+    spaceActivities: {"files":false,"meet":true,"message":true,"people":false},
     initialActivity: 'message',
     secondaryActivitiesFullWidth: false,
     composerActions: {"attachFiles":true},

@@ -21,39 +21,29 @@
       overflow: hidden;
     }
   </style>
+  <script crossorigin src="https://unpkg.com/webex@^1/umd/webex.min.js"></script>
 </head>
 <body>
 
   <h2>💬 Chat with the EducationIT Bot</h2>
   <p>This is a secure internal tool. Your session may expire after a short time and require a new token.</p>
 
-  <div id="webex-widget"></div>
-
-  <script>
-    window.onload = function () {
-      // Replace with your actual token
-    const accessToken = 'YTIzZWUzM2YtMTEzNy00MzMyLWE4NDUtZWI4NTk3NzU4NjY1YWEzN2EyNGEtNTE1_PF84_785d4494-0c9c-46ee-99fe-73335eac122a';
-
-    // Replace with your Webex Bot's email
-    const botEmail = 'educationITchatbot@webex.bot';
-
-      if (window.Webex && window.Webex.init) {
-        window.Webex.init({ accessToken });
-
-        window.Webex.widget("#webex-widget").spaceWidget({
-          destinationType: "email",
-          destinationId: botEmail,
-          spaceActivities: {
-            files: true,
-            meet: true,
-            message: true
-          }
-        });
-      } else {
-        console.error("Webex SDK not loaded. Please check the script src.");
-      }
-    };
-  </script>
+<div id="my-webex-widget" />
+<script>
+  var widgetEl = document.getElementById('my-webex-widget');
+  // Init a new widget
+  webex.widget(widgetEl).spaceWidget({
+    accessToken: 'YTIzZWUzM2YtMTEzNy00MzMyLWE4NDUtZWI4NTk3NzU4NjY1YWEzN2EyNGEtNTE1_PF84_785d4494-0c9c-46ee-99fe-73335eac122a',
+    destinationId: 'educationITchatbot@webex.bot',
+    destinationType: 'email',
+    spaceActivities: {"files":true,"meet":true,"message":true,"people":true},
+    initialActivity: 'message',
+    secondaryActivitiesFullWidth: false,
+    composerActions: {"attachFiles":true},
+    disablePresence: false,
+    disableFlags: false
+  });
+</script>
 
 </body>
 </html>

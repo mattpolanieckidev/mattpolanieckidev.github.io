@@ -144,26 +144,6 @@
         <audio id="audioPlayer" controls></audio>
     </div>
 
-        <div id="webex-widget"></div>
-
-  <script src="https://webex.github.io/widgets/js/sdk.js"></script>
-<div id="webex-widget"></div>
-<script>
-  window.Webex.init({
-    accessToken: 'YTIzZWUzM2YtMTEzNy00MzMyLWE4NDUtZWI4NTk3NzU4NjY1YWEzN2EyNGEtNTE1_PF84_785d4494-0c9c-46ee-99fe-73335eac122a'
-  });
-
-  window.Webex.widget("#webex-widget").spaceWidget({
-    destinationType: "email",
-    destinationId: "educationITchatbot@webex.bot",  // Replace with your bot's email
-    spaceActivities: {
-      files: true,
-      meet: true,
-      message: true,
-    }
-  });
-</script>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const userNameInput = document.getElementById('userName');

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EducationIT Webex Bot</title>
+  <script src="https://webex.github.io/widgets/js/sdk.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f6f7;
+      margin: 0;
+      padding: 20px;
+    }
+    #webex-widget {
+      height: 600px;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>💬 Chat with the EducationIT Bot</h2>
+  <p>This is a secure internal tool. Your session may expire after a short time and require a new token.</p>
+
+  <div id="webex-widget"></div>
+
+  <script>
+    // Replace this with your actual token (from Webex Developer Tools)
+    const accessToken = 'YOUR_BEARER_TOKEN_HERE';
+
+    // Replace with your Webex Bot's email
+    const botEmail = 'your-bot@webex.bot';
+
+    window.Webex.init({ accessToken });
+
+    window.Webex.widget("#webex-widget").spaceWidget({
+      destinationType: "email",
+      destinationId: botEmail,
+      spaceActivities: {
+        files: true,
+        meet: true,
+        message: true
+      }
+    });
+  </script>
+
+</body>
+</html>

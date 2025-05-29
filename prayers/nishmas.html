@@ -19,11 +19,13 @@
     <h1>Nishmas Kol Chai</h1>
     <span style="display: flex; flex-direction: row;" > <p id="date"></p> <i class="settings" id="settingsToggle" onclick="toggleSettings()">⚙️</i></span>
     <p id="daysCompleted"></p>
-  
+    <p id="cycleCount"></p>
     <div class="settings-container" id="settingsContainer">
-        Start Date<input type="date" id="startDate">
+        Start Date
+        <input type="date" id="startDate">
         <button onclick="cycleStart()">Set Start</button>
         <i class="dark-mode" id="darkModeToggle" onclick="toggleDarkMode()">🌙</i>
+       
     </div>
 </div>
 
@@ -32,6 +34,21 @@
     
     <p><strong>הָאֵל</strong> בְּתַעֲצֻמוֹת עֻזֶּךָ, הַגָּדוֹל בִּכְבוֹד שְׁמֶךָ, הַגִּבּוֹר לָנֶצַח וְהַנּוֹרָא בְּנוֹרְאוֹתֶיךָ. הַמֶּלֶךְ הַיּוֹשֵׁב עַל כִּסֵּא רָם וְנִשָּׂא.</p><p><strong>שׁוֹכֵן עַד</strong> מָרוֹם וְקָדוֹשׁ שְׁמוֹ. וְכָתוּב רַנְּנוּ צַדִּיקִים בַּיְהֹוָה, לַיְשָׁרִים נָאוָה תְהִלָּה. בְּפִי יְשָׁרִים תִּתְהַלָּל, וּבְדִבְרֵי צַדִּיקִים תִּתְבָּרַךְ, וּבִלְשׁוֹן חֲסִידִים תִּתְרוֹמָם, וּבְקֶרֶב קְדוֹשִׁים תִּתְקַדָּשׁ.</p><p><strong>וּבְמַקְהֲלוֹת</strong> רִבְבוֹת עַמְּךָ בֵּית יִשְׂרָאֵל, בְּרִנָּה יִתְפָּאַר שִׁמְךָ מַלְכֵּנוּ בְּכָל דּוֹר וָדוֹר, שֶׁכֵּן חוֹבַת כָּל הַיְצוּרִים, לְפָנֶיךָ יְהֹוָה אֱלֹהֵינוּ וֵאלֹהֵי אֲבוֹתֵינוּ, לְהוֹדוֹת לְהַלֵּל לְשַׁבֵּחַ לְפָאֵר לְרוֹמֵם לְהַדֵּר לְבָרֵךְ לְעַלֵּה וּלְקַלֵּס, עַל כָּל דִּבְרֵי שִׁירוֹת וְתִשְׁבְּחוֹת דָּוִד בֶּן יִשַׁי עַבְדְּךָ מְשִׁיחֶךָ:</p><p><strong>יִשְׁתַּבַּח</strong> שִׁמְךָ לָעַד מַלְכֵּנוּ, הָאֵל הַמֶּלֶךְ הַגָּדוֹל וְהַקָּדוֹשׁ בַּשָּׁמַיִם וּבָאָרֶץ, כִּי לְךָ נָאֶה יְהֹוָה אֱלֹהֵינוּ וֵאלֹהֵי אֲבוֹתֵינוּ שִׁיר וּשְׁבָחָה, הַלֵּל וְזִמְרָה, עוֹז וּמֶמְשָׁלָה, נֶצַח גְּדֻלָּה וּגְבוּרָה, תְּהִלָּה וְתִפְאֶרֶת, קְדֻשָּׁה וּמַלְכוּת, בְּרָכוֹת וְהוֹדָאוֹת מֵעַתָּה וְעַד עוֹלָם.
     </p>
+    <div class="text-content omer">
+  <p> Sefirat HaOmer</p>
+  <p id="today-date"></p>
+
+  <p class="bracha">בָּרוּךְ אַתָּה יְהֹוָה אֱלֹהֵֽינוּ מֶֽלֶךְ הָעוֹלָם אֲשֶׁר קִדְּ֒שָֽׁנוּ בְּמִצְוֹתָיו
+    וְצִוָּֽנוּ עַל סְפִירַת הָעֹֽמֶר </p>
+
+  <div>
+    <p> <br><span id="hebrew"></span><br></p>
+  </div>
+  <div>
+    <p> <br><span id="english"></span><br></p>
+    
+  </div>
+</div>
     <span style="display: flex; justify-content: center;"><a href="../sefira/"><button>Count Sefira</button></a></span>
 </div>
     <script src="nishmas.js"></script>

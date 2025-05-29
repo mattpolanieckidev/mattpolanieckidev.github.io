@@ -21,21 +21,36 @@ function cycleStart(){
 }
 
 function updateDaysCompleted() {
-    const startDate = new Date(localStorage.getItem("startDate"));
+    const startDate = localStorage.getItem("startDate");
+    const daysCompletedElement = document.getElementById("daysCompleted");
+    const cycleCountElement = document.getElementById("cycleCount");
     const today = new Date();
-    const daysLeft = Math.floor((today - startDate) / (1000 * 3600 * 24));
-    const daysCompleted = Math.max(0, Math.min(daysLeft, 40)); // Ensure daysCompleted is between 0 and 40
-    document.getElementById("daysCompleted").textContent = `You have completed ${daysCompleted} of 40 days`;
-    document.getElementById("startDate").value = startDate.toISOString().split("T")[0]; // Update the input field with the stored date
-   // Start a new cycle if 40 days have been completed. Retain original start date and mark how many cycles have been completed. 
-    if (daysCompleted === 40) {
-        const cyclesCompleted = parseInt(localStorage.getItem("cyclesCompleted")) || 0;
-        localStorage.setItem("startDate", startDate.toISOString().split("T")[0]);
-        localStorage.setItem("cyclesCompleted", cyclesCompleted + 1);
-        document.getElementById("startDate").value = startDate.toISOString().split("T")[0];
-        document.getElementById("daysCompleted").textContent = `You have completed ${daysCompleted} of 40 days. You have completed ${cyclesCompleted + 1} cycles`;
-     
+    if (!startDate) {
+        daysCompletedElement.textContent = "Please set a start date.";
+        cycleCountElement.textContent = "";
+        return;
     }
+    const startDateObj = new Date(startDate);
+    const timeDiff = today - startDateObj;
+    const daysCompleted = Math.floor(timeDiff / (1000 * 60 * 60 * 24)); 
+    const cycleCount = Math.floor(daysCompleted / 40); // Calculate how many 40-day cycles have been completed
+    const daysInCycle = daysCompleted % 40; // Days completed in the current cycle
+    daysCompletedElement.textContent = `Days Completed: ${daysInCycle} out of 40`;
+    cycleCountElement.textContent = `Cycle Count: ${cycleCount}`;
+    if (daysInCycle === 0) {
+
+        daysCompletedElement.textContent = "Congratulations! You have completed a 40-day cycle!";
+        cycleCountElement.textContent = `Cycles Completed: ${cycleCount}`;
+    }
+    else {
+        daysCompletedElement.textContent = `Days Completed: ${daysInCycle} out of 40`;
+        cycleCountElement.textContent = `Cycles Completed: ${cycleCount}`;
+    }
+    daysCompletedElement.style.display = "block";
+    cycleCountElement.style.display = "block";
+    document.getElementById("startDate").value = startDate; // Keep the input value consistent
+    
+
 }
 
 
@@ -72,3 +87,41 @@ function toggleSettings() {
 // Initialize the count and dark mode when page loads
 updateDaysCompleted();
 applyDarkModePreference();
+
+
+function updateTextContent(id, text) {
+  const element = document.getElementById(id);
+  if (element) element.textContent = text;
+}
+function getOmerDate() {
+	const url = `https://www.hebcal.com/hebcal?maj=on&cfg=json&start=${new Date().toISOString().split('T')[0]}&zip=11516&nx=on&gs=on&o=on&end=${new Date().toISOString().split('T')[0]}`;
+	fetch(url)
+		.then(response => response.json())
+		.then(data => {
+			const omerData = data.items.find(item => item.category === 'omer');
+			if (omerData) {
+				const { date} = omerData;
+				const count = omerData.omer.count;
+				const sefira = omerData.omer.sefira;
+				const numbers = omerData.title_orig.split(' ');
+				const number = numbers[numbers.length - 1];
+				updateTextContent('countNum', number);
+				updateTextContent('hebrew', count.he);
+				updateTextContent('english', count.en);
+				updateTextContent('sefira', sefira.he);
+				updateTextContent('today-date', `Today is ` + date);
+				console.log(`${count.en}`);
+				console.log(`Sefira: ${sefira.en}`);
+			} else {
+				console.error('Omer data not found in response.');
+			}
+		})
+		.catch(error => console.error('Error fetching Omer data:', error));
+	}
+
+
+
+
+
+
+getOmerDate();

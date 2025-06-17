@@ -12,8 +12,8 @@
     <nav class="navbar navbar-collapse navbar-light" style="background-color: #101935;">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Birkat Hamazon</a>
-            <p id="todayDate">Today's Date:</p>
-            <p id="roshChodeshStatus"></p>
+            <p id="benchDate">Today's Date:</p>
+           
             <!-- Button trigger modal -->
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -244,22 +244,7 @@ const PINCH_THRESHOLD_PX = 10;      // Minimum movement to trigger zoom
 const PINCH_SCALE_UP = 1.05;        // Scale factor to zoom in
 const PINCH_SCALE_DOWN = 0.95;      // Scale factor to zoom out
 
-// ===== Cache DOM Elements =====
-const ELEMENT_SELECTORS = {
-    hebrew: '.hebrew-text',
-    english: '.english-text',
-    instruction: '.instruction',
-    pageHeading: '.pageHeading',
-    englishTranslation: '.english-translation'
-};
 
-let cachedElements = {};
-
-function cacheElements() {
-    for (const [key, selector] of Object.entries(ELEMENT_SELECTORS)) {
-        cachedElements[key] = document.querySelectorAll(selector);
-    }
-}
 
 // ===== Adjust Font Sizes =====
 function adjustFont(sizeValue) {
@@ -343,7 +328,7 @@ function pinchToZoomText() {
 
 // ===== Initialize on DOM Ready =====
 document.addEventListener('DOMContentLoaded', () => {
-    cacheElements();
+
     pinchToZoomText();
 
     // Optional: Sync slider changes to font adjustment
@@ -357,7 +342,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-    
+
+//this is the response for a hebrew date api
+//https://www.hebcal.com/converter?cfg=json&hy=5749&hm=Kislev&hd=25&h2g=1
+//{
+//   "gy": 1988,
+//   "gm": 12,
+//   "gd": 4,
+//   "afterSunset": false,
+//   "hy": 5749,
+//   "hm": "Kislev",
+//   "hd": 25,
+//   "hebrew": "כ״ה בְּכִסְלֵו תשמ״ט",
+//   "heDateParts": {
+//     "y": "תשמ״ט",
+//     "m": "כסלו",
+//     "d": "כ״ה"
+//   },
+//   "events": [
+//     "Chanukah day 1",
+//     "Parashat Miketz"
+//   ]
+// }
+
+//write a fuction to get today's hebrew date using the hebcal api. return the value in the todayDate ID.
+const benchDate = document.getElementById('benchDate');
+function getHebrewDate() {
+   fetch(`https://www.hebcal.com/converter?cfg=json`)
+    .then(response => response.json())
+    .then(data => {
+        benchDate.innerHTML = data.hm + ' ' + data.hd;
+        console.log(data)
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+getHebrewDate();
     
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>

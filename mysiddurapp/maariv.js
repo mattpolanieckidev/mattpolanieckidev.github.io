@@ -162,7 +162,6 @@ const yyymmmdd = date.split('-');
 const formattedDate = yyymmmdd[0] + '-' + yyymmmdd[1] + '-' + yyymmmdd[2];  
 const roshChodesh = document.getElementsByClassName("roshChodesh");
 const roshChodeshText= document.getElementById("roshChodeshText");
-document.getElementById("todayDate").innerHTML = formattedDate;
 const hebcalUrl = `https://www.hebcal.com/hebcal?cfg=json&start=${formattedDate}&end=${formattedDate}&zip=11516&nx=on`;
   fetch(hebcalUrl)
     .then(response => response.json())
@@ -183,6 +182,7 @@ function updateTextContent(id, text) {
   if (element) element.textContent = text;
 }
 function getOmerDate() {
+  const textContentOmer = document.getElementById("omer");
 	const url = `https://www.hebcal.com/hebcal?maj=on&cfg=json&start=${new Date().toISOString().split('T')[0]}&zip=11516&nx=on&gs=on&o=on&end=${new Date().toISOString().split('T')[0]}`;
 	fetch(url)
 		.then(response => response.json())
@@ -203,6 +203,7 @@ function getOmerDate() {
 				console.log(`Sefira: ${sefira.en}`);
 			} else {
 				console.error('Omer data not found in response.');
+        textContentOmer.style.display = "none";
 			}
 		})
 		.catch(error => console.error('Error fetching Omer data:', error));
@@ -215,3 +216,16 @@ function getOmerDate() {
 
 getOmerDate();
 
+const benchDate = document.getElementById('benchDate');
+function getHebrewDate() {
+   fetch(`https://www.hebcal.com/converter?cfg=json`)
+    .then(response => response.json())
+    .then(data => {
+        benchDate.innerHTML = data.hm + ' ' + data.hd;
+        console.log(data)
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+getHebrewDate();

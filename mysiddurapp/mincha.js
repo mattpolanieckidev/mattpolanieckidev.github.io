@@ -154,24 +154,37 @@ enablePinchZoom();
 
 // Get today's date in YYYY-MM-DD format
 
-//check today's Date and confirm if it is Rosh Chodesh. If it's not, then hide the div with class .roshChodesh
-function checkRoshChodesh() {
-const today = new Date();
-const date = today.toISOString().split('T')[0];
-const yyymmmdd = date.split('-');
-const formattedDate = yyymmmdd[0] + '-' + yyymmmdd[1] + '-' + yyymmmdd[2];  
-const roshChodesh = document.getElementsByClassName("roshChodesh");
-document.getElementById("todayDate").innerHTML = formattedDate;
-const hebcalUrl = `https://www.hebcal.com/hebcal?cfg=json&start=${formattedDate}&end=${formattedDate}&zip=11516&nx=on`;
-  fetch(hebcalUrl)
+// //check today's Date and confirm if it is Rosh Chodesh. If it's not, then hide the div with class .roshChodesh
+// function checkRoshChodesh() {
+// const today = new Date();
+// const date = today.toISOString().split('T')[0];
+// const yyymmmdd = date.split('-');
+// const formattedDate = yyymmmdd[0] + '-' + yyymmmdd[1] + '-' + yyymmmdd[2];  
+// const roshChodesh = document.getElementsByClassName("roshChodesh");
+// document.getElementById("todayDate").innerHTML = formattedDate;
+// const hebcalUrl = `https://www.hebcal.com/hebcal?cfg=json&start=${formattedDate}&end=${formattedDate}&zip=11516&nx=on`;
+//   fetch(hebcalUrl)
+//     .then(response => response.json())
+//     .then(data => {
+//       if (data.items[0].category === "roshchodesh") {
+//         document.getElementById("roshChodeshStatus").innerHTML = "Rosh Chodesh";        
+//       } else
+//       roshChodesh[0].style.display = "none"; //hide the roshChodesh div if not Rosh Chodesh
+//     })
+
+//   }    
+// checkRoshChodesh();
+
+const benchDate = document.getElementById('benchDate');
+function getHebrewDate() {
+   fetch(`https://www.hebcal.com/converter?cfg=json`)
     .then(response => response.json())
     .then(data => {
-      if (data.items[0].category === "roshchodesh") {
-        document.getElementById("roshChodeshStatus").innerHTML = "Rosh Chodesh";        
-      } else
-      roshChodesh[0].style.display = "none"; //hide the roshChodesh div if not Rosh Chodesh
+        benchDate.innerHTML = data.hm + ' ' + data.hd;
+        console.log(data)
     })
-
-  }    
-checkRoshChodesh();
-
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+getHebrewDate();

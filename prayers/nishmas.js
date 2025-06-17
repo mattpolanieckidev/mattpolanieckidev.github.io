@@ -94,6 +94,8 @@ function updateTextContent(id, text) {
   if (element) element.textContent = text;
 }
 function getOmerDate() {
+    const textContentOmer = document.getElementById("omer");
+    const omerbutton = document.getElementById("omerbutton");
 	const url = `https://www.hebcal.com/hebcal?maj=on&cfg=json&start=${new Date().toISOString().split('T')[0]}&zip=11516&nx=on&gs=on&o=on&end=${new Date().toISOString().split('T')[0]}`;
 	fetch(url)
 		.then(response => response.json())
@@ -114,6 +116,8 @@ function getOmerDate() {
 				console.log(`Sefira: ${sefira.en}`);
 			} else {
 				console.error('Omer data not found in response.');
+                textContentOmer.style.display = "none";
+                omerbutton.style.display = "none";
 			}
 		})
 		.catch(error => console.error('Error fetching Omer data:', error));

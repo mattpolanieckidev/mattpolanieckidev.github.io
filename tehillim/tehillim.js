@@ -49,7 +49,7 @@ fetch('https://www.sefaria.org/api/texts/Psalms.1')
   here = pull.heref;
   count = 0;
   createDiv();
-  heading.innerHTML = pull.ref + pull.href;
+  heading.innerHTML = pull.ref + pull.heref;
   writePasuk();
   document.getElementById("next").innerHTML = pull.next;
   document.getElementById("prev").innerHTML = pull.prev;

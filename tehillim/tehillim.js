@@ -1,4 +1,5 @@
 var date;
+var heref;
 var next;
 var prev;
 var enPasuk;
@@ -45,6 +46,7 @@ fetch('https://www.sefaria.org/api/texts/Psalms.1')
 .then(function (pull) {
   enPasuk = pull.text;
   hePasuk = pull.he;
+  here = pull.heref;
   count = 0;
   createDiv();
   heading.innerHTML = pull.ref;

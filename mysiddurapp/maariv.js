@@ -4,7 +4,62 @@ var pageTitle = document.getElementById("pageTitle");
 var textdiv = document.getElementById("main-content");
 var textContent = document.getElementsByClassName("pageText");
 
+// Function to check if today is Aseres Yemei Teshuva (3 Tishrei – 10 Tishrei)
+function checkAseresYemeiTeshuva() {
+  const today = new Date();
+  const date = today.toISOString().split('T')[0];
+  const formattedDate = date.split('T')[0];
+  const hebcalUrl = `https://www.hebcal.com/hebcal?cfg=json&start=${formattedDate}&end=${formattedDate}&zip=11516&nx=on`;
 
+  fetch(hebcalUrl)
+    .then(response => response.json())
+    .then(data => {
+      let isAYT = false;
+
+      if (data.items && data.items.length > 0) {
+        for (let i = 0; i < data.items.length; i++) {
+          const hebrewDate = data.items[i].hdate; // e.g. "3 Tishrei 5786"
+          if (hebrewDate.includes("Tishrei")) {
+            const day = parseInt(hebrewDate.split(" ")[0], 10);
+            if (day >= 3 && day <= 10) {
+              isAYT = true;
+              break;
+            }
+          }
+        }
+      }
+
+      if (isAYT) {
+        highlightAYT();
+      }
+    })
+    .catch(err => console.error("Error fetching Hebcal data:", err));
+}
+
+// Function to highlight Aseres Yemei Teshuva insertions
+function highlightAYT() {
+  const phrases = [
+    "זכרנו לחיים",
+    "מי כמוך אב הרחמים",
+    "וכתוב לחיים טובים",
+    "ובספר חיים",
+    "המלך הקדוש",
+    "המלך המשפט",
+    "עושה השלום"
+  ];
+
+  phrases.forEach(phrase => {
+    const regex = new RegExp(phrase, "g");
+    for (let i = 0; i < textContent.length; i++) {
+      textContent[i].innerHTML = textContent[i].innerHTML.replace(
+        regex,
+        `<span style="color: green; font-weight: bold;">${phrase}</span>`
+      );
+    }
+  });
+}
+
+checkAseresYemeiTeshuva();
   
   // Check if the navigation menu is open
   const navbarCollapse = document.querySelector(".navbar-collapse.show");

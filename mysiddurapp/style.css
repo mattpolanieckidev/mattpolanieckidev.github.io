@@ -87,7 +87,7 @@ button.accordion::before{
   z-index: -1;
 }
 
-#todayDate, #roshChodeshStatus, #benchDate{
+#todayDate, #roshChodeshStatus, #benchDate, #roshChodesh{
   color:white;
   margin:0;
 }

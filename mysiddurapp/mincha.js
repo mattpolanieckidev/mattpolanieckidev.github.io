@@ -3,7 +3,7 @@ var fontSize = slider.value;
 var pageTitle = document.getElementById("pageTitle");
 var textdiv = document.getElementById("main-content");
 var textContent = document.getElementsByClassName("pageText");
-
+var roshChodesh = document.getElementById("roshChodesh");
 
   
   // Check if the navigation menu is open
@@ -181,6 +181,7 @@ function getHebrewDate() {
     .then(response => response.json())
     .then(data => {
         benchDate.innerHTML = data.hm + ' ' + data.hd;
+        roshChodesh.innerHTML = data.events[0];
         console.log(data)
     })
     .catch(error => {

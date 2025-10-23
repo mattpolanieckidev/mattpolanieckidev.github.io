@@ -3,7 +3,7 @@ var fontSize = slider.value;
 var pageTitle = document.getElementById("pageTitle");
 var textdiv = document.getElementById("main-content");
 var textContent = document.getElementsByClassName("pageText");
-
+var roshChodesh = document.getElementById("roshChodesh")
 // Function to check if today is Aseres Yemei Teshuva (3 Tishrei – 10 Tishrei)
 function checkAseresYemeiTeshuva() {
   const today = new Date();
@@ -277,7 +277,8 @@ function getHebrewDate() {
     .then(response => response.json())
     .then(data => {
         benchDate.innerHTML = data.hm + ' ' + data.hd;
-        console.log(data)
+        roshChodesh.innerHTML = data.events[0];
+		console.log(data)
     })
     .catch(error => {
         console.error('Error:', error);

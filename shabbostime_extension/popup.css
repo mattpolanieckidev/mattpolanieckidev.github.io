@@ -1,0 +1,48 @@
+body {
+    width: 350px;
+    min-height: 400px;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.container-fluid {
+    max-width: 100%;
+}
+
+.small {
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+.holidaycandle {
+    background-color: #f8f9fa;
+    padding: 8px;
+    border-radius: 4px;
+    margin: 5px 0;
+    font-size: 0.8rem;
+}
+
+#gpt {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 5px;
+    color: #007bff;
+    font-size: 0.75rem;
+}
+
+#gpt:hover {
+    color: #0056b3;
+}
+
+.psummary {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+    font-size: 0.8rem;
+}
+
+.header h5 {
+    color: #333;
+    margin-bottom: 10px;
+}

@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Shabbos Times",
+  "version": "1.0",
+  "description": "Get Shabbos times and Torah portion summaries for your location",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Shabbos Times"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://www.hebcal.com/*",
+    "https://open-ai21.p.rapidapi.com/*"
+  ],
+  "icons": {
+    "16": "images/icon-16.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  }
+}

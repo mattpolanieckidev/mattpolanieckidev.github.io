@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Shabbos Times</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .privacy-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .policy-section {
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            margin: 25px 0;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            color: #666;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .privacy-container {
+                margin: 20px;
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="privacy-container">
+        <div class="header">
+            <h1>Privacy Policy</h1>
+            <p class="subtitle">Shabbos Times Chrome Extension</p>
+        </div>
+        
+        <div class="policy-section">
+            <h2>Data Collection & Storage</h2>
+            <p>We respect your privacy and believe in transparency. Here's what you need to know:</p>
+            
+            <div class="highlight">
+                <p><strong>We do not collect, store, or transmit any personal data to our servers.</strong></p>
+            </div>
+        </div>
+        
+        <div class="policy-section">
+            <h2>Local Storage Only</h2>
+            <p>The extension stores the following information locally on your device:</p>
+            <ul>
+                <li><strong>Zip Code:</strong> Your last entered zip code for quick access</li>
+            </ul>
+            <p>This data never leaves your computer and is only stored in your browser's local storage.</p>
+        </div>
+        
+        <div class="policy-section">
+            <h2>Third-Party Services</h2>
+            <p>We use the following external services:</p>
+            <ul>
+                <li><strong>Hebcal API:</strong> For Shabbos times and Torah portion data</li>
+            </ul>
+            <p>Your zip code is sent to Hebcal to fetch relevant Shabbos times, but we don't store this information.</p>
+        </div>
+        
+        <div class="policy-section">
+            <h2>Your Control</h2>
+            <p>You have full control over your data:</p>
+            <ul>
+                <li>Clear stored data by uninstalling the extension</li>
+                <li>Use different zip codes at any time</li>
+            </ul>
+        </div>
+        
+        <div class="policy-section">
+            <h2>Contact</h2>
+            <p>If you have any questions about this privacy policy, please contact us through the Chrome Web Store.</p>
+        </div>
+        
+        <div class="footer">
+            <p>Last updated: October 2025</p>
+            <a href="javascript:history.back()" class="back-button">← Back to Extension</a>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Add fade-in animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.privacy-container');
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                container.style.transition = 'all 0.6s ease';
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body>
+</html>

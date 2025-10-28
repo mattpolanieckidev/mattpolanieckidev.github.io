@@ -18,8 +18,8 @@ body {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     padding: 0;
     overflow: hidden;
@@ -31,12 +31,12 @@ body {
     padding: 25px 20px;
     text-align: center;
     color: white;
-    margin: -20px -20px 20px -20px;
+
 }
 
 .header h5 {
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     margin-bottom: 15px;
     letter-spacing: -0.5px;
 }
@@ -88,7 +88,7 @@ body {
 /* Content Sections */
 .content-section {
     padding: 20px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
 }
 
 .content-section:last-child {
@@ -167,6 +167,14 @@ body {
 #gpt:hover {
     transform: translateY(-2px) scale(1.1);
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+#holidayContainer {
+ display: none;
+}
+
+.changeColor-section{
+    display: none;
 }
 
 /* Summary */

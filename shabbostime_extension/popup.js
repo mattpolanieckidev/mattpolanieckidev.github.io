@@ -208,8 +208,8 @@ async function find() {
         const yomtovItems = data.items.filter(i => i.yomtov === true);
         handleYomTov(yomtovItems);
 
-        // Show success notification
-        showNotification(`Shabbos times loaded for ${city}`, "success");
+      /*  // Show success notification
+        showNotification(`Shabbos times loaded for ${city}`, "success"); */
 
     } catch (error) {
         console.error("Error fetching or processing data:", error);

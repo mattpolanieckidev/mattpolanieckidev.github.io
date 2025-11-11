@@ -83,3 +83,17 @@ button:hover {
     justify-content: center;
     align-items: center;
 }
+
+/* Flash effect */
+.flash {
+  animation: flash-bg 0.5s alternate 4; /* flashes 4 times */
+}
+
+@keyframes flash-bg {
+  0% {
+    background-color: #ffffff;
+  }
+  100% {
+    background-color: #ff4747; /* red flash */
+  }
+}

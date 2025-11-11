@@ -1,41 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Looping Stop Timer</title>
-    <link rel="stylesheet" href="style.css">
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Looping Stop Timer</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="container">
-        <h1>Looping Stop Timer</h1>
-        <div id="timer" class="timer">00:00</div>
-        <div id="number-pad" class="number-pad">
-            <button onclick="appendNumber(1)">1</button>
-            <button onclick="appendNumber(2)">2</button>
-            <button onclick="appendNumber(3)">3</button>
-            <button onclick="appendNumber(4)">4</button>
-            <button onclick="appendNumber(5)">5</button>
-            <button onclick="appendNumber(6)">6</button>
-            <button onclick="appendNumber(7)">7</button>
-            <button onclick="appendNumber(8)">8</button>
-            <button onclick="appendNumber(9)">9</button>
-            <button onclick="appendNumber(0)">0</button>
-            <button onclick="clearTime()">C</button>
-        </div>
-        <div class="buttons">
-            <button class="start" onclick="startTimer()">Start</button>
-            <button class="stop" onclick="stopTimer()">Stop</button>
-            <button class="fullscreen" onclick="toggleFullscreen()">Fullscreen</button>
-            <div class="options">
-                <input type="checkbox" id="loop" checked>
-                <label for="loop">Loop Timer</label>
-            </div>
-        </div>
+  <div class="container">
+    <h1>Looping Stop Timer</h1>
+    <div id="timer" class="timer">00:00</div>
+    <div id="number-pad" class="number-pad">
+      <button onclick="appendNumber(1)">1</button>
+      <button onclick="appendNumber(2)">2</button>
+      <button onclick="appendNumber(3)">3</button>
+      <button onclick="appendNumber(4)">4</button>
+      <button onclick="appendNumber(5)">5</button>
+      <button onclick="appendNumber(6)">6</button>
+      <button onclick="appendNumber(7)">7</button>
+      <button onclick="appendNumber(8)">8</button>
+      <button onclick="appendNumber(9)">9</button>
+      <button onclick="appendNumber(0)">0</button>
+      <button onclick="clearTime()">C</button>
     </div>
-    
-    <script src="js.js">     
-    </script>
+
+    <div class="buttons">
+      <button class="start" onclick="startTimer()">Start</button>
+      <button class="stop" onclick="stopTimer()">Stop</button>
+      <button class="fullscreen" onclick="toggleFullscreen()">Fullscreen</button>
+      <div class="options">
+        <input type="checkbox" id="loop" checked>
+        <label for="loop">Loop Timer</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- load script at end of body -->
+  <script src="js.js"></script>
 </body>
 </html>

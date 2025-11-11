@@ -14,9 +14,10 @@ let parsha;
 
 // Define constants
 const colors = [
-  '#6F1E51', '#FFC312', '#F79F1F', '#EE5A24', '#EA2027', '#C4E538', '#A3CB38',
-  '#009432', '#006266', '#12CBC4', '#1289A7', '#0652DD', '#1B1464', '#FDA7DF',
-  '#D980FA', '#9980FA', '#5758BB', '#ED4C67', '#B53471', '#833471', '#6F1E51'
+  '#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#00f2fe', 
+  '#43e97b', '#38f9d7', '#fa709a', '#fee140', '#a8edea', '#fed6e3',
+  '#ff9a9e', '#fecfef', '#fccb90', '#d4fc79', '#96e6a1', '#ffd89b',
+  '#19547b', '#ffecd2', '#fcb69f', '#a3bded', '#6991c7', '#13547a'
 ];
 
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

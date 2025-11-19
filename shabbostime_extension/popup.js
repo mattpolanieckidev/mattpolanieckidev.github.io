@@ -149,7 +149,7 @@ async function find() {
         await setZipcode(input);
 
         // Show loading state
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        submitBtn.innerHTML = '<i class="bi bi-search"></i>';
         submitBtn.disabled = true;
 
         // Remove fade-in classes for reload
@@ -215,7 +215,6 @@ async function find() {
         console.error("Error fetching or processing data:", error);
         showNotification("Error fetching Shabbos times. Please check your zip code and try again.", "error");
     } finally {
-        submitBtn.innerHTML = '<i class="fas fa-search"></i>';
         submitBtn.disabled = false;
     }
 }

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hebrew Vocabulary Flashcards</title>
+    <style>
+        /* --- General/Screen Styles (Unchanged for interactive view) --- */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+        }
+        .card-counter {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .card {
+            width: 100%;
+            height: 300px;
+            perspective: 1000px;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            border-radius: 15px;
+        }
+        .card.is-flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            font-weight: bold;
+            border-radius: 15px;
+        }
+        .card-face.front {
+            background-color: #6a11cb;
+            color: white;
+            padding: 10px;
+        }
+        .card-hebrew-text {
+            direction: rtl; 
+            font-size: 1em; 
+            line-height: 1.2;
+        }
+        .card-icon {
+            font-size: 1.5em; 
+            margin-bottom: 10px;
+        }
+        .card-face.back {
+            background-color: #2575fc;
+            color: white;
+            transform: rotateY(180deg);
+            padding: 20px;
+            font-size: 2em;
+            line-height: 1.4;
+        }
+        .controls button {
+            padding: 10px 20px;
+            margin: 0 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        .controls button:hover {
+            background-color: #0056b3;
+        }
+        #printButton {
+            background-color: #28a745;
+        }
+        #printButton:hover {
+            background-color: #1e7e34;
+        }
+
+        /* --- Print-Specific Styles (UPDATED for 6 cards/page) --- */
+        .printable-list-container {
+            display: none; 
+        }
+
+        @media print {
+            .container {
+                display: none;
+            }
+            body {
+                background-color: white;
+                margin: 0;
+            }
+            
+            .printable-list-container {
+                display: grid; 
+                grid-template-columns: 1fr 1fr; /* Two columns for pairs */
+                width: 100vw; 
+                min-height: 100vh;
+                padding: 0;
+                gap: 0;
+            }
+            
+            .print-card {
+                /* Card dimensions for 3 rows (6 total boxes) on a page */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                
+                border: 3px solid black;
+                margin: 0.1in;
+                height: 3.2in; /* Increased height for 3 rows on 11in paper */
+                box-sizing: border-box;
+                padding: 5px;
+                break-inside: avoid;
+            }
+            
+            /* Text styling for each language */
+            .print-hebrew-content {
+                font-size: 7em; /* Larger font */
+                font-weight: bold;
+                direction: rtl;
+                line-height: 1.2;
+            }
+            .print-english-content {
+                font-size: 4.2em; /* Larger font */
+                color: #333;
+                font-style: italic;
+            }
+            
+            /* CRITICAL: Force a page break before the 7th, 13th, 19th, etc., card */
+            /* This ensures 6 cards fit per page (3 pairs). */
+            .print-card:nth-child(7), 
+            .print-card:nth-child(13),
+            .print-card:nth-child(19), 
+            .print-card:nth-child(25),
+            .print-card:nth-child(31), 
+            .print-card:nth-child(37),
+            .print-card:nth-child(43), 
+            .print-card:nth-child(49) {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Hebrew Flashcards</h1>
+    <div class="card-counter">
+        Card <span id="currentCardIndex">1</span> of <span id="totalCards">26</span>
+    </div>
+
+    <div class="card" id="flashcard">
+        <div class="card-inner">
+            <div class="card-face front" id="cardFront">
+                </div>
+            <div class="card-face back" id="cardBack"></div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="prevButton" disabled>&larr; Previous</button>
+        <button id="nextButton">Next &rarr;</button>
+        <button id="printButton">Print Cards 🖨️</button>
+    </div>
+</div>
+
+<div class="printable-list-container" id="printableList">
+    </div>
+
+<script>
+    // 1. DATA: Cleaned up English translations (No pronunciation)
+    const flashcardData = [
+        { hebrew: "יַלְקוּט", english: "Backpack", icon: "🎒" },
+        { hebrew: "עִפָּרוֹן", english: "Pencil", icon: "✏️" },
+        { hebrew: "צְבָעִים", english: "Crayons", icon: "🖍️" },
+        { hebrew: "סֵפֶר", english: "Book", icon: "📚" },
+        { hebrew: "דֶבֶק", english: "Glue", icon: "🧴" },
+        { hebrew: "מִסְפָּרַיִם", english: "Scissors", icon: "✂️" },
+        { hebrew: "עַל", english: "On / Upon", icon: "⬆️" },
+        { hebrew: "תַּחַת", english: "Under / Beneath", icon: "⬇️" },
+        { hebrew: "יֵשׁ", english: "There is / There are", icon: "✅" },
+        { hebrew: "אֵין", english: "There isn't / There aren't", icon: "❌" },
+        { hebrew: "גָּדוֹל", english: "Big / Large", icon: "🐘" },
+        { hebrew: "קָטָן", english: "Small / Little", icon: "🐭" },
+        { hebrew: "שֻׁלְחָן", english: "Table", icon: "🍽️" },
+        { hebrew: "נֵר", english: "Candle / Lamp", icon: "🕯️" },
+        { hebrew: "שׁוֹפָר", english: "Shofar / Ram's Horn", icon: "🎺" },
+        { hebrew: "דֶגֶל", english: "Flag", icon: "🚩" },
+        { hebrew: "יַלְדָּה", english: "Girl", icon: "👧" },
+        { hebrew: "יֶלֶד", english: "Boy", icon: "👦" },
+        { hebrew: "יְלָדוֹת", english: "Girls / Children", icon: "👭" },
+        { hebrew: "יְלָדִים", english: "Boys / Children", icon: "👬" },
+        { hebrew: "דֶּלֶת", english: "Door", icon: "🚪" },
+        { hebrew: "כִּסֵּא", english: "Chair", icon: "🪑" },
+        { hebrew: "מַלְכָּה", english: "Queen", icon: "👑" },
+        { hebrew: "סוּכָּה", english: "Sukkah", icon: "🌿" }, /* --- UPDATED ENTRY --- */,
+        { hebrew: "מְנוֹרָה", english: "Lamp / Light fixture", icon: "💡" },
+        { hebrew: "כּוֹסָה", english: "Cup / Glass", icon: "🥛" }
+    ];
+
+    let currentCard = 0;
+    const cardElement = document.getElementById('flashcard');
+    const frontElement = document.getElementById('cardFront');
+    const backElement = document.getElementById('cardBack');
+    const counterElement = document.getElementById('currentCardIndex');
+    const totalElement = document.getElementById('totalCards');
+    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById('nextButton');
+    const printButton = document.getElementById('printButton');
+    const printableListContainer = document.getElementById('printableList');
+
+
+    // 2. Core Flashcard Functions (Updated for cleaned English)
+    function updateCardDisplay() {
+        const card = flashcardData[currentCard];
+        
+        frontElement.innerHTML = `
+            <div class="card-icon">${card.icon}</div>
+            <div class="card-hebrew-text">${card.hebrew}</div>
+        `;
+        
+        // Use the cleaned English translation
+        backElement.textContent = card.english; 
+        
+        counterElement.textContent = currentCard + 1;
+        cardElement.classList.remove('is-flipped');
+        prevButton.disabled = currentCard === 0;
+        nextButton.disabled = currentCard === flashcardData.length - 1;
+    }
+
+    function goToNextCard() {
+        if (currentCard < flashcardData.length - 1) {
+            currentCard++;
+            updateCardDisplay();
+        }
+    }
+
+    function goToPrevCard() {
+        if (currentCard > 0) {
+            currentCard--;
+            updateCardDisplay();
+        }
+    }
+    
+    // Helper function to create one card (Hebrew or English)
+    function createPrintCard(content, type) {
+        const printCard = document.createElement('div');
+        printCard.classList.add('print-card');
+        
+        const contentDiv = document.createElement('div');
+        contentDiv.classList.add(`print-${type}-content`); 
+        contentDiv.textContent = content;
+        
+        printCard.appendChild(contentDiv);
+        return printCard;
+    }
+
+    // 3. NEW: PRINT FUNCTIONALITY (Updated for 6 cards per page and no icon/pronunciation)
+    function buildPrintableList() {
+        printableListContainer.innerHTML = '';
+        
+        flashcardData.forEach((card) => {
+            // Add Hebrew Card (Left Column)
+            printableListContainer.appendChild(createPrintCard(card.hebrew, 'hebrew'));
+            
+            // Add English Card (Right Column)
+            printableListContainer.appendChild(createPrintCard(card.english+card.icon, 'english'));
+        });
+    }
+
+    function handlePrint() {
+        window.print();
+    }
+
+
+    // 4. EVENT LISTENERS AND INITIALIZATION
+    cardElement.addEventListener('click', () => {
+        cardElement.classList.toggle('is-flipped');
+    });
+
+    nextButton.addEventListener('click', goToNextCard);
+    prevButton.addEventListener('click', goToPrevCard);
+    printButton.addEventListener('click', handlePrint);
+
+    // Initialize the page
+    totalElement.textContent = flashcardData.length;
+    buildPrintableList(); 
+    updateCardDisplay();
+</script>
+
+</body>
+</html>

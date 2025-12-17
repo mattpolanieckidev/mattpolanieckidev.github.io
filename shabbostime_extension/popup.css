@@ -1,28 +1,42 @@
-/* Apple-inspired Design */
-body {
+/* Apple-inspired Design - Full Height */
+body, html {
     width: 380px;
-    min-height: 450px;
+    height: 900px; /* Set a fixed height or use 100vh */
     margin: 0;
+    padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: #333;
+    overflow: hidden;
 }
 
 .container-fluid {
     max-width: 100%;
-    padding: 20px;
+    height: 100%;
+    padding: 0;
 }
 
-/* Glass morphism effect */
+/* Glass morphism effect - Full Height */
 .glass-card {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
+    border-radius: 0; /* Remove border radius for full height */
+    border: none;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
+}
+
+.synagogue-logo {
+    display: block;
+    max-width: 200px;
+    margin: 15px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Header Section */
@@ -31,12 +45,12 @@ body {
     padding: 25px 20px;
     text-align: center;
     color: white;
-
+    flex-shrink: 0;
 }
 
 .header h5 {
     font-weight: 600;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     margin-bottom: 15px;
     letter-spacing: -0.5px;
 }
@@ -85,10 +99,21 @@ body {
     transform: none;
 }
 
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 0 20px;
+    max-height: calc(100% - 200px); /* Adjust based on header height */
+}
+
 /* Content Sections */
 .content-section {
-    padding: 20px;
-
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
 }
 
 .content-section:last-child {
@@ -115,6 +140,9 @@ body {
 
 .time-card.parsha {
     background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .time-card h6 {
@@ -149,14 +177,6 @@ body {
     background-clip: text;
 }
 
-.search{
-    height: 250px;
-}
-
-btn.search{
-    color:blue;
-    font-size:50px; 
-}
 /* GPT Button */
 #gpt {
     background: linear-gradient(135deg, #667eea, #764ba2);
@@ -170,19 +190,12 @@ btn.search{
     font-size: 0.8rem;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    flex-shrink: 0;
 }
 
 #gpt:hover {
     transform: translateY(-2px) scale(1.1);
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-}
-
-#holidayContainer {
- display: none;
-}
-
-.changeColor-section{
-    display: none;
 }
 
 /* Summary */
@@ -192,12 +205,15 @@ btn.search{
     background: rgba(102, 126, 234, 0.1);
     border-radius: 12px;
     border-left: 4px solid #667eea;
+    overflow-y: auto;
+    max-height: 200px;
 }
 
 .psummary h6 {
     color: #667eea;
     font-weight: 600;
     margin-bottom: 10px;
+    font-size: 0.9rem;
 }
 
 .psummary ul {
@@ -210,6 +226,7 @@ btn.search{
     margin-bottom: 8px;
     line-height: 1.4;
     color: #555;
+    font-size: 0.85rem;
 }
 
 /* Holiday Cards */
@@ -232,7 +249,7 @@ btn.search{
     border-radius: 25px;
     padding: 10px 25px;
     font-weight: 600;
-    margin-top: 15px;
+    margin-top: 10px;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
 }
@@ -241,6 +258,25 @@ btn.search{
     background: white;
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Scrollbar Styling */
+.main-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.main-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.5);
+    border-radius: 3px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(102, 126, 234, 0.8);
 }
 
 /* Animations */
@@ -265,12 +301,46 @@ btn.search{
 }
 
 /* Responsive */
-@media (max-width: 380px) {
-    body {
-        width: 350px;
+@media (max-height: 700px) {
+    body, html {
+        height: 100vh;
+        min-height: 500px;
     }
     
-    .container-fluid {
-        padding: 15px;
+    .header {
+        padding: 15px 20px;
+    }
+    
+    .header h5 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+    
+    .content-section {
+        padding: 10px 0;
+    }
+    
+    .time-card {
+        padding: 12px;
+        margin-bottom: 8px;
+    }
+    
+    .time-card h6 {
+        font-size: 0.75rem;
+    }
+    
+    .time-card p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-height: 600px) {
+    .synagogue-logo {
+        max-width: 150px;
+        margin: 10px auto;
+    }
+    
+    .header {
+        padding: 12px 20px;
     }
 }

@@ -14,7 +14,7 @@ let parsha;
 
 // Define constants
 const colors = [
-  '#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#00f2fe', 
+  '#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#00f2fe',
   '#43e97b', '#38f9d7', '#fa709a', '#fee140', '#a8edea', '#fed6e3',
   '#ff9a9e', '#fecfef', '#fccb90', '#d4fc79', '#96e6a1', '#ffd89b',
   '#19547b', '#ffecd2', '#fcb69f', '#a3bded', '#6991c7', '#13547a'
@@ -22,6 +22,9 @@ const colors = [
 
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
+/* ===============================
+   ZIP STORAGE
+================================ */
 function getZipcode() {
   return localStorage.getItem("zipcode") || '';
 }
@@ -30,6 +33,9 @@ function setZipcode(zipcode) {
   localStorage.setItem("zipcode", zipcode);
 }
 
+/* ===============================
+   UI HELPERS
+================================ */
 function getRandomColor(colors) {
   return colors[Math.floor(Math.random() * colors.length)];
 }
@@ -38,12 +44,7 @@ function changeColor() {
   body.style.backgroundColor = getRandomColor(colors);
   document.getElementById('colorlabel2').innerHTML = "Shabbos Times ";
   inputField.value = getZipcode();
-  if (inputField.value === "") {
-    console.log("empty")
-  }
-  else {
-    find();
-  }
+  if (inputField.value !== "") find();
 }
 
 function setdiv(id, className) {
@@ -61,161 +62,206 @@ function updateTextContent(id, text) {
 
 function updateShabbosInfo(city, parsha, candles, havdalah) {
   updateTextContent("header", city);
-  updateTextContent('parshalabel', "Torah portion: <br> <span id = \"parsha\"> </span> <button id=\"gpt\" class=\"fa-regular fa-rectangle-list fa-2xs\" onclick=\"generateAI()\"></button>");
+  updateTextContent(
+    'parshalabel',
+    "Torah portion:<br><span id=\"parsha\"></span> " +
+    "<button id=\"gpt\" class=\"fa-regular fa-rectangle-list fa-2xs\" onclick=\"generateAI()\"></button>"
+  );
   updateTextContent('parsha', parsha);
   updateTextContent("candleLighting", candles);
   updateTextContent("havdala", havdalah);
 }
 
+/* ===============================
+   CHANUKAH HELPERS
+================================ */
+function getChanukahNight(holidayItems) {
+  const chanukahItem = holidayItems.find(i =>
+    i.title && i.title.toLowerCase().includes("chanukah")
+  );
+
+  if (!chanukahItem) return null;
+
+  const match = chanukahItem.title.match(/(\d+)\s*Candle/);
+  return match ? parseInt(match[1], 10) : 1;
+}
+
+function candleSVG(lit) {
+  return `
+    <svg width="16" height="38" viewBox="0 0 16 38">
+      <rect x="4" y="10" width="8" height="24" rx="2" fill="#f5deb3"/>
+      ${lit ? `<circle cx="8" cy="6" r="4" fill="#ffb703"/>` : ""}
+    </svg>
+  `;
+}
+
+
+function renderMenorah(night) {
+  let container = document.getElementById("menorah-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "menorah-container";
+    page.prepend(container);
+  }
+
+  container.innerHTML = "";
+
+  const wrapper = document.createElement("div");
+  wrapper.style.position = "relative";
+  wrapper.style.width = "320px";
+  wrapper.style.margin = "20px auto";
+
+  const menorah = document.createElement("img");
+  menorah.src = "noun-menorah-949.svg";
+  menorah.style.width = "100%";
+  menorah.style.display = "block";
+
+  wrapper.appendChild(menorah);
+
+ const candleXPositions = [
+  310,
+  276,
+  242,
+  208,
+  174,
+  140,
+  106,
+  72
+];
+
+  candleXPositions.forEach((x, index) => {
+    const candle = document.createElement("div");
+    candle.style.position = "absolute";
+    candle.style.left = `${x}px`;
+    candle.style.top = "1px";
+    candle.style.transform = "translateX(-50%)";
+
+    // Right → Left lighting
+    const isLit = index < night;
+    candle.innerHTML = candleSVG(isLit);
+
+    wrapper.appendChild(candle);
+  });
+
+  container.appendChild(wrapper);
+}
+
+
+  candleXPositions.forEach((x, index) => {
+    const candle = document.createElement("div");
+    candle.style.position = "absolute";
+    candle.style.left = `${x}px`;
+    candle.style.top = "1px"; // adjust up/down to match arms
+    candle.style.transform = "translateX(-50%)";
+
+    // Light candles from RIGHT → LEFT
+    const isLit = index < night;
+
+    candle.innerHTML = candleSVG(isLit);
+    wrapper.appendChild(candle);
+  });
+
+  container.appendChild(wrapper);
+
+
+/* ===============================
+   MAIN FETCH
+================================ */
 async function find() {
   try {
-    // Get the zip code from the input field
     const input = document.getElementById("zip").value;
-    const zip = `zip=${input}`;
     setZipcode(input);
 
-    // Fetch data from Hebcal API
-    const response = await fetch(`https://www.hebcal.com/shabbat/?cfg=json&${zip}&m=50`);
-    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    const response = await fetch(`https://www.hebcal.com/shabbat/?cfg=json&zip=${input}&m=50`);
+    if (!response.ok) throw new Error(`HTTP error ${response.status}`);
 
     const data = await response.json();
+    if (!data?.items?.length) return;
 
-    // Check if the 'items' array exists and is not empty
-    if (!data || !data.items || data.items.length === 0) {
-      console.error("No data items found.");
-      return;
-    }
-
-    // Extract city and state
     const city = `${data.location.city}, ${data.location.state}`;
 
-    // Extract parsha
     const parashatItem = data.items.find(i => i.category === "parashat");
     const parsha = parashatItem?.title || '';
 
-    // Extract candlelighting and havdalah times
     const candlesItem = data.items.find(i => i.category === "candles");
     const havdalahItem = data.items.find(i => i.category === "havdalah");
 
-    const candlesText = candlesItem
-      ? formatEventText(candlesItem.date, candlesItem.title)
-      : '';
-    const havdalahText = havdalahItem
-      ? formatEventText(havdalahItem.date, havdalahItem.title)
-      : '';
+    const candlesText = candlesItem ? formatEventText(candlesItem.date, candlesItem.title) : '';
+    const havdalahText = havdalahItem ? formatEventText(havdalahItem.date, havdalahItem.title) : '';
 
-    // Update Shabbos info
     updateShabbosInfo(city, parsha, candlesText, havdalahText);
 
-    // Handle holidays
     const holidayItems = data.items.filter(i => i.category === "holiday");
     handleHolidays(holidayItems);
 
-    // Handle Yom Tov
-    const yomtovItems = data.items.filter(i => i.yomtov === true);
-    handleYomTov(yomtovItems);
+    const chanukahNight = getChanukahNight(holidayItems);
+    if (chanukahNight) renderMenorah(chanukahNight);
+
   } catch (error) {
-    console.error("Error fetching or processing data:", error);
+    console.error("Error:", error);
   }
 }
 
-// Helper function to format event text
+/* ===============================
+   FORMATTING HELPERS
+================================ */
 function formatEventText(date, title) {
   const d = new Date(date);
   return `${days[d.getDay()]} ${d.getMonth() + 1}-${d.getDate()}-${d.getFullYear()}<br>${title}`;
 }
 
-// Helper function to handle holidays
 function handleHolidays(holidayItems) {
-  if (holidayItems.length > 0) {
-    const holidayDiv = setdiv('holiday', 'holidaycandle');
-    const holidayName = holidayItems[0]?.title || '';
-    updateTextContent('holiday', holidayName);
+  if (!holidayItems.length) return;
 
-    const p = document.createElement("p");
-    p.setAttribute('id', 'holidaycandle');
-    p.setAttribute('class', 'holidaycandle');
-    p.innerHTML = holidayItems.find(i => i.memo === holidayName)?.title || '';
-    holidayDiv.append(p);
-  }
+  const holidayDiv = setdiv('holiday', 'holidaycandle');
+  updateTextContent('holiday', holidayItems[0].title);
 }
 
-// Helper function to handle Yom Tov
-function handleYomTov(yomtovItems) {
-  if (yomtovItems.length >= 2) {
-    yomtovItems.slice(0, 2).forEach((item, index) => {
-      const holidayDiv = setdiv(`holiday${index + 2}`, 'holidaycandle');
-      const holidayName = item?.title || '';
-      updateTextContent(`holiday${index + 2}`, holidayName);
-
-      const p = document.createElement("p");
-      p.setAttribute('class', 'holidaycandle');
-      p.innerHTML = yomtovItems.find(i => i.memo === holidayName)?.title || '';
-      holidayDiv.append(p);
-    });
-  }
-}
-
-// Execute a function when the user releases a key on the keyboard
+/* ===============================
+   INPUT HANDLING
+================================ */
 inputField.addEventListener("keyup", function (event) {
-  // Number 13 is the "Enter" key on the keyboard
   if (event.keyCode === 13) {
-    // Cancel the default action, if needed
     event.preventDefault();
-    // Trigger the button element with a click
     document.getElementById("submit").click();
   }
 });
 
+/* ===============================
+   AI SUMMARY (UNCHANGED)
+================================ */
 async function generateAI() {
-
-  const button = document.getElementById('gpt'); // Select the button element
-
-  // Set the button to a loading state
-  button.classList.toggle("fa-regular", "fa-rectangle-list", "fa-2xs");
+  const button = document.getElementById('gpt');
   button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
   const url = "https://open-ai21.p.rapidapi.com/chatgpt";
-
   const options = {
     method: "POST",
     headers: {
-      "x-rapidapi-key": "bd3893a85fmsh47b0203e08b8f58p13007djsn0a939f91a737", // Replace with a secure key
+      "x-rapidapi-key": "REPLACE_WITH_SECURE_KEY",
       "x-rapidapi-host": "open-ai21.p.rapidapi.com",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      messages: [{ role: "user", content: "Summarize this parsha in 5 bullet sentences in HTML list format. Only include the <ul> and <li> in the return. Do not include ```html in the return " + parsha }],
+      messages: [{
+        role: "user",
+        content: "Summarize this parsha in 5 bullet sentences in HTML list format. Only include <ul><li>. " + parsha
+      }],
       web_access: false,
     }),
   };
-  
-  const fetchData = async () => {
-    try {
-      const response = await fetch(url, options);
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-  
-      const data = await response.json(); // Parse response JSON
-  
-      // Log full response for debugging
-      console.log("API Response:", data);
-  
-      // Extract and display the result
-      if (data.status && data.result) {
-        const summary = data.result;
-        const summaryDiv = document.createElement('div');
-        summaryDiv.innerHTML = `<h4 class=\"psummary\">Parsha Summary:</h4>${summary}`;
-        document.getElementById('parsha').appendChild(summaryDiv);
-        button.innerHTML = '';
-      } else {
-        document.getElementById("summary").innerText = "No valid response received.";
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      document.getElementById("summary").innerText = "Error retrieving data.";
+
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    if (data?.result) {
+      document.getElementById('parsha').insertAdjacentHTML(
+        "beforeend",
+        `<h4 class="psummary">Parsha Summary:</h4>${data.result}`
+      );
+      button.innerHTML = "";
     }
-  };
-  
-  fetchData();
-  
-};
+  } catch (err) {
+    console.error(err);
+  }
+}

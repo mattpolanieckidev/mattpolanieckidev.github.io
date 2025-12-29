@@ -149,6 +149,14 @@ body {
     background-clip: text;
 }
 
+.search{
+    height: 250px;
+}
+
+btn.search{
+    color:blue;
+    font-size:50px; 
+}
 /* GPT Button */
 #gpt {
     background: linear-gradient(135deg, #667eea, #764ba2);

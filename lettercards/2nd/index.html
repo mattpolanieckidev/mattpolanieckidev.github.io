@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hebrew Vocabulary Flashcards - 1st Grade</title>
-    <link rel="stylesheet" href="wordcard.css">
-    <link href="https://fonts.cdnfonts.com/css/soup-of-justice" rel="stylesheet">  
+    <title>Hebrew Vocabulary Flashcards - 2nd Grade</title>
+   <link rel="stylesheet" href="../wordcard.css">
+    <link href="https://fonts.cdnfonts.com/css/soup-of-justice" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="aleph.ico">
+    <link rel="manifest" href="../manifest.json">
 </head>
 <body>
 
-    <h1>1st Grade Hebrew</h1>
+    <h1>2nd Grade Hebrew</h1>
     
     <div class="nav">
-        <a href="2ndgrade.html">Try 2nd Grade</a>
+        <a href="../hebrewwords.html">← 1st Grade</a>
     </div>
 
     <div class="container">
@@ -32,7 +34,7 @@
             <button id="nextButton">Next &rarr;</button>
             <button id="random">Shuffle ❓</button>
             <button id="printButton">Print 🖨️</button>
-            <a href="quiz.html" class="btn-link" id="quiz-btn">Quiz 🎮</a>
+            <a href="2ndgradequiz.html" class="btn-link" id="quiz-btn">Quiz 🎮</a>
         </div>
 
         <a href="https://www.buymeacoffee.com/mattpolanieckidev" target="_blank" class="coffee-link">☕ Support this project</a>
@@ -41,53 +43,29 @@
     <div id="printableList"></div>
 
 <script>
-    // 1. DATA: Cleaned up English translations (No pronunciation)
-const flashcardData = [
-  { "hebrew": "כַּדוּר", "english": "Ball" },
-  { "hebrew": "מִספָּרַיִם", "english": "Scissors" },
-  { "hebrew": "צִפּוֹר", "english": "Bird" },
-  { "hebrew": "סְנָאִי", "english": "Squirrel" },
-  { "hebrew": "עָלִים", "english": "Leaves" },
-  { "hebrew": "תַּפּוּחַ", "english": "Apple" },
-  { "hebrew": "חַלָּה", "english": "Challah" },
-  { "hebrew": "גֶּשֶׁם", "english": "Rain" },
-  { "hebrew": "עֲנָנִים", "english": "Clouds" },
-  { "hebrew": "מוֹרָה", "english": "Teacher" },
-  { "hebrew": "שֶׁמֶשׁ", "english": "Sun" },
-  { "hebrew": "רוּחַ", "english": "Wind" },
-  { "hebrew": "כִּסֵּא", "english": "Chair" },
-  { "hebrew": "דָּג", "english": "Fish" },
-  { "hebrew": "שָׁלוֹם", "english": "Hello" },
-  { "hebrew": "דֶּגֶל", "english": "Flag" },
-  { "hebrew": "נֵר", "english": "Candle" },
-  { "hebrew": "שׁוּלְחָן", "english": "Table" },
-  { "hebrew": "יַלְדָּה", "english": "Girl" },
-  { "hebrew": "יֶלֶד", "english": "Boy" },
-  { "hebrew": "בֵּית סֵפֶר", "english": "School" },
-  { "hebrew": "עֵץ", "english": "Tree" },
-  { "hebrew": "שָׁמַיִם", "english": "Sky" },
-  { "hebrew": "יֵשׁ לִי", "english": "I Have" },
-  { "hebrew": "אֵין לִי", "english": "I Don’t Have" },
-  { "hebrew": "עַל", "english": "On" },
-  { "hebrew": "תַּחַת", "english": "Under" },
-  { "hebrew": "כָּחוֹל", "english": "Blue" },
-  { "hebrew": "אָדוֹם", "english": "Red" },
-  { "hebrew": "יָרוֹק", "english": "Green" },
-  { "hebrew": "צָהוֹב", "english": "Yellow" },
-  { "hebrew": "רָץ", "english": "Run (Boy)" },
-  { "hebrew": "רָצָה", "english": "Run (Girl)" },
-  { "hebrew": "עוֹמֶדֶת", "english": "Stand (Girl)" },
-  { "hebrew": "עוֹמֵד", "english": "Stand (Boy)" },
-  { "hebrew": "הוֹלֵךְ", "english": "Walk (Boy)" },
-  { "hebrew": "הוֹלֶכֶת", "english": "Walk (Girl)" },
-  { "hebrew": "יוֹשֶׁבֶת", "english": "Sit (Girl)" },
-  { "hebrew": "יוֹשֵׁב", "english": "Sit (Boy)" },
-  { "hebrew": "צְבָעִים", "english": "Crayons" },
-  { "hebrew": "יְלָדִים", "english": "Boys" },
-  { "hebrew": "יְלָדוֹת", "english": "Girls" }
-]
+    const flashcardData = [
+        { "hebrew": "עַל", "english": "on" },
+        { "hebrew": "מָה", "english": "what" },
+        { "hebrew": "לָמָה", "english": "why" },
+        { "hebrew": "לֹא", "english": "no" },
+        { "hebrew": "עַכְשָׁיו", "english": "now" },
+        { "hebrew": "אֲנָשִׁים", "english": "people" },
+        { "hebrew": "עִם", "english": "with" },
+        { "hebrew": "בָּקָר", "english": "cattle" },
+        { "hebrew": "מָקוֹם", "english": "place" },
+        { "hebrew": "בֵּין", "english": "between" },
+        { "hebrew": "לְהִשְׁתַּחֲווֹת", "english": "bow down" },
+        { "hebrew": "לַעֲבֹר", "english": "pass" },
+        { "hebrew": "לִרְחֹץ", "english": "wash" },
+        { "hebrew": "לֶאֱכֹל", "english": "eat" },
+        { "hebrew": "לְמַהֵר", "english": "hurry" },
+        { "hebrew": "לָלוּשׁ", "english": "knead" },
+        { "hebrew": "לַעֲמֹד", "english": "stand" },
+        { "hebrew": "לִירֹא", "english": "fear" },
+        { "hebrew": "לָלוּן", "english": "stay overnight" }
+    ];
 
-   let currentCard = 0;
+    let currentCard = 0;
     const cardElement = document.getElementById('flashcard');
     const frontElement = document.getElementById('cardFront');
     const backElement = document.getElementById('cardBack');

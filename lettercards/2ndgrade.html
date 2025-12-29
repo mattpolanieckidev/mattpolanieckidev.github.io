@@ -106,71 +106,46 @@
             margin-top:4rem;
         }
 
-        /* --- Print-Specific Styles (UPDATED for 6 cards/page) --- */
-        .printable-list-container {
-            display: none; 
-        }
 
-        @media print {
-            .container {
-                display: none;
-            }
-            body {
-                background-color: white;
-                margin: 0;
-            }
-            
-            .printable-list-container {
-                display: grid; 
-                grid-template-columns: 1fr 1fr; /* Two columns for pairs */
-                width: 100vw; 
-                min-height: 100vh;
-                padding: 0;
-                gap: 0;
-            }
-            
-            .print-card {
-                /* Card dimensions for 3 rows (6 total boxes) on a page */
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                text-align: center;
-                
-                border: 3px solid black;
-                margin: 0.1in;
-                height: 3.2in; /* Increased height for 3 rows on 11in paper */
-                box-sizing: border-box;
-                padding: 5px;
-                break-inside: avoid;
-            }
-            
-            /* Text styling for each language */
-            .print-hebrew-content {
-                font-size: 7em; /* Larger font */
-                font-weight: bold;
-                direction: rtl;
-                line-height: 1.2;
-            }
-            .print-english-content {
-                font-size: 2.8em; /* Larger font */
-                color: #333;
-                font-style: italic;
-                margin-top: 140px;
-            }
-            
-            /* CRITICAL: Force a page break before the 7th, 13th, 19th, etc., card */
-            /* This ensures 6 cards fit per page (3 pairs). */
-            .print-card:nth-child(7), 
-            .print-card:nth-child(13),
-            .print-card:nth-child(19), 
-            .print-card:nth-child(25),
-            .print-card:nth-child(31), 
-            .print-card:nth-child(37),
-            .print-card:nth-child(43), 
-            .print-card:nth-child(49) {
-                page-break-before: always;
-            }
-        }
+/* --- Print-Specific Styles (REPLACED) --- */
+.printable-list-container {
+    display: none; 
+}
+
+@media print {
+    /* Hide everything on the screen */
+    body * {
+        visibility: hidden;
+    }
+    
+    /* Only show the printable container and its children */
+    #printableList, #printableList * {
+        visibility: visible;
+    }
+
+    /* Position the printable list at the very top left of the page */
+    #printableList {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        visibility: visible;
+    }
+
+    .print-card {
+        display: flex !important;
+        font-size: 2rem;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid black;
+        height: 3.2in;
+        width: 100%;
+        box-sizing: border-box;
+        page-break-inside: avoid;
+    }
+}
 
         .nav{
     display: flex;
@@ -245,6 +220,7 @@ const flashcardData = [
   { "hebrew": "לָלוּן", "english": "stay overnight" }
 ];
 
+
     let currentCard = 0;
     const cardElement = document.getElementById('flashcard');
     const frontElement = document.getElementById('cardFront');
@@ -257,16 +233,9 @@ const flashcardData = [
     const randomButton = document.getElementById('random');
     const printableListContainer = document.getElementById('printableList');
 
-
-    // 2. Core Flashcard Functions (Updated for cleaned English)
     function updateCardDisplay() {
         const card = flashcardData[currentCard];
-        
-        frontElement.innerHTML = `
-            <div class="card-hebrew-text">${card.hebrew}</div>
-        `;
-        
-        // Use the cleaned English translation
+        frontElement.innerHTML = `<div class="card-hebrew-text">${card.hebrew}</div>`;
         backElement.textContent = card.english; 
         
         counterElement.textContent = currentCard + 1;
@@ -289,38 +258,45 @@ const flashcardData = [
         }
     }
     
-    // Helper function to create one card (Hebrew or English)
     function createPrintCard(content, type) {
         const printCard = document.createElement('div');
         printCard.classList.add('print-card');
-        
         const contentDiv = document.createElement('div');
         contentDiv.classList.add(`print-${type}-content`); 
         contentDiv.textContent = content;
-        
         printCard.appendChild(contentDiv);
         return printCard;
     }
 
-    // 3. NEW: PRINT FUNCTIONALITY (Updated for 6 cards per page and no icon/pronunciation)
-    function buildPrintableList() {
-        printableListContainer.innerHTML = '';
-        
-        flashcardData.forEach((card) => {
-            // Add Hebrew Card (Left Column)
-            printableListContainer.appendChild(createPrintCard(card.hebrew, 'hebrew'));
-            
-            // Add English Card (Right Column)
-            printableListContainer.appendChild(createPrintCard(card.english, 'english'));
-        });
-    }
 
-    function handlePrint() {
+function handlePrint() {
+    // 1. Build the list
+    buildPrintableList();
+    
+    // 2. Wait a split second for the browser to "see" the new elements
+    setTimeout(() => {
         window.print();
-    }
+    }, 250); 
+}
 
-
-    // 4. EVENT LISTENERS AND INITIALIZATION
+function buildPrintableList() {
+    const printableListContainer = document.getElementById('printableList');
+    printableListContainer.innerHTML = ''; // Clear it out
+    
+    flashcardData.forEach((card) => {
+        // Hebrew Box
+        const hCard = document.createElement('div');
+        hCard.className = 'print-card';
+        hCard.innerHTML = `<div class="print-hebrew-content">${card.hebrew}</div>`;
+        printableListContainer.appendChild(hCard);
+        
+        // English Box
+        const eCard = document.createElement('div');
+        eCard.className = 'print-card';
+        eCard.innerHTML = `<div class="print-english-content">${card.english}</div>`;
+        printableListContainer.appendChild(eCard);
+    });
+}
     cardElement.addEventListener('click', () => {
         cardElement.classList.toggle('is-flipped');
     });
@@ -333,11 +309,10 @@ const flashcardData = [
     prevButton.addEventListener('click', goToPrevCard);
     printButton.addEventListener('click', handlePrint);
 
-    // Initialize the page
+    // Initialize
     totalElement.textContent = flashcardData.length;
-    buildPrintableList(); 
     updateCardDisplay();
-</script>
+    </script>
 
 </body>
 </html>

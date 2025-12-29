@@ -3,36 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hebrew Vocabulary Flashcards</title>
+    <title>Hebrew Vocabulary Flashcards - 1st Grade</title>
     <style>
-        /* --- General/Screen Styles (Unchanged for interactive view) --- */
+        /* --- General/Mobile-First Styles --- */
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             min-height: 100vh;
             margin: 0;
+            padding: 15px;
             background-color: #f4f4f9;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
         }
+
+        h1 {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .nav {
+            margin-bottom: 20px;
+        }
+
+        .nav a {
+            font-size: 1.2rem;
+            text-decoration: none;
+            color: #0056b3;
+            font-weight: bold;
+        }
+
         .container {
-            width: 90%;
-            max-width: 600px;
+            width: 100%;
+            max-width: 500px;
             text-align: center;
         }
+
         .card-counter {
-            font-size: 1.2em;
-            margin-bottom: 20px;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
             color: #555;
         }
+
+        /* --- Flashcard Styling --- */
         .card {
             width: 100%;
-            height: 300px;
+            height: clamp(250px, 50vh, 350px);
             perspective: 1000px;
             cursor: pointer;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
+
         .card-inner {
             position: relative;
             width: 100%;
@@ -40,161 +64,148 @@
             text-align: center;
             transition: transform 0.6s;
             transform-style: preserve-3d;
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            border-radius: 20px;
         }
+
         .card.is-flipped .card-inner {
             transform: rotateY(180deg);
         }
+
         .card-face {
             position: absolute;
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
             display: flex;
-            flex-direction: column; 
             align-items: center;
             justify-content: center;
-            font-size: 3em;
-            font-weight: bold;
-            border-radius: 15px;
+            border-radius: 20px;
+            padding: 20px;
+            box-sizing: border-box;
         }
+
         .card-face.front {
-            background-color: #6a11cb;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             color: white;
-            padding: 10px;
         }
+
         .card-hebrew-text {
             direction: rtl; 
-            font-size: 2em; 
-            line-height: 1.2;
+            font-size: clamp(2.5rem, 10vw, 4rem);
+            font-weight: bold;
         }
-        .card-icon {
-            font-size: 1.5em; 
-            margin-bottom: 10px;
-        }
+
         .card-face.back {
-            background-color: #2575fc;
-            color: white;
+            background-color: #ffffff;
+            color: #333;
             transform: rotateY(180deg);
-            padding: 20px;
-            font-size: 4em;
-            line-height: 1.4;
+            border: 4px solid #2575fc;
+            font-size: clamp(2rem, 8vw, 3rem);
+            font-weight: 600;
         }
-        .controls button {
-            padding: 10px 20px;
-            margin: 0 5px;
-            font-size: 1.1em;
+
+        /* --- Button Controls --- */
+        .controls-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .controls-group button, .btn-link {
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: bold;
             cursor: pointer;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             background-color: #007bff;
             color: white;
-            transition: background-color 0.3s;
-        }
-        .controls button:hover {
-            background-color: #0056b3;
-        }
-        #printButton {
-            background-color: #28a745;
-        }
-        #printButton:hover {
-            background-color: #1e7e34;
+            flex: 1 1 140px; /* Allow buttons to grow/shrink but maintain a base width */
+            max-width: 200px;
+            transition: transform 0.1s, background-color 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .controls{
-            margin-top:4rem;
+        .controls-group button:active {
+            transform: scale(0.95);
         }
 
-/* --- Print-Specific Styles (REPLACED) --- */
-.printable-list-container {
-    display: none; 
-}
+        #printButton { background-color: #28a745; }
+        #random { background-color: #6f42c1; }
+        #quiz-btn { background-color: #fd7e14; }
 
-@media print {
-    /* Hide everything on the screen */
-    body * {
-        visibility: hidden;
-    }
-    
-    /* Only show the printable container and its children */
-    #printableList, #printableList * {
-        visibility: visible;
-    }
+        .coffee-link {
+            margin-top: 20px;
+            font-size: 1.4rem;
+            color: #666;
+            text-decoration: none;
+        }
 
-    /* Position the printable list at the very top left of the page */
-    #printableList {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        visibility: visible;
-    }
+        /* --- Print-Specific Styles --- */
+        #printableList { display: none; }
 
-    .print-card {
-        display: flex !important;
-        justify-content: center;
-        align-items: center;
-        border: 2px solid black;
-        height: 3.2in;
-        width: 100%;
-        box-sizing: border-box;
-        page-break-inside: avoid;
-    }
-}
-        .nav{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-.nav a{
-    font-size: 24px;
-    text-decoration: none;
-    color:#0056b3;
-    font-weight: bold;
-    font-family: 'Soup of Justice', sans-serif;
-    margin: 0 10px;
-
-}
+        @media print {
+            body * { visibility: hidden; }
+            #printableList, #printableList * { visibility: visible; }
+            #printableList {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr;
+                position: absolute;
+                left: 0; top: 0; width: 100%;
+            }
+            .print-card {
+                display: flex !important;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid #ccc;
+                height: 3in;
+                padding: 10px;
+                text-align: center;
+                page-break-inside: avoid;
+            }
+            .print-hebrew-content { font-size: 3rem; font-weight: bold; direction: rtl; }
+            .print-english-content { font-size: 2rem; font-style: italic; }
+        }
     </style>
 </head>
 <body>
-    <h1>Ryan and Tyler's </h1>
-<div class="nav">
 
-    <a href="index.html">Letter Game</a>
-    <a href="hebrewwords.html">Word Game</a>
-    <a href="2ndgrade.html">2nd Grade Words</a>
-</div>
-<div class="container">
-
-    <div class="card-counter">
-        Card <span id="currentCardIndex">1</span> of <span id="totalCards">26</span>
+    <h1>1st Grade Hebrew</h1>
+    
+    <div class="nav">
+        <a href="2ndgrade.html">Try 2nd Grade</a>
     </div>
 
-    <div class="card" id="flashcard">
-        <div class="card-inner">
-            <div class="card-face front" id="cardFront">
-                </div>
-            <div class="card-face back" id="cardBack"></div>
+    <div class="container">
+        <div class="card-counter">
+            Card <span id="currentCardIndex">1</span> of <span id="totalCards">--</span>
         </div>
+
+        <div class="card" id="flashcard">
+            <div class="card-inner">
+                <div class="card-face front" id="cardFront"></div>
+                <div class="card-face back" id="cardBack"></div>
+            </div>
+        </div>
+
+        <div class="controls-group">
+            <button id="prevButton">&larr; Back</button>
+            <button id="nextButton">Next &rarr;</button>
+            <button id="random">Shuffle ❓</button>
+            <button id="printButton">Print 🖨️</button>
+            <a href="quiz.html" class="btn-link" id="quiz-btn">Quiz 🎮</a>
+        </div>
+
+        <a href="https://www.buymeacoffee.com/mattpolanieckidev" target="_blank" class="coffee-link">☕ Support this project</a>
     </div>
 
-    <div class="controls">
-        <button id="prevButton" disabled>&larr; Previous</button>
-        <button id="nextButton">Next &rarr;</button>
-        <button id="random">Random ❓</button>
-    </div>
-    <div class="controls">
-        <button id="printButton">Print Cards 🖨️</button>
-        <a href="quiz.html"><button id="quiz">Quiz Me 🎮</button></a>
-    </div>
-
-<div class="printable-list-container" id="printableList">
-    </div>
+    <div id="printableList"></div>
 
 <script>
     // 1. DATA: Cleaned up English translations (No pronunciation)
@@ -243,98 +254,55 @@ const flashcardData = [
   { "hebrew": "יְלָדוֹת", "english": "Girls" }
 ]
 
-    let currentCard = 0;
+   let currentCard = 0;
     const cardElement = document.getElementById('flashcard');
     const frontElement = document.getElementById('cardFront');
     const backElement = document.getElementById('cardBack');
     const counterElement = document.getElementById('currentCardIndex');
     const totalElement = document.getElementById('totalCards');
-    const prevButton = document.getElementById('prevButton');
-    const nextButton = document.getElementById('nextButton');
-    const printButton = document.getElementById('printButton');
-    const randomButton = document.getElementById('random');
-    const printableListContainer = document.getElementById('printableList');
 
     function updateCardDisplay() {
         const card = flashcardData[currentCard];
         frontElement.innerHTML = `<div class="card-hebrew-text">${card.hebrew}</div>`;
         backElement.textContent = card.english; 
-        
         counterElement.textContent = currentCard + 1;
         cardElement.classList.remove('is-flipped');
-        prevButton.disabled = currentCard === 0;
-        nextButton.disabled = currentCard === flashcardData.length - 1;
-    }
-
-    function goToNextCard() {
-        if (currentCard < flashcardData.length - 1) {
-            currentCard++;
-            updateCardDisplay();
-        }
-    }
-
-    function goToPrevCard() {
-        if (currentCard > 0) {
-            currentCard--;
-            updateCardDisplay();
-        }
-    }
-    
-    function createPrintCard(content, type) {
-        const printCard = document.createElement('div');
-        printCard.classList.add('print-card');
-        const contentDiv = document.createElement('div');
-        contentDiv.classList.add(`print-${type}-content`); 
-        contentDiv.textContent = content;
-        printCard.appendChild(contentDiv);
-        return printCard;
-    }
-
-
-function handlePrint() {
-    // 1. Build the list
-    buildPrintableList();
-    
-    // 2. Wait a split second for the browser to "see" the new elements
-    setTimeout(() => {
-        window.print();
-    }, 250); 
-}
-
-function buildPrintableList() {
-    const printableListContainer = document.getElementById('printableList');
-    printableListContainer.innerHTML = ''; // Clear it out
-    
-    flashcardData.forEach((card) => {
-        // Hebrew Box
-        const hCard = document.createElement('div');
-        hCard.className = 'print-card';
-        hCard.innerHTML = `<div class="print-hebrew-content">${card.hebrew}</div>`;
-        printableListContainer.appendChild(hCard);
         
-        // English Box
-        const eCard = document.createElement('div');
-        eCard.className = 'print-card';
-        eCard.innerHTML = `<div class="print-english-content">${card.english}</div>`;
-        printableListContainer.appendChild(eCard);
-    });
-}
-    cardElement.addEventListener('click', () => {
-        cardElement.classList.toggle('is-flipped');
-    });
+        document.getElementById('prevButton').disabled = currentCard === 0;
+        document.getElementById('nextButton').disabled = currentCard === flashcardData.length - 1;
+    }
 
-    nextButton.addEventListener('click', goToNextCard);
-    randomButton.addEventListener('click', () => {
+    // Controls
+    document.getElementById('nextButton').onclick = () => {
+        if (currentCard < flashcardData.length - 1) { currentCard++; updateCardDisplay(); }
+    };
+    document.getElementById('prevButton').onclick = () => {
+        if (currentCard > 0) { currentCard--; updateCardDisplay(); }
+    };
+    document.getElementById('random').onclick = () => {
         currentCard = Math.floor(Math.random() * flashcardData.length);
         updateCardDisplay();
-    });
-    prevButton.addEventListener('click', goToPrevCard);
-    printButton.addEventListener('click', handlePrint);
+    };
+    cardElement.onclick = () => cardElement.classList.toggle('is-flipped');
 
-    // Initialize
+    // Printing Logic
+    function buildPrintableList() {
+        const container = document.getElementById('printableList');
+        container.innerHTML = ''; 
+        flashcardData.forEach((card) => {
+            container.innerHTML += `<div class="print-card"><div class="print-hebrew-content">${card.hebrew}</div></div>`;
+            container.innerHTML += `<div class="print-card"><div class="print-english-content">${card.english}</div></div>`;
+        });
+    }
+
+    document.getElementById('printButton').onclick = () => {
+        buildPrintableList();
+        setTimeout(() => { window.print(); }, 300);
+    };
+
+    // Init
     totalElement.textContent = flashcardData.length;
     updateCardDisplay();
-    </script>
-
+</script>
 </body>
 </html>

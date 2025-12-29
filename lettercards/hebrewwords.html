@@ -66,7 +66,7 @@
         }
         .card-hebrew-text {
             direction: rtl; 
-            font-size: 1em; 
+            font-size: 2em; 
             line-height: 1.2;
         }
         .card-icon {
@@ -78,7 +78,7 @@
             color: white;
             transform: rotateY(180deg);
             padding: 20px;
-            font-size: 2em;
+            font-size: 4em;
             line-height: 1.4;
         }
         .controls button {
@@ -100,6 +100,10 @@
         }
         #printButton:hover {
             background-color: #1e7e34;
+        }
+
+        .controls{
+            margin-top:4rem;
         }
 
         /* --- Print-Specific Styles (UPDATED for 6 cards/page) --- */
@@ -148,9 +152,10 @@
                 line-height: 1.2;
             }
             .print-english-content {
-                font-size: 4.2em; /* Larger font */
+                font-size: 2.8em; /* Larger font */
                 color: #333;
                 font-style: italic;
+                margin-top: 140px;
             }
             
             /* CRITICAL: Force a page break before the 7th, 13th, 19th, etc., card */
@@ -188,6 +193,7 @@
         <button id="prevButton" disabled>&larr; Previous</button>
         <button id="nextButton">Next &rarr;</button>
         <button id="printButton">Print Cards 🖨️</button>
+        <a href="quiz.html"><button id="quiz">Quiz Game 🎮</button></a>
     </div>
 </div>
 
@@ -196,34 +202,50 @@
 
 <script>
     // 1. DATA: Cleaned up English translations (No pronunciation)
-    const flashcardData = [
-        { hebrew: "יַלְקוּט", english: "Backpack", icon: "🎒" },
-        { hebrew: "עִפָּרוֹן", english: "Pencil", icon: "✏️" },
-        { hebrew: "צְבָעִים", english: "Crayons", icon: "🖍️" },
-        { hebrew: "סֵפֶר", english: "Book", icon: "📚" },
-        { hebrew: "דֶבֶק", english: "Glue", icon: "🧴" },
-        { hebrew: "מִסְפָּרַיִם", english: "Scissors", icon: "✂️" },
-        { hebrew: "עַל", english: "On / Upon", icon: "⬆️" },
-        { hebrew: "תַּחַת", english: "Under / Beneath", icon: "⬇️" },
-        { hebrew: "יֵשׁ", english: "There is / There are", icon: "✅" },
-        { hebrew: "אֵין", english: "There isn't / There aren't", icon: "❌" },
-        { hebrew: "גָּדוֹל", english: "Big / Large", icon: "🐘" },
-        { hebrew: "קָטָן", english: "Small / Little", icon: "🐭" },
-        { hebrew: "שֻׁלְחָן", english: "Table", icon: "🍽️" },
-        { hebrew: "נֵר", english: "Candle / Lamp", icon: "🕯️" },
-        { hebrew: "שׁוֹפָר", english: "Shofar / Ram's Horn", icon: "🎺" },
-        { hebrew: "דֶגֶל", english: "Flag", icon: "🚩" },
-        { hebrew: "יַלְדָּה", english: "Girl", icon: "👧" },
-        { hebrew: "יֶלֶד", english: "Boy", icon: "👦" },
-        { hebrew: "יְלָדוֹת", english: "Girls / Children", icon: "👭" },
-        { hebrew: "יְלָדִים", english: "Boys / Children", icon: "👬" },
-        { hebrew: "דֶּלֶת", english: "Door", icon: "🚪" },
-        { hebrew: "כִּסֵּא", english: "Chair", icon: "🪑" },
-        { hebrew: "מַלְכָּה", english: "Queen", icon: "👑" },
-        { hebrew: "סוּכָּה", english: "Sukkah", icon: "🌿" }, /* --- UPDATED ENTRY --- */,
-        { hebrew: "מְנוֹרָה", english: "Lamp / Light fixture", icon: "💡" },
-        { hebrew: "כּוֹסָה", english: "Cup / Glass", icon: "🥛" }
-    ];
+const flashcardData = [
+  { "hebrew": "כַּדוּר", "english": "Ball" },
+  { "hebrew": "מִספָּרַיִם", "english": "Scissors" },
+  { "hebrew": "צִפּוֹר", "english": "Bird" },
+  { "hebrew": "סְנָאִי", "english": "Squirrel" },
+  { "hebrew": "עָלִים", "english": "Leaves" },
+  { "hebrew": "תַּפּוּחַ", "english": "Apple" },
+  { "hebrew": "חַלָּה", "english": "Challah" },
+  { "hebrew": "גֶּשֶׁם", "english": "Rain" },
+  { "hebrew": "עֲנָנִים", "english": "Clouds" },
+  { "hebrew": "מוֹרָה", "english": "Teacher" },
+  { "hebrew": "שֶׁמֶשׁ", "english": "Sun" },
+  { "hebrew": "רוּחַ", "english": "Wind" },
+  { "hebrew": "כִּסֵּא", "english": "Chair" },
+  { "hebrew": "דָּג", "english": "Fish" },
+  { "hebrew": "שָׁלוֹם", "english": "Hello" },
+  { "hebrew": "דֶּגֶל", "english": "Flag" },
+  { "hebrew": "נֵר", "english": "Candle" },
+  { "hebrew": "שׁוּלְחָן", "english": "Table" },
+  { "hebrew": "יַלְדָּה", "english": "Girl" },
+  { "hebrew": "יֶלֶד", "english": "Boy" },
+  { "hebrew": "בֵּית סֵפֶר", "english": "School" },
+  { "hebrew": "עֵץ", "english": "Tree" },
+  { "hebrew": "שָׁמַיִם", "english": "Sky" },
+  { "hebrew": "יֵשׁ לִי", "english": "I Have" },
+  { "hebrew": "אֵין לִי", "english": "I Don’t Have" },
+  { "hebrew": "עַל", "english": "On" },
+  { "hebrew": "תַּחַת", "english": "Under" },
+  { "hebrew": "כָּחוֹל", "english": "Blue" },
+  { "hebrew": "אָדוֹם", "english": "Red" },
+  { "hebrew": "יָרוֹק", "english": "Green" },
+  { "hebrew": "צָהוֹב", "english": "Yellow" },
+  { "hebrew": "רָץ", "english": "Run (Boy)" },
+  { "hebrew": "רָצָה", "english": "Run (Girl)" },
+  { "hebrew": "עוֹמֶדֶת", "english": "Stand (Girl)" },
+  { "hebrew": "עוֹמֵד", "english": "Stand (Boy)" },
+  { "hebrew": "הוֹלֵךְ", "english": "Walk (Boy)" },
+  { "hebrew": "הוֹלֶכֶת", "english": "Walk (Girl)" },
+  { "hebrew": "יוֹשֶׁבֶת", "english": "Sit (Girl)" },
+  { "hebrew": "יוֹשֵׁב", "english": "Sit (Boy)" },
+  { "hebrew": "צְבָעִים", "english": "Crayons" },
+  { "hebrew": "יְלָדִים", "english": "Boys" },
+  { "hebrew": "יְלָדוֹת", "english": "Girls" }
+]
 
     let currentCard = 0;
     const cardElement = document.getElementById('flashcard');
@@ -242,7 +264,6 @@
         const card = flashcardData[currentCard];
         
         frontElement.innerHTML = `
-            <div class="card-icon">${card.icon}</div>
             <div class="card-hebrew-text">${card.hebrew}</div>
         `;
         
@@ -291,7 +312,7 @@
             printableListContainer.appendChild(createPrintCard(card.hebrew, 'hebrew'));
             
             // Add English Card (Right Column)
-            printableListContainer.appendChild(createPrintCard(card.english+card.icon, 'english'));
+            printableListContainer.appendChild(createPrintCard(card.english, 'english'));
         });
     }
 

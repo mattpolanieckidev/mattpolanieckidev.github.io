@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hebrew Matching Game</title>
+
+<style>
+    button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f9;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    margin:0;
+}
+
+.game-container{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+    text-align:center;
+    width:90%;
+    max-width:600px;
+}
+
+.word{
+    font-size:3em;
+    direction:rtl;
+    margin-bottom:20px;
+}
+
+.timer{
+    font-size:1.4em;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.scoreboard{
+    margin-bottom:15px;
+    font-size:1.2em;
+}
+
+.choices{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.choice-btn{
+    font-size:1.2em;
+    padding:12px;
+    border-radius:10px;
+    border:none;
+    cursor:pointer;
+    background:#2575fc;
+    color:white;
+    transition:.2s;
+}
+
+.choice-btn:hover{
+    background:#0f52c9;
+}
+
+.correct{
+    background:#28a745 !important;
+}
+
+.wrong{
+    background:#dc3545 !important;
+}
+</style>
+</head>
+
+<body>
+<div class="header">
+    <h1>Hebrew Matching Game</h1>
+    <p>Match the Hebrew word to its English meaning!</p>
+<div class="game-container">
+
+
+
+    <div class="scoreboard">
+        Score: <span id="score">0</span> |
+        Question: <span id="questionNum">1</span>
+    </div>
+
+    <div class="timer">
+        Time Left: <span id="timeRemaining">10</span>s
+    </div>
+
+    <div id="hebrewWord" class="word"></div>
+
+    <div class="choices" id="choicesContainer"></div>
+
+</div>
+ <div class="controls">
+
+        <a href="hebrewwords.html"><button id="home">Flashcards 🎴</button></a>
+    </div>
+
+<script>
+const flashcardData = [
+  { "hebrew": "כַּדוּר", "english": "Ball" },
+  { "hebrew": "מִספָּרַיִם", "english": "Scissors" },
+  { "hebrew": "צִפּוֹר", "english": "Bird" },
+  { "hebrew": "סְנָאִי", "english": "Squirrel" },
+  { "hebrew": "עָלִים", "english": "Leaves" },
+  { "hebrew": "תַּפּוּחַ", "english": "Apple" },
+  { "hebrew": "חַלָּה", "english": "Challah" },
+  { "hebrew": "גֶּשֶׁם", "english": "Rain" },
+  { "hebrew": "עֲנָנִים", "english": "Clouds" },
+  { "hebrew": "מוֹרָה", "english": "Teacher" },
+  { "hebrew": "שֶׁמֶשׁ", "english": "Sun" },
+  { "hebrew": "רוּחַ", "english": "Wind" },
+  { "hebrew": "כִּסֵּא", "english": "Chair" },
+  { "hebrew": "דָּג", "english": "Fish" },
+  { "hebrew": "שָׁלוֹם", "english": "Hello" },
+  { "hebrew": "דֶּגֶל", "english": "Flag" },
+  { "hebrew": "נֵר", "english": "Candle" },
+  { "hebrew": "שׁוּלְחָן", "english": "Table" },
+  { "hebrew": "יַלְדָּה", "english": "Girl" },
+  { "hebrew": "יֶלֶד", "english": "Boy" },
+  { "hebrew": "בֵּית סֵפֶר", "english": "School" },
+  { "hebrew": "עֵץ", "english": "Tree" },
+  { "hebrew": "שָׁמַיִם", "english": "Sky" },
+  { "hebrew": "יֵשׁ לִי", "english": "I Have" },
+  { "hebrew": "אֵין לִי", "english": "I Don’t Have" },
+  { "hebrew": "עַל", "english": "On" },
+  { "hebrew": "תַּחַת", "english": "Under" },
+  { "hebrew": "כָּחוֹל", "english": "Blue" },
+  { "hebrew": "אָדוֹם", "english": "Red" },
+  { "hebrew": "יָרוֹק", "english": "Green" },
+  { "hebrew": "צָהוֹב", "english": "Yellow" },
+  { "hebrew": "רָץ", "english": "Run (Boy)" },
+  { "hebrew": "רָצָה", "english": "Run (Girl)" },
+  { "hebrew": "עוֹמֶדֶת", "english": "Stand (Girl)" },
+  { "hebrew": "עוֹמֵד", "english": "Stand (Boy)" },
+  { "hebrew": "הוֹלֵךְ", "english": "Walk (Boy)" },
+  { "hebrew": "הוֹלֶכֶת", "english": "Walk (Girl)" },
+  { "hebrew": "יוֹשֶׁבֶת", "english": "Sit (Girl)" },
+  { "hebrew": "יוֹשֵׁב", "english": "Sit (Boy)" },
+  { "hebrew": "צְבָעִים", "english": "Crayons" },
+  { "hebrew": "יְלָדִים", "english": "Boys" },
+  { "hebrew": "יְלָדוֹת", "english": "Girls" }
+]
+
+let remainingWords = [...flashcardData];
+let currentCard = null;
+
+let score = 0;
+let questionCount = 1;
+
+let timer = null;
+let timeLeft = 10;
+
+const wordDiv = document.getElementById("hebrewWord");
+const choicesDiv = document.getElementById("choicesContainer");
+const scoreSpan = document.getElementById("score");
+const qSpan = document.getElementById("questionNum");
+const timeSpan = document.getElementById("timeRemaining");
+
+function shuffle(arr){
+    return arr.sort(()=>Math.random()-.5);
+}
+
+function pickNewCard(){
+    if(remainingWords.length === 0){
+        remainingWords = shuffle([...flashcardData]);
+    }
+
+    currentCard = remainingWords.pop();
+    wordDiv.textContent = currentCard.hebrew;
+
+    generateChoices();
+    resetTimer();
+}
+
+function generateChoices(){
+    let wrongChoices = shuffle(flashcardData.filter(c => c !== currentCard))
+                        .slice(0,2)
+                        .map(c => c.english);
+
+    let options = shuffle([currentCard.english, ...wrongChoices]);
+
+    choicesDiv.innerHTML = "";
+
+    options.forEach(option=>{
+        const btn = document.createElement("button");
+        btn.className = "choice-btn";
+        btn.textContent = option;
+
+        btn.onclick = ()=>handleAnswer(btn, option);
+
+        choicesDiv.appendChild(btn);
+    });
+}
+
+function handleAnswer(btn, choice){
+    clearInterval(timer);
+
+    const buttons = document.querySelectorAll(".choice-btn");
+    buttons.forEach(b => b.disabled = true);
+
+    if(choice === currentCard.english){
+        btn.classList.add("correct");
+        score++;
+        scoreSpan.textContent = score;
+    } else {
+        btn.classList.add("wrong");
+        const correctBtn = [...buttons].find(
+            b=>b.textContent === currentCard.english
+        );
+        correctBtn.classList.add("correct");
+    }
+
+    setTimeout(()=>{
+        questionCount++;
+        qSpan.textContent = questionCount;
+        pickNewCard();
+    }, 1200);
+}
+
+function resetTimer(){
+    clearInterval(timer);
+    timeLeft = 10;
+    timeSpan.textContent = timeLeft;
+
+    timer = setInterval(()=>{
+        timeLeft--;
+        timeSpan.textContent = timeLeft;
+
+        if(timeLeft === 0){
+            clearInterval(timer);
+            handleTimeout();
+        }
+    }, 1000);
+}
+
+function handleTimeout(){
+    const buttons = document.querySelectorAll(".choice-btn");
+    buttons.forEach(b => b.disabled = true);
+
+    const correctBtn = [...buttons].find(
+        b=>b.textContent === currentCard.english
+    );
+    correctBtn.classList.add("correct");
+
+    setTimeout(()=>{
+        questionCount++;
+        qSpan.textContent = questionCount;
+        pickNewCard();
+    }, 1200);
+}
+
+pickNewCard();
+</script>
+
+</body>
+</html>

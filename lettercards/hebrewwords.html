@@ -184,18 +184,20 @@
     color:#0056b3;
     font-weight: bold;
     font-family: 'Soup of Justice', sans-serif;
+    margin: 0 10px;
+
 }
     </style>
 </head>
 <body>
-
     <h1>Ryan and Tyler's </h1>
-        <div class="nav">
-        <a href="index.html">Letter Game</a>
-        <a href="hebrewwords.html">Word Game</a>
-    </div>
+<div class="nav">
+
+    <a href="index.html">Letter Game</a>
+    <a href="hebrewwords.html">Word Game</a>
+</div>
 <div class="container">
-    <h1>Hebrew Flashcards</h1>
+
     <div class="card-counter">
         Card <span id="currentCardIndex">1</span> of <span id="totalCards">26</span>
     </div>
@@ -211,10 +213,12 @@
     <div class="controls">
         <button id="prevButton" disabled>&larr; Previous</button>
         <button id="nextButton">Next &rarr;</button>
-        <button id="printButton">Print Cards 🖨️</button>
-        <a href="quiz.html"><button id="quiz">Quiz Game 🎮</button></a>
+        <button id="random">Random ❓</button>
     </div>
-</div>
+    <div class="controls">
+        <button id="printButton">Print Cards 🖨️</button>
+        <a href="quiz.html"><button id="quiz">Quiz Me 🎮</button></a>
+    </div>
 
 <div class="printable-list-container" id="printableList">
     </div>
@@ -275,6 +279,7 @@ const flashcardData = [
     const prevButton = document.getElementById('prevButton');
     const nextButton = document.getElementById('nextButton');
     const printButton = document.getElementById('printButton');
+    const randomButton = document.getElementById('random');
     const printableListContainer = document.getElementById('printableList');
 
 
@@ -346,6 +351,10 @@ const flashcardData = [
     });
 
     nextButton.addEventListener('click', goToNextCard);
+    randomButton.addEventListener('click', () => {
+        currentCard = Math.floor(Math.random() * flashcardData.length);
+        updateCardDisplay();
+    });
     prevButton.addEventListener('click', goToPrevCard);
     printButton.addEventListener('click', handlePrint);
 

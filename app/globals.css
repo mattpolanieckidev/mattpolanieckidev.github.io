@@ -1,31 +1,31 @@
 @import "tailwindcss";
 
-@theme inline {
-  --color-background: hsl(220 20% 7%);
-  --color-foreground: hsl(210 20% 98%);
-  --color-card: hsl(220 18% 10%);
-  --color-card-foreground: hsl(210 20% 98%);
-  --color-primary: hsl(172 66% 50%);
-  --color-primary-foreground: hsl(220 20% 7%);
-  --color-secondary: hsl(220 15% 15%);
-  --color-secondary-foreground: hsl(210 20% 98%);
-  --color-muted: hsl(220 15% 15%);
-  --color-muted-foreground: hsl(215 15% 55%);
-  --color-accent: hsl(172 66% 50%);
-  --color-accent-foreground: hsl(220 20% 7%);
-  --color-border: hsl(220 15% 18%);
-  --color-input: hsl(220 15% 18%);
-  --color-ring: hsl(172 66% 50%);
-  --radius: 0.75rem;
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-mono: var(--font-mono), monospace;
+@layer base {
+  :root {
+    --background: 220 20% 7%;
+    --foreground: 210 20% 98%;
+    --card: 220 18% 10%;
+    --card-foreground: 210 20% 98%;
+    --primary: 172 66% 50%;
+    --primary-foreground: 220 20% 7%;
+    --secondary: 220 15% 15%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 215 15% 55%;
+    --accent: 172 66% 50%;
+    --accent-foreground: 220 20% 7%;
+    --border: 220 15% 18%;
+    --input: 220 15% 18%;
+    --ring: 172 66% 50%;
+    --radius: 0.75rem;
+  }
 }
 
-* {
-  border-color: var(--color-border);
-}
-
-body {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

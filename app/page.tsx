@@ -152,7 +152,10 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Subtle gradient overlay */}
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent" />
+      <div 
+        className="pointer-events-none fixed inset-0" 
+        style={{ background: "radial-gradient(ellipse at top, hsl(172 66% 50% / 0.05), transparent 70%)" }}
+      />
       
       <main className="relative mx-auto max-w-6xl px-6 py-16 lg:py-24">
         {/* Header Section */}

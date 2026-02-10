@@ -129,12 +129,15 @@ function handleHolidays(holidayItems) {
     const holidayDiv = setdiv('holiday', 'holidaycandle');
     const holidayName = holidayItems[0]?.title || '';
     updateTextContent('holiday', holidayName);
+    const holidayDetail = holidayItems.find(i => i.memo === holidayName)?.title || '';
 
-    const p = document.createElement("p");
-    p.setAttribute('id', 'holidaycandle');
-    p.setAttribute('class', 'holidaycandle');
-    p.innerHTML = holidayItems.find(i => i.memo === holidayName)?.title || '';
-    holidayDiv.append(p);
+    if (holidayDetail) {
+      const p = document.createElement("p");
+      p.setAttribute('id', 'holidaycandle');
+      p.setAttribute('class', 'holidaycandle');
+      p.innerHTML = holidayDetail;
+      holidayDiv.append(p);
+    }
   }
 }
 
@@ -145,11 +148,14 @@ function handleYomTov(yomtovItems) {
       const holidayDiv = setdiv(`holiday${index + 2}`, 'holidaycandle');
       const holidayName = item?.title || '';
       updateTextContent(`holiday${index + 2}`, holidayName);
+      const yomTovDetail = yomtovItems.find(i => i.memo === holidayName)?.title || '';
 
-      const p = document.createElement("p");
-      p.setAttribute('class', 'holidaycandle');
-      p.innerHTML = yomtovItems.find(i => i.memo === holidayName)?.title || '';
-      holidayDiv.append(p);
+      if (yomTovDetail) {
+        const p = document.createElement("p");
+        p.setAttribute('class', 'holidaycandle');
+        p.innerHTML = yomTovDetail;
+        holidayDiv.append(p);
+      }
     });
   }
 }

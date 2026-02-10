@@ -13,12 +13,6 @@ let city;
 let parsha;
 
 // Define constants
-const colors = [
-  '#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#00f2fe', 
-  '#43e97b', '#38f9d7', '#fa709a', '#fee140', '#a8edea', '#fed6e3',
-  '#ff9a9e', '#fecfef', '#fccb90', '#d4fc79', '#96e6a1', '#ffd89b',
-  '#19547b', '#ffecd2', '#fcb69f', '#a3bded', '#6991c7', '#13547a'
-];
 
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -30,13 +24,8 @@ function setZipcode(zipcode) {
   localStorage.setItem("zipcode", zipcode);
 }
 
-function getRandomColor(colors) {
-  return colors[Math.floor(Math.random() * colors.length)];
-}
-
 function changeColor() {
-  body.style.backgroundColor = getRandomColor(colors);
-  document.getElementById('colorlabel2').innerHTML = "Shabbos Times ";
+  document.getElementById('colorlabel2').innerHTML = "Shabbos Times";
   inputField.value = getZipcode();
   if (inputField.value === "") {
     console.log("empty")
@@ -107,6 +96,8 @@ async function find() {
     // Update Shabbos info
     updateShabbosInfo(city, parsha, candlesText, havdalahText);
 
+    clearHolidayCards();
+
     // Handle holidays
     const holidayItems = data.items.filter(i => i.category === "holiday");
     handleHolidays(holidayItems);
@@ -123,6 +114,13 @@ async function find() {
 function formatEventText(date, title) {
   const d = new Date(date);
   return `${days[d.getDay()]} ${d.getMonth() + 1}-${d.getDate()}-${d.getFullYear()}<br>${title}`;
+}
+
+function clearHolidayCards() {
+  ['holiday', 'holiday2', 'holiday3'].forEach((id) => {
+    const existing = document.getElementById(id);
+    if (existing) existing.remove();
+  });
 }
 
 // Helper function to handle holidays

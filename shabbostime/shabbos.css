@@ -1,171 +1,241 @@
+:root {
+  --bg: #f5f5f7;
+  --card: rgba(255, 255, 255, 0.78);
+  --card-border: rgba(255, 255, 255, 0.88);
+  --text: #1d1d1f;
+  --muted: #6e6e73;
+  --accent: #0071e3;
+  --shadow: 0 24px 48px rgba(15, 23, 42, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  top: 0;
-  margin: 4px 7.5%;
-
-  color: white;
+  margin: 0;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at 10% 0%, #fff 0%, #f8f9fb 40%, #eceef3 100%);
 }
 
-#gpt{
- display: contents;
- margin:0;
- padding:0 ;
- border:none;
- color:white;
-}
-.navbar .active{
-  font-weight: bolder;
-  border-bottom: 2px solid #fff;
-}
-.psummary{
-  margin:20px 0 5px;
+.background-orbs {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
 }
 
-#page {
-  display: grid;
-  grid-template-areas:
-    "header header header"
-    "candles parsha havdala"
-    "holiday holiday holiday ";
-  grid-template-columns: 1fr 1fr 1fr;
-  justify-content: space-evenly;
+.orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(40px);
+  opacity: 0.45;
 }
+
+.orb-1 {
+  width: 280px;
+  height: 280px;
+  background: #75b8ff;
+  top: 80px;
+  left: -80px;
+}
+
+.orb-2 {
+  width: 320px;
+  height: 320px;
+  background: #d3b6ff;
+  right: -90px;
+  top: 140px;
+}
+
+.orb-3 {
+  width: 240px;
+  height: 240px;
+  background: #9df2d0;
+  bottom: -70px;
+  left: 40%;
+}
+
+.app-nav,
+.app-shell {
+  position: relative;
+  z-index: 1;
+}
+
+.app-nav {
+  margin: 12px auto;
+  max-width: 1120px;
+  border-radius: 20px;
+  padding: 10px 18px;
+  background: var(--card);
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 12px 28px rgba(31, 41, 55, 0.09);
+}
+
+.navbar .active {
+  font-weight: 600;
+}
+
+.navbar-brand,
+.nav-link {
+  color: var(--text) !important;
+}
+
+.navbar-toggler {
+  border-color: rgba(29, 29, 31, 0.22);
+}
+
+.navbar-toggler-icon {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"><path stroke="rgba(29,29,31,0.78)" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/></svg>');
+}
+
+.app-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 12px 16px 30px;
+}
+
+.hero-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(16px);
+  border-radius: 32px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  padding: 40px 24px 30px;
+}
+
+.eyebrow {
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+}
+
 .header {
-  grid-area: header;
-  text-align: center;
-  font-size: 65px;
-  margin-top: 20px;
-}
-
-.header input {
-  font-size: 25px;
-  width: 120px;
-  text-align: center;
-}
-
-h3 {
-  margin-bottom: 0;
-}
-
-.parsha {
-  grid-area: parsha;
-}
-
-.candles {
-  grid-area: candles;
-}
-.havdala {
-  grid-area: havdala;
-}
-.holiday {
-  grid-area: holiday;
+  margin: 0;
+  font-size: clamp(1.8rem, 5vw, 3.3rem);
+  font-weight: 600;
 }
 
 .finder {
   display: flex;
-  align-content: center;
-  place-content: center;
-  margin: 20px 0 40px 0;
-}
-
-.finder button {
-  margin-left: 20px;
-}
-
-#submit {
-  color: white;
-  border-color: white;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 24px;
+  flex-wrap: wrap;
 }
 
 #zip {
-  font-size: 16px;
-}
-.parsha,
-#candleLighting,
-#havdala,
-.color,
-#holiday,
-.holidaycandle,
-#holiday2,
-#holiday3 {
-  font-size: 60px;
-  font-weight: 200;
-  line-height: normal;
+  border: 1px solid rgba(110, 110, 115, 0.35);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 1rem;
+  width: 140px;
   text-align: center;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+#submit {
+  background: var(--accent);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 500;
+  padding: 12px 20px;
+}
+
+#submit:hover {
+  background: #0062c2;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.info-card,
+.holidaycandle {
+  border-radius: 24px;
+  border: 1px solid var(--card-border);
+  background: var(--card);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+  text-align: center;
+  padding: 26px 16px;
+}
+
+.card-label {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-size: 0.78rem;
+  margin-bottom: 10px;
+}
+
+#candleLighting,
+#parshalabel,
+#havdala,
+#holiday,
+#holiday2,
+#holiday3,
+#holidaycandle,
+.holidaycandle {
+  margin: 0;
+  font-size: clamp(1rem, 2.15vw, 1.4rem);
+  font-weight: 500;
+  line-height: 1.45;
 }
 
 #parsha {
-  font-weight: bold;
+  font-weight: 700;
+  display: inline-block;
+  margin-top: 6px;
 }
 
-#holidaycandle,
-.holidaycandle,
-#holiday2 {
-  text-align: center;
-}
-.candles,
-.parsha,
-.havdala {
-  border-bottom: white 1px solid;
+#parsha > div > ul > li {
+  font-size: 0.95rem;
+  text-align: left;
+  font-weight: 400;
 }
 
-#parsha > div > ul > li{
-	font-size: medium;
-	text-align: left;
-	font-weight: normal;
-  }
-@media only screen and (min-width: 1200px) {
-  body {
-    margin: 4px 3.5%;
-  }
+#gpt {
+  display: inline-flex;
+  margin-left: 6px;
+  border: none;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
 }
-@media only screen and (orientation: portrait) {
-  body {
-    margin: 0;
-  }
-  #page {
-    display: grid;
-    grid-template-areas:
-      "header "
-      "candles"
-      "parsha"
-      "havdala"
-      "holiday";
-    grid-template-rows: 170px auto auto auto;
+
+.psummary {
+  margin: 18px 0 8px;
+  font-size: 1.05rem;
+}
+
+@media (max-width: 992px) {
+  .info-grid {
     grid-template-columns: 1fr;
   }
-  .header {
-    font-size: 40px;
-  }
-  .holidaycandle {
-    font-size: 40px;
+
+  .app-nav {
+    margin: 8px;
   }
 
-  .candles,
-  .parsha,
-  .havdala {
-    border-bottom: none;
+  .app-shell {
+    padding: 8px;
   }
 
-  .fa-rectangle-list{
-	width: 10px;
-  }
-
-
-  .parsha,
-  #candleLighting,
-  #parsha,
-  #havdala,
-  #holiday,
-  #holiday2,
-  #holiday3 {
-    font-size: 40px;
-    margin: 0 5px;
-    border-bottom: white 1px solid;
-    padding: 4px 0;
-  }
-
-  .parsha p {
-    margin: auto 0 0;
+  .hero-card {
+    border-radius: 24px;
+    padding: 28px 16px 24px;
   }
 }
-

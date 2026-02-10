@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon" href="images/icons/icon-192x192.png">
     <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
     <script src="https://kit.fontawesome.com/0a7f654060.js" crossorigin="anonymous"></script>
-    <meta name="theme-color" content="#f5f5f7">
+    <meta name="theme-color" content="#ffffff">
 </head>
 <body onload="changeColor()">
     <div class="background-orbs" aria-hidden="true">
@@ -44,9 +44,10 @@
     </nav>
 
     <main class="app-shell">
-        <section class="hero-card">
-            <p class="eyebrow">Shabbos at a glance</p>
-            <h1 class="header" id="header">Shabbos times for</h1>
+        <section class="hero-card" aria-label="Location lookup">
+            <p class="eyebrow">Weekly schedule</p>
+            <h1 class="header" id="header">Shabbos times for your area</h1>
+            <p class="subheader">Enter your ZIP code to see this week's candle lighting, parsha, havdalah, and upcoming holiday notes.</p>
             <div class="finder">
                 <label for="zip" class="sr-only">Zip code</label>
                 <input type="number" id="zip" placeholder="Zip Code" aria-label="Zip Code" aria-describedby="submit" autofocus>
@@ -54,17 +55,17 @@
             </div>
         </section>
 
-        <section id="page" class="info-grid">
+        <section id="page" class="info-grid" aria-live="polite">
             <article class="info-card candles">
-                <p class="card-label">Candle lighting</p>
-                <p id="candleLighting"></p>
+                <p class="card-label">Candle Lighting</p>
+                <p id="candleLighting" class="value-text">—</p>
             </article>
             <article class="info-card parsha">
-                <p id="parshalabel"></p>
+                <p id="parshalabel" class="value-text">Torah portion: <span id="parsha">—</span></p>
             </article>
             <article class="info-card havdala">
                 <p class="card-label">Havdalah</p>
-                <p id="havdala"></p>
+                <p id="havdala" class="value-text">—</p>
             </article>
         </section>
     </main>

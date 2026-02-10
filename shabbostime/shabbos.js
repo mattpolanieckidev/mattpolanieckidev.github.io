@@ -1,16 +1,12 @@
 // Cache DOM elements
 const inputField = document.getElementById("zip");
-const body = document.querySelector("body");
 const page = document.getElementById("page");
 
 // Set input field properties
 inputField.maxLength = 5;
 
 // Initialize variables
-let input = inputField.value;
-let zip;
-let city;
-let parsha;
+let currentParsha = "";
 
 // Define constants
 
@@ -27,10 +23,7 @@ function setZipcode(zipcode) {
 function changeColor() {
   document.getElementById('colorlabel2').innerHTML = "Shabbos Times";
   inputField.value = getZipcode();
-  if (inputField.value === "") {
-    console.log("empty")
-  }
-  else {
+  if (inputField.value !== "") {
     find();
   }
 }
@@ -49,11 +42,11 @@ function updateTextContent(id, text) {
 }
 
 function updateShabbosInfo(city, parsha, candles, havdalah) {
-  updateTextContent("header", city);
-  updateTextContent('parshalabel', "Torah portion: <br> <span id = \"parsha\"> </span> <button id=\"gpt\" class=\"fa-regular fa-rectangle-list fa-2xs\" onclick=\"generateAI()\"></button>");
-  updateTextContent('parsha', parsha);
-  updateTextContent("candleLighting", candles);
-  updateTextContent("havdala", havdalah);
+  updateTextContent("header", `Shabbos times for ${city}`);
+  updateTextContent('parshalabel', "Torah portion: <br> <span id=\"parsha\"></span> <button id=\"gpt\" class=\"fa-regular fa-rectangle-list fa-2xs\" onclick=\"generateAI()\"></button>");
+  updateTextContent('parsha', parsha || "—");
+  updateTextContent("candleLighting", candles || "—");
+  updateTextContent("havdala", havdalah || "—");
 }
 
 async function find() {
@@ -81,6 +74,7 @@ async function find() {
     // Extract parsha
     const parashatItem = data.items.find(i => i.category === "parashat");
     const parsha = parashatItem?.title || '';
+    currentParsha = parsha;
 
     // Extract candlelighting and havdalah times
     const candlesItem = data.items.find(i => i.category === "candles");
@@ -189,7 +183,7 @@ async function generateAI() {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      messages: [{ role: "user", content: "Summarize this parsha in 5 bullet sentences in HTML list format. Only include the <ul> and <li> in the return. Do not include ```html in the return " + parsha }],
+      messages: [{ role: "user", content: "Summarize this parsha in 5 bullet sentences in HTML list format. Only include the <ul> and <li> in the return. Do not include ```html in the return " + currentParsha }],
       web_access: false,
     }),
   };

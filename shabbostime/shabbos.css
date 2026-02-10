@@ -1,11 +1,11 @@
 :root {
-  --bg: #f5f5f7;
-  --card: rgba(255, 255, 255, 0.78);
-  --card-border: rgba(255, 255, 255, 0.88);
-  --text: #1d1d1f;
-  --muted: #6e6e73;
-  --accent: #0071e3;
-  --shadow: 0 24px 48px rgba(15, 23, 42, 0.12);
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --text: #111827;
+  --muted: #4b5563;
+  --accent: #0a84ff;
+  --border: #dbe2ea;
+  --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
 }
 
 * {
@@ -15,9 +15,9 @@
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
-  color: var(--text);
   background: radial-gradient(circle at 10% 0%, #fff 0%, #f8f9fb 40%, #eceef3 100%);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
 }
 
 .background-orbs {
@@ -33,6 +33,7 @@ body {
   border-radius: 999px;
   filter: blur(40px);
   opacity: 0.45;
+  will-change: transform;
 }
 
 .orb-1 {
@@ -41,6 +42,7 @@ body {
   background: #75b8ff;
   top: 80px;
   left: -80px;
+  animation: driftOrbOne 28s ease-in-out infinite alternate;
 }
 
 .orb-2 {
@@ -49,6 +51,7 @@ body {
   background: #d3b6ff;
   right: -90px;
   top: 140px;
+  animation: driftOrbTwo 34s ease-in-out infinite alternate;
 }
 
 .orb-3 {
@@ -57,6 +60,35 @@ body {
   background: #9df2d0;
   bottom: -70px;
   left: 40%;
+  animation: driftOrbThree 40s ease-in-out infinite alternate;
+}
+
+
+@keyframes driftOrbOne {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(48px, -34px, 0) scale(1.06);
+  }
+}
+
+@keyframes driftOrbTwo {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(-56px, 42px, 0) scale(1.08);
+  }
+}
+
+@keyframes driftOrbThree {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(26px, -38px, 0) scale(1.05);
+  }
 }
 
 .app-nav,
@@ -67,13 +99,13 @@ body {
 
 .app-nav {
   margin: 12px auto;
-  max-width: 1120px;
-  border-radius: 20px;
-  padding: 10px 18px;
-  background: var(--card);
-  backdrop-filter: blur(18px);
-  border: 1px solid var(--card-border);
-  box-shadow: 0 12px 28px rgba(31, 41, 55, 0.09);
+  max-width: 1100px;
+  padding: 10px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 6px 20px rgba(2, 6, 23, 0.05);
 }
 
 .navbar .active {
@@ -86,119 +118,149 @@ body {
 }
 
 .navbar-toggler {
-  border-color: rgba(29, 29, 31, 0.22);
+  border-color: rgba(17, 24, 39, 0.25);
 }
 
 .navbar-toggler-icon {
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"><path stroke="rgba(29,29,31,0.78)" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/></svg>');
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"><path stroke="rgba(17,24,39,0.8)" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/></svg>');
 }
 
 .app-shell {
-  max-width: 1120px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 12px 16px 30px;
+  padding: 8px 16px 32px;
 }
 
 .hero-card {
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  backdrop-filter: blur(16px);
-  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
   box-shadow: var(--shadow);
   text-align: center;
-  padding: 40px 24px 30px;
+  padding: 36px 22px 28px;
 }
 
 .eyebrow {
-  color: var(--muted);
-  letter-spacing: 0.12em;
+  margin: 0;
+  font-size: 0.76rem;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
-  font-size: 0.8rem;
-  margin-bottom: 12px;
+  color: var(--muted);
 }
 
 .header {
-  margin: 0;
-  font-size: clamp(1.8rem, 5vw, 3.3rem);
-  font-weight: 600;
+  margin: 10px 0 10px;
+  font-size: clamp(1.7rem, 4.3vw, 3rem);
+  line-height: 1.2;
+  font-weight: 650;
+}
+
+.subheader {
+  margin: 0 auto;
+  max-width: 720px;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 .finder {
+  margin-top: 20px;
   display: flex;
-  gap: 12px;
   justify-content: center;
-  margin-top: 24px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
 #zip {
-  border: 1px solid rgba(110, 110, 115, 0.35);
-  border-radius: 12px;
-  padding: 12px 14px;
-  font-size: 1rem;
-  width: 140px;
+  width: 150px;
   text-align: center;
+  border: 1px solid #cdd6e2;
+  border-radius: 10px;
+  background: #fff;
   color: var(--text);
-  background: rgba(255, 255, 255, 0.95);
+  font-size: 1rem;
+  padding: 10px 12px;
+}
+
+#zip:focus,
+#submit:focus {
+  outline: 3px solid rgba(10, 132, 255, 0.2);
+  outline-offset: 1px;
 }
 
 #submit {
-  background: var(--accent);
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
+  background: var(--accent);
   color: #fff;
-  font-weight: 500;
-  padding: 12px 20px;
+  font-weight: 600;
+  padding: 10px 18px;
 }
 
 #submit:hover {
-  background: #0062c2;
+  background: #006ddb;
 }
 
 .info-grid {
+  margin-top: 16px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 18px;
+  gap: 14px;
 }
 
 .info-card,
 .holidaycandle {
-  border-radius: 24px;
-  border: 1px solid var(--card-border);
-  background: var(--card);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 16px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
   text-align: center;
-  padding: 26px 16px;
 }
 
 .card-label {
+  margin: 0 0 8px;
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  font-size: 0.78rem;
-  margin-bottom: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
-#candleLighting,
-#parshalabel,
-#havdala,
+.value-text,
 #holiday,
 #holiday2,
 #holiday3,
 #holidaycandle,
 .holidaycandle {
   margin: 0;
-  font-size: clamp(1rem, 2.15vw, 1.4rem);
-  font-weight: 500;
+  font-size: clamp(1rem, 2vw, 1.28rem);
   line-height: 1.45;
+  font-weight: 500;
 }
 
 #parsha {
   font-weight: 700;
-  display: inline-block;
-  margin-top: 6px;
+}
+
+#parshalabel {
+  color: var(--text);
+}
+
+#gpt {
+  margin-left: 8px;
+  border: none;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.psummary {
+  margin: 14px 0 8px;
+  font-size: 1rem;
 }
 
 #parsha > div > ul > li {
@@ -207,25 +269,7 @@ body {
   font-weight: 400;
 }
 
-#gpt {
-  display: inline-flex;
-  margin-left: 6px;
-  border: none;
-  background: transparent;
-  color: var(--accent);
-  cursor: pointer;
-}
-
-.psummary {
-  margin: 18px 0 8px;
-  font-size: 1.05rem;
-}
-
 @media (max-width: 992px) {
-  .info-grid {
-    grid-template-columns: 1fr;
-  }
-
   .app-nav {
     margin: 8px;
   }
@@ -234,8 +278,24 @@ body {
     padding: 8px;
   }
 
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
   .hero-card {
-    border-radius: 24px;
-    padding: 28px 16px 24px;
+    padding: 28px 16px 22px;
+  }
+
+  .subheader {
+    font-size: 0.96rem;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .orb-1,
+  .orb-2,
+  .orb-3 {
+    animation: none;
   }
 }

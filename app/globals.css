@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  /* ── Bauhaus ── */
+  /* ── 1. Bauhaus ── */
   :root,
   :root[data-theme="bauhaus"] {
     --background: 48 30% 96%;
@@ -28,7 +28,7 @@
     --radius: 0rem;
   }
 
-  /* ── Retro-Futuristic ── */
+  /* ── 2. Retro-Futuristic ── */
   :root[data-theme="retro"] {
     --background: 220 25% 8%;
     --foreground: 40 25% 92%;
@@ -52,7 +52,7 @@
     --radius: 0.25rem;
   }
 
-  /* ── Brutalism ── */
+  /* ── 3. Brutalism ── */
   :root[data-theme="brutalism"] {
     --background: 60 5% 96%;
     --foreground: 0 0% 0%;
@@ -76,7 +76,7 @@
     --radius: 0rem;
   }
 
-  /* ── Japandi ── */
+  /* ── 4. Japandi ── */
   :root[data-theme="japandi"] {
     --background: 35 20% 95%;
     --foreground: 30 10% 18%;
@@ -99,6 +99,174 @@
     --ring: 150 20% 38%;
     --radius: 0.125rem;
   }
+
+  /* ── 5. International Style ── */
+  :root[data-theme="international"] {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 0 90% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 45%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 42%;
+    --accent: 0 0% 10%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 85%;
+    --input: 0 0% 85%;
+    --ring: 0 90% 50%;
+    --radius: 0rem;
+  }
+
+  /* ── 6. Scandinavian Modern ── */
+  :root[data-theme="scandinavian"] {
+    --background: 210 20% 97%;
+    --foreground: 210 15% 18%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 15% 18%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 15% 18%;
+    --primary: 210 45% 52%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 35 50% 72%;
+    --secondary-foreground: 210 15% 18%;
+    --muted: 210 12% 92%;
+    --muted-foreground: 210 8% 48%;
+    --accent: 150 30% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 60% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 10% 88%;
+    --input: 210 10% 88%;
+    --ring: 210 45% 52%;
+    --radius: 0.5rem;
+  }
+
+  /* ── 7. Art Deco ── */
+  :root[data-theme="artdeco"] {
+    --background: 40 15% 8%;
+    --foreground: 42 50% 80%;
+    --card: 40 12% 12%;
+    --card-foreground: 42 50% 80%;
+    --popover: 40 12% 12%;
+    --popover-foreground: 42 50% 80%;
+    --primary: 42 85% 55%;
+    --primary-foreground: 40 15% 8%;
+    --secondary: 170 40% 45%;
+    --secondary-foreground: 40 15% 8%;
+    --muted: 40 10% 18%;
+    --muted-foreground: 42 20% 50%;
+    --accent: 42 85% 55%;
+    --accent-foreground: 40 15% 8%;
+    --destructive: 0 60% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 42 30% 25%;
+    --input: 42 30% 25%;
+    --ring: 42 85% 55%;
+    --radius: 0rem;
+  }
+
+  /* ── 8. Minimalism ── */
+  :root[data-theme="minimalism"] {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 12%;
+    --primary: 0 0% 12%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 60%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 50%;
+    --accent: 0 0% 12%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 0% 40%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 0 0% 12%;
+    --radius: 0rem;
+  }
+
+  /* ── 9. Mid-Century Modern ── */
+  :root[data-theme="midcentury"] {
+    --background: 38 25% 92%;
+    --foreground: 25 20% 16%;
+    --card: 38 20% 88%;
+    --card-foreground: 25 20% 16%;
+    --popover: 38 20% 88%;
+    --popover-foreground: 25 20% 16%;
+    --primary: 16 75% 50%;
+    --primary-foreground: 38 25% 92%;
+    --secondary: 170 55% 38%;
+    --secondary-foreground: 38 25% 92%;
+    --muted: 38 15% 82%;
+    --muted-foreground: 25 10% 40%;
+    --accent: 45 80% 55%;
+    --accent-foreground: 25 20% 16%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 25 12% 72%;
+    --input: 25 12% 72%;
+    --ring: 16 75% 50%;
+    --radius: 0.75rem;
+  }
+
+  /* ── 10. De Stijl ── */
+  :root[data-theme="destijl"] {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 0 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 55 100% 50%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 94%;
+    --muted-foreground: 0 0% 30%;
+    --accent: 215 100% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 0%;
+    --input: 0 0% 0%;
+    --ring: 0 100% 50%;
+    --radius: 0rem;
+  }
+
+  /* ── 11. Postmodernism ── */
+  :root[data-theme="postmodern"] {
+    --background: 280 15% 95%;
+    --foreground: 260 20% 15%;
+    --card: 280 12% 92%;
+    --card-foreground: 260 20% 15%;
+    --popover: 280 12% 92%;
+    --popover-foreground: 260 20% 15%;
+    --primary: 340 80% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 175 70% 45%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 280 8% 86%;
+    --muted-foreground: 260 10% 40%;
+    --accent: 45 90% 55%;
+    --accent-foreground: 260 20% 15%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 280 10% 78%;
+    --input: 280 10% 78%;
+    --ring: 340 80% 55%;
+    --radius: 1rem;
+  }
 }
 
 @layer base {
@@ -111,22 +279,22 @@
   }
 }
 
-/* ── Retro-futuristic scanline overlay ── */
+/* ══════════════════════════════════════════════
+   Theme-specific visual effects
+   ══════════════════════════════════════════════ */
+
+/* ── Retro-futuristic scanlines ── */
 [data-theme="retro"] .scanlines::after {
   content: "";
   position: absolute;
   inset: 0;
   background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.08) 2px,
-    rgba(0, 0, 0, 0.08) 4px
+    0deg, transparent, transparent 2px,
+    rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px
   );
   pointer-events: none;
   z-index: 1;
 }
-
 [data-theme="retro"] .glow-hover:hover {
   box-shadow: 0 0 20px hsl(175 85% 45% / 0.15), 0 0 40px hsl(175 85% 45% / 0.05);
 }
@@ -135,40 +303,84 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+.cursor-blink { animation: blink 1s step-end infinite; }
 
-.cursor-blink {
-  animation: blink 1s step-end infinite;
-}
-
-/* ── Brutalism effects ── */
+/* ── Brutalism ── */
 [data-theme="brutalism"] .brutal-shadow {
   box-shadow: 6px 6px 0 0 hsl(0 0% 0%);
 }
-
 [data-theme="brutalism"] .brutal-shadow:hover {
   box-shadow: 3px 3px 0 0 hsl(0 0% 0%);
   transform: translate(3px, 3px);
 }
-
 [data-theme="brutalism"] .brutal-shadow-sm {
   box-shadow: 4px 4px 0 0 hsl(0 0% 0%);
 }
-
 [data-theme="brutalism"] .brutal-shadow-sm:hover {
   box-shadow: 2px 2px 0 0 hsl(0 0% 0%);
   transform: translate(2px, 2px);
 }
 
-/* ── Japandi effects ── */
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
+/* ── Japandi ── */
 [data-theme="japandi"] .japandi-card {
   transition: box-shadow 0.3s ease;
 }
-
 [data-theme="japandi"] .japandi-card:hover {
   box-shadow: 0 2px 16px hsl(30 10% 18% / 0.06);
+}
+
+/* ── Art Deco ── */
+[data-theme="artdeco"] .deco-line {
+  background: linear-gradient(90deg, transparent, hsl(42 85% 55%), transparent);
+}
+
+/* ── Scandinavian ── */
+[data-theme="scandinavian"] .scandi-card {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+[data-theme="scandinavian"] .scandi-card:hover {
+  box-shadow: 0 8px 30px hsl(210 15% 18% / 0.06);
+  transform: translateY(-2px);
+}
+
+/* ── Mid-Century Modern ── */
+[data-theme="midcentury"] .mcm-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+[data-theme="midcentury"] .mcm-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 24px hsl(25 20% 16% / 0.1);
+}
+
+/* ── De Stijl ── */
+[data-theme="destijl"] .destijl-card {
+  transition: background-color 0.2s ease;
+}
+[data-theme="destijl"] .destijl-card:hover {
+  background-color: hsl(0 0% 96%);
+}
+
+/* ── Postmodernism ── */
+[data-theme="postmodern"] .postmodern-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+[data-theme="postmodern"] .postmodern-card:hover {
+  transform: rotate(-0.5deg) translateY(-2px);
+  box-shadow: 0 8px 30px hsl(260 20% 15% / 0.1);
+}
+
+/* ── International Style ── */
+[data-theme="international"] .intl-card {
+  transition: background-color 0.2s ease;
+}
+[data-theme="international"] .intl-card:hover {
+  background-color: hsl(0 0% 97%);
+}
+
+/* ── Minimalism ── */
+[data-theme="minimalism"] .minimal-card {
+  transition: opacity 0.2s ease;
+}
+[data-theme="minimalism"] .minimal-card:hover {
+  opacity: 0.7;
 }

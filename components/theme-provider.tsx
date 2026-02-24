@@ -2,18 +2,41 @@
 
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react"
 
-export type Theme = "bauhaus" | "retro" | "brutalism" | "japandi"
+export type Theme =
+  | "bauhaus"
+  | "retro"
+  | "brutalism"
+  | "japandi"
+  | "international"
+  | "scandinavian"
+  | "artdeco"
+  | "minimalism"
+  | "midcentury"
+  | "destijl"
+  | "postmodern"
 
-const THEMES: Theme[] = ["bauhaus", "retro", "brutalism", "japandi"]
+export const THEMES: Theme[] = [
+  "bauhaus",
+  "retro",
+  "brutalism",
+  "japandi",
+  "international",
+  "scandinavian",
+  "artdeco",
+  "minimalism",
+  "midcentury",
+  "destijl",
+  "postmodern",
+]
 
 interface ThemeContextValue {
   theme: Theme
-  toggle: () => void
+  setTheme: (t: Theme) => void
 }
 
 const ThemeContext = createContext<ThemeContextValue>({
   theme: "bauhaus",
-  toggle: () => {},
+  setTheme: () => {},
 })
 
 export function useTheme() {
@@ -21,19 +44,15 @@ export function useTheme() {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("bauhaus")
+  const [theme, _setTheme] = useState<Theme>("bauhaus")
 
-  const toggle = useCallback(() => {
-    setTheme((prev) => {
-      const idx = THEMES.indexOf(prev)
-      const next = THEMES[(idx + 1) % THEMES.length]
-      document.documentElement.setAttribute("data-theme", next)
-      return next
-    })
+  const setTheme = useCallback((t: Theme) => {
+    _setTheme(t)
+    document.documentElement.setAttribute("data-theme", t)
   }, [])
 
   return (
-    <ThemeContext.Provider value={{ theme, toggle }}>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   )

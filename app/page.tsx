@@ -1,6 +1,16 @@
+"use client"
+
+import { useTheme } from "@/components/theme-provider"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { ProjectCard } from "@/components/project-card"
 import { BauhausHeader } from "@/components/bauhaus-header"
 import { BauhausFooter } from "@/components/bauhaus-footer"
+import { RetroHeader } from "@/components/retro-header"
+import { RetroFooter } from "@/components/retro-footer"
+import { BrutalHeader } from "@/components/brutal-header"
+import { BrutalFooter } from "@/components/brutal-footer"
+import { JapandiHeader } from "@/components/japandi-header"
+import { JapandiFooter } from "@/components/japandi-footer"
 
 const projects = [
   {
@@ -113,13 +123,6 @@ const projects = [
   },
 ]
 
-const categoryColors: Record<string, string> = {
-  study: "bg-primary",
-  text: "bg-accent",
-  utility: "bg-secondary",
-  fun: "bg-foreground",
-}
-
 const categoryLabels: Record<string, string> = {
   study: "Study",
   text: "Texts",
@@ -127,21 +130,91 @@ const categoryLabels: Record<string, string> = {
   fun: "Fun",
 }
 
+const themeCategoryColors: Record<string, Record<string, string>> = {
+  bauhaus: {
+    study: "bg-primary",
+    text: "bg-accent",
+    utility: "bg-secondary",
+    fun: "bg-foreground",
+  },
+  retro: {
+    study: "bg-primary",
+    text: "bg-secondary",
+    utility: "bg-muted-foreground",
+    fun: "bg-primary",
+  },
+  brutalism: {
+    study: "bg-primary",
+    text: "bg-accent",
+    utility: "bg-secondary",
+    fun: "bg-foreground",
+  },
+  japandi: {
+    study: "bg-primary",
+    text: "bg-secondary",
+    utility: "bg-accent",
+    fun: "bg-muted-foreground",
+  },
+}
+
+const gridClass: Record<string, string> = {
+  bauhaus: "grid grid-cols-1 gap-px bg-border sm:grid-cols-2 lg:grid-cols-3",
+  retro: "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3",
+  brutalism: "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3",
+  japandi: "grid grid-cols-1 gap-px bg-border/50 sm:grid-cols-2 lg:grid-cols-3",
+}
+
+function Header({ theme }: { theme: string }) {
+  switch (theme) {
+    case "retro":
+      return <RetroHeader />
+    case "brutalism":
+      return <BrutalHeader />
+    case "japandi":
+      return <JapandiHeader />
+    default:
+      return <BauhausHeader />
+  }
+}
+
+function Footer({ theme }: { theme: string }) {
+  switch (theme) {
+    case "retro":
+      return <RetroFooter />
+    case "brutalism":
+      return <BrutalFooter />
+    case "japandi":
+      return <JapandiFooter />
+    default:
+      return <BauhausFooter />
+  }
+}
+
 export default function Home() {
+  const { theme } = useTheme()
+  const categoryColors = themeCategoryColors[theme] ?? themeCategoryColors.bauhaus
+  const fontClass = theme === "retro" ? "font-mono" : theme === "japandi" ? "font-serif" : "font-sans"
+
   return (
     <div className="min-h-screen flex flex-col">
-      <BauhausHeader />
+      <ThemeToggle />
+
+      <Header theme={theme} />
 
       <main className="flex-1 px-6 pb-20 md:px-10 lg:px-16">
         {/* Legend */}
-        <div className="mx-auto max-w-6xl flex flex-wrap items-center gap-6 mb-10">
+        <div className="mx-auto max-w-6xl flex flex-wrap items-center gap-6 mb-10 mt-10">
           {Object.entries(categoryLabels).map(([key, label]) => (
             <div key={key} className="flex items-center gap-2">
               <span
-                className={`block h-3 w-3 ${categoryColors[key]}`}
+                className={`block h-3 w-3 ${
+                  theme === "retro" ? "rounded-full" :
+                  theme === "japandi" ? "rounded-full h-2 w-2" :
+                  ""
+                } ${categoryColors[key]}`}
                 aria-hidden="true"
               />
-              <span className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+              <span className={`text-xs font-medium uppercase tracking-widest text-muted-foreground ${fontClass}`}>
                 {label}
               </span>
             </div>
@@ -149,7 +222,7 @@ export default function Home() {
         </div>
 
         {/* Project Grid */}
-        <div className="mx-auto max-w-6xl grid grid-cols-1 gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">
+        <div className={`mx-auto max-w-6xl ${gridClass[theme] ?? gridClass.bauhaus}`}>
           {projects.map((project, i) => (
             <ProjectCard
               key={project.title}
@@ -163,7 +236,7 @@ export default function Home() {
         </div>
       </main>
 
-      <BauhausFooter />
+      <Footer theme={theme} />
     </div>
   )
 }

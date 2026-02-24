@@ -111,6 +111,20 @@ const FOOTERS: Record<string, () => JSX.Element> = {
   postmodern: PostmodernFooter,
 }
 
+const themeDescriptions: Record<string, string> = {
+  bauhaus: "Born at the Bauhaus school in Weimar Germany (1919-1933), this movement fused fine art with functional design. Its bold primary colors, geometric forms, and grid-driven layouts redefined modern visual culture.",
+  retro: "Retro-futurism imagines tomorrow through the lens of yesterday -- blending 1950s space-age optimism with glowing digital aesthetics. Think mission-control terminals, CRT phosphor glow, and chrome-plated dreams of the cosmos.",
+  brutalism: "Brutalism in design embraces raw, unpolished honesty -- thick borders, stark contrasts, and aggressive layouts that reject decoration. It celebrates the structure itself as the aesthetic, bold and unapologetically confrontational.",
+  japandi: "Japandi merges Japanese wabi-sabi with Scandinavian hygge into a philosophy of warm minimalism. Natural materials, muted earth tones, and generous whitespace create spaces of quiet intention and calm.",
+  international: "The International Typographic Style emerged from 1950s Switzerland, championing objective clarity through mathematical grids and sans-serif type. Its influence on corporate identity and information design remains unmatched.",
+  scandinavian: "Scandinavian Modern design, rooted in 1950s Nordic culture, balances beauty with democratic accessibility. Soft curves, natural light palettes, and organic forms create warmth without excess.",
+  artdeco: "Art Deco (1920s-1930s) celebrated the machine age with lavish geometric ornamentation, sunburst motifs, and rich metallic palettes. It brought glamour and symmetry to everything from skyscrapers to subway stations.",
+  minimalism: "Minimalism strips design to its absolute essence -- every element must earn its place. Rooted in the principle that less is more, it uses whitespace, restraint, and precision to achieve maximum clarity.",
+  midcentury: "Mid-Century Modern (1940s-1960s) married post-war optimism with organic forms and new materials. Atomic starbursts, boomerang shapes, and warm color palettes defined an era of playful sophistication.",
+  destijl: "De Stijl (\"The Style\"), founded in 1917 by Mondrian and van Doesburg, reduced art to pure abstraction. Only primary colors, black, white, and straight lines -- a radical utopian vision of universal harmony.",
+  postmodern: "Postmodernism (1970s-1990s) rebelled against modernist rules with irreverence, eclecticism, and bold color clashes. It embraced ornamentation, humor, and contradiction as legitimate design tools.",
+}
+
 const FONT_CLASS: Record<string, string> = {
   retro: "font-mono",
   japandi: "font-serif",
@@ -137,6 +151,13 @@ export default function Home() {
       <ThemeToggle />
 
       <HeaderComponent />
+
+      {/* Theme description */}
+      <div className="px-6 md:px-10 lg:px-16">
+        <p className={`mx-auto max-w-6xl text-sm leading-relaxed text-muted-foreground ${fontClass}`}>
+          {themeDescriptions[theme]}
+        </p>
+      </div>
 
       <main className="flex-1 px-6 pb-20 md:px-10 lg:px-16">
         {/* Legend */}

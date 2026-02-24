@@ -2,7 +2,9 @@
 
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react"
 
-type Theme = "bauhaus" | "retro"
+export type Theme = "bauhaus" | "retro" | "brutalism" | "japandi"
+
+const THEMES: Theme[] = ["bauhaus", "retro", "brutalism", "japandi"]
 
 interface ThemeContextValue {
   theme: Theme
@@ -23,7 +25,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   const toggle = useCallback(() => {
     setTheme((prev) => {
-      const next = prev === "bauhaus" ? "retro" : "bauhaus"
+      const idx = THEMES.indexOf(prev)
+      const next = THEMES[(idx + 1) % THEMES.length]
       document.documentElement.setAttribute("data-theme", next)
       return next
     })

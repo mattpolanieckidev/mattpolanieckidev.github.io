@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @layer base {
+  /* ── Bauhaus ── */
   :root,
   :root[data-theme="bauhaus"] {
     --background: 48 30% 96%;
@@ -27,6 +28,7 @@
     --radius: 0rem;
   }
 
+  /* ── Retro-Futuristic ── */
   :root[data-theme="retro"] {
     --background: 220 25% 8%;
     --foreground: 40 25% 92%;
@@ -49,6 +51,54 @@
     --ring: 175 85% 45%;
     --radius: 0.25rem;
   }
+
+  /* ── Brutalism ── */
+  :root[data-theme="brutalism"] {
+    --background: 60 5% 96%;
+    --foreground: 0 0% 0%;
+    --card: 60 5% 96%;
+    --card-foreground: 0 0% 0%;
+    --popover: 60 5% 96%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 350 90% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 55 100% 50%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 88%;
+    --muted-foreground: 0 0% 30%;
+    --accent: 240 100% 55%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 90% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 0%;
+    --input: 0 0% 0%;
+    --ring: 0 0% 0%;
+    --radius: 0rem;
+  }
+
+  /* ── Japandi ── */
+  :root[data-theme="japandi"] {
+    --background: 35 20% 95%;
+    --foreground: 30 10% 18%;
+    --card: 35 15% 92%;
+    --card-foreground: 30 10% 18%;
+    --popover: 35 15% 92%;
+    --popover-foreground: 30 10% 18%;
+    --primary: 150 20% 38%;
+    --primary-foreground: 35 20% 95%;
+    --secondary: 20 35% 60%;
+    --secondary-foreground: 35 20% 95%;
+    --muted: 35 12% 88%;
+    --muted-foreground: 30 8% 45%;
+    --accent: 30 30% 48%;
+    --accent-foreground: 35 20% 95%;
+    --destructive: 0 50% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 30 10% 78%;
+    --input: 30 10% 78%;
+    --ring: 150 20% 38%;
+    --radius: 0.125rem;
+  }
 }
 
 @layer base {
@@ -61,7 +111,7 @@
   }
 }
 
-/* Retro-futuristic scanline overlay */
+/* ── Retro-futuristic scanline overlay ── */
 [data-theme="retro"] .scanlines::after {
   content: "";
   position: absolute;
@@ -77,12 +127,10 @@
   z-index: 1;
 }
 
-/* Retro glow effect */
 [data-theme="retro"] .glow-hover:hover {
   box-shadow: 0 0 20px hsl(175 85% 45% / 0.15), 0 0 40px hsl(175 85% 45% / 0.05);
 }
 
-/* Retro terminal cursor blink */
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
@@ -90,4 +138,37 @@
 
 .cursor-blink {
   animation: blink 1s step-end infinite;
+}
+
+/* ── Brutalism effects ── */
+[data-theme="brutalism"] .brutal-shadow {
+  box-shadow: 6px 6px 0 0 hsl(0 0% 0%);
+}
+
+[data-theme="brutalism"] .brutal-shadow:hover {
+  box-shadow: 3px 3px 0 0 hsl(0 0% 0%);
+  transform: translate(3px, 3px);
+}
+
+[data-theme="brutalism"] .brutal-shadow-sm {
+  box-shadow: 4px 4px 0 0 hsl(0 0% 0%);
+}
+
+[data-theme="brutalism"] .brutal-shadow-sm:hover {
+  box-shadow: 2px 2px 0 0 hsl(0 0% 0%);
+  transform: translate(2px, 2px);
+}
+
+/* ── Japandi effects ── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+[data-theme="japandi"] .japandi-card {
+  transition: box-shadow 0.3s ease;
+}
+
+[data-theme="japandi"] .japandi-card:hover {
+  box-shadow: 0 2px 16px hsl(30 10% 18% / 0.06);
 }

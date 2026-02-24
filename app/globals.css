@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  :root,
+  :root[data-theme="bauhaus"] {
     --background: 48 30% 96%;
     --foreground: 0 0% 8%;
     --card: 0 0% 100%;
@@ -25,6 +26,29 @@
     --ring: 2 80% 52%;
     --radius: 0rem;
   }
+
+  :root[data-theme="retro"] {
+    --background: 220 25% 8%;
+    --foreground: 40 25% 92%;
+    --card: 220 20% 12%;
+    --card-foreground: 40 25% 92%;
+    --popover: 220 20% 12%;
+    --popover-foreground: 40 25% 92%;
+    --primary: 175 85% 45%;
+    --primary-foreground: 220 25% 8%;
+    --secondary: 15 85% 60%;
+    --secondary-foreground: 220 25% 8%;
+    --muted: 220 15% 18%;
+    --muted-foreground: 220 10% 55%;
+    --accent: 175 85% 45%;
+    --accent-foreground: 220 25% 8%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 15% 22%;
+    --input: 220 15% 22%;
+    --ring: 175 85% 45%;
+    --radius: 0.25rem;
+  }
 }
 
 @layer base {
@@ -33,5 +57,37 @@
   }
   body {
     @apply bg-background text-foreground;
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
+}
+
+/* Retro-futuristic scanline overlay */
+[data-theme="retro"] .scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Retro glow effect */
+[data-theme="retro"] .glow-hover:hover {
+  box-shadow: 0 0 20px hsl(175 85% 45% / 0.15), 0 0 40px hsl(175 85% 45% / 0.05);
+}
+
+/* Retro terminal cursor blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
 }

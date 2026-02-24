@@ -1,3 +1,6 @@
+"use client"
+
+import { useTheme } from "@/components/theme-provider"
 import { ArrowUpRight } from "lucide-react"
 
 interface ProjectCardProps {
@@ -15,6 +18,45 @@ export function ProjectCard({
   accentColor,
   index,
 }: ProjectCardProps) {
+  const { theme } = useTheme()
+
+  if (theme === "retro") {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="glow-hover group relative flex flex-col justify-between bg-card p-6 md:p-8 border border-border transition-all hover:border-primary/40"
+      >
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <span className="font-mono text-xs tracking-widest text-primary/60">
+              [{String(index + 1).padStart(2, "0")}]
+            </span>
+            <span className={`block h-1 w-6 rounded-full ${accentColor}`} aria-hidden="true" />
+          </div>
+
+          <h2 className="font-mono text-base font-bold uppercase tracking-wide text-foreground">
+            {title}
+          </h2>
+
+          <p className="mt-3 font-mono text-xs leading-relaxed text-muted-foreground">
+            {description}
+          </p>
+        </div>
+
+        <div className="mt-6 flex items-center justify-between">
+          <span className="font-mono text-xs tracking-widest text-primary opacity-0 transition-opacity group-hover:opacity-100">
+            {'>'} open
+          </span>
+          <span className="flex h-7 w-7 items-center justify-center rounded-sm border border-primary/30 text-primary transition-colors group-hover:bg-primary group-hover:text-background">
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </span>
+        </div>
+      </a>
+    )
+  }
+
   return (
     <a
       href={href}
@@ -26,7 +68,6 @@ export function ProjectCard({
       <div className={`absolute top-0 left-0 h-1.5 w-12 ${accentColor}`} />
 
       <div>
-        {/* Index number -- Bauhaus numbering style */}
         <span className="block text-xs font-medium tracking-widest text-muted-foreground mb-4">
           {String(index + 1).padStart(2, "0")}
         </span>
@@ -40,7 +81,6 @@ export function ProjectCard({
         </p>
       </div>
 
-      {/* Arrow link */}
       <div className="mt-6 flex items-center justify-between">
         <span className="text-xs font-semibold uppercase tracking-widest text-foreground opacity-0 transition-opacity group-hover:opacity-100">
           Open

@@ -17,7 +17,8 @@ const notoSerif = Noto_Serif({
 
 export const metadata: Metadata = {
   title: "Matt Polaniecki -- Projects",
-  description: "A collection of web projects by Matt Polaniecki, including Jewish learning tools, games, and utilities.",
+  description:
+    "A collection of web projects by Matt Polaniecki, including Jewish learning tools, games, and utilities.",
 }
 
 export const viewport: Viewport = {

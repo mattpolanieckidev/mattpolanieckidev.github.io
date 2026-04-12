@@ -15,33 +15,31 @@ header{padding:20px 0 12px;text-align:center}
 h1{font-size:22px;font-weight:700;letter-spacing:-.3px}
 h1 span{color:#38bdf8}
 main{flex:1;max-width:500px;width:100%;margin:0 auto;padding-bottom:20px}
-.card{background:rgba(255,255,255,.06);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px;margin-bottom:14px}
+.card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px;margin-bottom:14px}
 .muted{color:#94a3b8;font-size:13px}
-button{font:inherit;border:none;border-radius:12px;padding:14px 20px;font-weight:600;cursor:pointer;width:100%;transition:transform .1s,opacity .2s}
+button{font:inherit;border:none;border-radius:12px;padding:14px 20px;font-weight:600;cursor:pointer;width:100%;transition:transform .1s}
 button:active{transform:scale(.97)}
 .primary{background:#38bdf8;color:#0f172a;font-size:17px}
 .secondary{background:rgba(255,255,255,.1);color:#f1f5f9}
 .ghost{background:transparent;color:#94a3b8;padding:8px}
-.seg{display:flex;gap:8px;margin-bottom:12px}
-.seg button{flex:1;background:rgba(255,255,255,.06);color:#cbd5e1}
-.seg button.on{background:#38bdf8;color:#0f172a}
+.nav{display:flex;gap:6px;background:rgba(255,255,255,.05);padding:4px;border-radius:14px;margin-bottom:14px}
+.nav button{flex:1;background:transparent;color:#94a3b8;padding:10px;font-size:15px}
+.nav button.on{background:#38bdf8;color:#0f172a}
 .big{font-size:72px;font-weight:800;text-align:center;line-height:1;margin:12px 0;color:#38bdf8}
 .timer{font-size:56px;font-weight:700;text-align:center;color:#fbbf24;font-variant-numeric:tabular-nums}
 .label{text-transform:uppercase;font-size:11px;letter-spacing:1.5px;color:#94a3b8;text-align:center;margin-bottom:4px}
-.row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)}
-.row:last-child{border:none}
-.pill{background:#38bdf8;color:#0f172a;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
-.pill.done{background:#22c55e}
-.pill.rest{background:rgba(255,255,255,.1);color:#94a3b8}
 .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}
 .cal div{aspect-ratio:1;border-radius:8px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;font-size:11px;color:#64748b}
-.cal div.done{background:#22c55e;color:#fff;font-weight:700}
+.cal div.p{background:#38bdf8;color:#0f172a;font-weight:700}
+.cal div.s{background:#f472b6;color:#0f172a;font-weight:700}
+.cal div.both{background:linear-gradient(135deg,#38bdf8 50%,#f472b6 50%);color:#0f172a;font-weight:700}
 .sets{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:14px 0}
 .sets span{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
 .sets span.cur{background:#38bdf8;color:#0f172a;transform:scale(1.15)}
 .sets span.done{background:#22c55e;color:#fff}
+.legend{display:flex;gap:14px;justify-content:center;margin-top:10px;font-size:12px;color:#94a3b8}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:middle}
 .stack>*+*{margin-top:10px}
-.hide{display:none}
 </style>
 </head>
 <body>
@@ -50,132 +48,100 @@ button:active{transform:scale(.97)}
 <script>
 const PROGRAM={
   pushups:[[4,4,3,3,5],[5,5,4,4,6],[8,8,5,5,10],[10,10,7,7,12],[12,12,10,10,15],[15,15,12,12,20],[18,18,14,14,25],[20,20,16,16,100]],
-  situps:[[5,5,4,4,6],[6,6,5,5,8],[10,10,6,6,12],[12,12,8,8,15],[14,14,12,12,18],[17,17,14,14,22],[20,20,16,16,28],[22,22,18,18,100]]
+  situps: [[5,5,4,4,6],[6,6,5,5,8],[10,10,6,6,12],[12,12,8,8,15],[14,14,12,12,18],[17,17,14,14,22],[20,20,16,16,28],[22,22,18,18,100]]
 };
-const REST=[60,60,60,60,60,60,60,90]; // seconds per week
+const REST=[60,60,60,60,60,60,60,90];
+const LABELS={pushups:"Push-ups",situps:"Sit-ups"};
 const K="road100";
-const load=()=>JSON.parse(localStorage.getItem(K)||'{"type":null,"week":0,"day":0,"history":{}}');
-const save=s=>localStorage.setItem(K,JSON.stringify(s));
-let state=load();
+const defState=()=>({current:"pushups",pushups:{week:0,day:0},situps:{week:0,day:0},history:{},active:null});
+let state=JSON.parse(localStorage.getItem(K)||"null")||defState();
+if(!state.pushups||!state.situps)state=defState();
+const save=()=>localStorage.setItem(K,JSON.stringify(state));
 const app=document.getElementById("app");
 const today=()=>new Date().toISOString().slice(0,10);
 
-function render(){
-  if(!state.type)return setup();
-  if(state.active)return workout();
-  home();
-}
-
-function setup(){
-  app.innerHTML=`<div class="card"><h2 style="margin-bottom:8px">Pick your exercise</h2><p class="muted" style="margin-bottom:16px">8-week program, 3 workouts/week, ~15 min each. Goal: 100 consecutive reps.</p>
-  <div class="stack">
-    <button class="primary" onclick="pick('pushups')">Push-ups</button>
-    <button class="primary" onclick="pick('situps')">Sit-ups</button>
-  </div></div>`;
-}
-window.pick=t=>{state.type=t;state.week=0;state.day=0;state.history={};save(state);render()};
+function render(){if(state.active)return workout();home()}
 
 function home(){
-  const wk=state.week,dy=state.day;
+  const type=state.current,prog=state[type],wk=prog.week,dy=prog.day;
   const done=wk>=8;
-  const sets=done?null:PROGRAM[state.type][wk];
+  const sets=done?null:PROGRAM[type][wk];
   const total=sets?sets.reduce((a,b)=>a+b,0):0;
   const last=sets?sets[sets.length-1]:0;
-  // calendar: last 28 days
   let cal='';
   for(let i=27;i>=0;i--){
     const d=new Date();d.setDate(d.getDate()-i);
     const k=d.toISOString().slice(0,10);
-    cal+=`<div class="${state.history[k]?'done':''}">${d.getDate()}</div>`;
+    const h=state.history[k]||{};
+    let cls=h.pushups&&h.situps?'both':h.pushups?'p':h.situps?'s':'';
+    cal+=`<div class="${cls}">${d.getDate()}</div>`;
   }
   const totalDone=Object.keys(state.history).length;
   app.innerHTML=`
+  <div class="nav">
+    <button class="${type==='pushups'?'on':''}" onclick="switchType('pushups')">💪 Push-ups</button>
+    <button class="${type==='situps'?'on':''}" onclick="switchType('situps')">🔥 Sit-ups</button>
+  </div>
   <div class="card">
-    <div class="label">${state.type==='pushups'?'Push-ups':'Sit-ups'} · Week ${Math.min(wk+1,8)} · Day ${dy+1}/3</div>
-    ${done?`<div class="big">🏆</div><p style="text-align:center" class="muted">Program complete! You can restart or keep maintaining.</p>`:
+    <div class="label">${LABELS[type]} · Week ${Math.min(wk+1,8)} · Day ${dy+1}/3</div>
+    ${done?`<div class="big">🏆</div><p style="text-align:center" class="muted">Program complete!</p>`:
     `<div class="big">${total}</div><p style="text-align:center" class="muted">reps today across ${sets.length} sets${last>=50?' · final set is MAX':''}</p>
     <div class="sets">${sets.map(n=>`<span>${n}</span>`).join('')}</div>
     <button class="primary" onclick="start()">Start workout</button>`}
   </div>
   <div class="card">
-    <div class="label">Last 4 weeks · ${totalDone} workouts logged</div>
+    <div class="label">Activity · ${totalDone} days logged</div>
     <div class="cal">${cal}</div>
+    <div class="legend"><div><i style="background:#38bdf8"></i>Push-ups</div><div><i style="background:#f472b6"></i>Sit-ups</div><div><i style="background:linear-gradient(135deg,#38bdf8 50%,#f472b6 50%)"></i>Both</div></div>
   </div>
-  <div class="card">
-    <button class="secondary" onclick="reset()">Reset program</button>
-  </div>`;
+  <div class="card"><button class="secondary" onclick="resetOne()">Reset ${LABELS[type]} progress</button></div>`;
 }
-window.reset=()=>{if(confirm('Reset all progress?')){localStorage.removeItem(K);state=load();render()}};
-
-window.start=()=>{
-  state.active={set:0,phase:'work',secs:0};
-  save(state);render();
-};
+window.switchType=t=>{state.current=t;save();render()};
+window.resetOne=()=>{const t=state.current;if(confirm(`Reset ${LABELS[t]} progress?`)){state[t]={week:0,day:0};save();render()}};
+window.start=()=>{state.active={type:state.current,set:0,phase:'work',secs:0};save();render()};
 
 function workout(){
-  const sets=PROGRAM[state.type][state.week];
-  const rest=REST[state.week];
-  const a=state.active;
-  const cur=sets[a.set];
-  const isLast=a.set===sets.length-1;
+  const a=state.active,sets=PROGRAM[a.type][state[a.type].week];
+  const cur=sets[a.set],isLast=a.set===sets.length-1;
   const dots=sets.map((n,i)=>`<span class="${i<a.set?'done':i===a.set?'cur':''}">${n}</span>`).join('');
   if(a.phase==='work'){
     app.innerHTML=`<div class="card">
-      <div class="label">Set ${a.set+1} of ${sets.length}${isLast&&cur>=50?' · MAX OUT':''}</div>
+      <div class="label">${LABELS[a.type]} · Set ${a.set+1} of ${sets.length}${isLast&&cur>=50?' · MAX OUT':''}</div>
       <div class="big">${cur}</div>
       <p style="text-align:center" class="muted">${isLast&&cur>=50?'Do as many as you can':'reps'}</p>
       <div class="sets">${dots}</div>
       <button class="primary" onclick="doneSet()">Done ✓</button>
+      <button class="ghost" onclick="quit()">Quit workout</button>
     </div>`;
   }else{
     app.innerHTML=`<div class="card">
-      <div class="label">Rest · next set: ${sets[a.set]} reps</div>
+      <div class="label">Rest · next: ${sets[a.set+1]||'—'} reps</div>
       <div class="timer" id="tm">${a.secs}</div>
       <p style="text-align:center" class="muted">seconds remaining</p>
       <div class="sets">${dots}</div>
-      <div class="stack">
-        <button class="secondary" onclick="skipRest()">Skip rest</button>
-        <button class="ghost" onclick="addTime(15)">+15s</button>
-      </div>
+      <div class="stack"><button class="secondary" onclick="skipRest()">Skip rest</button><button class="ghost" onclick="addTime(15)">+15s</button></div>
     </div>`;
   }
 }
 
 let tick=null;
-window.doneSet=()=>{
-  const sets=PROGRAM[state.type][state.week];
-  if(state.active.set>=sets.length-1){return finish()}
-  state.active.phase='rest';
-  state.active.secs=REST[state.week];
-  save(state);render();startTick();
-};
-window.skipRest=()=>{stopTick();state.active.set++;state.active.phase='work';save(state);render()};
-window.addTime=n=>{state.active.secs+=n;save(state);document.getElementById('tm').textContent=state.active.secs};
+window.doneSet=()=>{const a=state.active,sets=PROGRAM[a.type][state[a.type].week];if(a.set>=sets.length-1)return finish();a.phase='rest';a.secs=REST[state[a.type].week];save();render();startTick()};
+window.skipRest=()=>{stopTick();state.active.set++;state.active.phase='work';save();render()};
+window.addTime=n=>{state.active.secs+=n;save();const el=document.getElementById('tm');if(el)el.textContent=state.active.secs};
+window.quit=()=>{if(confirm('Quit this workout?')){stopTick();state.active=null;save();render()}};
 
-function startTick(){
-  stopTick();
-  tick=setInterval(()=>{
-    state.active.secs--;
-    const el=document.getElementById('tm');
-    if(el)el.textContent=state.active.secs;
-    if(state.active.secs<=0){
-      stopTick();
-      if(navigator.vibrate)navigator.vibrate([200,100,200]);
-      try{new AudioContext();}catch(e){}
-      state.active.set++;state.active.phase='work';save(state);render();
-    }
-  },1000);
-}
+function startTick(){stopTick();tick=setInterval(()=>{state.active.secs--;const el=document.getElementById('tm');if(el)el.textContent=state.active.secs;if(state.active.secs<=0){stopTick();if(navigator.vibrate)navigator.vibrate([200,100,200]);state.active.set++;state.active.phase='work';save();render()}},1000)}
 function stopTick(){if(tick){clearInterval(tick);tick=null}}
 
 function finish(){
   stopTick();
-  state.history[today()]=state.week+1;
-  state.active=null;
-  state.day++;
-  if(state.day>=3){state.day=0;state.week++}
-  save(state);
-  app.innerHTML=`<div class="card"><div class="big">🎉</div><h2 style="text-align:center;margin-bottom:8px">Workout done!</h2><p class="muted" style="text-align:center;margin-bottom:16px">Rest at least a day before the next session.</p><button class="primary" onclick="render()">Back to home</button></div>`;
+  const a=state.active,d=today();
+  if(!state.history[d])state.history[d]={};
+  state.history[d][a.type]=state[a.type].week+1;
+  state[a.type].day++;
+  if(state[a.type].day>=3){state[a.type].day=0;state[a.type].week++}
+  state.active=null;save();
+  app.innerHTML=`<div class="card"><div class="big">🎉</div><h2 style="text-align:center;margin-bottom:8px">${LABELS[a.type]} done!</h2><p class="muted" style="text-align:center;margin-bottom:16px">Rest at least a day before the next ${LABELS[a.type].toLowerCase()} session.</p><button class="primary" onclick="render()">Back to home</button></div>`;
 }
 
 render();

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Road to 100</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:linear-gradient(160deg,#0f172a,#1e293b);color:#f1f5f9;min-height:100vh;padding:env(safe-area-inset-top) 16px env(safe-area-inset-bottom);display:flex;flex-direction:column}
+header{padding:20px 0 12px;text-align:center}
+h1{font-size:22px;font-weight:700;letter-spacing:-.3px}
+h1 span{color:#38bdf8}
+main{flex:1;max-width:500px;width:100%;margin:0 auto;padding-bottom:20px}
+.card{background:rgba(255,255,255,.06);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px;margin-bottom:14px}
+.muted{color:#94a3b8;font-size:13px}
+button{font:inherit;border:none;border-radius:12px;padding:14px 20px;font-weight:600;cursor:pointer;width:100%;transition:transform .1s,opacity .2s}
+button:active{transform:scale(.97)}
+.primary{background:#38bdf8;color:#0f172a;font-size:17px}
+.secondary{background:rgba(255,255,255,.1);color:#f1f5f9}
+.ghost{background:transparent;color:#94a3b8;padding:8px}
+.seg{display:flex;gap:8px;margin-bottom:12px}
+.seg button{flex:1;background:rgba(255,255,255,.06);color:#cbd5e1}
+.seg button.on{background:#38bdf8;color:#0f172a}
+.big{font-size:72px;font-weight:800;text-align:center;line-height:1;margin:12px 0;color:#38bdf8}
+.timer{font-size:56px;font-weight:700;text-align:center;color:#fbbf24;font-variant-numeric:tabular-nums}
+.label{text-transform:uppercase;font-size:11px;letter-spacing:1.5px;color:#94a3b8;text-align:center;margin-bottom:4px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.row:last-child{border:none}
+.pill{background:#38bdf8;color:#0f172a;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.pill.done{background:#22c55e}
+.pill.rest{background:rgba(255,255,255,.1);color:#94a3b8}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}
+.cal div{aspect-ratio:1;border-radius:8px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;font-size:11px;color:#64748b}
+.cal div.done{background:#22c55e;color:#fff;font-weight:700}
+.sets{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:14px 0}
+.sets span{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600}
+.sets span.cur{background:#38bdf8;color:#0f172a;transform:scale(1.15)}
+.sets span.done{background:#22c55e;color:#fff}
+.stack>*+*{margin-top:10px}
+.hide{display:none}
+</style>
+</head>
+<body>
+<header><h1>Road to <span>100</span></h1></header>
+<main id="app"></main>
+<script>
+const PROGRAM={
+  pushups:[[4,4,3,3,5],[5,5,4,4,6],[8,8,5,5,10],[10,10,7,7,12],[12,12,10,10,15],[15,15,12,12,20],[18,18,14,14,25],[20,20,16,16,100]],
+  situps:[[5,5,4,4,6],[6,6,5,5,8],[10,10,6,6,12],[12,12,8,8,15],[14,14,12,12,18],[17,17,14,14,22],[20,20,16,16,28],[22,22,18,18,100]]
+};
+const REST=[60,60,60,60,60,60,60,90]; // seconds per week
+const K="road100";
+const load=()=>JSON.parse(localStorage.getItem(K)||'{"type":null,"week":0,"day":0,"history":{}}');
+const save=s=>localStorage.setItem(K,JSON.stringify(s));
+let state=load();
+const app=document.getElementById("app");
+const today=()=>new Date().toISOString().slice(0,10);
+
+function render(){
+  if(!state.type)return setup();
+  if(state.active)return workout();
+  home();
+}
+
+function setup(){
+  app.innerHTML=`<div class="card"><h2 style="margin-bottom:8px">Pick your exercise</h2><p class="muted" style="margin-bottom:16px">8-week program, 3 workouts/week, ~15 min each. Goal: 100 consecutive reps.</p>
+  <div class="stack">
+    <button class="primary" onclick="pick('pushups')">Push-ups</button>
+    <button class="primary" onclick="pick('situps')">Sit-ups</button>
+  </div></div>`;
+}
+window.pick=t=>{state.type=t;state.week=0;state.day=0;state.history={};save(state);render()};
+
+function home(){
+  const wk=state.week,dy=state.day;
+  const done=wk>=8;
+  const sets=done?null:PROGRAM[state.type][wk];
+  const total=sets?sets.reduce((a,b)=>a+b,0):0;
+  const last=sets?sets[sets.length-1]:0;
+  // calendar: last 28 days
+  let cal='';
+  for(let i=27;i>=0;i--){
+    const d=new Date();d.setDate(d.getDate()-i);
+    const k=d.toISOString().slice(0,10);
+    cal+=`<div class="${state.history[k]?'done':''}">${d.getDate()}</div>`;
+  }
+  const totalDone=Object.keys(state.history).length;
+  app.innerHTML=`
+  <div class="card">
+    <div class="label">${state.type==='pushups'?'Push-ups':'Sit-ups'} · Week ${Math.min(wk+1,8)} · Day ${dy+1}/3</div>
+    ${done?`<div class="big">🏆</div><p style="text-align:center" class="muted">Program complete! You can restart or keep maintaining.</p>`:
+    `<div class="big">${total}</div><p style="text-align:center" class="muted">reps today across ${sets.length} sets${last>=50?' · final set is MAX':''}</p>
+    <div class="sets">${sets.map(n=>`<span>${n}</span>`).join('')}</div>
+    <button class="primary" onclick="start()">Start workout</button>`}
+  </div>
+  <div class="card">
+    <div class="label">Last 4 weeks · ${totalDone} workouts logged</div>
+    <div class="cal">${cal}</div>
+  </div>
+  <div class="card">
+    <button class="secondary" onclick="reset()">Reset program</button>
+  </div>`;
+}
+window.reset=()=>{if(confirm('Reset all progress?')){localStorage.removeItem(K);state=load();render()}};
+
+window.start=()=>{
+  state.active={set:0,phase:'work',secs:0};
+  save(state);render();
+};
+
+function workout(){
+  const sets=PROGRAM[state.type][state.week];
+  const rest=REST[state.week];
+  const a=state.active;
+  const cur=sets[a.set];
+  const isLast=a.set===sets.length-1;
+  const dots=sets.map((n,i)=>`<span class="${i<a.set?'done':i===a.set?'cur':''}">${n}</span>`).join('');
+  if(a.phase==='work'){
+    app.innerHTML=`<div class="card">
+      <div class="label">Set ${a.set+1} of ${sets.length}${isLast&&cur>=50?' · MAX OUT':''}</div>
+      <div class="big">${cur}</div>
+      <p style="text-align:center" class="muted">${isLast&&cur>=50?'Do as many as you can':'reps'}</p>
+      <div class="sets">${dots}</div>
+      <button class="primary" onclick="doneSet()">Done ✓</button>
+    </div>`;
+  }else{
+    app.innerHTML=`<div class="card">
+      <div class="label">Rest · next set: ${sets[a.set]} reps</div>
+      <div class="timer" id="tm">${a.secs}</div>
+      <p style="text-align:center" class="muted">seconds remaining</p>
+      <div class="sets">${dots}</div>
+      <div class="stack">
+        <button class="secondary" onclick="skipRest()">Skip rest</button>
+        <button class="ghost" onclick="addTime(15)">+15s</button>
+      </div>
+    </div>`;
+  }
+}
+
+let tick=null;
+window.doneSet=()=>{
+  const sets=PROGRAM[state.type][state.week];
+  if(state.active.set>=sets.length-1){return finish()}
+  state.active.phase='rest';
+  state.active.secs=REST[state.week];
+  save(state);render();startTick();
+};
+window.skipRest=()=>{stopTick();state.active.set++;state.active.phase='work';save(state);render()};
+window.addTime=n=>{state.active.secs+=n;save(state);document.getElementById('tm').textContent=state.active.secs};
+
+function startTick(){
+  stopTick();
+  tick=setInterval(()=>{
+    state.active.secs--;
+    const el=document.getElementById('tm');
+    if(el)el.textContent=state.active.secs;
+    if(state.active.secs<=0){
+      stopTick();
+      if(navigator.vibrate)navigator.vibrate([200,100,200]);
+      try{new AudioContext();}catch(e){}
+      state.active.set++;state.active.phase='work';save(state);render();
+    }
+  },1000);
+}
+function stopTick(){if(tick){clearInterval(tick);tick=null}}
+
+function finish(){
+  stopTick();
+  state.history[today()]=state.week+1;
+  state.active=null;
+  state.day++;
+  if(state.day>=3){state.day=0;state.week++}
+  save(state);
+  app.innerHTML=`<div class="card"><div class="big">🎉</div><h2 style="text-align:center;margin-bottom:8px">Workout done!</h2><p class="muted" style="text-align:center;margin-bottom:16px">Rest at least a day before the next session.</p><button class="primary" onclick="render()">Back to home</button></div>`;
+}
+
+render();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>

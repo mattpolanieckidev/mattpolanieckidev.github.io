@@ -9,20 +9,109 @@
 }
 
 * { box-sizing: border-box; }
-body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 10% 0%, #fff 0%, #f8f9fb 40%, #eceef3 100%); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif; font-size:18px; }
-.header { margin: 10px 0 10px; font-size: clamp(2.1rem, 5vw, 3.4rem); line-height: 1.2; font-weight: 650; }
-.subheader { font-size:1.15rem; line-height:1.6; }
-#zip { width: 170px; text-align: center; border: 1px solid #cdd6e2; border-radius: 10px; background: #fff; color: var(--text); font-size: 1.15rem; padding: 12px 14px; }
-#submit { border:none; border-radius:10px; background:var(--accent); color:#fff; font-weight:600; padding:12px 20px; font-size:1.1rem; }
-.card-label { margin:0 0 8px; color:var(--muted); text-transform:uppercase; letter-spacing:.07em; font-size:.9rem; font-weight:600; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at 10% 0%, #fff 0%, #f8f9fb 40%, #eceef3 100%);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+  font-size: 18px;
+}
+
+.app-nav,.app-shell { position: relative; z-index:1; }
+.app-shell { max-width:1100px; margin:0 auto; padding:12px 16px 36px; }
+.hero-card { background:rgba(255,255,255,.82); border:1px solid var(--border); border-radius:20px; box-shadow:var(--shadow); text-align:center; padding:36px 22px 28px; }
+
+.header {
+  margin: 10px 0 14px;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  line-height: 1.2;
+  font-weight: 650;
+}
+
+.finder { margin-top:20px; display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
+
+#zip {
+  width: 180px;
+  text-align:center;
+  border:1px solid #cdd6e2;
+  border-radius:10px;
+  background:#fff;
+  color:var(--text);
+  font-size:1.2rem;
+  padding:12px 14px;
+}
+
+#submit {
+  border:none;
+  border-radius:10px;
+  background:var(--accent);
+  color:#fff;
+  font-weight:600;
+  padding:12px 20px;
+  font-size:1.1rem;
+}
+
+.info-grid { margin-top:18px; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+.info-card,.holidaycandle {
+  background:rgba(255,255,255,.82);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:22px 18px;
+  box-shadow:0 6px 18px rgba(15,23,42,.06);
+  text-align:center;
+}
+
+.card-label {
+  margin:0 0 8px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  font-size:.95rem;
+  font-weight:600;
+}
+
 .value-text,
 #holiday,
 #holiday2,
 #holiday3,
 #holidaycandle,
-.holidaycandle { margin:0; font-size: clamp(1.2rem, 2.4vw, 1.55rem); line-height:1.55; font-weight:500; }
-#parsha { font-weight:700; font-size:1.35em; }
-#parshalabel { color:var(--text); font-size:1.2rem; }
-#gpt { margin-left:8px; border:none; background:transparent; color:var(--accent); cursor:pointer; vertical-align:middle; font-size:1.2rem; }
-.psummary { margin:14px 0 8px; font-size:1.1rem; }
-#parsha > div > ul > li { font-size:1.05rem; text-align:left; font-weight:400; line-height:1.6; }
+.holidaycandle {
+  margin:0;
+  font-size: clamp(1.28rem, 2.6vw, 1.65rem);
+  line-height:1.6;
+  font-weight:500;
+}
+
+#parshalabel {
+  color:var(--text);
+  font-size:1.3rem;
+  line-height:1.5;
+}
+
+#parsha {
+  font-weight:700;
+  font-size:1.45rem;
+}
+
+#gpt {
+  margin-left:8px;
+  border:none;
+  background:transparent;
+  color:var(--accent);
+  cursor:pointer;
+  vertical-align:middle;
+  font-size:1.25rem;
+}
+
+.psummary { margin:16px 0 8px; font-size:1.12rem; }
+#parsha > div > ul > li { font-size:1.08rem; text-align:left; line-height:1.65; }
+
+@media (max-width: 992px) {
+  .info-grid { grid-template-columns:1fr; }
+  .header { font-size: clamp(2rem, 8vw, 2.8rem); }
+  #parshalabel { font-size:1.22rem; }
+  #parsha { font-size:1.35rem; }
+  .value-text,#holiday,#holiday2,#holiday3,#holidaycandle,.holidaycandle { font-size:1.35rem; }
+  #zip { width:100%; max-width:220px; }
+}

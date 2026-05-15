@@ -49,6 +49,35 @@ if(havdalah){
 document.getElementById('havdala').innerHTML=havdalah.title;
 }
 
+// Holiday Section
+const holidaySection=document.getElementById('holidaySection');
+const holidayTitle=document.getElementById('holidayTitle');
+const holidayDetails=document.getElementById('holidayDetails');
+
+const holidayItems=data.items.filter(i=>i.category==='holiday');
+
+if(holidayItems.length>0){
+holidaySection.style.display='block';
+
+holidayTitle.innerHTML=holidayItems[0].title;
+
+let details='';
+
+holidayItems.forEach(item=>{
+details += `<p class="holiday-detail">${item.title}</p>`;
+
+const matchingMemo=data.items.find(x=>x.memo===item.title);
+
+if(matchingMemo){
+details += `<p class="holiday-time">${matchingMemo.title}</p>`;
+}
+});
+
+holidayDetails.innerHTML=details;
+}else{
+holidaySection.style.display='none';
+}
+
 }catch(e){console.log(e)}
 }
 

@@ -1,3 +1,13 @@
+var inputField=document.getElementById('zip');
+
+function changeColor(){
+const savedZip=localStorage.getItem('zipcode');
+if(savedZip){
+document.getElementById('zip').value=savedZip;
+find();
+}
+}
+
 async function find() {
 try {
 const input=document.getElementById('zip').value;
@@ -39,3 +49,10 @@ document.getElementById('havdala').innerHTML=havdalah.title;
 
 }catch(e){console.log(e)}
 }
+
+inputField.addEventListener('keyup',function(event){
+if(event.keyCode===13){
+event.preventDefault();
+document.getElementById('submit').click();
+}
+});

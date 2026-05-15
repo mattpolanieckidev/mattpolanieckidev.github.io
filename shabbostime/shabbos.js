@@ -33,7 +33,9 @@ if(!data || !data.items || data.items.length===0) return;
 const city=`${data.location.city}, ${data.location.state}`;
 document.getElementById('header').innerHTML=city;
 
-const parsha=data.items.find(i=>i.category==='parashat')?.title || '—';
+const parshaItem=data.items.find(i=>i.category==='parashat');
+const parsha=parshaItem ? parshaItem.title : 'No weekly Torah portion';
+
 document.getElementById('parsha').innerHTML=parsha;
 
 const candles=data.items.find(i=>i.category==='candles');

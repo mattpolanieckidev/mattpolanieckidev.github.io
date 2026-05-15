@@ -1,19 +1,41 @@
-// existing code preserved above
 async function find() {
 try {
 const input=document.getElementById('zip').value;
-const date=document.getElementById('futureDate').value;
-let query=`zip=${input}&m=50`;
-if(date){query+=`&date=${date}`;}
-setZipcode(input);
-const response=await fetch(`https://www.hebcal.com/shabbat/?cfg=json&${query}`);
+const selectedDate=document.getElementById('futureDate').value;
+
+localStorage.setItem('zipcode',input);
+
+let query=`zip=${input}&cfg=json&m=50`;
+
+if(selectedDate){
+ const d=new Date(selectedDate);
+ const year=d.getFullYear();
+ const month=d.getMonth()+1;
+ const day=d.getDate();
+ query += `&gy=${year}&gm=${month}&gd=${day}`;
+}
+
+const response=await fetch(`https://www.hebcal.com/shabbat/?${query}`);
 const data=await response.json();
-if(!data.items)return;
+
+if(!data || !data.items || data.items.length===0) return;
+
 const city=`${data.location.city}, ${data.location.state}`;
-const parsha=data.items.find(i=>i.category==='parashat')?.title||'';
-currentParsha=parsha;
+document.getElementById('header').innerHTML=city;
+
+const parsha=data.items.find(i=>i.category==='parashat')?.title || '—';
+document.getElementById('parsha').innerHTML=parsha;
+
 const candles=data.items.find(i=>i.category==='candles');
 const havdalah=data.items.find(i=>i.category==='havdalah');
-updateShabbosInfo(city,parsha,formatEventText(candles.date,candles.title),formatEventText(havdalah.date,havdalah.title));
+
+if(candles){
+document.getElementById('candleLighting').innerHTML=candles.title;
+}
+
+if(havdalah){
+document.getElementById('havdala').innerHTML=havdalah.title;
+}
+
 }catch(e){console.log(e)}
 }

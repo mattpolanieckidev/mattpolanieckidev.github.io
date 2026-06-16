@@ -1,0 +1,25 @@
+{
+  "name": "PokéRip — Pack Opener",
+  "short_name": "PokéRip",
+  "description": "Open Pokémon card packs for free and build your vault.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0a12",
+  "theme_color": "#0a0a12",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%230a0a12'/%3E%3Ccircle cx='256' cy='256' r='165' fill='none' stroke='%23f5c842' stroke-width='26'/%3E%3Cpath d='M91 256h330' stroke='%23f5c842' stroke-width='26'/%3E%3Ccircle cx='256' cy='256' r='54' fill='%230a0a12' stroke='%23f5c842' stroke-width='26'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%230a0a12'/%3E%3Ccircle cx='256' cy='256' r='165' fill='none' stroke='%23f5c842' stroke-width='26'/%3E%3Cpath d='M91 256h330' stroke='%23f5c842' stroke-width='26'/%3E%3Ccircle cx='256' cy='256' r='54' fill='%230a0a12' stroke='%23f5c842' stroke-width='26'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

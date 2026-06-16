@@ -826,6 +826,32 @@
     .surprise-banner { flex-direction: column; align-items: stretch; text-align: center; gap: 14px; padding: 18px; }
     .surprise-banner-btn { width: 100%; }
   }
+  /* iPad / small tablet: make the pack + reveal card larger for better visibility */
+  @media (min-width: 601px) and (max-width: 1024px) {
+    .pack-wrapper { width: 320px; height: 460px; }
+    .pack-envelope { border-radius: 16px; }
+    /* Larger single-card flipper on tablets */
+    .card-flipper { width: 360px; height: 504px; }
+    /* Modal/card detail sizing tweaks for tablet */
+    .card-modal-inner { max-width: 520px; }
+    .card-modal-imgwrap { max-width: 420px; }
+    /* Slightly larger spread and set tiles */
+    .spread-card { width: 150px; }
+    .sets-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  }
+  /* iPad landscape / large tablets: make pack and reveal even bigger */
+  @media (min-width: 1025px) and (orientation: landscape) {
+    .pack-wrapper { width: 420px; height: 588px; }
+    .pack-envelope { border-radius: 16px; }
+    /* Extra-large single-card flipper for landscape tablets */
+    .card-flipper { width: 420px; height: 588px; }
+    /* Modal/card detail sizing tweaks for large tablets */
+    .card-modal-inner { max-width: 760px; }
+    .card-modal-imgwrap { max-width: 640px; }
+    /* Larger spread and set tiles */
+    .spread-card { width: 180px; }
+    .sets-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  }
 </style>
 </head>
 <body>

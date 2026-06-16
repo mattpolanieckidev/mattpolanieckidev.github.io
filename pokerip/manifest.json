@@ -2,7 +2,7 @@
   "name": "PokéRip — Pack Opener",
   "short_name": "PokéRip",
   "description": "Open Pokémon card packs for free and build your vault.",
-  "start_url": ".",
+  "start_url": "https://mattpolanieckidev.github.io/pokerip/pokemon-pack-opener.html",
   "scope": ".",
   "display": "standalone",
   "orientation": "portrait",

@@ -592,8 +592,10 @@
     transition: transform 0.2s, box-shadow 0.2s;
     position: relative;
     animation: cardDrop 0.3s ease backwards;
+    cursor: pointer;
   }
-  .vault-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+  .vault-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,0,0,0.5); border-color: var(--gold); }
+  .vault-card:active { transform: translateY(-2px) scale(0.98); }
   .vault-card.holo { border-color: rgba(245,200,66,0.5); }
   .vault-card img { width: 100%; display: block; }
   .vault-card-info { padding: 8px 10px; }
@@ -695,6 +697,109 @@
   .ios-install-text { font-size: 0.92rem; line-height: 1.5; color: var(--text); }
   .ios-install-text strong { color: var(--gold); }
   .ios-share-icon { font-size: 1.1rem; }
+
+  /* Card detail modal */
+  .card-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(5,5,12,0.88);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 1100;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card-modal.show { display: flex; animation: modalFade 0.2s ease; }
+  @keyframes modalFade { from { opacity: 0; } to { opacity: 1; } }
+  .card-modal-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-width: 420px;
+    width: 100%;
+    max-height: 92vh;
+    position: relative;
+    animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  @keyframes modalPop {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .card-modal-close {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 2;
+    transition: all 0.2s;
+  }
+  .card-modal-close:hover { border-color: var(--gold); color: var(--gold); transform: rotate(90deg); }
+  .card-modal-imgwrap {
+    position: relative;
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 245 / 342;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 16px 60px rgba(0,0,0,0.7);
+  }
+  .card-modal-imgwrap.holo { box-shadow: 0 16px 70px rgba(245,200,66,0.4); }
+  .card-modal-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .card-modal-img.loaded { opacity: 1; }
+  .card-modal-spinner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card-modal-spinner.hidden { display: none; }
+  .card-modal-info { text-align: center; width: 100%; }
+  .card-modal-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    color: white;
+  }
+  .card-modal-meta {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 2px;
+  }
+  .card-modal-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 14px;
+  }
+  .detail-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 5px 14px;
+    font-size: 0.78rem;
+    color: var(--text);
+  }
+  .detail-chip strong { color: var(--gold); font-weight: 700; }
+  .detail-chip.holo-chip { border-color: var(--gold); background: rgba(245,200,66,0.1); }
 
   /* Responsive */
   @media (max-width: 600px) {
@@ -828,6 +933,22 @@
 
 <!-- Toast -->
 <div class="toast" id="toast"></div>
+
+<!-- Card detail modal -->
+<div class="card-modal" id="card-modal" onclick="closeCardDetail(event)">
+  <div class="card-modal-inner">
+    <button class="card-modal-close" onclick="closeCardDetail()">✕</button>
+    <div class="card-modal-imgwrap" id="card-modal-imgwrap">
+      <img class="card-modal-img" id="card-modal-img" src="" alt="">
+      <div class="card-modal-spinner" id="card-modal-spinner"><div class="spinner"></div></div>
+    </div>
+    <div class="card-modal-info">
+      <div class="card-modal-name" id="card-modal-name">—</div>
+      <div class="card-modal-meta" id="card-modal-meta"></div>
+      <div class="card-modal-details" id="card-modal-details"></div>
+    </div>
+  </div>
+</div>
 
 <!-- iOS install hint -->
 <div class="ios-install" id="ios-install">
@@ -1192,10 +1313,10 @@ function renderVault() {
   const filtered = activeFilter === 'all' ? vault : vault.filter(c => c.setId === activeFilter);
   let gridHtml = '';
   filtered.forEach((card, i) => {
-    gridHtml += `<div class="vault-card ${card.holo?'holo':''}" style="animation-delay:${i*0.04}s">
+    gridHtml += `<div class="vault-card ${card.holo?'holo':''}" style="animation-delay:${i*0.04}s" onclick="openCardDetail('${card.id}')">
       ${card.count > 1 ? `<div class="vault-card-count">x${card.count}</div>` : ''}
       ${card.holo ? `<div class="holo-badge" style="top:6px;right:6px">✦ HOLO</div>` : ''}
-      ${card.image ? `<img src="${card.image}/low.webp" alt="${card.name}">` : '<div style="height:80px;background:var(--surface2)"></div>'}
+      ${card.image ? `<img src="${card.image}/low.webp" alt="${card.name}" loading="lazy">` : '<div style="height:80px;background:var(--surface2)"></div>'}
       <div class="vault-card-info">
         <div class="vault-card-name">${card.name||'Unknown'}</div>
         <div class="vault-card-set">${card.setName||''}</div>
@@ -1209,6 +1330,69 @@ function setFilter(f) {
   activeFilter = f;
   renderVault();
 }
+
+// ── Card detail modal ──
+async function openCardDetail(cardId) {
+  const card = vault.find(c => c.id === cardId);
+  if (!card) return;
+
+  const modal = document.getElementById('card-modal');
+  const img = document.getElementById('card-modal-img');
+  const spinner = document.getElementById('card-modal-spinner');
+  const imgwrap = document.getElementById('card-modal-imgwrap');
+
+  // Reset
+  img.classList.remove('loaded');
+  spinner.classList.remove('hidden');
+  imgwrap.classList.toggle('holo', !!card.holo);
+
+  // High-res image
+  img.onload = () => { img.classList.add('loaded'); spinner.classList.add('hidden'); };
+  img.onerror = () => { spinner.classList.add('hidden'); };
+  img.src = card.image ? card.image + '/high.webp' : '';
+
+  // Basic info we already have
+  document.getElementById('card-modal-name').textContent = card.name || 'Unknown';
+  document.getElementById('card-modal-meta').textContent = card.setName || '';
+
+  // Build detail chips — start with what's stored
+  const details = document.getElementById('card-modal-details');
+  let chips = '';
+  if (card.count > 1) chips += `<div class="detail-chip">Owned <strong>x${card.count}</strong></div>`;
+  if (card.holo) chips += `<div class="detail-chip holo-chip">✦ Holo</div>`;
+  details.innerHTML = chips;
+
+  modal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+
+  // Enrich with full card data from the API (HP, type, rarity, illustrator)
+  try {
+    const full = await tcgdex.fetch('cards', cardId);
+    if (full) {
+      let extra = '';
+      if (full.localId) extra += `<div class="detail-chip">No. <strong>${full.localId}</strong></div>`;
+      if (full.rarity) extra += `<div class="detail-chip">${full.rarity}</div>`;
+      if (full.types && full.types.length) extra += `<div class="detail-chip">${full.types.join(' / ')}</div>`;
+      if (full.hp) extra += `<div class="detail-chip">HP <strong>${full.hp}</strong></div>`;
+      if (full.illustrator) extra += `<div class="detail-chip">🎨 ${full.illustrator}</div>`;
+      details.innerHTML = chips + extra;
+    }
+  } catch(e) {
+    // Offline or fetch failed — basic info already shown, that's fine
+  }
+}
+
+function closeCardDetail(event) {
+  // Only close on backdrop click or close button, not inner content
+  if (event && event.target.closest('.card-modal-inner') && !event.target.classList.contains('card-modal-close')) return;
+  document.getElementById('card-modal').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+// Close modal on Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeCardDetail();
+});
 
 // ── Helpers ──
 function updateVaultCount() {

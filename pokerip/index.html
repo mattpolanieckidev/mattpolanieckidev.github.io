@@ -10,7 +10,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PokéRip">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%230a0a12'/%3E%3Ccircle cx='9[...]
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%230a0a12'/%3E%3Ccircle cx='96' cy='96' r='60' fill='%23f5c842'/%3E%3Ccircle cx='96' cy='96' r='50' fill='%230a0a12'/%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.json">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
 
@@ -828,29 +829,16 @@
   }
   /* iPad / small tablet: make the pack + reveal card larger for better visibility */
   @media (min-width: 601px) and (max-width: 1024px) {
-    .pack-wrapper { width: 320px; height: 460px; }
+    .pack-wrapper { width: 280px; height: 400px; }
     .pack-envelope { border-radius: 16px; }
     /* Larger single-card flipper on tablets */
-    .card-flipper { width: 360px; height: 504px; }
+    .card-flipper { width: 260px; height: 364px; }
     /* Modal/card detail sizing tweaks for tablet */
     .card-modal-inner { max-width: 520px; }
     .card-modal-imgwrap { max-width: 420px; }
     /* Slightly larger spread and set tiles */
     .spread-card { width: 150px; }
     .sets-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
-  }
-  /* iPad landscape / large tablets: make pack and reveal even bigger */
-  @media (min-width: 1025px) and (orientation: landscape) {
-    .pack-wrapper { width: 420px; height: 588px; }
-    .pack-envelope { border-radius: 16px; }
-    /* Extra-large single-card flipper for landscape tablets */
-    .card-flipper { width: 420px; height: 588px; }
-    /* Modal/card detail sizing tweaks for large tablets */
-    .card-modal-inner { max-width: 760px; }
-    .card-modal-imgwrap { max-width: 640px; }
-    /* Larger spread and set tiles */
-    .spread-card { width: 180px; }
-    .sets-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
   }
 </style>
 </head>
@@ -998,476 +986,376 @@ let allSets = [];
 let currentSetId = null;
 let currentSetCards = [];
 let packCards = [];
-let revealIndex = 0;
-let vault = [];
-let activeFilter = 'all';
+let vaultCards = {};
+let revealed = new Set();
 
-// ── Boot ──
-async function boot() {
+// ── Init ──
+async function init() {
+  loadVaultFromStorage();
+  await loadSets();
+  checkPWAInstallability();
+}
+
+async function loadSets() {
   try {
-    // Check PWA install availability
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      document.getElementById('install-btn').style.display = 'none';
-    } else if (window.deferredPrompt) {
-      document.getElementById('install-btn').style.display = 'inline-block';
-    } else {
-      // Show iOS hint
-      const seenHint = localStorage.getItem('iosHintSeen');
-      if (!seenHint && /iPad|iPhone|iPod/.test(navigator.userAgent)) {
-        setTimeout(() => {
-          if (!window.deferredPrompt) {
-            document.getElementById('ios-install').classList.add('show');
-            localStorage.setItem('iosHintSeen', 'true');
-          }
-        }, 500);
-      }
-    }
-
-    // Load vault from localStorage
-    const saved = localStorage.getItem('pokerip-vault');
-    if (saved) {
-      try {
-        vault = JSON.parse(saved);
-      } catch (e) {
-        vault = [];
-      }
-    }
-    updateVaultCount();
-
-    // Fetch all sets from TCGDex
-    const sets = await tcgdex.fetch('set');
-    allSets = (Array.isArray(sets) ? sets : sets.data || []).sort((a, b) => {
-      const yearA = parseInt(a.printedTotal) || 0;
-      const yearB = parseInt(b.printedTotal) || 0;
-      return yearB - yearA;
-    });
-
-    // Organize by series
-    renderPackSelection();
-  } catch (err) {
-    console.error('Boot error:', err);
-    document.getElementById('sets-container').innerHTML = '<div style="color: var(--red); padding: 40px; text-align: center;">Failed to load sets. Please refresh.</div>';
+    allSets = await tcgdex.fetch('sets');
+    renderSets();
+  } catch (e) {
+    console.error('Failed to load sets:', e);
+    document.getElementById('sets-container').innerHTML = '<div class="loading-sets" style="color:var(--red)">Failed to load sets. Check your connection.</div>';
   }
 }
 
-function renderPackSelection() {
+function renderSets() {
   const container = document.getElementById('sets-container');
-  if (!allSets.length) {
-    container.innerHTML = '<div style="color: var(--muted); padding: 40px; text-align: center;">No sets available.</div>';
-    return;
-  }
-
-  // Group by series
-  const series = {};
-  allSets.forEach(set => {
-    const seriesName = set.series?.name || 'Unknown Series';
-    if (!series[seriesName]) series[seriesName] = [];
-    series[seriesName].push(set);
-  });
+  const seriesList = [...new Set(allSets.map(s => s.series))];
 
   let html = '';
-  Object.keys(series).forEach(seriesName => {
+  for (const series of seriesList) {
+    const setsSeries = allSets.filter(s => s.series === series);
     html += `<div class="series-block">
-      <div class="series-name">${seriesName}</div>
-      <div class="sets-grid">`;
-    series[seriesName].forEach(set => {
-      const logoHtml = set.logo
-        ? `<img src="${set.logo}" class="set-logo" alt="${set.name}">`
-        : `<div class="set-logo-placeholder">${set.id}</div>`;
-      html += `<div class="set-card" onclick="selectSet('${set.id}')">
-        ${logoHtml}
-        <div class="set-name">${set.name}</div>
-        <div class="set-count">${set.printedTotal} cards</div>
-        <button class="rip-btn">RIP!</button>
-      </div>`;
-    });
-    html += '</div></div>';
-  });
+      <div class="series-name">${series}</div>
+      <div class="sets-grid">
+        ${setsSeries.map(set => `
+          <div class="set-card" onclick="selectSet('${set.id}', '${set.name.replace(/'/g, "\\'")}')">
+            ${set.logo ? `<img src="${set.logo}" class="set-logo" alt="${set.name}">` : `<div class="set-logo-placeholder">${set.id.toUpperCase()}</div>`}
+            <div class="set-name">${set.name}</div>
+            <div class="set-count">${set.cardCount?.total || '?'} cards</div>
+            <button class="rip-btn">RIP</button>
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+  }
   container.innerHTML = html;
 }
 
-function selectSet(setId) {
-  currentSetId = setId;
-  const set = allSets.find(s => s.id === setId);
-  if (!set) return;
-
-  document.getElementById('opening-set-name').textContent = set.name;
-  const packLogo = document.getElementById('pack-logo');
-  packLogo.src = set.logo || '';
-
-  showView('opening');
-  document.getElementById('pack-closed').style.display = 'block';
-  document.getElementById('all-cards-spread').classList.remove('show');
-  document.getElementById('cards-reveal').classList.remove('show');
-}
-
-function drawPackCards() {
-  const set = allSets.find(s => s.id === currentSetId);
-  if (!set || !currentSetCards.length) return [];
-
-  const pack = [];
-  for (let i = 0; i < 10; i++) {
-    const card = currentSetCards[Math.floor(Math.random() * currentSetCards.length)];
-    if (!card) continue;
-
-    // Random chance: ~3-5% holo rates
-    const isHolo = Math.random() < (Math.random() < 0.5 ? 0.03 : 0.05);
-    pack.push({
-      id: card.id,
-      name: card.name,
-      setId: set.id,
-      setName: set.name,
-      image: card.image?.small,
-      _holo: isHolo,
-    });
-  }
-  return pack;
-}
-
-async function startOpening() {
-  if (!currentSetId) return;
-
-  const set = allSets.find(s => s.id === currentSetId);
-  if (!set) return;
+async function selectSet(id, name) {
+  currentSetId = id;
+  const set = allSets.find(s => s.id === id);
+  document.getElementById('opening-set-name').textContent = name;
 
   try {
-    // Fetch cards for this set
-    const data = await tcgdex.fetch('set', currentSetId);
-    currentSetCards = data.cards || [];
-    if (!currentSetCards.length) {
-      alert('No cards found for this set.');
-      return;
+    currentSetCards = await tcgdex.fetch('cards', { q: `id:${id}*` });
+    showView('opening');
+    document.getElementById('pack-closed').style.display = 'block';
+    document.getElementById('cards-reveal').classList.remove('show');
+    document.getElementById('all-cards-spread').classList.remove('show');
+
+    if (set?.logo) {
+      document.getElementById('pack-logo').src = set.logo;
     }
-  } catch (err) {
-    console.error('Error fetching set:', err);
-    alert('Failed to fetch cards. Please try again.');
-    return;
+  } catch (e) {
+    console.error('Failed to load cards:', e);
+    alert('Failed to load cards from this set.');
   }
-  packCards = drawPackCards();
-  revealIndex = 0;
-
-  document.getElementById('pack-closed').style.display = 'none';
-  document.getElementById('all-cards-spread').classList.remove('show');
-  document.getElementById('cards-reveal').classList.add('show');
-  document.getElementById('reveal-total').textContent = packCards.length;
-
-  loadRevealCard(0);
 }
 
-function loadRevealCard(idx) {
-  const card = packCards[idx];
-  revealIndex = idx;
-  document.getElementById('reveal-current').textContent = idx + 1;
-
-  // Reset flip
-  const flipper = document.getElementById('card-flipper');
-  flipper.classList.remove('flipped');
-  document.getElementById('reveal-hint').textContent = 'Tap to reveal';
-  document.getElementById('reveal-hint').style.display = 'block';
-
-  const front = document.getElementById('card-face-front');
-  front.classList.remove('holo');
-
-  // Preload image (high-res for single-card surprise pulls)
-  const imgEl = document.getElementById('reveal-img');
-  imgEl.src = '';
-  if (card.image) {
-    imgEl.src = card.image + '/high.png';
+function startOpening() {
+  if (currentSetCards.length === 0) {
+    alert('No cards found for this set.');
+    return;
   }
-  if (card._holo) front.classList.add('holo');
+  packCards = [];
+  revealed.clear();
+  for (let i = 0; i < Math.min(10, currentSetCards.length); i++) {
+    const randomCard = currentSetCards[Math.floor(Math.random() * currentSetCards.length)];
+    packCards.push(randomCard);
+  }
+
+  document.getElementById('pack-closed').style.display = 'none';
+  document.getElementById('cards-reveal').classList.add('show');
+  revealCard(0);
 }
 
 function flipCard() {
   const flipper = document.getElementById('card-flipper');
   if (flipper.classList.contains('flipped')) {
-    // Already flipped — advance
-    advanceReveal();
-    return;
-  }
-  flipper.classList.add('flipped');
-  const isLast = revealIndex >= packCards.length - 1;
-  document.getElementById('reveal-hint').textContent =
-    isLast
-      ? (packCards.length === 1 ? 'Tap to continue' : 'Tap to see all cards')
-      : 'Tap for next card';
-
-  // Shine if holo
-  if (packCards[revealIndex]._holo) {
-    const ring = document.createElement('div');
-    ring.className = 'shine-ring';
-    document.getElementById('card-reveal-el').appendChild(ring);
-    setTimeout(() => ring.remove(), 700);
+    nextCard();
+  } else {
+    flipper.classList.add('flipped');
+    document.getElementById('reveal-hint').textContent = 'Tap to continue';
+    revealed.add(packCards[revealed.size].id);
   }
 }
 
-function advanceReveal() {
-  if (revealIndex < packCards.length - 1) {
-    loadRevealCard(revealIndex + 1);
+function nextCard() {
+  if (revealed.size < packCards.length) {
+    revealCard(revealed.size);
   } else {
     showAllCards();
   }
 }
 
+function revealCard(index) {
+  const card = packCards[index];
+  const flipper = document.getElementById('card-flipper');
+  flipper.classList.remove('flipped');
+  document.getElementById('reveal-hint').textContent = 'Tap to reveal';
+
+  const img = document.getElementById('reveal-img');
+  img.src = card.image.high;
+
+  document.getElementById('reveal-current').textContent = index + 1;
+  document.getElementById('reveal-total').textContent = packCards.length;
+
+  const cardFace = document.getElementById('card-face-front');
+  if (card.rarity?.includes('Holographic') || card.rarity?.includes('Special')) {
+    cardFace.classList.add('holo');
+  } else {
+    cardFace.classList.remove('holo');
+  }
+}
+
 function showAllCards() {
   document.getElementById('cards-reveal').classList.remove('show');
-  const spread = document.getElementById('all-cards-spread');
-  spread.classList.add('show');
-
-  // Dynamic title
-  const titleEl = spread.querySelector('.spread-title');
-  if (titleEl) {
-    titleEl.textContent = packCards.length === 1 ? '🎲 Your Card!' : '🎉 Pack Opened!';
-  }
-  const anotherBtn = document.getElementById('another-btn');
-  if (anotherBtn) {
-    anotherBtn.textContent = packCards.length === 1 ? '🎲 Pull Another' : 'Open Another Pack';
-  }
+  document.getElementById('all-cards-spread').classList.add('show');
 
   const grid = document.getElementById('spread-grid');
   grid.innerHTML = '';
-  // Single random card displays bigger
-  grid.classList.toggle('single', packCards.length === 1);
-  packCards.forEach((card, i) => {
-    const div = document.createElement('div');
-    div.className = 'spread-card' + (card._holo ? ' holo' : '');
-    div.style.animationDelay = (i * 0.06) + 's';
-    if (card.image) {
-      const img = document.createElement('img');
-      img.src = card.image + '/high.png';
-      img.alt = card.name;
-      div.appendChild(img);
-    }
-    if (card._holo) {
-      const badge = document.createElement('div');
-      badge.className = 'holo-badge';
-      badge.textContent = '✦ HOLO';
-      div.appendChild(badge);
-    }
-    grid.appendChild(div);
-  });
-}
-
-// ── Save to vault ──
-function saveToVault() {
-  const setMeta = allSets.find(s => s.id === currentSetId);
-  if (!setMeta) return;
 
   packCards.forEach(card => {
-    const existing = vault.find(c => c.id === card.id && c.setId === card.setId);
-    if (existing) {
-      existing.count = (existing.count || 1) + 1;
-    } else {
-      vault.push({
-        id: card.id,
-        name: card.name,
-        setId: card.setId,
-        setName: card.setName,
-        image: card.image,
-        holo: card._holo,
-        count: 1,
-      });
+    const cardEl = document.createElement('div');
+    cardEl.className = 'spread-card';
+    if (card.rarity?.includes('Holographic') || card.rarity?.includes('Special')) {
+      cardEl.classList.add('holo');
     }
+    cardEl.style.animationDelay = `${packCards.indexOf(card) * 0.05}s`;
+    cardEl.innerHTML = `
+      <img src="${card.image.high}" alt="${card.name}" onclick="viewCardDetail(event, ${JSON.stringify(card).replace(/"/g, '&quot;')})">
+      ${card.rarity?.includes('Holographic') || card.rarity?.includes('Special') ? '<div class="holo-badge">HOLO</div>' : ''}
+    `;
+    grid.appendChild(cardEl);
   });
 
-  localStorage.setItem('pokerip-vault', JSON.stringify(vault));
-  updateVaultCount();
-  showToast('✓ Saved to vault!');
+  grid.classList.remove('single');
+  if (packCards.length === 1) grid.classList.add('single');
+}
 
-  setTimeout(() => {
-    showView('vault');
-    renderVault();
-  }, 300);
+function saveToVault() {
+  packCards.forEach(card => {
+    if (!vaultCards[card.id]) {
+      vaultCards[card.id] = { ...card, count: 0 };
+    }
+    vaultCards[card.id].count++;
+  });
+  saveVaultToStorage();
+  showToast('✓ Cards saved to vault!');
+  showView('vault');
 }
 
 function openAnotherPack() {
-  startOpening();
+  showView('packs');
 }
 
-// ── View management ──
+function openRandomCard() {
+  if (allSets.length === 0) {
+    alert('Sets are still loading. Try again in a moment.');
+    return;
+  }
+  const randomSet = allSets[Math.floor(Math.random() * allSets.length)];
+  selectSet(randomSet.id, randomSet.name).then(() => {
+    setTimeout(() => startOpening(), 200);
+  });
+}
+
+// ── Vault ──
+function renderVault() {
+  const vaultContent = document.getElementById('vault-content');
+  const cards = Object.values(vaultCards);
+
+  if (cards.length === 0) {
+    vaultContent.innerHTML = '<div class="vault-empty"><div class="vault-empty-icon">🎴</div><p>No cards yet. Open a pack!</p></div>';
+    updateVaultStats();
+    return;
+  }
+
+  // Update stats
+  updateVaultStats();
+
+  // Render filters
+  const setIds = [...new Set(cards.map(c => c.setId))];
+  const filtersContainer = document.getElementById('vault-filters');
+  filtersContainer.innerHTML = '<button class="filter-btn active" onclick="filterVault()">All Sets</button>' + setIds.map(id => {
+    const set = allSets.find(s => s.id === id);
+    return `<button class="filter-btn" onclick="filterVault('${id}')">${set?.name || id}</button>`;
+  }).join('');
+
+  // Render grid
+  const grid = document.createElement('div');
+  grid.className = 'vault-grid';
+
+  let visibleCards = cards;
+  const filterBtn = document.querySelector('.filter-btn.active');
+  if (filterBtn && filterBtn.textContent !== 'All Sets') {
+    const setId = filterBtn.getAttribute('onclick').match(/'([^']+)'/)?.[1];
+    if (setId) visibleCards = cards.filter(c => c.setId === setId);
+  }
+
+  visibleCards.sort((a, b) => a.setId.localeCompare(b.setId)).forEach((card, idx) => {
+    const cardEl = document.createElement('div');
+    cardEl.className = 'vault-card';
+    if (card.rarity?.includes('Holographic') || card.rarity?.includes('Special')) {
+      cardEl.classList.add('holo');
+    }
+    cardEl.style.animationDelay = `${idx * 0.02}s`;
+    cardEl.innerHTML = `
+      <img src="${card.image.high}" alt="${card.name}" onclick="viewCardDetail(event, ${JSON.stringify(card).replace(/"/g, '&quot;')})">
+      <div class="vault-card-count">${card.count}</div>
+      <div class="vault-card-info">
+        <div class="vault-card-name">${card.name}</div>
+        <div class="vault-card-set">${allSets.find(s => s.id === card.setId)?.name || card.setId}</div>
+      </div>
+    `;
+    grid.appendChild(cardEl);
+  });
+
+  vaultContent.innerHTML = '';
+  vaultContent.appendChild(grid);
+}
+
+function filterVault(setId = null) {
+  const buttons = document.querySelectorAll('.filter-btn');
+  buttons.forEach(btn => btn.classList.remove('active'));
+
+  if (setId) {
+    event.target.classList.add('active');
+  } else {
+    document.querySelector('.filter-btn').classList.add('active');
+  }
+
+  renderVault();
+}
+
+function updateVaultStats() {
+  const cards = Object.values(vaultCards);
+  const totalCount = cards.reduce((sum, c) => sum + c.count, 0);
+  const uniqueCount = cards.length;
+  const holoCount = cards.filter(c => c.rarity?.includes('Holographic') || c.rarity?.includes('Special')).reduce((sum, c) => sum + c.count, 0);
+
+  document.getElementById('stat-total').textContent = totalCount;
+  document.getElementById('stat-unique').textContent = uniqueCount;
+  document.getElementById('stat-holos').textContent = holoCount;
+
+  document.getElementById('vault-count').textContent = totalCount;
+}
+
+// ── Card Detail Modal ──
+function viewCardDetail(event, card) {
+  event.stopPropagation();
+  document.getElementById('card-modal').classList.add('show');
+
+  const img = document.getElementById('card-modal-img');
+  img.classList.remove('loaded');
+  img.src = card.image.high;
+  img.onload = () => {
+    img.classList.add('loaded');
+    document.getElementById('card-modal-spinner').classList.add('hidden');
+  };
+
+  document.getElementById('card-modal-name').textContent = card.name;
+  document.getElementById('card-modal-meta').textContent = `${card.setId} • #${card.number}`;
+
+  const detailsContainer = document.getElementById('card-modal-details');
+  detailsContainer.innerHTML = `
+    <div class="detail-chip"><strong>Type:</strong> ${card.types?.join(', ') || 'N/A'}</div>
+    <div class="detail-chip"><strong>HP:</strong> ${card.hp || 'N/A'}</div>
+    <div class="detail-chip${card.rarity?.includes('Holographic') || card.rarity?.includes('Special') ? ' holo-chip' : ''}"><strong>Rarity:</strong> ${card.rarity || 'Common'}</div>
+  `;
+
+  const imgwrap = document.getElementById('card-modal-imgwrap');
+  if (card.rarity?.includes('Holographic') || card.rarity?.includes('Special')) {
+    imgwrap.classList.add('holo');
+  } else {
+    imgwrap.classList.remove('holo');
+  }
+}
+
+function closeCardDetail(event) {
+  if (event && event.target !== document.getElementById('card-modal')) return;
+  document.getElementById('card-modal').classList.remove('show');
+}
+
+// ── UI ──
 function showView(viewName) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById(`view-${viewName}`).classList.add('active');
 
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.nav-btn[onclick*="'${viewName}'"]`)?.classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+  if (viewName === 'packs') document.querySelectorAll('.nav-btn')[1].classList.add('active');
+  if (viewName === 'vault') document.querySelectorAll('.nav-btn')[3].classList.add('active');
 
   if (viewName === 'vault') {
     renderVault();
   }
 }
 
-// ── Vault ──
-function updateVaultCount() {
-  const count = vault.reduce((sum, card) => sum + (card.count || 1), 0);
-  document.getElementById('vault-count').textContent = count;
-}
-
-function renderVault() {
-  if (!vault.length) {
-    document.getElementById('vault-filters').innerHTML = '';
-    document.getElementById('vault-content').innerHTML = `<div class="vault-empty"><div class="vault-empty-icon">🗄️</div><p>Your vault is empty. Open some packs!</p></div>`;
-    return;
-  }
-
-  // Update stats
-  const totalCards = vault.reduce((sum, c) => sum + (c.count || 1), 0);
-  const uniqueCards = vault.length;
-  const holosCount = vault.filter(c => c.holo).length;
-  document.getElementById('stat-total').textContent = totalCards;
-  document.getElementById('stat-unique').textContent = uniqueCards;
-  document.getElementById('stat-holos').textContent = holosCount;
-
-  // Filters — unique sets
-  const sets = [...new Set(vault.map(c => c.setId))];
-  const setNames = {};
-  vault.forEach(c => { setNames[c.setId] = c.setName; });
-  let filterHtml = `<button class="filter-btn ${activeFilter==='all'?'active':''}" onclick="setFilter('all')">All</button>`;
-  sets.forEach(sid => {
-    filterHtml += `<button class="filter-btn ${activeFilter===sid?'active':''}" onclick="setFilter('${sid}')">${setNames[sid]||sid}</button>`;
-  });
-  document.getElementById('vault-filters').innerHTML = filterHtml;
-
-  const filtered = activeFilter === 'all' ? vault : vault.filter(c => c.setId === activeFilter);
-  let gridHtml = '';
-  filtered.forEach((card, i) => {
-    gridHtml += `<div class="vault-card ${card.holo?'holo':''}" style="animation-delay:${i*0.04}s" onclick="openCardDetail('${card.id}')">
-      ${card.count > 1 ? `<div class="vault-card-count">x${card.count}</div>` : ''}
-      ${card.holo ? `<div class="holo-badge" style="top:6px;right:6px">✦ HOLO</div>` : ''}
-      ${card.image ? `<img src="${card.image}/high.png" alt="${card.name}" loading="lazy">` : '<div style="height:80px;background:var(--surface2)"></div>'}
-      <div class="vault-card-info">
-        <div class="vault-card-name">${card.name||'Unknown'}</div>
-        <div class="vault-card-set">${card.setName||''}</div>
-      </div>
-    </div>`;
-  });
-  document.getElementById('vault-content').innerHTML = `<div class="vault-grid">${gridHtml}</div>`;
-}
-
-function setFilter(f) {
-  activeFilter = f;
-  renderVault();
-}
-
-// ── Card detail modal ──
-async function openCardDetail(cardId) {
-  const card = vault.find(c => c.id === cardId);
-  if (!card) return;
-
-  const modal = document.getElementById('card-modal');
-  const img = document.getElementById('card-modal-img');
-  const spinner = document.getElementById('card-modal-spinner');
-  const imgwrap = document.getElementById('card-modal-imgwrap');
-
-  // Reset
-  img.classList.remove('loaded');
-  spinner.classList.remove('hidden');
-  imgwrap.classList.toggle('holo', !!card.holo);
-
-  // High-res image
-  img.onload = () => { img.classList.add('loaded'); spinner.classList.add('hidden'); };
-  img.onerror = () => { spinner.classList.add('hidden'); };
-  img.src = card.image ? card.image + '/high.png' : '';
-
-  // Basic info we already have
-  document.getElementById('card-modal-name').textContent = card.name || 'Unknown';
-  document.getElementById('card-modal-meta').textContent = card.setName || '';
-
-  // Build detail chips — start with what's stored
-  const details = document.getElementById('card-modal-details');
-  let chips = '';
-  if (card.count > 1) chips += `<div class="detail-chip">Owned <strong>x${card.count}</strong></div>`;
-  if (card.holo) chips += `<div class="detail-chip holo-chip">✦ <strong>HOLO</strong></div>`;
-  details.innerHTML = chips || '<div class="detail-chip">No details</div>';
-
-  modal.classList.add('show');
-}
-
-function closeCardDetail(e) {
-  if (e && e.target !== document.getElementById('card-modal')) return;
-  document.getElementById('card-modal').classList.remove('show');
-}
-
-// ── Surprise me ──
-async function openRandomCard() {
-  if (!allSets.length) return;
-  
-  currentSetId = allSets[Math.floor(Math.random() * allSets.length)].id;
-  const set = allSets.find(s => s.id === currentSetId);
-  if (!set) return;
-
-  document.getElementById('opening-set-name').textContent = set.name;
-  const packLogo = document.getElementById('pack-logo');
-  packLogo.src = set.logo || '';
-
-  showView('opening');
-  document.getElementById('pack-closed').style.display = 'none';
-  document.getElementById('cards-reveal').classList.remove('show');
-  document.getElementById('all-cards-spread').classList.remove('show');
-
-  try {
-    const data = await tcgdex.fetch('set', currentSetId);
-    currentSetCards = data.cards || [];
-    if (!currentSetCards.length) {
-      alert('No cards found for this set.');
-      return;
-    }
-  } catch (err) {
-    console.error('Error fetching set:', err);
-    alert('Failed to fetch cards. Please try again.');
-    return;
-  }
-
-  // Draw single random card
-  const card = currentSetCards[Math.floor(Math.random() * currentSetCards.length)];
-  const isHolo = Math.random() < 0.25; // Rare holo on surprise pull
-  packCards = [{
-    id: card.id,
-    name: card.name,
-    setId: set.id,
-    setName: set.name,
-    image: card.image?.small,
-    _holo: isHolo,
-  }];
-  revealIndex = 0;
-
-  document.getElementById('reveal-total').textContent = 1;
-  loadRevealCard(0);
-  document.getElementById('cards-reveal').classList.add('show');
-}
-
-// ── Toast ──
-function showToast(msg) {
+function showToast(message) {
   const toast = document.getElementById('toast');
-  toast.textContent = msg;
+  toast.textContent = message;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2000);
 }
 
-// ── PWA install ──
-let deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  window.deferredPrompt = e;
+// ── Storage ──
+function saveVaultToStorage() {
+  const data = Object.entries(vaultCards).map(([id, card]) => ({
+    id,
+    count: card.count
+  }));
+  localStorage.setItem('pokerip-vault', JSON.stringify(data));
+}
+
+function loadVaultFromStorage() {
+  const data = JSON.parse(localStorage.getItem('pokerip-vault') || '[]');
+  vaultCards = {};
+  data.forEach(item => {
+    vaultCards[item.id] = { count: item.count };
+  });
+}
+
+// ── PWA ──
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', event => {
+  event.preventDefault();
+  deferredPrompt = event;
   document.getElementById('install-btn').style.display = 'inline-block';
 });
 
 function installPWA() {
-  if (!window.deferredPrompt) return;
-  window.deferredPrompt.prompt();
-  window.deferredPrompt.userChoice.then(({ outcome }) => {
-    if (outcome === 'accepted') {
-      window.deferredPrompt = null;
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(choiceResult => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('App installed');
+      }
+      deferredPrompt = null;
       document.getElementById('install-btn').style.display = 'none';
+    });
+  }
+}
+
+function checkPWAInstallability() {
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const isInStandaloneMode = window.navigator.standalone === true;
+
+  if (isIOS && !isInStandaloneMode) {
+    const hasSeenHint = localStorage.getItem('pokerip-ios-hint');
+    if (!hasSeenHint && Math.random() < 0.5) {
+      setTimeout(() => {
+        document.getElementById('ios-install').classList.add('show');
+      }, 3000);
     }
-  });
+  }
 }
 
 function dismissIosHint() {
   document.getElementById('ios-install').classList.remove('show');
+  localStorage.setItem('pokerip-ios-hint', 'true');
 }
 
-// Boot
-boot();
+init();
 </script>
 </body>
 </html>

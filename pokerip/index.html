@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PokéRip">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%230a0a12'/%3E%3Ccircle cx='96' cy='96' r='62' fill='none' stroke='%23f5c842' stroke-width='10'/%3E%3Cpath d='M34 96h124' stroke='%23f5c842' stroke-width='10'/%3E%3Ccircle cx='96' cy='96' r='20' fill='%230a0a12' stroke='%23f5c842' stroke-width='10'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%230a0a12'/%3E%3Ccircle cx='9[...]
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
 
@@ -999,172 +999,148 @@ let currentSetId = null;
 let currentSetCards = [];
 let packCards = [];
 let revealIndex = 0;
-let vault = JSON.parse(localStorage.getItem('pokerip_vault') || '[]');
+let vault = [];
 let activeFilter = 'all';
 
-// ── View switching ──
-function showView(name) {
-  document.querySelectorAll('.view, .nav-btn').forEach(el => el.classList.remove('active'));
-  document.getElementById('view-' + name).classList.add('active');
-  const btns = document.querySelectorAll('.nav-btn');
-  const idx = name === 'packs' ? 0 : name === 'opening' ? -1 : 1;
-  if (idx >= 0) btns[idx].classList.add('active');
-  if (name === 'vault') renderVault();
-  updateVaultCount();
-}
-
-// ── Load sets ──
-async function loadSets() {
+// ── Boot ──
+async function boot() {
   try {
-    allSets = await tcgdex.fetch('sets');
-    if (!allSets || !allSets.length) throw new Error('Empty');
-    renderSets();
-  } catch(e) {
-    document.getElementById('sets-container').innerHTML = '<div class="loading-sets">Failed to load sets. Check your connection and try refreshing.</div>';
+    // Check PWA install availability
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      document.getElementById('install-btn').style.display = 'none';
+    } else if (window.deferredPrompt) {
+      document.getElementById('install-btn').style.display = 'inline-block';
+    } else {
+      // Show iOS hint
+      const seenHint = localStorage.getItem('iosHintSeen');
+      if (!seenHint && /iPad|iPhone|iPod/.test(navigator.userAgent)) {
+        setTimeout(() => {
+          if (!window.deferredPrompt) {
+            document.getElementById('ios-install').classList.add('show');
+            localStorage.setItem('iosHintSeen', 'true');
+          }
+        }, 500);
+      }
+    }
+
+    // Load vault from localStorage
+    const saved = localStorage.getItem('pokerip-vault');
+    if (saved) {
+      try {
+        vault = JSON.parse(saved);
+      } catch (e) {
+        vault = [];
+      }
+    }
+    updateVaultCount();
+
+    // Fetch all sets from TCGDex
+    const sets = await tcgdex.fetch('set');
+    allSets = (Array.isArray(sets) ? sets : sets.data || []).sort((a, b) => {
+      const yearA = parseInt(a.printedTotal) || 0;
+      const yearB = parseInt(b.printedTotal) || 0;
+      return yearB - yearA;
+    });
+
+    // Organize by series
+    renderPackSelection();
+  } catch (err) {
+    console.error('Boot error:', err);
+    document.getElementById('sets-container').innerHTML = '<div style="color: var(--red); padding: 40px; text-align: center;">Failed to load sets. Please refresh.</div>';
   }
 }
 
-function renderSets() {
-  const seriesMap = {};
-  allSets.forEach(s => {
-    const key = s.serie?.name || 'Other';
-    if (!seriesMap[key]) seriesMap[key] = [];
-    seriesMap[key].push(s);
-  });
+function renderPackSelection() {
+  const container = document.getElementById('sets-container');
+  if (!allSets.length) {
+    container.innerHTML = '<div style="color: var(--muted); padding: 40px; text-align: center;">No sets available.</div>';
+    return;
+  }
 
-  const seriesOrder = ['Scarlet & Violet','Sword & Shield','Sun & Moon','XY','Black & White','HeartGold & SoulSilver','Platinum','Diamond & Pearl','EX','e-Card','Neo','Gym','Base','Other'];
-  const sortedKeys = Object.keys(seriesMap).sort((a,b) => {
-    const ai = seriesOrder.indexOf(a), bi = seriesOrder.indexOf(b);
-    return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+  // Group by series
+  const series = {};
+  allSets.forEach(set => {
+    const seriesName = set.series?.name || 'Unknown Series';
+    if (!series[seriesName]) series[seriesName] = [];
+    series[seriesName].push(set);
   });
 
   let html = '';
-  sortedKeys.forEach(series => {
-    const sets = seriesMap[series];
+  Object.keys(series).forEach(seriesName => {
     html += `<div class="series-block">
-      <div class="series-name">${series}</div>
+      <div class="series-name">${seriesName}</div>
       <div class="sets-grid">`;
-    sets.forEach(s => {
-      const logoUrl = s.logo ? s.logo + '.png' : '';
-      html += `<div class="set-card" onclick="selectSet('${s.id}')">
-        ${logoUrl
-          ? `<img class="set-logo" src="${logoUrl}" alt="${s.name}" onerror="this.style.display='none'">`
-          : `<div class="set-logo-placeholder">${s.name}</div>`}
-        <div class="set-name">${s.name}</div>
-        <div class="set-count">${s.cardCount?.official || s.cardCount?.total || '?'} cards</div>
-        <button class="rip-btn">RIP PACK</button>
+    series[seriesName].forEach(set => {
+      const logoHtml = set.logo
+        ? `<img src="${set.logo}" class="set-logo" alt="${set.name}">`
+        : `<div class="set-logo-placeholder">${set.id}</div>`;
+      html += `<div class="set-card" onclick="selectSet('${set.id}')">
+        ${logoHtml}
+        <div class="set-name">${set.name}</div>
+        <div class="set-count">${set.printedTotal} cards</div>
+        <button class="rip-btn">RIP!</button>
       </div>`;
     });
     html += '</div></div>';
   });
-  document.getElementById('sets-container').innerHTML = html;
+  container.innerHTML = html;
 }
 
-// ── Select a set and go to opening ──
-async function selectSet(setId) {
+function selectSet(setId) {
   currentSetId = setId;
-  const setMeta = allSets.find(s => s.id === setId);
+  const set = allSets.find(s => s.id === setId);
+  if (!set) return;
 
-  document.getElementById('opening-set-name').textContent = setMeta?.name || setId;
-  const logoEl = document.getElementById('pack-logo');
-  const fallbackEl = document.getElementById('pack-fallback');
-  if (setMeta?.logo) {
-    logoEl.src = setMeta.logo + '.png';
-    logoEl.style.display = '';
-    fallbackEl.style.display = 'none';
-  } else {
-    logoEl.style.display = 'none';
-    fallbackEl.style.display = 'block';
-  }
+  document.getElementById('opening-set-name').textContent = set.name;
+  const packLogo = document.getElementById('pack-logo');
+  packLogo.src = set.logo || '';
 
-  document.getElementById('pack-closed').style.display = 'flex';
-  document.getElementById('pack-closed').style.flexDirection = 'column';
-  document.getElementById('pack-closed').style.alignItems = 'center';
+  showView('opening');
+  document.getElementById('pack-closed').style.display = 'block';
+  document.getElementById('all-cards-spread').classList.remove('show');
   document.getElementById('cards-reveal').classList.remove('show');
-  document.getElementById('all-cards-spread').classList.remove('show');
-
-  showView('opening');
-
-  // Fetch full set data in background using SDK
-  currentSetCards = [];
-  try {
-    const data = await tcgdex.fetch('sets', setId);
-    currentSetCards = data?.cards || [];
-  } catch(e) {
-    console.error('Failed to load set cards', e);
-  }
 }
-
-// ── Surprise Me: open one random card from any set ──
-async function openRandomCard() {
-  if (!allSets.length) {
-    showToast('Still loading sets… try again in a sec!');
-    return;
-  }
-
-  // Pick a random set, weighted nothing fancy — just uniform
-  const randomSet = allSets[Math.floor(Math.random() * allSets.length)];
-  currentSetId = randomSet.id;
-
-  // Show opening view in a "mystery" state
-  document.getElementById('opening-set-name').textContent = '???';
-  const logoEl = document.getElementById('pack-logo');
-  const fallbackEl = document.getElementById('pack-fallback');
-  logoEl.style.display = 'none';
-  fallbackEl.style.display = 'block';
-  fallbackEl.textContent = '🎲';
-
-  document.getElementById('pack-closed').style.display = 'none';
-  document.getElementById('all-cards-spread').classList.remove('show');
-  document.getElementById('cards-reveal').classList.add('show');
-  document.getElementById('reveal-total').textContent = '1';
-  document.getElementById('reveal-current').textContent = '1';
-
-  // Reset flipper to back showing
-  const flipper = document.getElementById('card-flipper');
-  flipper.classList.remove('flipped');
-  document.getElementById('reveal-hint').textContent = 'Loading…';
-  document.getElementById('reveal-img').src = '';
-
-  showView('opening');
-
-  // Fetch the set's cards and pick one
-  try {
-    const data = await tcgdex.fetch('sets', randomSet.id);
-    const cards = data?.cards || [];
-    if (!cards.length) { openRandomCard(); return; } // retry with another set
-    const card = cards[Math.floor(Math.random() * cards.length)];
-    card._holo = Math.random() < 0.20;
-    packCards = [card];
-    revealIndex = 0;
-    currentSetCards = cards;
-    document.getElementById('opening-set-name').textContent = randomSet.name;
-    loadRevealCard(0);
-  } catch(e) {
-    showToast('Couldn\'t grab a card — try again!');
-    showView('packs');
-  }
-}
-
 
 function drawPackCards() {
-  if (!currentSetCards.length) return [];
-  const pool = [...currentSetCards];
-  const drawn = [];
-  const count = Math.min(10, pool.length);
-  for (let i = 0; i < count; i++) {
-    const idx = Math.floor(Math.random() * pool.length);
-    drawn.push(pool.splice(idx, 1)[0]);
+  const set = allSets.find(s => s.id === currentSetId);
+  if (!set || !currentSetCards.length) return [];
+
+  const pack = [];
+  for (let i = 0; i < 10; i++) {
+    const card = currentSetCards[Math.floor(Math.random() * currentSetCards.length)];
+    if (!card) continue;
+
+    // Random chance: ~3-5% holo rates
+    const isHolo = Math.random() < (Math.random() < 0.5 ? 0.03 : 0.05);
+    pack.push({
+      id: card.id,
+      name: card.name,
+      setId: set.id,
+      setName: set.name,
+      image: card.image?.small,
+      _holo: isHolo,
+    });
   }
-  // Assign holo status randomly (~20% holo rate)
-  drawn.forEach(c => { c._holo = Math.random() < 0.20; });
-  return drawn;
+  return pack;
 }
 
-// ── Start opening animation ──
-function startOpening() {
-  if (!currentSetCards.length) {
-    showToast('Still loading cards… try again in a sec!');
+async function startOpening() {
+  if (!currentSetId) return;
+
+  const set = allSets.find(s => s.id === currentSetId);
+  if (!set) return;
+
+  try {
+    // Fetch cards for this set
+    const data = await tcgdex.fetch('set', currentSetId);
+    currentSetCards = data.cards || [];
+    if (!currentSetCards.length) {
+      alert('No cards found for this set.');
+      return;
+    }
+  } catch (err) {
+    console.error('Error fetching set:', err);
+    alert('Failed to fetch cards. Please try again.');
     return;
   }
   packCards = drawPackCards();
@@ -1196,7 +1172,7 @@ function loadRevealCard(idx) {
   const imgEl = document.getElementById('reveal-img');
   imgEl.src = '';
   if (card.image) {
-    imgEl.src = card.image + (packCards.length === 1 ? '/high.webp' : '/low.webp');
+    imgEl.src = card.image + '/high.png';
   }
   if (card._holo) front.classList.add('holo');
 }
@@ -1257,7 +1233,7 @@ function showAllCards() {
     div.style.animationDelay = (i * 0.06) + 's';
     if (card.image) {
       const img = document.createElement('img');
-      img.src = card.image + (packCards.length === 1 ? '/high.webp' : '/low.webp');
+      img.src = card.image + '/high.png';
       img.alt = card.name;
       div.appendChild(img);
     }
@@ -1274,57 +1250,72 @@ function showAllCards() {
 // ── Save to vault ──
 function saveToVault() {
   const setMeta = allSets.find(s => s.id === currentSetId);
-  const setName = setMeta?.name || currentSetId;
+  if (!setMeta) return;
+
   packCards.forEach(card => {
-    const existing = vault.find(v => v.id === card.id);
+    const existing = vault.find(c => c.id === card.id && c.setId === card.setId);
     if (existing) {
-      existing.count++;
+      existing.count = (existing.count || 1) + 1;
     } else {
       vault.push({
         id: card.id,
         name: card.name,
+        setId: card.setId,
+        setName: card.setName,
         image: card.image,
-        setId: currentSetId,
-        setName,
         holo: card._holo,
-        count: 1
+        count: 1,
       });
     }
   });
-  localStorage.setItem('pokerip_vault', JSON.stringify(vault));
+
+  localStorage.setItem('pokerip-vault', JSON.stringify(vault));
   updateVaultCount();
-  const n = packCards.length;
-  showToast(n === 1 ? 'Card saved to your vault! 🎉' : `${n} cards saved to your vault! 🎉`);
+  showToast('✓ Saved to vault!');
+
+  setTimeout(() => {
+    showView('vault');
+    renderVault();
+  }, 300);
 }
 
 function openAnotherPack() {
-  document.getElementById('all-cards-spread').classList.remove('show');
-  // If this was a single surprise pull, draw another random card.
-  // Otherwise return to the pack envelope for the same set.
-  if (packCards.length === 1) {
-    openRandomCard();
-    return;
-  }
-  document.getElementById('pack-closed').style.display = 'flex';
-  document.getElementById('pack-closed').style.flexDirection = 'column';
-  document.getElementById('pack-closed').style.alignItems = 'center';
+  startOpening();
 }
 
-// ── Vault rendering ──
-function renderVault() {
-  updateVaultCount();
-  const totalCards = vault.reduce((s, c) => s + c.count, 0);
-  const uniqueCards = vault.length;
-  const holoCards = vault.filter(c => c.holo).reduce((s, c) => s + c.count, 0);
-  document.getElementById('stat-total').textContent = totalCards;
-  document.getElementById('stat-unique').textContent = uniqueCards;
-  document.getElementById('stat-holos').textContent = holoCards;
+// ── View management ──
+function showView(viewName) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(`view-${viewName}`).classList.add('active');
 
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.nav-btn[onclick*="'${viewName}'"]`)?.classList.add('active');
+
+  if (viewName === 'vault') {
+    renderVault();
+  }
+}
+
+// ── Vault ──
+function updateVaultCount() {
+  const count = vault.reduce((sum, card) => sum + (card.count || 1), 0);
+  document.getElementById('vault-count').textContent = count;
+}
+
+function renderVault() {
   if (!vault.length) {
     document.getElementById('vault-filters').innerHTML = '';
     document.getElementById('vault-content').innerHTML = `<div class="vault-empty"><div class="vault-empty-icon">🗄️</div><p>Your vault is empty. Open some packs!</p></div>`;
     return;
   }
+
+  // Update stats
+  const totalCards = vault.reduce((sum, c) => sum + (c.count || 1), 0);
+  const uniqueCards = vault.length;
+  const holosCount = vault.filter(c => c.holo).length;
+  document.getElementById('stat-total').textContent = totalCards;
+  document.getElementById('stat-unique').textContent = uniqueCards;
+  document.getElementById('stat-holos').textContent = holosCount;
 
   // Filters — unique sets
   const sets = [...new Set(vault.map(c => c.setId))];
@@ -1342,7 +1333,7 @@ function renderVault() {
     gridHtml += `<div class="vault-card ${card.holo?'holo':''}" style="animation-delay:${i*0.04}s" onclick="openCardDetail('${card.id}')">
       ${card.count > 1 ? `<div class="vault-card-count">x${card.count}</div>` : ''}
       ${card.holo ? `<div class="holo-badge" style="top:6px;right:6px">✦ HOLO</div>` : ''}
-      ${card.image ? `<img src="${card.image}/low.webp" alt="${card.name}" loading="lazy">` : '<div style="height:80px;background:var(--surface2)"></div>'}
+      ${card.image ? `<img src="${card.image}/high.png" alt="${card.name}" loading="lazy">` : '<div style="height:80px;background:var(--surface2)"></div>'}
       <div class="vault-card-info">
         <div class="vault-card-name">${card.name||'Unknown'}</div>
         <div class="vault-card-set">${card.setName||''}</div>
@@ -1375,7 +1366,7 @@ async function openCardDetail(cardId) {
   // High-res image
   img.onload = () => { img.classList.add('loaded'); spinner.classList.add('hidden'); };
   img.onerror = () => { spinner.classList.add('hidden'); };
-  img.src = card.image ? card.image + '/high.webp' : '';
+  img.src = card.image ? card.image + '/high.png' : '';
 
   // Basic info we already have
   document.getElementById('card-modal-name').textContent = card.name || 'Unknown';
@@ -1385,169 +1376,98 @@ async function openCardDetail(cardId) {
   const details = document.getElementById('card-modal-details');
   let chips = '';
   if (card.count > 1) chips += `<div class="detail-chip">Owned <strong>x${card.count}</strong></div>`;
-  if (card.holo) chips += `<div class="detail-chip holo-chip">✦ Holo</div>`;
-  details.innerHTML = chips;
+  if (card.holo) chips += `<div class="detail-chip holo-chip">✦ <strong>HOLO</strong></div>`;
+  details.innerHTML = chips || '<div class="detail-chip">No details</div>';
 
   modal.classList.add('show');
-  document.body.style.overflow = 'hidden';
-
-  // Enrich with full card data from the API (HP, type, rarity, illustrator)
-  try {
-    const full = await tcgdex.fetch('cards', cardId);
-    if (full) {
-      let extra = '';
-      if (full.localId) extra += `<div class="detail-chip">No. <strong>${full.localId}</strong></div>`;
-      if (full.rarity) extra += `<div class="detail-chip">${full.rarity}</div>`;
-      if (full.types && full.types.length) extra += `<div class="detail-chip">${full.types.join(' / ')}</div>`;
-      if (full.hp) extra += `<div class="detail-chip">HP <strong>${full.hp}</strong></div>`;
-      if (full.illustrator) extra += `<div class="detail-chip">🎨 ${full.illustrator}</div>`;
-      details.innerHTML = chips + extra;
-    }
-  } catch(e) {
-    // Offline or fetch failed — basic info already shown, that's fine
-  }
 }
 
-function closeCardDetail(event) {
-  // Only close on backdrop click or close button, not inner content
-  if (event && event.target.closest('.card-modal-inner') && !event.target.classList.contains('card-modal-close')) return;
+function closeCardDetail(e) {
+  if (e && e.target !== document.getElementById('card-modal')) return;
   document.getElementById('card-modal').classList.remove('show');
-  document.body.style.overflow = '';
 }
 
-// Close modal on Escape
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeCardDetail();
-});
+// ── Surprise me ──
+async function openRandomCard() {
+  if (!allSets.length) return;
+  
+  currentSetId = allSets[Math.floor(Math.random() * allSets.length)].id;
+  const set = allSets.find(s => s.id === currentSetId);
+  if (!set) return;
 
-// ── Helpers ──
-function updateVaultCount() {
-  const total = vault.reduce((s, c) => s + c.count, 0);
-  document.getElementById('vault-count').textContent = total;
+  document.getElementById('opening-set-name').textContent = set.name;
+  const packLogo = document.getElementById('pack-logo');
+  packLogo.src = set.logo || '';
+
+  showView('opening');
+  document.getElementById('pack-closed').style.display = 'none';
+  document.getElementById('cards-reveal').classList.remove('show');
+  document.getElementById('all-cards-spread').classList.remove('show');
+
+  try {
+    const data = await tcgdex.fetch('set', currentSetId);
+    currentSetCards = data.cards || [];
+    if (!currentSetCards.length) {
+      alert('No cards found for this set.');
+      return;
+    }
+  } catch (err) {
+    console.error('Error fetching set:', err);
+    alert('Failed to fetch cards. Please try again.');
+    return;
+  }
+
+  // Draw single random card
+  const card = currentSetCards[Math.floor(Math.random() * currentSetCards.length)];
+  const isHolo = Math.random() < 0.25; // Rare holo on surprise pull
+  packCards = [{
+    id: card.id,
+    name: card.name,
+    setId: set.id,
+    setName: set.name,
+    image: card.image?.small,
+    _holo: isHolo,
+  }];
+  revealIndex = 0;
+
+  document.getElementById('reveal-total').textContent = 1;
+  loadRevealCard(0);
+  document.getElementById('cards-reveal').classList.add('show');
 }
 
-let toastTimer;
+// ── Toast ──
 function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
 }
 
-// ── PWA setup ──
+// ── PWA install ──
 let deferredPrompt = null;
-
-// Build manifest dynamically and inject it (works without a separate file)
-(function injectManifest() {
-  const icon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%230a0a12'/%3E%3Ccircle cx='256' cy='256' r='165' fill='none' stroke='%23f5c842' stroke-width='26'/%3E%3Cpath d='M91 256h330' stroke='%23f5c842' stroke-width='26'/%3E%3Ccircle cx='256' cy='256' r='54' fill='%230a0a12' stroke='%23f5c842' stroke-width='26'/%3E%3C/svg%3E";
-  const manifest = {
-    name: "PokéRip — Pack Opener",
-    short_name: "PokéRip",
-    description: "Open Pokémon card packs for free and build your vault.",
-    start_url: ".",
-    scope: ".",
-    display: "standalone",
-    orientation: "portrait",
-    background_color: "#0a0a12",
-    theme_color: "#0a0a12",
-    icons: [
-      { src: icon, sizes: "192x192", type: "image/svg+xml", purpose: "any maskable" },
-      { src: icon, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
-    ]
-  };
-  const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('link');
-  link.rel = 'manifest';
-  link.href = url;
-  document.head.appendChild(link);
-})();
-
-// Register a service worker (generated at runtime via Blob) for offline support
-if ('serviceWorker' in navigator) {
-  const swCode = `
-    const CACHE = 'pokerip-v1';
-    self.addEventListener('install', e => { self.skipWaiting(); });
-    self.addEventListener('activate', e => { e.waitUntil(self.clients.claim()); });
-    self.addEventListener('fetch', e => {
-      if (e.request.method !== 'GET') return;
-      e.respondWith(
-        caches.open(CACHE).then(cache =>
-          cache.match(e.request).then(cached => {
-            const network = fetch(e.request).then(res => {
-              if (res && res.status === 200 && (res.type === 'basic' || res.type === 'cors')) {
-                cache.put(e.request, res.clone());
-              }
-              return res;
-            }).catch(() => cached);
-            return cached || network;
-          })
-        )
-      );
-    });
-  `;
-  const swBlob = new Blob([swCode], { type: 'application/javascript' });
-  const swUrl = URL.createObjectURL(swBlob);
-  // Note: Blob-based SW works in many browsers; a hosted /sw.js is more robust.
-  navigator.serviceWorker.register(swUrl).catch(() => {
-    // If blob SW is blocked (some browsers require same-origin file), try sw.js if present
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  });
-}
-
-// Chrome / Android / Edge install prompt
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
-  deferredPrompt = e;
-  const btn = document.getElementById('install-btn');
-  if (btn && !isStandalone()) btn.style.display = '';
+  window.deferredPrompt = e;
+  document.getElementById('install-btn').style.display = 'inline-block';
 });
 
-async function installPWA() {
-  // iOS Safari has no install API — show manual instructions
-  if (isIos() && !isStandalone()) {
-    document.getElementById('ios-install').classList.add('show');
-    return;
-  }
-  if (!deferredPrompt) {
-    showToast('Already installed, or open in Chrome/Safari to install.');
-    return;
-  }
-  deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  if (outcome === 'accepted') {
-    showToast('Installing PokéRip… 🎉');
-    document.getElementById('install-btn').style.display = 'none';
-  }
-  deferredPrompt = null;
+function installPWA() {
+  if (!window.deferredPrompt) return;
+  window.deferredPrompt.prompt();
+  window.deferredPrompt.userChoice.then(({ outcome }) => {
+    if (outcome === 'accepted') {
+      window.deferredPrompt = null;
+      document.getElementById('install-btn').style.display = 'none';
+    }
+  });
 }
-
-window.addEventListener('appinstalled', () => {
-  document.getElementById('install-btn').style.display = 'none';
-  showToast('PokéRip installed! Find it on your home screen. 🎉');
-});
 
 function dismissIosHint() {
   document.getElementById('ios-install').classList.remove('show');
 }
 
-function isIos() {
-  return /iphone|ipad|ipod/i.test(navigator.userAgent);
-}
-function isStandalone() {
-  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-}
-
-// On iOS, surface the install button so the manual hint is discoverable
-if (isIos() && !isStandalone()) {
-  const btn = document.getElementById('install-btn');
-  if (btn) btn.style.display = '';
-}
-
-// ── Init ──
-loadSets();
-updateVaultCount();
+// Boot
+boot();
 </script>
 </body>
 </html>

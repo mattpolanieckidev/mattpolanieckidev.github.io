@@ -6,6 +6,9 @@ const flipButton = document.getElementById('flip-button');
 const playerKOsDisplay = document.getElementById('player-kos');
 const opponentKOsDisplay = document.getElementById('opponent-kos');
 
+// Optional: set your Pokémon TCG API key here (leave empty to call without a key)
+const TCG_API_KEY = '';
+
 let playerBenchData = [];
 let opponentBenchData = [];
 let activePlayerPokemon = null;
@@ -23,11 +26,54 @@ async function fetchRandomPokemon() {
     return Promise.all(promises);
 }
 
+// Helper to format names for better matching with the TCG API (e.g. "mr-mime" -> "Mr Mime")
+function formatNameForTCG(name) {
+    return name.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+}
+
+// Fetch a TCG card for a given Pokemon name. Returns the first matching card or null.
+async function fetchCardForPokemon(name) {
+    try {
+        const formatted = formatNameForTCG(name);
+        // Use quoted query to better match multi-word names
+        const query = `q=name:\"${encodeURIComponent(formatted)}\"`;
+        const url = `https://api.pokemontcg.io/v2/cards?${query}`;
+        const headers = TCG_API_KEY ? { 'X-Api-Key': TCG_API_KEY } : {};
+        const res = await fetch(url, { headers });
+        if (!res.ok) return null;
+        const data = await res.json();
+        if (data && data.data && data.data.length) return data.data[0];
+        return null;
+    } catch (err) {
+        console.warn('TCG fetch error for', name, err);
+        return null;
+    }
+}
+
 async function initializeGame() {
     const [playerData, opponentData] = await Promise.all([fetchRandomPokemon(), fetchRandomPokemon()]);
 
-    playerBenchData = playerData.map(pokemon => ({ ...pokemon, currentHealth: 100, maxHealth: 100, benchIndex: null }));
-    opponentBenchData = opponentData.map(pokemon => ({ ...pokemon, currentHealth: 100, maxHealth: 100, benchIndex: null }));
+    playerBenchData = playerData.map(pokemon => ({ ...pokemon, currentHealth: 100, maxHealth: 100, benchIndex: null, cardImage: null }));
+    opponentBenchData = opponentData.map(pokemon => ({ ...pokemon, currentHealth: 100, maxHealth: 100, benchIndex: null, cardImage: null }));
+
+    // Try to fetch TCG card images for all bench pokemon (parallel)
+    await Promise.all(playerBenchData.map(async p => {
+        const card = await fetchCardForPokemon(p.name);
+        if (card && card.images) {
+            p.cardImage = card.images.large || card.images.small || p.sprites.other.home.front_default;
+        } else {
+            p.cardImage = p.sprites.other.home.front_default;
+        }
+    }));
+
+    await Promise.all(opponentBenchData.map(async p => {
+        const card = await fetchCardForPokemon(p.name);
+        if (card && card.images) {
+            p.cardImage = card.images.large || card.images.small || p.sprites.other.home.front_default;
+        } else {
+            p.cardImage = p.sprites.other.home.front_default;
+        }
+    }));
 
     playerBench.forEach((el, index) => {
         const pokemon = playerBenchData[index];
@@ -51,7 +97,8 @@ async function initializeGame() {
 }
 
 function updatePokemonDisplay(element, pokemon) {
-    element.innerHTML = `<img src="${pokemon.sprites.other.home.front_default}" alt="${pokemon.name}"><span>${pokemon.name}</span><div class="health-bar"><div class="health"></div></div>`;
+    const imgSrc = pokemon.cardImage || (pokemon.sprites && pokemon.sprites.other && pokemon.sprites.other.home && pokemon.sprites.other.home.front_default) || '';
+    element.innerHTML = `<img src="${imgSrc}" alt="${pokemon.name}"><span>${pokemon.name}</span><div class="health-bar"><div class="health"></div></div>`;
     updateHealthBar(element, pokemon.currentHealth, pokemon.maxHealth);
     if (pokemon.currentHealth <= 0) {
         element.classList.add('fainted');
@@ -153,6 +200,8 @@ function cpuTurn() {
 function updateBenchPokemon(benchData, pokemon) {
     if (pokemon.benchIndex !== null) {
         benchData[pokemon.benchIndex].currentHealth = pokemon.currentHealth;
+        // keep cardImage in sync as well
+        benchData[pokemon.benchIndex].cardImage = pokemon.cardImage || benchData[pokemon.benchIndex].cardImage;
     }
     updateBenchDisplay();
 }

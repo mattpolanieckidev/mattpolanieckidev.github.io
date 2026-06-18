@@ -35,14 +35,21 @@ function formatNameForTCG(name) {
 async function fetchCardForPokemon(name) {
     try {
         const formatted = formatNameForTCG(name);
-        // Use quoted query to better match multi-word names
-        const query = `q=name:\"${encodeURIComponent(formatted)}\"`;
-        const url = `https://api.pokemontcg.io/v2/cards?${query}`;
+        // Build the query using URLSearchParams to ensure proper encoding
+        const params = new URLSearchParams({ q: `name:"${formatted}"` });
+        const url = `https://api.pokemontcg.io/v2/cards?${params.toString()}`;
         const headers = TCG_API_KEY ? { 'X-Api-Key': TCG_API_KEY } : {};
         const res = await fetch(url, { headers });
-        if (!res.ok) return null;
+        if (!res.ok) {
+            console.warn('TCG API response not ok', res.status, res.statusText);
+            return null;
+        }
         const data = await res.json();
-        if (data && data.data && data.data.length) return data.data[0];
+        if (data && data.data && data.data.length) {
+            return data.data[0];
+        }
+        // no data found
+        console.debug('No TCG card match for', name, 'query=', url);
         return null;
     } catch (err) {
         console.warn('TCG fetch error for', name, err);
@@ -60,18 +67,18 @@ async function initializeGame() {
     await Promise.all(playerBenchData.map(async p => {
         const card = await fetchCardForPokemon(p.name);
         if (card && card.images) {
-            p.cardImage = card.images.large || card.images.small || p.sprites.other.home.front_default;
+            p.cardImage = card.images.large || card.images.small || (p.sprites && p.sprites.other && p.sprites.other.home && p.sprites.other.home.front_default) || '';
         } else {
-            p.cardImage = p.sprites.other.home.front_default;
+            p.cardImage = (p.sprites && p.sprites.other && p.sprites.other.home && p.sprites.other.home.front_default) || '';
         }
     }));
 
     await Promise.all(opponentBenchData.map(async p => {
         const card = await fetchCardForPokemon(p.name);
         if (card && card.images) {
-            p.cardImage = card.images.large || card.images.small || p.sprites.other.home.front_default;
+            p.cardImage = card.images.large || card.images.small || (p.sprites && p.sprites.other && p.sprites.other.home && p.sprites.other.home.front_default) || '';
         } else {
-            p.cardImage = p.sprites.other.home.front_default;
+            p.cardImage = (p.sprites && p.sprites.other && p.sprites.other.home && p.sprites.other.home.front_default) || '';
         }
     }));
 
@@ -97,8 +104,38 @@ async function initializeGame() {
 }
 
 function updatePokemonDisplay(element, pokemon) {
-    const imgSrc = pokemon.cardImage || (pokemon.sprites && pokemon.sprites.other && pokemon.sprites.other.home && pokemon.sprites.other.home.front_default) || '';
-    element.innerHTML = `<img src="${imgSrc}" alt="${pokemon.name}"><span>${pokemon.name}</span><div class="health-bar"><div class="health"></div></div>`;
+    const spriteFallback = (pokemon.sprites && pokemon.sprites.other && pokemon.sprites.other.home && pokemon.sprites.other.home.front_default) || '';
+    const imgSrc = pokemon.cardImage || spriteFallback || '';
+
+    // Create an img element so we can attach an onerror fallback to the sprite if the card image 404s or fails to load
+    const img = document.createElement('img');
+    img.alt = pokemon.name;
+    img.src = imgSrc;
+    img.className = 'pokemon-image';
+    img.onerror = function() {
+        if (img.src !== spriteFallback && spriteFallback) {
+            console.debug('Image load failed, falling back to sprite for', pokemon.name, img.src);
+            img.src = spriteFallback;
+        } else {
+            // show a small placeholder or remove image
+            console.debug('Image load failed and no sprite fallback available for', pokemon.name);
+            img.remove();
+        }
+    };
+
+    // Build innerHTML but insert the img element to preserve the onerror handler
+    element.innerHTML = '';
+    element.appendChild(img);
+    const nameSpan = document.createElement('span');
+    nameSpan.textContent = pokemon.name;
+    element.appendChild(nameSpan);
+    const healthWrap = document.createElement('div');
+    healthWrap.className = 'health-bar';
+    const healthInner = document.createElement('div');
+    healthInner.className = 'health';
+    healthWrap.appendChild(healthInner);
+    element.appendChild(healthWrap);
+
     updateHealthBar(element, pokemon.currentHealth, pokemon.maxHealth);
     if (pokemon.currentHealth <= 0) {
         element.classList.add('fainted');

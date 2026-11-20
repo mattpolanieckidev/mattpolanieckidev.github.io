@@ -28,3 +28,5 @@ body{margin:0;min-height:100vh;font-family:Inter,-apple-system,BlinkMacSystemFon
 [hidden]{display:none!important}
 @media(max-width:760px){.app-shell{padding:20px 14px 42px}.hero-card{padding:30px 17px 24px;border-radius:23px}.info-grid{grid-template-columns:1fr;gap:14px}.info-card{padding:25px 18px}.header{font-size:clamp(1.9rem,9vw,2.8rem)}#zip,#futureDate,#submit{width:100%;max-width:380px}.nav-item.active .nav-link{border-bottom:0}.navbar-collapse{padding-top:10px}}
 @media(prefers-reduced-motion:reduce){body{animation:none}.info-card{transition:none}}
+
+.menorah-stage{position:relative;width:min(100%,340px);margin:12px auto 0}.menorah-stage img{display:block;width:100%}.menorah-candle{position:absolute;top:2%;width:5px;height:27px;border-radius:4px;background:linear-gradient(#fff1c2,#d6a34a);transform:translateX(-50%);opacity:.45}.menorah-candle.lit{opacity:1;box-shadow:0 -8px 12px #ffbf4770}.menorah-candle.lit:before{content:"";position:absolute;width:9px;height:13px;left:-2px;top:-12px;border-radius:60% 60% 55% 55%;background:radial-gradient(ellipse at 50% 70%,#fff8b7 0 28%,#ffb52e 65%,#f47721 100%)}

@@ -1,171 +1,30 @@
-body {
-  top: 0;
-  margin: 4px 7.5%;
-
-  color: white;
-}
-
-#gpt{
- display: contents;
- margin:0;
- padding:0 ;
- border:none;
- color:white;
-}
-.navbar .active{
-  font-weight: bolder;
-  border-bottom: 2px solid #fff;
-}
-.psummary{
-  margin:20px 0 5px;
-}
-
-#page {
-  display: grid;
-  grid-template-areas:
-    "header header header"
-    "candles parsha havdala"
-    "holiday holiday holiday ";
-  grid-template-columns: 1fr 1fr 1fr;
-  justify-content: space-evenly;
-}
-.header {
-  grid-area: header;
-  text-align: center;
-  font-size: 65px;
-  margin-top: 20px;
-}
-
-.header input {
-  font-size: 25px;
-  width: 120px;
-  text-align: center;
-}
-
-h3 {
-  margin-bottom: 0;
-}
-
-.parsha {
-  grid-area: parsha;
-}
-
-.candles {
-  grid-area: candles;
-}
-.havdala {
-  grid-area: havdala;
-}
-.holiday {
-  grid-area: holiday;
-}
-
-.finder {
-  display: flex;
-  align-content: center;
-  place-content: center;
-  margin: 20px 0 40px 0;
-}
-
-.finder button {
-  margin-left: 20px;
-}
-
-#submit {
-  color: white;
-  border-color: white;
-}
-
-#zip {
-  font-size: 16px;
-}
-.parsha,
-#candleLighting,
-#havdala,
-.color,
-#holiday,
-.holidaycandle,
-#holiday2,
-#holiday3 {
-  font-size: 60px;
-  font-weight: 200;
-  line-height: normal;
-  text-align: center;
-}
-
-#parsha {
-  font-weight: bold;
-}
-
-#holidaycandle,
-.holidaycandle,
-#holiday2 {
-  text-align: center;
-}
-.candles,
-.parsha,
-.havdala {
-  border-bottom: white 1px solid;
-}
-
-#parsha > div > ul > li{
-	font-size: medium;
-	text-align: left;
-	font-weight: normal;
-  }
-@media only screen and (min-width: 1200px) {
-  body {
-    margin: 4px 3.5%;
-  }
-}
-@media only screen and (orientation: portrait) {
-  body {
-    margin: 0;
-  }
-  #page {
-    display: grid;
-    grid-template-areas:
-      "header "
-      "candles"
-      "parsha"
-      "havdala"
-      "holiday";
-    grid-template-rows: 170px auto auto auto;
-    grid-template-columns: 1fr;
-  }
-  .header {
-    font-size: 40px;
-  }
-  .holidaycandle {
-    font-size: 40px;
-  }
-
-  .candles,
-  .parsha,
-  .havdala {
-    border-bottom: none;
-  }
-
-  .fa-rectangle-list{
-	width: 10px;
-  }
-
-
-  .parsha,
-  #candleLighting,
-  #parsha,
-  #havdala,
-  #holiday,
-  #holiday2,
-  #holiday3 {
-    font-size: 40px;
-    margin: 0 5px;
-    border-bottom: white 1px solid;
-    padding: 4px 0;
-  }
-
-  .parsha p {
-    margin: auto 0 0;
-  }
-}
-
+:root{--ink:#172554;--muted:#52617c;--blue:#3155bd;--purple:#7546b8;--glass:rgba(255,255,255,.78);--line:rgba(255,255,255,.7);--shadow:0 18px 50px rgba(31,45,100,.13)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(-45deg,#dbeafe,#ede9fe,#f0f9ff,#e0e7ff);background-size:400% 400%;animation:gradientFlow 20s ease infinite}
+@keyframes gradientFlow{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
+.app-nav{background:linear-gradient(110deg,#243b91,#5941a8 65%,#7045b5);padding:13px max(20px,calc((100vw - 1120px)/2));box-shadow:0 8px 25px #1e2a5a35;border-bottom:1px solid #ffffff35}
+.navbar-brand,.nav-link{color:#fff!important;font-weight:650;text-shadow:0 1px 5px #101b5033}
+.navbar-brand{font-size:1.25rem}.nav-link{opacity:.9;margin:0 5px}.nav-link:hover,.nav-item.active .nav-link{opacity:1}.nav-item.active .nav-link{border-bottom:2px solid #fff}
+.app-shell{width:min(1120px,100%);margin:auto;padding:34px 20px 64px}
+.hero-card,.info-card{background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--line);border-radius:27px;box-shadow:var(--shadow)}
+.hero-card{text-align:center;padding:42px 25px 30px}
+.eyebrow{text-transform:uppercase;letter-spacing:.16em;font-size:.78rem;font-weight:800;color:#5269b1;margin:0 0 12px}
+.header{font-size:clamp(2rem,5vw,3.4rem);font-weight:850;letter-spacing:-.045em;margin:0;color:#18275c}
+.intro{color:var(--muted);font-size:1.05rem;margin:10px 0 24px}
+.finder{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}
+#zip,#futureDate{min-height:54px;border:1px solid #dbe3f4;border-radius:15px;padding:12px 16px;background:#fff;color:var(--ink);font-size:1.05rem;box-shadow:0 4px 14px #273c9110}
+#zip{width:180px;text-align:center;letter-spacing:.08em}#futureDate{width:220px}
+#submit{min-height:54px;padding:12px 25px;border:0;border-radius:15px;color:#fff;font-weight:750;background:linear-gradient(120deg,var(--blue),var(--purple));box-shadow:0 8px 20px #3155bd40}
+#submit:disabled{opacity:.7;cursor:wait}
+.date-hint{font-size:.88rem;color:var(--muted);margin:12px 0 0}.status{min-height:1.4em;margin-top:10px;color:#354b83;font-weight:600}.status.error{color:#b42318}
+.info-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:22px}
+.info-card{text-align:center;padding:30px 22px;min-width:0;transition:transform .2s,box-shadow .2s}
+.info-card:hover{transform:translateY(-3px);box-shadow:0 22px 55px #1f2d6426}
+.card-icon{font-size:1.5rem;color:#536ac0;margin-bottom:12px}.card-label{text-transform:uppercase;letter-spacing:.12em;font-size:.82rem;font-weight:800;color:#66718c;margin:0 0 14px}
+.value-text{font-size:clamp(1.2rem,2.4vw,1.65rem);line-height:1.5;font-weight:700;margin:0;color:#1d2c60;overflow-wrap:anywhere}
+.summary-button{margin-top:17px;border:1px solid #cbd5f1;border-radius:999px;padding:9px 15px;background:#f4f6ff;color:#344b9a;font-weight:700}
+.summary-button:disabled{opacity:.45}.psummary{text-align:left;margin:18px auto 0;max-width:620px;color:#26365f;line-height:1.7}.psummary ul{padding-left:22px}
+.holiday-section,.menorah-section{margin-top:22px}.holiday-card{border-top:4px solid #d7a43b;background:linear-gradient(145deg,#fffdf5eF,#fff9e9e8)}.holiday-card h2{font-size:clamp(1.5rem,4vw,2.2rem);font-weight:850;color:#79531c;margin:0 0 12px}.holiday-details{font-size:1.05rem;line-height:1.7;color:#594a32}.holiday-details p{margin:8px 0}.holiday-detail{font-weight:700}.holiday-time{padding:10px 13px;background:#fff4d7;border-radius:12px}.menorah-card{max-width:500px;margin:auto}.menorah-card img{width:min(100%,320px);height:auto}.menorah-card p:last-child{font-weight:700;color:#76551e}
+[hidden]{display:none!important}
+@media(max-width:760px){.app-shell{padding:20px 14px 42px}.hero-card{padding:30px 17px 24px;border-radius:23px}.info-grid{grid-template-columns:1fr;gap:14px}.info-card{padding:25px 18px}.header{font-size:clamp(1.9rem,9vw,2.8rem)}#zip,#futureDate,#submit{width:100%;max-width:380px}.nav-item.active .nav-link{border-bottom:0}.navbar-collapse{padding-top:10px}}
+@media(prefers-reduced-motion:reduce){body{animation:none}.info-card{transition:none}}

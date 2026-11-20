@@ -50,7 +50,11 @@
     if(!chanukah){section.hidden=true;return}
     const match=(chanukah.title||"").match(/(\d+)\s*(?:st|nd|rd|th)?\s*candle/i);
     const night=Math.max(1,Math.min(8,match?Number(match[1]):1));
-    const img=document.createElement("img");img.src="noun-menorah-949.svg";img.alt="Chanukah menorah";img.loading="lazy";container.append(img);
+    const stage=document.createElement("div");stage.className="menorah-stage";
+    const img=document.createElement("img");img.src="noun-menorah-949.svg";img.alt="Chanukah menorah";img.loading="lazy";stage.append(img);
+    const positions=[90,80,70,60,50,40,30,20];
+    positions.forEach((left,index)=>{const candle=document.createElement("span");candle.className="menorah-candle"+(index<night?" lit":"");candle.style.left=left+"%";stage.append(candle)});
+    container.append(stage);
     $("menorahCaption").textContent=night+" candle"+(night===1?"":"s")+" tonight";
     section.hidden=false;
   }

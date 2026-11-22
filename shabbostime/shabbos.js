@@ -13,15 +13,6 @@
   function setStatus(message,isError=false){status.textContent=message;status.classList.toggle("error",isError)}
   function setLoading(loading){submit.disabled=loading;submit.querySelector(".button-label").textContent=loading?"Loading…":"Find Times"}
   function localISODate(date){const y=date.getFullYear(),m=String(date.getMonth()+1).padStart(2,"0"),d=String(date.getDate()).padStart(2,"0");return `${y}-${m}-${d}`}
-  function updateWeekLabel(){
-    const selected=dateParts(dateInput.value);if(!selected){$("weekLabel").textContent="Choose a date to see the Shabbos week.";return}
-    const date=new Date(selected.year,selected.month-1,selected.day);
-    const daysUntilSaturday=(6-date.getDay()+7)%7;
-    const shabbos=new Date(date);shabbos.setDate(date.getDate()+daysUntilSaturday);
-    const friday=new Date(shabbos);friday.setDate(shabbos.getDate()-1);
-    const fmt=d=>d.toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric",year:"numeric"});
-    $("weekLabel").textContent=`Shabbos week: ${fmt(friday)} – ${fmt(shabbos)}`;
-  }
   function dateParts(value){
     if(!value) return null;
     const [y,m,d]=value.split("-").map(Number);
@@ -93,13 +84,11 @@
       if(!response.ok)throw new Error("Hebcal returned HTTP "+response.status);
       const data=await response.json();
       if(!data?.items?.length)throw new Error("No Shabbos information was found for that ZIP code and date.");
-      render(data);setStatus(selected?"Showing the Shabbos week for your selected date.":"Shabbos times updated.");
+      render(data);setStatus(selected?"Showing times for your selected date.":"Shabbos times updated.");
     }catch(error){console.error("ShabbosTime lookup failed:",error);setStatus(error.message||"Unable to load Shabbos times. Please try again.",true)}
     finally{setLoading(false)}
   }
   if(!dateInput.value)dateInput.value=localISODate(new Date());
-  updateWeekLabel();
-  dateInput.addEventListener("change",updateWeekLabel);
   form.addEventListener("submit",event=>{event.preventDefault();find()});
   $("gpt").addEventListener("click",generateAI);
   async function generateAI(){

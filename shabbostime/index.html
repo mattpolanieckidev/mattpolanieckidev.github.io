@@ -9,7 +9,7 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192x192.png">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="shabbos.css?v=20261120">
+  <link rel="stylesheet" href="shabbos.css?v=20261122">
   <script src="https://kit.fontawesome.com/0a7f654060.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -34,11 +34,12 @@
     <form id="searchForm" class="finder">
       <label class="sr-only" for="zip">ZIP code</label>
       <input id="zip" name="zip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="5" pattern="[0-9]{5}" placeholder="ZIP Code" required>
-      <label class="sr-only" for="futureDate">Choose a date</label>
-      <input id="futureDate" name="date" type="date" aria-label="Choose a date in the week">
+      <label class="date-field" for="futureDate">Shabbos week</label>
+      <input id="futureDate" name="date" type="date" aria-label="Choose a date for the Shabbos week">
       <button class="btn" id="submit" type="submit"><span class="button-label">Find Times</span></button>
     </form>
-    <p class="date-hint">Choose any date to see the Shabbos week that includes it.</p>
+    <p id="weekLabel" class="week-label" aria-live="polite">Select a date to see the Shabbos week.</p>
+    <p class="date-hint">Choose any date; times will be shown for the Shabbos week containing that date.</p>
     <div id="status" class="status" role="status" aria-live="polite"></div>
   </section>
   <section id="page" class="info-grid" aria-live="polite">
@@ -57,7 +58,7 @@
     <article class="info-card menorah-card"><p class="card-label">Chanukah</p><div id="menorah-container"></div><p id="menorahCaption"></p></article>
   </section>
 </main>
-<script src="shabbos.js?v=20261120"></script>
+<script src="shabbos.js?v=20261122"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>

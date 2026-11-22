@@ -34,12 +34,10 @@
     <form id="searchForm" class="finder">
       <label class="sr-only" for="zip">ZIP code</label>
       <input id="zip" name="zip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="5" pattern="[0-9]{5}" placeholder="ZIP Code" required>
-      <label class="date-field" for="futureDate">Shabbos week</label>
-      <input id="futureDate" name="date" type="date" aria-label="Choose a date for the Shabbos week">
+      <label class="date-field" for="futureDate">Select date</label>
+      <input id="futureDate" name="date" type="date" aria-label="Select a date">
       <button class="btn" id="submit" type="submit"><span class="button-label">Find Times</span></button>
     </form>
-    <p id="weekLabel" class="week-label" aria-live="polite">Select a date to see the Shabbos week.</p>
-    <p class="date-hint">Choose any date; times will be shown for the Shabbos week containing that date.</p>
     <div id="status" class="status" role="status" aria-live="polite"></div>
   </section>
   <section id="page" class="info-grid" aria-live="polite">

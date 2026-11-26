@@ -1,0 +1,22 @@
+{
+  "packageId": "io.github.mattpolanieckidev.pokerip",
+  "host": "mattpolanieckidev.github.io",
+  "name": "PokéRip — Pack Opener",
+  "launcherName": "PokéRip",
+  "display": "standalone",
+  "orientation": "portrait",
+  "themeColor": "#0a0a12",
+  "navigationColor": "#0a0a12",
+  "backgroundColor": "#0a0a12",
+  "startUrl": "/pokerip/",
+  "iconUrl": "https://mattpolanieckidev.github.io/pokerip/icons/icon-512.png",
+  "maskableIconUrl": "https://mattpolanieckidev.github.io/pokerip/icons/maskable-512.png",
+  "webManifestUrl": "https://mattpolanieckidev.github.io/pokerip/manifest.json",
+  "appVersion": "1",
+  "appVersionCode": 1,
+  "enableNotifications": false,
+  "enableSiteSettingsShortcut": false,
+  "fallbackType": "customtabs",
+  "signingKey": { "path": "./pokerip-release.keystore", "alias": "pokerip" },
+  "minSdkVersion": 21
+}

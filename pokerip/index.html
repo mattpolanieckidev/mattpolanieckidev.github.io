@@ -5,12 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>PokéRip — Pack Opener</title>
 <meta name="description" content="Open Pokémon card packs for free and build your vault.">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0a12">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PokéRip">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%230a0a12'/%3E%3Ccircle cx='96' cy='96' r='62' fill='none' stroke='%23f5c842' stroke-width='10'/%3E%3Cpath d='M34 96h124' stroke='%23f5c842' stroke-width='10'/%3E%3Ccircle cx='96' cy='96' r='20' fill='%230a0a12' stroke='%23f5c842' stroke-width='10'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
 
@@ -989,6 +991,11 @@
   </div>
 </div>
 
+<footer style="text-align:center;padding:24px 16px calc(24px + env(safe-area-inset-bottom));font-size:11px;line-height:1.6;color:var(--muted)">
+  PokéRip is an unofficial fan-made app. It is not affiliated with, endorsed by, or sponsored by Nintendo, Creatures Inc., GAME FREAK, or The Pokémon Company. Pokémon and all related names and card images are trademarks of their respective owners. Card data via <a href="https://tcgdex.dev" style="color:inherit">TCGdex</a>. No real money, purchases, or prizes are involved.
+  <br><a href="privacy.html" style="color:inherit">Privacy Policy</a>
+</footer>
+
 <script src="https://cdn.jsdelivr.net/npm/@tcgdex/sdk@2/dist/tcgdex.browser.global.min.js"></script>
 <script>
 const tcgdex = new TCGdex('en');
@@ -1438,62 +1445,9 @@ function showToast(msg) {
 // ── PWA setup ──
 let deferredPrompt = null;
 
-// Build manifest dynamically and inject it (works without a separate file)
-(function injectManifest() {
-  const icon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%230a0a12'/%3E%3Ccircle cx='256' cy='256' r='165' fill='none' stroke='%23f5c842' stroke-width='26'/%3E%3Cpath d='M91 256h330' stroke='%23f5c842' stroke-width='26'/%3E%3Ccircle cx='256' cy='256' r='54' fill='%230a0a12' stroke='%23f5c842' stroke-width='26'/%3E%3C/svg%3E";
-  const manifest = {
-    name: "PokéRip — Pack Opener",
-    short_name: "PokéRip",
-    description: "Open Pokémon card packs for free and build your vault.",
-    start_url: ".",
-    scope: ".",
-    display: "standalone",
-    orientation: "portrait",
-    background_color: "#0a0a12",
-    theme_color: "#0a0a12",
-    icons: [
-      { src: icon, sizes: "192x192", type: "image/svg+xml", purpose: "any maskable" },
-      { src: icon, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
-    ]
-  };
-  const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('link');
-  link.rel = 'manifest';
-  link.href = url;
-  document.head.appendChild(link);
-})();
-
-// Register a service worker (generated at runtime via Blob) for offline support
+// Register the hosted service worker for offline support
 if ('serviceWorker' in navigator) {
-  const swCode = `
-    const CACHE = 'pokerip-v1';
-    self.addEventListener('install', e => { self.skipWaiting(); });
-    self.addEventListener('activate', e => { e.waitUntil(self.clients.claim()); });
-    self.addEventListener('fetch', e => {
-      if (e.request.method !== 'GET') return;
-      e.respondWith(
-        caches.open(CACHE).then(cache =>
-          cache.match(e.request).then(cached => {
-            const network = fetch(e.request).then(res => {
-              if (res && res.status === 200 && (res.type === 'basic' || res.type === 'cors')) {
-                cache.put(e.request, res.clone());
-              }
-              return res;
-            }).catch(() => cached);
-            return cached || network;
-          })
-        )
-      );
-    });
-  `;
-  const swBlob = new Blob([swCode], { type: 'application/javascript' });
-  const swUrl = URL.createObjectURL(swBlob);
-  // Note: Blob-based SW works in many browsers; a hosted /sw.js is more robust.
-  navigator.serviceWorker.register(swUrl).catch(() => {
-    // If blob SW is blocked (some browsers require same-origin file), try sw.js if present
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  });
+  navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 
 // Chrome / Android / Edge install prompt
